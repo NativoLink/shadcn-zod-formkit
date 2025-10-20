@@ -1,4 +1,4 @@
-import { z, ZodTypeAny } from "zod";
+import { z, ZodType, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
 
 export interface CustomFormProps {
@@ -6,7 +6,7 @@ export interface CustomFormProps {
   inputConfig: FieldProps[]
   fieldsConfig: Array<FieldProps | FieldProps[]>
   defaultValues: Record<string, any>
-  formSchema: ZodTypeAny
+  formSchema: ZodType<any, any, any>;
   submitBtnLabel?: string
   className?: string
   isFormChild?: boolean
@@ -28,7 +28,7 @@ export interface FieldProps {
   value?: any
   min?: number,
   max?: number,
-  ZodTypeAny?: z.ZodTypeAny
+  ZodTypeAny?: ZodType<any, any, any>;
   
   list?: any[]
   dependsOn?: string // Nombre del campo del que depende este campo

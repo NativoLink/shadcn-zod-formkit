@@ -1,15 +1,8 @@
-# React Dynamic Form Maker
+⚡️  # React Dynamic Form Maker
 
 ⚡️ **Next.js & Client Components**
 
-> Esta librería es para *client components* ("use client") y funciona perfectamente con Next.js App Router. Si usas Next.js, asegúrate de envolver los formularios en componentes marcados explícitamente como:
->
-> ```tsx
-> 'use client';
-> import { DynamicForm } from '@nativolink/react-form-maker-lib';
-> ```
->
-> Así evitas errores de contexto y restricciones de Server Components.
+
 
 📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, and OTP.
 
@@ -25,11 +18,32 @@ npm install @nativolink/react-form-maker-lib
 yarn add @nativolink/react-form-maker-lib
 ```
 
+ Add Shadcn
+ ```bash 
+  # Add Shadcn 
+  npx shadcn@latest init
+ ```
+ You need installa shadcn basic components
+ ```bash 
+ # Add Shadcn Basics
+ npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible
+ ```
+
+
 
 ##  🛠️ Basic Usage
 
 ```bash
-export const App = ()  => {
+'use client'
+
+import { 
+  DynamicForm,
+  FieldProps,
+  InputTypes,
+  TextInputType
+} from "@nativolink/react-form-maker-lib";
+
+export default function Home() {
   const record= {
     username: "John Doe ",
     email: "johndoe@example.com",
@@ -47,6 +61,28 @@ export const App = ()  => {
     />
   );
 }
+
+const mockFields: Array<FieldProps |FieldProps[]> = [
+  // 🧍‍♂️ Campo requerido simple
+  {
+    name: "username",
+    label: "Nombre de usuario",
+    inputType: InputTypes.TEXT,
+    required: true,
+    // ZodTypeAny: z
+    //   .string()
+    //   .min(3)
+    //   .max(20),
+  },
+
+  // // 📧 Campo de correo con validación personalizada (ZodTypeAny)
+  {
+    name: "email",
+    label: "Correo electrónico",
+    inputType: InputTypes.TEXT,
+    required: false,
+  },
+]
 ```
 
 
