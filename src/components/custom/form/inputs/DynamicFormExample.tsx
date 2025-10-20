@@ -40,7 +40,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Nombre de usuario",
       inputType: InputTypes.TEXT,
       required: true,
-      ZodTypeAny: z
+      zodTypeAny: z
         .string()
         .min(3, "El nombre debe tener al menos 3 caracteres")
         .max(20, "El nombre no puede tener más de 20 caracteres"),
@@ -52,7 +52,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Correo electrónico",
       inputType: InputTypes.TEXT,
       required: false,
-      ZodTypeAny: z
+      zodTypeAny: z
         .string()
         .email("Correo inválido")
         .toLowerCase()
@@ -68,7 +68,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       inputType: InputTypes.TEXT,
       required: false,
       keyboardType: TextInputType.PASSWORD,
-      ZodTypeAny: z
+      zodTypeAny: z
         .string()
         .min(6, "Debe tener al menos 6 caracteres")
         .max(20, "No más de 20 caracteres")
@@ -81,7 +81,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Usuario activo",
       inputType: InputTypes.SWITCH,
       required: false,
-      ZodTypeAny: z.boolean().default(true),
+      zodTypeAny: z.boolean().default(true),
     },
 
     // 🎨 Color con validación personalizada
@@ -91,7 +91,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
         label: "Color favorito",
         inputType: InputTypes.COLOR,
         required: false,
-        ZodTypeAny: z
+        zodTypeAny: z
           .string()
           .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
       },
@@ -102,7 +102,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
         label: "Edad",
         inputType: InputTypes.NUMBER,
         required: true,
-        ZodTypeAny: z
+        zodTypeAny: z
           .coerce.number() // fuerza a number
           .min(18, "Debe ser mayor de 18")
           .max(99, "Debe ser menor de 99"),
@@ -115,7 +115,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
       required: true,
-      ZodTypeAny: z.coerce.date().refine((d) => d < new Date(), {
+      zodTypeAny: z.coerce.date().refine((d) => d < new Date(), {
         message: "La fecha no puede ser futura",
       }),
     },
@@ -134,7 +134,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
           { id: 3, name: "Lector", value: "reader" },
         ]
       },
-      ZodTypeAny: z.enum(["admin", "editor", "reader"]),
+      zodTypeAny: z.enum(["admin", "editor", "reader"]),
     },
 
     // 🧾 Campo tipo archivo (file)
@@ -143,7 +143,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Imagen de perfil",
       inputType: InputTypes.FILE,
       required: false,
-      ZodTypeAny: z
+      zodTypeAny: z
         .any()
         .refine(
           (file) => {
@@ -164,7 +164,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Código OTP",
       inputType: InputTypes.OTP,
       required: true,
-      ZodTypeAny: z
+      zodTypeAny: z
         .string()
         .min(4, "Debe tener al menos 4 dígitos")
         .max(6, "Debe tener máximo 6 dígitos"),
