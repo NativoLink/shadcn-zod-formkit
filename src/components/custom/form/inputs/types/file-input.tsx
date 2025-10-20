@@ -26,8 +26,8 @@ const FieldFile = ({ form, input }: Props) => {
   
   const accept = input.fileConfig?.accept || "*/*";
   const multiple = input.fileConfig?.multiple || false;
-  const maxSize = input.fileConfig?.maxSize || 25;
-  const previewSize = input.fileConfig?.previewSize || 60;
+  // const maxSize = input.fileConfig?.maxSize || 25;
+  // const previewSize = input.fileConfig?.previewSize || 60;
 
   useEffect(() => {
     setPreview(form.getValues(input.name) || null)

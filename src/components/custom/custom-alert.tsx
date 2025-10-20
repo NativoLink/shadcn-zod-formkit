@@ -29,12 +29,12 @@ export const CustomAlert = ({
     error: <MessageCircleWarning size={32} className="text-red-400" />,
     success: <InfoCircledIcon className="w-8 h-8 text-green-400" />,
   }
-  const shineColors = {
-    info: ["#A07CFE", "#FE8FB5", "#FFBE7B"],
-    warning: ["#FBBF24", "#F97316", "#EF4444"],
-    error: ["#F87171", "#F43F5E", "#A21CAF"],
-    success: ["#4ADE80", "#22C55E", "#16A34A"],
-  }
+  // const shineColors = {
+  //   info: ["#A07CFE", "#FE8FB5", "#FFBE7B"],
+  //   warning: ["#FBBF24", "#F97316", "#EF4444"],
+  //   error: ["#F87171", "#F43F5E", "#A21CAF"],
+  //   success: ["#4ADE80", "#22C55E", "#16A34A"],
+  // }
 
   return (
     <div>

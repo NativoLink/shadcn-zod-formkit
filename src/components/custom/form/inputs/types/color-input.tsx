@@ -2,7 +2,6 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../../../../components/ui/form"
 import { BaseInput, FieldProps } from "../base"
 import { JSX } from "react"
-import React from "react"
 import { ColorCnInput } from "../../../../../components/ui/color-input"
 import { UseFormReturn } from "react-hook-form"
 

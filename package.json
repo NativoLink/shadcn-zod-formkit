@@ -1,6 +1,6 @@
 {
   "name": "@nativolink/react-form-maker-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "type": "module",
   "main": "dist/index.js",
@@ -10,8 +10,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup --watch",
+    "build": "tsup",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -65,5 +65,17 @@
   },
   "overrides": {
     "vite": "npm:rolldown-vite@7.1.14"
-  }
+  },
+
+  "keywords": [
+    "react",
+    "form",
+    "form-builder",
+    "react-hook-form",
+    "zod",
+    "radix-ui",
+    "typescript"
+  ],
+  "author": "Luis A. Rosario",
+  "license": "MIT"
 }
