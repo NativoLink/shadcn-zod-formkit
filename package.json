@@ -1,6 +1,6 @@
 {
   "name": "@nativolink/react-form-maker-lib",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Create dynamic forms easily using React, Zod, React Hook Form, and Shadcn UI.",
   "license": "MIT",
   "author": "Luis A. Rosario <ingluisrosario15@gmail.com>",
