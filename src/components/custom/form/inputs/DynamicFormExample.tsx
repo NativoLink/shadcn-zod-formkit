@@ -103,7 +103,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
         inputType: InputTypes.NUMBER,
         required: true,
         ZodTypeAny: z
-          .coerce.number("Debe ser un número") // fuerza a number
+          .coerce.number() // fuerza a number
           .min(18, "Debe ser mayor de 18")
           .max(99, "Debe ser menor de 99"),
       }
@@ -115,7 +115,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
       required: true,
-      ZodTypeAny: z.coerce.date(validationMessages.required).refine((d) => d < new Date(), {
+      ZodTypeAny: z.coerce.date().refine((d) => d < new Date(), {
         message: "La fecha no puede ser futura",
       }),
     },
@@ -165,7 +165,7 @@ export const mockFields: Array<FieldProps |FieldProps[]> = [
       inputType: InputTypes.OTP,
       required: true,
       ZodTypeAny: z
-        .string(validationMessages.required)
+        .string()
         .min(4, "Debe tener al menos 4 dígitos")
         .max(6, "Debe tener máximo 6 dígitos"),
     },

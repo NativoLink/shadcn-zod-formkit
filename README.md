@@ -1,5 +1,16 @@
 # React Dynamic Form Maker
 
+⚡️ **Next.js & Client Components**
+
+> Esta librería es para *client components* ("use client") y funciona perfectamente con Next.js App Router. Si usas Next.js, asegúrate de envolver los formularios en componentes marcados explícitamente como:
+>
+> ```tsx
+> 'use client';
+> import { DynamicForm } from '@nativolink/react-form-maker-lib';
+> ```
+>
+> Así evitas errores de contexto y restricciones de Server Components.
+
 📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, and OTP.
 
 ---
