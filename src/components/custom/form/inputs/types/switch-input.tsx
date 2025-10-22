@@ -1,7 +1,6 @@
 'use client'
-import { Card } from "../../../../../components/ui/card"
 import { BaseInput } from "../base";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from "../../../../../components/ui";
+import { Card, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from "../../../../../components/ui";
 import { JSX } from "react";
 
 

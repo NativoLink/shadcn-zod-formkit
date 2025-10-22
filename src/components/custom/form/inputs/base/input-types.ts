@@ -7,6 +7,7 @@ export enum InputTypes {
   CHECK_LIST = "checklist",
   // SWITCH_LIST = "switchlist",
   GROUPED_SWITCH_LIST = "grouped_switchlist",
+  ACCORDION_GROUPED_SWITCH_LIST = "accordion_grouped_switchlist",
   DATE = "date",
   TEXTAREA = "textarea",
   FILE = "file",
@@ -16,6 +17,7 @@ export enum InputTypes {
 }
 
 export const inputFieldComp = [
+  InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
   InputTypes.GROUPED_SWITCH_LIST,
   InputTypes.TEXT,
   InputTypes.SWITCH,

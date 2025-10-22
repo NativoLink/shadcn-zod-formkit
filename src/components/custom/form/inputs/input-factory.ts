@@ -17,6 +17,7 @@ import {
 } from "./types";
 import { JSX } from "react";
 import z, { ZodObject, ZodTypeAny } from "zod";
+import { AccordionGroupedSwitchInput } from "./types/accordion-grouped-switches";
 
 
 type InputClassConstructor = new (
@@ -33,6 +34,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.NUMBER]: NumberInput,
   [InputTypes.SELECT]: SelectInput,
   [InputTypes.GROUPED_SWITCH_LIST]: GroupedSwitchInput,
+  [InputTypes.ACCORDION_GROUPED_SWITCH_LIST]: AccordionGroupedSwitchInput,
   [InputTypes.OTP]: OTPInput,
   [InputTypes.FILE]: FileInput,
   [InputTypes.HIDDEN]: TextInput, //ToDo: // puedes asignar algo genérico
