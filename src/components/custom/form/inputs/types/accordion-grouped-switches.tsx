@@ -1,5 +1,7 @@
 'use client'
-import { Accordion,
+
+import {
+  Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
@@ -10,27 +12,29 @@ import { Accordion,
   FormField,
   FormItem,
   FormMessage,
-  Separator
 } from '../../../../../components/ui'
-import { UseFormReturn } from 'react-hook-form';
-import { JSX, useEffect, useState } from 'react';
-import { BaseInput, FieldProps, GroupedOption, InputOption } from '../base';
-import { GroupedSwitches } from './grouped-switches-input';
+import { UseFormReturn } from 'react-hook-form'
+import { JSX, useEffect, useState } from 'react'
+import { BaseInput, FieldProps, GroupedOption, InputOption } from '../base'
+import { GroupedSwitches } from './grouped-switches-input'
+
+/* ========= INPUT PRINCIPAL ========= */
 
 export class AccordionGroupedSwitchInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
+    const { input, form } = this
     return (
       <AccordionGroupedSwitches
         form={form}
         input={input}
-        groups={input?.listConfig?.list as GroupedOption[] ?? []}
+        groups={(input?.listConfig?.list as GroupedOption[]) ?? []}
         onChange={input?.listConfig?.onOptionChange ?? (() => {})}
       />
     )
   }
 }
 
+/* ========= COMPONENTE ========= */
 
 interface Props {
   form: UseFormReturn
@@ -39,57 +43,44 @@ interface Props {
   onChange?: (optionsUpdated: InputOption[]) => void
 }
 
-export const AccordionGroupedSwitches = ({ form, input, groups, onChange }: Props) => {
+export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange }: Props) => {
+  const [groupsState, setGroupsState] = useState<GroupedOption[]>([])
+  const [selectedOptions, setSelectedOptions] = useState<InputOption[]>([])
 
-
-  const selectedListToInputOptionList = () : InputOption[] => {
-    const list = input.listConfig?.selectedList?.map(opt => ({
-      ...opt,
-      checked: true
+  // 🔹 Cargar los grupos y sincronizar seleccionados
+  useEffect(() => {
+    const selected = input.listConfig?.selectedList ?? []
+    const updatedGroups = groups.map((group) => ({
+      ...group,
+      options: group.options.map((opt) => ({
+        ...opt,
+        checked: selected.some((sel) => sel.id === opt.id),
+        groupedLabel: group.label,
+      })),
     }))
-    return list ?? []
+    setGroupsState(updatedGroups)
+    setSelectedOptions(selected)
+  }, [groups, input])
+
+  // 🔹 Calcular cuántos están seleccionados por grupo
+  const countCheckedByGroup = (group: GroupedOption): number => {
+    return group.options.filter((opt) => opt.checked).length
   }
 
-  const [groupsState, setGroupsState] = useState(groups)
-  const [allOptions, setAllOptions] = useState<InputOption[]>(selectedListToInputOptionList())
-  const [selectOptions, setSelectOptions] = useState<InputOption[]>([])
+  // 🔹 Manejar cambio en switches individuales
+  const handleOptionChange = (field: any, updatedGroupLabel: string, updatedOptions: InputOption[]) => {
+    const newGroups = groupsState.map((group) =>
+      group.label === updatedGroupLabel ? { ...group, options: updatedOptions } : group
+    )
 
-  const getChecked = (options: InputOption[]) : InputOption[] => {
-    const selected = selectedListToInputOptionList()
-    const updated = options.map(opt => ({
-      ...opt,
-      checked: selected?.some(item2 => item2.id === opt.id)
-    }))
-    return updated
+    setGroupsState(newGroups)
+
+    const allChecked = newGroups.flatMap((g) => g.options).filter((o) => o.checked)
+    setSelectedOptions(allChecked)
+    field.onChange(allChecked)
+    onChange?.(allChecked)
   }
 
-
-  const coutCheckedByGroup = (group:GroupedOption): number =>{
-    const filter = allOptions.filter(o => o.checked && o.groupedLabel == group.label)
-    return filter.length
-
-  }
-
-  const onCheckedSwitch = () =>{
-    setGroupsState(groups)
-    const updated = groups?.map(group => ({ ...group, options: getChecked(group?.options) }))
-    console.log("🚀 ~ AccordionGroupedSwitches ~ updated:", updated)
-    setGroupsState(updated)
-    setAllOptions(updated?.flatMap(group => group.options) ?? [])
-  }
-  
-  useEffect(()=>{
-    onCheckedSwitch()
-  },[input])
-  
-  const handleOptionChange = (inputs: InputOption[]) => {
-    onCheckedSwitch()
-    setSelectOptions(inputs)
-    // field.onChange(allOptions.filter(o => o.checked))
-    // setAllOptions(groupsState?.flatMap(group => group.options) ?? [])
-    // onChange?.(allOptions)
-    console.log("🚀 ~ handleOptionChange ~ selectOptions:", selectOptions)
-  }
   return (
     <FormField
       key={input.name}
@@ -97,44 +88,48 @@ export const AccordionGroupedSwitches = ({ form, input, groups, onChange }: Prop
       name={input.name}
       render={({ field }) => (
         <FormItem className="shadow-lg">
-          {/* <FormLabel><b>{input.label}</b></FormLabel> */}
           <FormControl>
-
-            <Card className='p-4'>
-            <h2 className='text-2xl font-bold'>{input.label}</h2>
-            <Accordion type="multiple">
-              {groupsState?.map((group,indx) => (
-                <AccordionItem key={indx} value={group.label} className={`px-1 ${indx % 2 ? `bg-black/10` : 'bg-black/5'}`}>
-                  <AccordionTrigger>
-                    <div className='grid grid-cols-2 w-full'>
-                      {group.label} <Badge>{coutCheckedByGroup(group)} / {group.options.length}</Badge>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <GroupedSwitches
-                      input={input}
-                      options={group.options}
-                      onChange={(v:any)=> handleOptionChange(v)}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Card>
-
-
-            {/* <Input className="min-w-[180px] bg-white" placeholder={input.placeHolder} {...field} type={input.keyboardType}
-            disabled={input.disabled}/> */}
+            <Card className="p-4 space-y-4">
+              <h2 className="text-2xl font-bold">{input.label}</h2>
+              <Accordion type="multiple">
+                {groupsState.map((group, indx) => (
+                  <AccordionItem
+                    key={indx}
+                    value={group.label}
+                    className={`px-1 ${indx % 2 ? `bg-black/10` : 'bg-black/5'}`}
+                  >
+                    <AccordionTrigger>
+                      <div className="grid grid-cols-2 w-full">
+                        {group.label}{' '}
+                        <Badge>
+                          {countCheckedByGroup(group)} / {group.options.length}
+                        </Badge>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <GroupedSwitches
+                        input={input}
+                        options={group.options}
+                        onChange={(updated: InputOption[]) =>
+                          handleOptionChange(field, group.label, updated)
+                        }
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </Card>
           </FormControl>
-          {input.description && <FormDescription>
-            {input.description}
-            </FormDescription>}
+
+          {input.description && <FormDescription>{input.description}</FormDescription>}
           <FormMessage />
-          {/* <pre className='text-xs font-bold'>  <code>{JSON.stringify(allOptions, null, 2)}</code></pre> */}
-          {/* <pre className='text-xs font-bold'>  <code>{JSON.stringify(input.listConfig?.selectedList, null, 2)}</code></pre> */}
+
+          {/* Debug visual opcional */}
+          <pre className="text-xs font-bold mt-2 bg-black/5 p-2 rounded-lg">
+            <code>{JSON.stringify(selectedOptions, null, 2)}</code>
+          </pre>
         </FormItem>
       )}
     />
-
   )
 }

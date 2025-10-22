@@ -34,6 +34,7 @@ export const entityToGroupedOption = (entitiy:any, name:string = 'name'): Groupe
   id: entitiy['id'],
   label: entitiy[name] || entitiy['label'],
   options: entitiy['options'] || [],
+  selectedOptions: [],
 })
 
 

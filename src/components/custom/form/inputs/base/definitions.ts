@@ -75,6 +75,7 @@ export interface GroupedOption {
   id?: number
   label: string
   options: InputOption[]
+  selectedOptions: InputOption[]
   totalSelected?: number
   disabled?: boolean
   value?:any

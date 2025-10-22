@@ -33,7 +33,8 @@ export const FormTest = () => {
       Object.entries(permissionsByCategory).map(([category, perms], indx):GroupedOption => ({
         id: indx+1,
         label: category,
-        options: entitiesToInputOption(perms, 'description', category)
+        options: entitiesToInputOption(perms, 'description', category),
+        selectedOptions: []
       }))
     );
   }, []);
