@@ -96,72 +96,11 @@ export function getDefaultValues<T extends Record<string, any>>(entity: T): Reco
 
 export const getDynamicSchema = (fields: Array<FieldProps | FieldProps[]>): ZodObject<any> => {
 
-  const mapType = (f: FieldProps): ZodTypeAny => {
-    let zf: z.ZodType<any>;
-
-    if (f.ZodTypeAny) return f.ZodTypeAny;
-
-    switch (f.inputType) {
-      case "date":
-        zf = z.coerce.date();
-        break;
-
-      case "otp":
-        zf = z.string().min(4, "OTP mínimo 4 caracteres").max(10, "OTP máximo 10 caracteres");
-        break;
-
-      case "select":
-        zf = z.string().min(1, "Selecciona un valor");
-        break;
-
-      case "number":
-        zf = z.number();
-        if (f.min !== undefined) zf = (zf as z.ZodNumber).min(f.min, `Mínimo ${f.min}`);
-        if (f.max !== undefined) zf = (zf as z.ZodNumber).max(f.max, `Máximo ${f.max}`);
-        break;
-
-      // case "email":
-      //   zf = z.string().email("Email inválido");
-      //   break;
-
-      // case "url":
-      //   zf = z.string().url("URL inválida");
-      //   break;
-      
-        case "file":
-        zf = z.any().refine(
-          (file) => {
-            if (!file) return true; // ✅ si no hay archivo, pasa
-            return (
-              file.size <= 25 * 1024 * 1024 &&
-              ["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(file.type)
-            );
-          },
-          { message: "El archivo no puede ser mayor de 25MB y solo JPG/PNG/GIF son permitidos" }
-        );
-        break;
-
-      case "text":
-      default:
-        zf = z.string();
-        const zff = (zf as z.ZodString)
-        if (f.required) zf = zff.min(1, "Campo obligatorio");
-        if (f.min !== undefined) zf = zff.min(f.min, `Mínimo ${f.min} caracteres`);
-        if (f.max !== undefined) zf = zff.max(f.max, `Máximo ${f.max} caracteres`);
-        // if (f.pattern) zf = zff.regex(f.pattern, "Formato inválido");
-        // if (f.email) zf = zff.email("Email inválido");
-        // if (f.url) zf = zff.url("URL inválida");
-        break;
-    }
-
-    return f.required ? zf : zf.optional();
-  };
-
   const flatFields: FieldProps[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
   const shape: Record<string, ZodTypeAny> = {};
 
   flatFields.forEach(f => {
-    shape[f.name] = mapType(f);
+    shape[f.name] = f.zodTypeAny ?? z.any();
   });
 
   return z.object(shape);

@@ -9,7 +9,7 @@ export default defineConfig({
   clean: true,
   external: [
     'react',
-    'react-dom'
+    'react-dom',
   ],
   treeshake: true,
   minify: false,

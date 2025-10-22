@@ -23,15 +23,9 @@ export class OTPInput extends BaseInput {
               <InputOTP maxLength={totalPositions.length} {...field}>
               <InputOTPGroup>
                 {totalPositions.map((position) => (
-                  <InputOTPSlot index={position} />
+                  <InputOTPSlot key={position} index={position} />
                 ))}
                 </InputOTPGroup>
-                {/* <InputOTPSeparator />
-                <InputOTPGroup>
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup> */}
               </InputOTP>
             </FormControl>
             <FormDescription>{input.description}</FormDescription>
