@@ -46,6 +46,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
+    "shiki": "^3.13.0",
     "typescript": "^5"
   }
 }
