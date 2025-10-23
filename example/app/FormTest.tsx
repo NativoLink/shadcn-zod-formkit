@@ -82,28 +82,30 @@ export const FormTest = () => {
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
   // 🧍‍♂️ Campo requerido simple
-  {
-    name: "username",
-    label: "Username",
-    inputType: InputTypes.TEXT,
-    required: true,
-    // zodTypeAny: z
-    //   .string()
-    //   .min(3, "El nombre debe tener al menos 3 caracteres")
-    //   .max(20, "El nombre no puede tener más de 20 caracteres") ,
-  },
+  [
+    {
+      name: "username",
+      label: "Username",
+      inputType: InputTypes.TEXT,
+      required: true,
+      // zodTypeAny: z
+      //   .string()
+      //   .min(3, "El nombre debe tener al menos 3 caracteres")
+      //   .max(20, "El nombre no puede tener más de 20 caracteres") ,
+    },
 
-  // 📧 Campo de correo con validación personalizada (ZodTypeAny)
-  {
-    name: "email",
-    label: "Correo electrónico",
-    inputType: InputTypes.TEXT,
-    required: true,
-    zodTypeAny: z
-      .string()
-      .email("Correo inválido")
-      .optional(),
-  },
+    // 📧 Campo de correo con validación personalizada (ZodTypeAny)
+    {
+      name: "email",
+      label: "Correo electrónico",
+      inputType: InputTypes.TEXT,
+      required: true,
+      zodTypeAny: z
+        .string()
+        .email("Correo inválido")
+        .optional(),
+    }
+  ],
 
   // 🔒 Campo opcional (no requerido)
   {
@@ -153,7 +155,7 @@ export const FormTest = () => {
   ],
 
   // 📅 Fecha
-  [{
+  {
     name: "birthDate",
     label: "Fecha de nacimiento",
     inputType: InputTypes.DATE,
@@ -174,33 +176,8 @@ export const FormTest = () => {
       list: listOptions
     },
     zodTypeAny: z.enum(["admin", "editor", "reader"]),
-  }],
-
-  {
-    name: 'permissions',
-    label: 'User Permissions',
-    inputType: InputTypes.GROUPED_SWITCH_LIST,
-    listConfig: {
-      selectedList: selectedPermissions,
-      list: listOptions,//entitiesToGroupedOption(groups), 
-      optionLabel: "name",
-      optionValue: "id",
-      onOptionChange: (item) => {/* handleRolesChange(item as InputOption[]) */},
-    }
   },
 
-  {
-    name: 'permissions',
-    label: 'Permisos',
-    inputType: InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
-    listConfig: {
-      selectedList: selectedPermissions,
-      list: entitiesToGroupedOption(groups), 
-      optionLabel: "name",
-      optionValue: "id",
-      onOptionChange: (item) => { handleRolesChange(item as InputOption[])},
-    }
-  },
 
   // 🧾 Campo tipo archivo (file)
   [{
@@ -239,8 +216,7 @@ export const FormTest = () => {
 
 
   return (
-    <div className="font-sans grid items-center justify-around bg-gray-500/20 py-4">
-      <main className="grid grid-cols-3  w-full gap-6 p-2">
+    <>
       <div className="w-full  bg-gray-500/20 rounded-lg ">
       </div>
       <div className="w-full  bg-neutral-50/90 rounded-lg p-2">
@@ -255,8 +231,7 @@ export const FormTest = () => {
           {/* <code>{JSON.stringify(mockFields, null, 2)}</code> */}
         </pre>
       </div>
-      </main>
-    </div>
+    </>
   );
 
   
