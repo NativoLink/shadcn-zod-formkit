@@ -13,6 +13,8 @@ import {
   FileInput,
   TextAreaInput,
   TextInputGroup,
+  CheckboxInput,
+  SimpleCheckListInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -38,8 +40,10 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.SELECT]: SelectInput,
   [InputTypes.GROUPED_SWITCH_LIST]: GroupedSwitchInput,
   [InputTypes.ACCORDION_GROUPED_SWITCH_LIST]: AccordionGroupedSwitchInput,
+  [InputTypes.CHECKBOX]: CheckboxInput,
   [InputTypes.OTP]: OTPInput,
   [InputTypes.FILE]: FileInput,
+  [InputTypes.SIMPLE_CHECK_LIST]: SimpleCheckListInput,
   [InputTypes.HIDDEN]: TextInput, //ToDo: // puedes asignar algo genérico
   [InputTypes.CHECK_LIST]: TextInput, //ToDo:
   // [InputTypes.SWITCH_LIST]: SwitchListInput, //ToDo:

@@ -1,20 +1,22 @@
 'use client'
-import { BadgeX, Check, Hash, Lock, Mail, User } from 'lucide-react';
+import { Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
 import { z } from "zod";
 
 export const FormBasics = () => {
 
+  const [dataToSend, setDataToSend] = useState<any>({})
 
   const record = {
     username: "John Doe",
     email: "johndoe@example.com",
     isActive: true,
-    favoriteColor: undefined,
+    favoriteColor: '#000000',
     age: 25,
     birthDate: undefined,
     otpCode: "",
+    notifications: [],
   };
 
 
@@ -33,15 +35,7 @@ export const FormBasics = () => {
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(20, "El nombre no puede tener más de 20 caracteres") ,
   },
-  // {
-  //   name: "username",
-  //   label: "Username",
-  //   inputType: InputTypes.TEXT,
-  //   // zodTypeAny: z
-  //   //   .string()
-  //   //   .min(3, "El nombre debe tener al menos 3 caracteres")
-  //   //   .max(20, "El nombre no puede tener más de 20 caracteres") ,
-  // },
+
 
   // 📧 Campo de correo con validación personalizada (ZodTypeAny)
   {
@@ -78,7 +72,8 @@ export const FormBasics = () => {
   {
     name: "isActive",
     label: "Usuario activo",
-    inputType: InputTypes.SWITCH,
+    description:'This is a description',
+    inputType: InputTypes.CHECKBOX,
     zodTypeAny: z.boolean().default(true),
   },
 
@@ -111,31 +106,53 @@ export const FormBasics = () => {
     }
   ],
 
-  // 📅 Fecha
-  [{
-    name: "birthDate",
-    label: "Fecha de nacimiento",
-    inputType: InputTypes.DATE,
-    zodTypeAny: z.coerce.date(validationMessages.required).refine((d) => d < new Date(), {
-      message: "La fecha no puede ser futura",
-    }),
-  },
+  [
+    // 📅 Fecha
+    {
+      name: "birthDate",
+      label: "Fecha de nacimiento",
+      inputType: InputTypes.DATE,
+      zodTypeAny: z.coerce.date(validationMessages.required).refine((d) => d < new Date(), {
+        message: "La fecha no puede ser futura",
+      }),
+    },
 
 
-  // 🔢 OTP (código)
-  {
-    name: "otpCode",
-    label: "Código OTP",
-    inputType: InputTypes.OTP,
-    required: false,
-    zodTypeAny: z
-      .string(validationMessages.required)
-      .min(6, "Debe tener al menos 6 dígitos"),
-  }
+    // 🔢 OTP (código)
+    {
+      name: "otpCode",
+      label: "Código OTP",
+      inputType: InputTypes.OTP,
+      required: false,
+      zodTypeAny: z
+        .string(validationMessages.required)
+        .min(6, "Debe tener al menos 6 dígitos"),
+    }
   ],
+  // 🔢 Notifications
+  {
+    name: "notifications",
+    label: "Recibir Notificaciones con:",
+    inputType: InputTypes.SIMPLE_CHECK_LIST,
+    required: false,
+    listConfig: {
+      list:  [
+        { id: 1, name: "PERMISSION CREATE", checked: false },
+        { id: 2, name: "PERMISSION READ", checked: false },
+        { id: 3, name: "PERMISSION UPDATE", checked: false },
+        { id: 4, name: "PERMISSION DELETE", checked: false },
+      ],
+      onOptionChange: (item) => {},
+    }
+    // zodTypeAny: z
+    //   .object({
+    //     email:z.boolean(),
+    //     sms:z.boolean(),
+    //     push:z.boolean(),
+    //   })
+  }
 ];
 
-  const [isPending,setIsPending] = useState(false)
 
   return (
       <>
@@ -147,16 +164,20 @@ export const FormBasics = () => {
           errorAlertPosition='down'
           fields={mockFields}
           record={record}
-          onSubmit={async (data: any) =>{ 
-            const resp = "✅  Resultado final:"
-            console.log(resp, data)
+          onSubmit={async (resp: any) =>{ 
+            setDataToSend(resp.data)
+            const msg = "✅  Resultado final:"
+            console.log(resp.data, msg)
             // alert(resp)
           }}
           />
         </div>
-        <div className="w-full  bg-gray-500/40 rounded-lg">
-          <pre className="mt-4 text-xs text-gray-500">
-            {/* <code>{JSON.stringify(mockFields, null, 2)}</code> */}
+        <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
+          <div className="flex flex-row  text-lg text-gray-800 p-4">
+            DATA SENDED
+          </div>
+          <pre className="flex flex-row  text-xs text-gray-800 p-4">
+            <code>{JSON.stringify(dataToSend, null, 2)}</code>
           </pre>
         </div>
       </>

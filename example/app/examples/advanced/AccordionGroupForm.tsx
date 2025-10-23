@@ -24,7 +24,7 @@ interface IPermission {
 }
 
 export const AccordionGroupForm = () => {
-  
+  const [dataToSend, setDataToSend] = useState<any>({})
   const [selectedPermissions,setSelectedPermissions] = useState<InputOption[]>([])
   const [groups, setGroups] = useState<GroupedOption[]>([])
 
@@ -73,18 +73,18 @@ export const AccordionGroupForm = () => {
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
 
-  {
-    name: 'permissions',
-    label: 'User Permissions',
-    inputType: InputTypes.GROUPED_SWITCH_LIST,
-    listConfig: {
-      selectedList: selectedPermissions,
-      list: listOptions,//entitiesToGroupedOption(groups), 
-      optionLabel: "name",
-      optionValue: "id",
-      onOptionChange: (item) => {/* handleRolesChange(item as InputOption[]) */},
-    }
-  },
+  // {
+  //   name: 'permissions',
+  //   label: 'User Permissions',
+  //   inputType: InputTypes.GROUPED_SWITCH_LIST,
+  //   listConfig: {
+  //     selectedList: selectedPermissions,
+  //     list: listOptions,//entitiesToGroupedOption(groups), 
+  //     optionLabel: "name",
+  //     optionValue: "id",
+  //     onOptionChange: (item) => {/* handleRolesChange(item as InputOption[]) */},
+  //   }
+  // },
 
   {
     name: 'permissions',
@@ -110,13 +110,21 @@ export const AccordionGroupForm = () => {
         <DynamicForm
         fields={mockFields}
         record={record}
-        onSubmit={(data: any) => console.log("📤 Resultado final:", data)}
+        onSubmit={async (resp: any) =>{ 
+            setDataToSend(resp.data)
+            const msg = "✅  Resultado final:"
+            console.log(resp.data, msg)
+            // alert(resp)
+          }}
         />
       </div>
-      <div className="w-full h-200 bg-gray-500/40 rounded-lg">
-        <pre className="mt-4 text-xs text-gray-500">
-          {/* <code>{JSON.stringify(mockFields, null, 2)}</code> */}
-        </pre>
+      <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
+        <div className="flex flex-row  text-lg text-gray-800 p-4">
+            DATA SENDED
+          </div>
+          <pre className="flex flex-row  text-xs text-gray-800 p-4">
+            <code>{JSON.stringify(dataToSend, null, 2)}</code>
+          </pre>
       </div>
     </>
   );

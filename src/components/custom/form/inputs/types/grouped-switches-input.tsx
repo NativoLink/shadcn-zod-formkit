@@ -63,7 +63,7 @@ export const GroupedSwitches = ({ options, onChange, input}: Props) => {
     <Card >
       <div className={cn(`w-full h-full space-y-4 p-4  border-2 rounded-xl bg-green-500 ${allChecked ? 'bg-green-500/5 border-green-400/10' : 'bg-black/5'}`)}>
         {/* Switch principal */}
-        <div className="flex items-center justify-between border-b pb-2">
+        <div className="flex items-center justify-between border-b p-2">
           <div>{input.name}</div>
           <div className="flex flex-row gap-2">
             <Label htmlFor="main">Seleccionar todo</Label>

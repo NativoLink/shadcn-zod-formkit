@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useEffect, useMemo, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 
 
 import { FieldProps } from "./base";
@@ -12,10 +12,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Save } from "lucide-react";
 
 type alertPositionType = 'up' | 'down'
+
+
+
+interface formResp  {
+  form?: UseFormReturn;
+  data: any
+}
 interface Props {
   fields: Array<FieldProps|FieldProps[]>;
   record?: Record<string, any>;
-  onSubmit?: (data: any) => void;
+  onSubmit?: (formResp: formResp) => void;
 
   withErrorsAlert?: boolean
   errorAlertPosition?: alertPositionType
@@ -52,15 +59,17 @@ export const DynamicForm = ({
 
   // 🔁 Redibuja cuando cambian los fields o los valores por defecto
   useEffect(() => {
+    console.log('🔁 Redibuja cuando cambian los fields o los valores por defecto')
     form.reset(defaultValues);
-  }, [defaultValues, fields]);
+  }, []);
 
 
   const handleSubmit = (data: any) => {
     try{
       startTransition(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 13000));
-        onSubmit?.(data);
+        const resp: formResp =  {  data, form }
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        onSubmit?.(resp);
       })
     } catch (error) {
       console.error("Ocurrió un error al enviar el formulario.")

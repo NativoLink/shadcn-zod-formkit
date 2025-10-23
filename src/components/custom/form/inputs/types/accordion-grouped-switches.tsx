@@ -126,9 +126,9 @@ export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange }:
           <FormMessage />
 
           {/* Debug visual opcional */}
-          <pre className="text-xs font-bold mt-2 bg-black/5 p-2 rounded-lg">
+          {/* <pre className="text-xs font-bold mt-2 bg-black/5 p-2 rounded-lg">
             <code>{JSON.stringify(selectedOptions, null, 2)}</code>
-          </pre>
+          </pre> */}
         </FormItem>
       )}
     />
