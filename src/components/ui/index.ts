@@ -18,6 +18,6 @@ export * from './select';
 export * from './separator';
 export * from './sonner';
 export * from './switch';
-export * from './tags-input';
+// export * from './tags-input';
 export * from './textarea';
 export * from './tooltip';

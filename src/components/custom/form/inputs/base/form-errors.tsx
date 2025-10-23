@@ -1,6 +1,6 @@
 
 import { FieldValues, FormState } from 'react-hook-form'
-import { CustomAlert } from '../../../custom-alert'
+import { CustomAlert } from '@/src/components/custom/custom-alert'
 import { FieldProps } from './definitions'
 
 

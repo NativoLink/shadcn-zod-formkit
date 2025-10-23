@@ -1,7 +1,7 @@
 'use client'
 import { JSX } from 'react';
 import { BaseInput } from '../base'
-import { Card, CardContent, CardHeader, CardTitle, Checkbox, Label } from '../../../../../components/ui';
+import { Card, CardContent, CardHeader, CardTitle, Checkbox, Label } from '@/src/components/ui';
 
 
 

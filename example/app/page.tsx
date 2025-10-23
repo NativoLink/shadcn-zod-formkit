@@ -41,8 +41,8 @@ export default function Home() {
       <Tabs defaultValue={tabs[0].name} >
         <TabsList>
         { 
-          tabs.map(tab => 
-            <TabsTrigger value={tab.value ?? tab.name}>{tab.name}</TabsTrigger>
+          tabs.map((tab, indx) => 
+            <TabsTrigger key={indx} value={tab.value ?? tab.name}>{tab.name}</TabsTrigger>
           )}
         </TabsList>
         

@@ -11,7 +11,7 @@ export default defineConfig({
     'react',
     'react-dom',
   ],
-  treeshake: true,
+  treeshake: true, 
   minify: false,
   banner: {
     js: "'use client';"

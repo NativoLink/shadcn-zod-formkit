@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
 import { MessageCircleWarning } from "lucide-react"
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
 
 interface Props {
   title: string

@@ -1,5 +1,5 @@
 'use client'
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, InputOTP, InputOTPGroup, InputOTPSlot } from "../../../../../components/ui"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, InputOTP, InputOTPGroup, InputOTPSlot } from "@/src/components/ui"
 import { BaseInput } from "../base";
 import { JSX } from "react";
 

@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import { ColorPicker, IColor, useColor } from "react-color-palette"
-import { Popover, PopoverContent, PopoverTrigger } from "../../components/ui/popover"
-import { Button } from "../../components/ui/button"
-import { cn } from "../../lib/utils"
+import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover"
+import { Button } from "@/src/components/ui/button"
+import { cn } from "@/src/lib/utils"
 import "react-color-palette/css"
 
 export interface Props {

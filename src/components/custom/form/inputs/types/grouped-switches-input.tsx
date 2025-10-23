@@ -1,10 +1,10 @@
 "use client"
 
 import { JSX, useState } from "react"
-import { Switch, Label, Card } from "../../../../../components/ui"
+import { Switch, Label, Card } from "@/src/components/ui"
 import { BaseInput } from "../base"
 import { FieldProps, InputOption } from "../base/definitions";
-import { cn } from "../../../../../lib/utils";
+import { cn } from "@/src/lib/utils";
 
 
 // interface Props {

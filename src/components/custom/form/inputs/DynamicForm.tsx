@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema, InputFactory } from "./input-factory";
 import { FormErrors } from "./base/form-errors";
-import { Button, Form } from "../../../ui";
+import { Button, Form } from "@/src/components/ui";
 import { zodResolver } from '@hookform/resolvers/zod';
 
 interface Props {

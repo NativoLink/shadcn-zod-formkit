@@ -1,6 +1,11 @@
 'use client'
 
-import {
+
+import { UseFormReturn } from 'react-hook-form'
+import { JSX, useEffect, useState } from 'react'
+import { BaseInput, FieldProps, GroupedOption, InputOption } from '../base'
+import { GroupedSwitches } from './grouped-switches-input'
+import { 
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -11,12 +16,8 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
-} from '../../../../../components/ui'
-import { UseFormReturn } from 'react-hook-form'
-import { JSX, useEffect, useState } from 'react'
-import { BaseInput, FieldProps, GroupedOption, InputOption } from '../base'
-import { GroupedSwitches } from './grouped-switches-input'
+  FormMessage 
+} from '@/src/components/ui'
 
 /* ========= INPUT PRINCIPAL ========= */
 

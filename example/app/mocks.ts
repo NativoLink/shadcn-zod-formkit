@@ -1,5 +1,5 @@
-import { InputOption } from "../../dist/index.mjs";
 import { IPermission } from "./FormTest";
+import { InputOption } from 'shadcn-zod-formkit';
 
 export const listOptions:InputOption[] = [
     { id: 1, name: "Administrator", value: "admin" },

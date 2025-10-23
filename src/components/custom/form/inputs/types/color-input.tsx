@@ -3,7 +3,7 @@ import React, { JSX, useEffect, useState } from "react"
 import { ColorPicker, IColor, useColor } from "react-color-palette"
 import { UseFormReturn } from "react-hook-form"
 import "react-color-palette/css"
-import { cn } from "../../../../../lib/utils"
+import { cn } from "@/src/lib/utils"
 import { 
   Button,
   FormControl,
@@ -15,7 +15,7 @@ import {
   Popover, 
   PopoverContent, 
   PopoverTrigger,
-} from "../../../../../components/ui"
+} from "@/src/components/ui"
 import { BaseInput, FieldProps } from "../base"
 // ...existing code...
 

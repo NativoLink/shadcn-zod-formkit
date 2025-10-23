@@ -1,7 +1,7 @@
 'use client'
 import { JSX } from "react";
 import { BaseInput } from "../base/base-input"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Textarea } from "../../../../../components/ui"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Textarea } from "@/src/components/ui"
 
 
 export class TextAreaInput extends BaseInput {

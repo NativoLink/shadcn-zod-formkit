@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue 
-} from "../../../../../components/ui"
+} from "@/src/components/ui"
 import { BaseInput } from "../base";
 import { FieldProps, InputOption } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";

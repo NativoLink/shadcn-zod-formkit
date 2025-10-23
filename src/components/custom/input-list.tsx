@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
-import { Switch } from "../ui/switch";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import { Button } from "@/src/components/ui/button";
+import { Switch } from "@/src/components/ui/switch";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/components/ui/accordion";
 import { Plus } from 'lucide-react';
 import { InputSetup, InputTypes } from "./form/inputs/base";
 

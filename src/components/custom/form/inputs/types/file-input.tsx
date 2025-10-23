@@ -2,10 +2,10 @@
 import type { UseFormReturn } from "react-hook-form"
 import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react"
-import { Button } from "../../../../../components/ui/button"
-import { Card } from "../../../../../components/ui/card"
+import { Button } from "@/src/components/ui/button"
+import { Card } from "@/src/components/ui/card"
 import { FieldProps, BaseInput } from "../base";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "../../../../../components/ui";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@/src/components/ui";
 import { JSX } from "react"
 
 export class FileInput extends BaseInput {

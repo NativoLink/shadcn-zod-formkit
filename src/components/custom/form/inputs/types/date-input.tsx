@@ -4,13 +4,13 @@ import * as React from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
-import { Button } from "../../../../../components/ui/button"
-import { Calendar } from "../../../../../components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "../../../../../components/ui/popover"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../../../../components/ui/form"
+import { Button } from "@/src/components/ui/button"
+import { Calendar } from "@/src/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover"
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form"
 import { BaseInput } from "../base"
 import { JSX } from "react"
-import { cn } from '../../../../../lib/utils';
+import { cn } from '@/src/lib/utils';
 
 
 export class DateInput extends BaseInput {
