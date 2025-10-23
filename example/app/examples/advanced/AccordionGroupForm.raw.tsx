@@ -13,7 +13,6 @@ import {
 } from "shadcn-zod-formkit";
 import { CodeExample } from "@/components/ui/code-example";
 import { mockPermissions } from "@/app/mocks";
-import { rawCodeAccordionGroupForm } from "./AccordionGroupForm.raw";
 
 interface IPermission {
   id: string
@@ -55,9 +54,7 @@ export const AccordionGroupForm = () => {
     setSelectedPermissions(optionsUpdated);
     if (optionsUpdated.length === 0)  return
     const group = groups.find(
-      g => g.options.some(
-        o => o?.groupedLabel === optionsUpdated[0].groupedLabel
-      )
+      g => g.options.some( o => o?.groupedLabel === optionsUpdated[0].groupedLabel )
     )
     if (group) {
       const others = groups.filter(g => g.id !== group.id)
@@ -78,32 +75,32 @@ export const AccordionGroupForm = () => {
   };
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
-  {
-    name: "username",
-    label: "Username",
-    inputType: InputTypes.TEXT_GROUP,
-    inputGroupConfig:{
-      autoValidIcons: true,
-      iconsLeft: [User]
+    {
+      name: "username",
+      label: "Username",
+      inputType: InputTypes.TEXT_GROUP,
+      inputGroupConfig:{
+        autoValidIcons: true,
+        iconsLeft: [User]
+      },
+      zodTypeAny: z
+        .string()
+        .min(3, "El nombre debe tener al menos 3 caracteres")
+        .max(20, "El nombre no puede tener más de 20 caracteres") ,
     },
-    zodTypeAny: z
-      .string()
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(20, "El nombre no puede tener más de 20 caracteres") ,
-  },
-  {
-    name: 'permissions',
-    label: 'Permisos',
-    inputType: InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
-    listConfig: {
-      selectedList: selectedPermissions,
-      list: entitiesToGroupedOption(groups), 
-      optionLabel: "name",
-      optionValue: "id",
-      onOptionChange: (item) => { handleRolesChange(item as InputOption[])},
-    }
-  },
-];
+    {
+      name: 'permissions',
+      label: 'Permisos',
+      inputType: InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
+      listConfig: {
+        selectedList: selectedPermissions,
+        list: entitiesToGroupedOption(groups), 
+        optionLabel: "name",
+        optionValue: "id",
+        onOptionChange: (item) => { handleRolesChange(item as InputOption[])},
+      }
+    },
+  ];
 
   return (
     <DynamicForm
@@ -116,5 +113,4 @@ export const AccordionGroupForm = () => {
       }}
     />
   );
-
 }`

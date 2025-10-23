@@ -13,16 +13,12 @@ export const mockPermissions: IPermission[]  = [
         name: "user.create",
         description: "Permite crear nuevos Users en el sistema",
         category: "Users",
-        createdAt: "2025-01-10T12:00:00Z",
-        updatedAt: "2025-01-15T08:30:00Z",
     },
     {
         id: "2",
         name: "user.read",
         description: "Permite ver la lista de Users y sus detalles",
         category: "Users",
-        createdAt: "2025-01-10T12:00:00Z",
-        updatedAt: "2025-01-15T08:30:00Z",
     },
     {
         id: "3",
@@ -62,12 +58,6 @@ export const mockPermissions: IPermission[]  = [
     },
     {
         id: "9",
-        name: "settings.manage",
-        description: "Permite acceder y modificar la Checks general del sistema",
-        category: "Checks",
-    },
-    {
-        id: "10",
         name: "reports.view",
         description: "Permite acceder a los reports del sistema",
         category: "Reports",
