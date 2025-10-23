@@ -9,7 +9,7 @@ interface Props<T extends FieldValues> {
   fields: Array<FieldProps|FieldProps[]>
 }
 
-export const FormErrors = <T extends FieldValues,>({formState, fields}: Props<T>) => {
+export const FormErrorsAlert = <T extends FieldValues,>({formState, fields}: Props<T>) => {
 
   const flatFields: FieldProps[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
   return (

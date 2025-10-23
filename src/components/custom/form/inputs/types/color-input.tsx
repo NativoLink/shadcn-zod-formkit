@@ -27,6 +27,9 @@ export class ColorInput extends BaseInput {
     )
   }
 }
+
+type HideInputOption = "rgb" | "hsv" | "hex";
+
 interface Props {
   form: UseFormReturn
   input: FieldProps
@@ -44,7 +47,7 @@ const FieldColor = ({ form, input }: Props) => {
           <FormControl>
             {ColorCmp ? (
               <ColorCmp
-                value={field.value}
+                value={field.value || "#000000"}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 disabled={input.disabled}
@@ -73,16 +76,17 @@ const FieldColor = ({ form, input }: Props) => {
 
 
 export interface ColorCompProps {
-  value?: string
-  onChange?: (color: string) => void
-  onBlur?: () => void
-  disabled?: boolean
-  className?: string
-  placeholder?: string
+  value?: string;
+  onChange?: (color: string) => void;
+  onBlur?: () => void;
+  disabled?: boolean;
+  className?: string;
+  placeholder?: string;
+  hideInput?: HideInputOption[];
 }
 
 const ColorComp = React.forwardRef<HTMLButtonElement, ColorCompProps>(
-  ({ value = "#000000", onChange, onBlur, disabled, className }, ref) => {
+  ({ value = "#000000", onChange, onBlur, disabled, className, hideInput =["hsv"] }, ref) => {
     const [color, setColor] = useColor(value)
     const [open, setOpen] = React.useState(false)
 
@@ -114,13 +118,13 @@ const ColorComp = React.forwardRef<HTMLButtonElement, ColorCompProps>(
             className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground", className)}
           >
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 rounded border border-border" style={{ backgroundColor: color.hex }} />
+              <div className="h-4 w-4 border border-border rounded-sm" style={{ backgroundColor: color.hex, width: 20, height:20 }} />
               <span>{color.hex}</span>
             </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-3" align="start">
-          <ColorPicker color={color} onChange={handleColorChange} hideInput={["rgb", "hsv"]} />
+          <ColorPicker color={color} onChange={handleColorChange} hideInput={hideInput} />
         </PopoverContent>
       </Popover>
     )

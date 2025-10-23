@@ -1,8 +1,7 @@
 'use client'
-import { mockPermissions } from "@/app/mocks";
-import { useEffect, useState } from "react";
-import { DynamicForm, entitiesToInputOption, FieldProps, GroupedOption, InputOption, InputTypes, TextInputType, validationMessages } from "shadcn-zod-formkit";
+
 import z from "zod";
+import { InputTypes, FieldProps, DynamicForm } from 'shadcn-zod-formkit';
 
 
 interface IPermission {

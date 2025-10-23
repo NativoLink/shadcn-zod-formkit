@@ -20,5 +20,9 @@ export default defineConfig({
     return {
       js: format === 'esm' ? '.mjs' : '.cjs'
     }
+  },
+  // ✅ permite importar CSS dentro de TS/JS
+  loader: {
+    ".css": "css",
   }
 });

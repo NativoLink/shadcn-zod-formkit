@@ -6,17 +6,34 @@ import { useForm } from "react-hook-form";
 
 import { FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema, InputFactory } from "./input-factory";
-import { FormErrors } from "./base/form-errors";
-import { Button, Form } from "@/src/components/ui";
+import { FormErrorsAlert } from "./base/form-errors";
+import { Button, Card, CardContent, Form } from "@/src/components/ui";
 import { zodResolver } from '@hookform/resolvers/zod';
 
+type alertPositionType = 'up' | 'down'
 interface Props {
   fields: Array<FieldProps|FieldProps[]>;
   record?: Record<string, any>;
   onSubmit?: (data: any) => void;
+
+  withErrorsAlert?: boolean
+  errorAlertPosition?: alertPositionType
+  withCard?: boolean
+
+  submitBtnLabel?: string
+  submitBtnClass?: string
 }
 
-export const DynamicForm = ({ fields, record = {}, onSubmit }: Props) => {
+export const DynamicForm = ({ 
+  fields,
+  record = {},
+  onSubmit,
+  withCard = false,
+  withErrorsAlert = true,
+  errorAlertPosition = 'up',
+  submitBtnClass = '',
+  submitBtnLabel = 'Submit',
+}: Props) => {
 
   // ✅ Genera el schema usando la función dinámica
   const schema = useMemo(() => getDynamicSchema(fields), [fields]);
@@ -42,11 +59,9 @@ export const DynamicForm = ({ fields, record = {}, onSubmit }: Props) => {
     })
   };
 
-
-
-  return (
-    <div>
-      <FormErrors formState={form.formState} fields={fields}/>
+  const formContent = (
+    <>
+      { (withErrorsAlert && errorAlertPosition == 'up') && (<FormErrorsAlert formState={form.formState} fields={fields}/>)}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
           <div className="w-full grid grid-cols-1">
@@ -70,12 +85,22 @@ export const DynamicForm = ({ fields, record = {}, onSubmit }: Props) => {
                     
             )}
           </div>
-          <div className="flex flex-row">
-            <Button type="submit">Enviar</Button>
-
+          <div className="flex flex-row gap-2 justify-end items-end justify-items-end">
+            <Button type="submit" size={'lg'} className={submitBtnClass}>{submitBtnLabel}</Button>
           </div>
         </form>
       </Form>
-    </div>
+      { (withErrorsAlert && errorAlertPosition == 'down') && (<FormErrorsAlert formState={form.formState} fields={fields}/>)}
+    </>
+  ) 
+
+  if (!withCard) return formContent
+
+  return (
+    <Card>
+      <CardContent>
+        {formContent}
+      </CardContent>
+    </Card>
   );
 };

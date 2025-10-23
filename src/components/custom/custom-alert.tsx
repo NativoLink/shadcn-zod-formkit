@@ -3,6 +3,7 @@ import { ReactNode } from "react"
 import { MessageCircleWarning } from "lucide-react"
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
+import { cn } from "@/src/lib/utils";
 
 interface Props {
   title: string
@@ -37,13 +38,13 @@ export const CustomAlert = ({
   // }
 
   return (
-    <div>
       <Alert
-        className={`mb-4 flex items-start gap-3 ${variantClasses[variant]} ${className}`}
+        className={cn(`mb-4 flex items-start gap-3 bg-red-500 border ${variantClasses[variant]}`,className)}
+        style={{background: '#fcdbdbb8'}}
       >
 
         {/* Icono a la izquierda */}
-        <div className="flex-shrink-0">{variantIcons[variant]}</div>
+        <div className="flex flex-col shrink-0 w-1/3">{variantIcons[variant]}</div>
 
         {/* Texto a la derecha */}
         <div className="flex flex-col">
@@ -53,6 +54,5 @@ export const CustomAlert = ({
           </AlertDescription>
         </div>
       </Alert>
-    </div>
   )
 }

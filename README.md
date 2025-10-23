@@ -26,7 +26,7 @@ yarn add @nativolink/react-form-maker-lib
  You need installa shadcn basic components
  ```bash 
  # Add Shadcn Basics
- npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible
+ npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group 
  ```
 
 

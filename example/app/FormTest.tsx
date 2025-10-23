@@ -11,7 +11,7 @@ import {
   InputTypes,
   TextInputType,
   validationMessages 
-} from 'shadcn-zod-formkit';
+} from "shadcn-zod-formkit";
 
 export interface IPermission {
   id: string
@@ -140,15 +140,15 @@ export const FormTest = () => {
 
   // // 🎨 Color con validación personalizada
   [ 
-    // {
-    //   name: "favoriteColor",
-    //   label: "Color favorito",
-    //   inputType: InputTypes.COLOR,
-    //   required: false,
-    //   zodTypeAny: z
-    //     .string()
-    //     .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
-    // },
+    {
+      name: "favoriteColor",
+      label: "Color favorito",
+      inputType: InputTypes.COLOR,
+      required: false,
+      zodTypeAny: z
+        .string()
+        .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
+    },
 
     // 🔢 Número con rango
     {
@@ -230,6 +230,7 @@ export const FormTest = () => {
       </div>
       <div className="w-full  bg-neutral-50/90 rounded-lg p-2">
         <DynamicForm
+        withCard
         fields={mockFields}
         record={record}
         onSubmit={(data: any) => console.log("📤 Resultado final:", data)}
