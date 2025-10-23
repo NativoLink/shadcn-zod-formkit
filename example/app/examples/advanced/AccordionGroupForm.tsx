@@ -94,7 +94,7 @@ export const AccordionGroupForm = () => {
 
   return (
     <>
-      <div className="w-full  bg-gray-500/20 rounded-lg ">
+      <div className="w-full h-200 bg-gray-500/20 rounded-lg ">
       </div>
       <div className="w-full  bg-neutral-50/90 rounded-lg p-2">
         <DynamicForm
@@ -103,7 +103,7 @@ export const AccordionGroupForm = () => {
         onSubmit={(data: any) => console.log("📤 Resultado final:", data)}
         />
       </div>
-      <div className="w-full  bg-gray-500/40 rounded-lg">
+      <div className="w-full h-200 bg-gray-500/40 rounded-lg">
         <pre className="mt-4 text-xs text-gray-500">
           {/* <code>{JSON.stringify(mockFields, null, 2)}</code> */}
         </pre>
