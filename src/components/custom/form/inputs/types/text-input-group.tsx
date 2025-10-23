@@ -1,6 +1,6 @@
 'use client'
 
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import { BaseInput } from "../base/base-input";
 import { 
   FormControl, 
@@ -13,39 +13,62 @@ import {
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/src/components/ui/input-group";
 import { FieldProps } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
+import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
-    return ( <FieldTextGroup input={input} form={form} /> )
+    const { input, form, isSubmitting } = this;
+    return <FieldTextGroup input={input} form={form}  isSubmitting={isSubmitting}/>;
   }
 }
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
+  form: UseFormReturn;
+  input: FieldProps;
+  isSubmitting?: boolean; // estado submit externo opcional
 }
 
-const FieldTextGroup = ({form, input}: Props) =>{
-  const groupConfig = input.inputGroupConfig
-  const iconsLeft   = groupConfig?.iconsLeft ?? [];
-  const iconsRight  = groupConfig?.iconsRight ?? [];
-  const textLeft    = groupConfig?.textLeft;
-  const textRight   = groupConfig?.textRight;
+const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
+  const groupConfig = input.inputGroupConfig;
+  const autoValidate = groupConfig?.autoValidIcons;
 
-  return (<FormField
-        key={input.name}
-        control={form.control}
-        name={input.name}
-        render={({ field }) => (
+  const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
+  const iconInvalidState = <CircleX style={{ color: "#ff8080" }} />;
+  const iconLoadingState = <Loader2 className="animate-spin" style={{ color: "#1e90ff" }} />;
+
+  const iconsRight = groupConfig?.iconsRight ?? [];
+  const iconsLeft = groupConfig?.iconsLeft ?? [];
+  const textLeft = groupConfig?.textLeft;
+  const textRight = groupConfig?.textRight;
+
+  // Estado local para manejar validez desde el primer render
+  const [isValid, setIsValid] = useState<boolean>(() => {
+    const value = form.getValues(input.name);
+    const fieldState = form.getFieldState(input.name);
+    return !fieldState.error && value !== undefined && value !== "";
+  });
+
+  return (
+    <FormField
+      key={input.name}
+      control={form.control}
+      name={input.name}
+      render={({ field, fieldState }) => {
+        // Actualiza validez dinámicamente
+        const validNow =
+          !fieldState.error && field.value !== undefined && field.value !== "";
+        if (validNow !== isValid) setIsValid(validNow);
+
+        return (
           <FormItem className={input.className}>
             <FormLabel><b>{input.label}</b></FormLabel>
             <FormControl className="shadow-lg">
               <InputGroup>
+
                 {/* Iconos izquierda */}
                 {(iconsLeft.length > 0 || textLeft) && (
                   <InputGroupAddon>
-                    <InputGroupText>{textLeft}</InputGroupText>
+                    {textLeft && <InputGroupText>{textLeft}</InputGroupText>}
                     {iconsLeft.map((IconComponent, index) => (
                       <IconComponent key={index} size={20} />
                     ))}
@@ -53,17 +76,34 @@ const FieldTextGroup = ({form, input}: Props) =>{
                 )}
 
                 {/* Input principal */}
-                <InputGroupInput placeholder={input.placeHolder} {...field} />
+                <InputGroupInput
+                  placeholder={input.placeHolder}
+                  disabled={input.disabled || isSubmitting}
+                  {...field}
+                  type={input.keyboardType}
+                />
 
                 {/* Iconos derecha */}
-                {(iconsRight.length > 0 || textRight) && (
+                {(iconsRight.length > 0 || textRight || autoValidate) && (
                   <InputGroupAddon align="inline-end">
-                    <InputGroupText>{textRight}</InputGroupText>
+                    {textRight && <InputGroupText>{textRight}</InputGroupText>}
                     {iconsRight.map((IconComponent, index) => (
                       <IconComponent key={index} size={20} />
                     ))}
+
+                    {/* Icono de validación / loading */}
+                    {autoValidate && (
+                      <div>
+                        {isSubmitting
+                          ? iconLoadingState
+                          : isValid
+                          ? iconValidState
+                          : iconInvalidState}
+                      </div>
+                    )}
                   </InputGroupAddon>
                 )}
+
               </InputGroup>
             </FormControl>
 
@@ -71,6 +111,8 @@ const FieldTextGroup = ({form, input}: Props) =>{
             {input.description && <FormDescription>{input.description}</FormDescription>}
             <FormMessage />
           </FormItem>
-        )}
-      />)
-}
+        );
+      }}
+    />
+  );
+};

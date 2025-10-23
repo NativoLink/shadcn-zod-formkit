@@ -1,4 +1,6 @@
 'use client'
+import { BadgeX, Check, Lock, Mail, User } from 'lucide-react';
+import { useState } from 'react';
 import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
 import { z } from "zod";
 
@@ -22,6 +24,10 @@ export const FormBasics = () => {
     name: "username",
     label: "Username",
     inputType: InputTypes.TEXT_GROUP,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [User]
+    },
     zodTypeAny: z
       .string()
       .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -41,7 +47,11 @@ export const FormBasics = () => {
   {
     name: "email",
     label: "Correo electrónico",
-    inputType: InputTypes.TEXT,
+    inputType: InputTypes.TEXT_GROUP,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Mail],
+    },
     zodTypeAny: z
       .string()
       .email("Correo inválido")
@@ -52,7 +62,11 @@ export const FormBasics = () => {
   {
     name: "password",
     label: "Contraseña",
-    inputType: InputTypes.TEXT,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Lock]
+    },
+    inputType: InputTypes.TEXT_GROUP,
     keyboardType: TextInputType.PASSWORD,
     zodTypeAny: z
       .string(validationMessages.required)
@@ -116,7 +130,7 @@ export const FormBasics = () => {
   ],
 ];
 
-
+  const [isPending,setIsPending] = useState(false)
 
   return (
       <>
@@ -124,9 +138,15 @@ export const FormBasics = () => {
         </div>
         <div className="w-full  bg-neutral-50/90 rounded-lg p-2">
           <DynamicForm
+          withCard
+          errorAlertPosition='down'
           fields={mockFields}
           record={record}
-          onSubmit={(data: any) => console.log("📤 Resultado final:", data)}
+          onSubmit={async (data: any) =>{ 
+            const resp = "✅  Resultado final:"
+            console.log(resp, data)
+            // alert(resp)
+          }}
           />
         </div>
         <div className="w-full  bg-gray-500/40 rounded-lg">

@@ -56,6 +56,9 @@ export interface FieldProps {
 
 
 interface inputGroudConfig {
+
+  autoValidIcons?: boolean 
+
   iconsLeft?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
   iconsRight?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
 

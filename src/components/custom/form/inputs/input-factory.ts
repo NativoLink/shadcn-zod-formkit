@@ -23,7 +23,8 @@ import { AccordionGroupedSwitchInput } from "./types/accordion-grouped-switches"
 
 type InputClassConstructor = new (
   input: FieldProps,
-  form: UseFormReturn
+  form: UseFormReturn,
+  isSubmitting?: boolean
 ) => BaseInput;
 
 
@@ -47,11 +48,11 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
 };
 
 export class InputFactory {
-  static create(input: FieldProps, form: UseFormReturn): JSX.Element {
+  static create(input: FieldProps, form: UseFormReturn, isSubmitting:boolean = false): JSX.Element {
     const inputType = (input.inputType as InputTypes) ?? InputTypes.TEXT;
 
     const InputClass = inputMap[inputType] ?? TextInput;
-    const instance = new InputClass(input, form);
+    const instance = new InputClass(input, form, isSubmitting);
     return instance.render()
   }
 }

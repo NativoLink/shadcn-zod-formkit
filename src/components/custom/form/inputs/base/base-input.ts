@@ -8,7 +8,8 @@ import { FieldProps, GroupedOption, InputOption } from "./definitions";
 export abstract class BaseInput {
   constructor(
     protected readonly input: FieldProps,
-    protected readonly form: UseFormReturn
+    protected readonly form: UseFormReturn,
+    protected readonly isSubmitting?: boolean
   ) {}
 
   abstract render(): JSX.Element;

@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useMemo } from "react";
+import { startTransition, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 
@@ -9,6 +9,7 @@ import { getDefaultValues, getDynamicSchema, InputFactory } from "./input-factor
 import { FormErrorsAlert } from "./base/form-errors";
 import { Button, Card, CardContent, Form } from "@/src/components/ui";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, Save } from "lucide-react";
 
 type alertPositionType = 'up' | 'down'
 interface Props {
@@ -34,6 +35,8 @@ export const DynamicForm = ({
   submitBtnClass = '',
   submitBtnLabel = 'Submit',
 }: Props) => {
+  
+  const [isPending, startTransition] = useTransition()
 
   // ✅ Genera el schema usando la función dinámica
   const schema = useMemo(() => getDynamicSchema(fields), [fields]);
@@ -52,11 +55,16 @@ export const DynamicForm = ({
     form.reset(defaultValues);
   }, [defaultValues, fields]);
 
+
   const handleSubmit = (data: any) => {
-    console.log("✅ Datos enviados:", data);
-    startTransition(async () => {
-      onSubmit?.(data);
-    })
+    try{
+      startTransition(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 13000));
+        onSubmit?.(data);
+      })
+    } catch (error) {
+      console.error("Ocurrió un error al enviar el formulario.")
+    }
   };
 
   const formContent = (
@@ -72,25 +80,39 @@ export const DynamicForm = ({
                   {
                     input.map((field, subIdx) => ( 
                       <div key={subIdx} className="w-full px-2">
-                        {InputFactory.create(field, form) }
+                        {InputFactory.create(field, form, isPending) }
                       </div>
                     ))
                   }
                 </span>
                 :
                 (<span key={`field-group-${idx}`} className="flex flex-col justify-between py-3 w-full px-2"> 
-                  {InputFactory.create(input, form)}
+                  {InputFactory.create(input, form, isPending)}
                 </span>)
                 
                     
             )}
           </div>
           <div className="flex flex-row gap-2 justify-end items-end justify-items-end">
-            <Button type="submit" size={'lg'} className={submitBtnClass}>{submitBtnLabel}</Button>
+            <Button type="submit" size={'lg'} className={submitBtnClass} disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  {submitBtnLabel ?? "Guardando..."}
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4 mr-2" />
+                  {submitBtnLabel ?? "Guardar"}
+                </>
+              )}
+            </Button>
           </div>
         </form>
       </Form>
-      { (withErrorsAlert && errorAlertPosition == 'down') && (<FormErrorsAlert formState={form.formState} fields={fields}/>)}
+      { (withErrorsAlert && errorAlertPosition == 'down') && (
+        <FormErrorsAlert formState={form.formState} fields={fields}/>
+      )}
     </>
   ) 
 
