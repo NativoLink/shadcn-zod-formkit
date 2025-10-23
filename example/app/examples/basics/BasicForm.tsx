@@ -2,7 +2,7 @@
 import { CodeExample } from '@/components/ui/code-example';
 import { Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
-import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps, Badge } from 'shadcn-zod-formkit';
+import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
 import { z } from "zod";
 import { rawCodeBasicForm } from './BasicForm.raw';
 
@@ -149,24 +149,12 @@ export const FormBasics = () => {
   }
 ];
 
-const mockFieldsText = JSON.stringify(
-  mockFields,
-  (_, value) => {
-    if (value && value._def) return "zod(...)"; // reemplaza objetos Zod
-    if (typeof value === "function") return "/* function */";
-    return value;
-  },
-  2
-);
-
-  const lineCount = rawCodeBasicForm.split(/\r\n|\r|\n/).length;
   return (
       <>
         <div className="flex flex-col w-full  bg-gray-500/20 rounded-lg p-2 gap-2">
-          <Badge variant="default" className='text-xl'>Total Lines: {lineCount}</Badge>
           <CodeExample code={rawCodeBasicForm} language="javascript" />
         </div>
-        
+
         <DynamicForm
           withCard
           errorAlertPosition='down'

@@ -2,6 +2,7 @@
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useEffect, useState } from "react";
 import { createHighlighter } from "shiki";
+import { Badge } from "./badge";
 
 interface CodeBlockShikiProps {
   code: string;
@@ -29,13 +30,16 @@ export const CodeExample = ({ code, language = "ts" }: CodeBlockShikiProps) => {
     loadHighlighter();
   }, [code, language]);
 
+  const lineCount = code.split(/\r\n|\r|\n/).length;
   return (
-    <ScrollArea className="h-200 w-full rounded-md border">
-
-    <div
-      className="overflow-auto rounded text-xs h-full" 
-      dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </ScrollArea>
+    <>
+      <Badge variant="default" className='text-xl'>Total Lines: {lineCount}</Badge>
+      <ScrollArea className="h-200 w-full rounded-md border">
+      <div
+        className="overflow-auto rounded text-xs h-full" 
+        dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </ScrollArea>
+    </>
   );
 };
