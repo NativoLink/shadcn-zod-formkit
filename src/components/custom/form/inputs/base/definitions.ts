@@ -1,5 +1,6 @@
 import { z, ZodType, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
+import { LucideProps } from "lucide-react";
 
 export interface CustomFormProps {
   formTitle: string
@@ -49,6 +50,17 @@ export interface FieldProps {
     multiple: boolean // múltiples archivos
     maxSize: number
   }
+
+  inputGroupConfig?: inputGroudConfig
+}
+
+
+interface inputGroudConfig {
+  iconsLeft?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
+  iconsRight?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
+
+  textLeft?: string;
+  textRight?: string;
 }
 
 

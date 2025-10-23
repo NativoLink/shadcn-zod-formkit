@@ -1,6 +1,7 @@
 export enum InputTypes {
   HIDDEN = "hidden",
   TEXT = "text",
+  TEXT_GROUP = "text_group",
   NUMBER = "number",
   SWITCH = "switch",
   SELECT = "select",
@@ -17,6 +18,7 @@ export enum InputTypes {
 }
 
 export const inputFieldComp = [
+  InputTypes.TEXT_GROUP,
   InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
   InputTypes.GROUPED_SWITCH_LIST,
   InputTypes.TEXT,

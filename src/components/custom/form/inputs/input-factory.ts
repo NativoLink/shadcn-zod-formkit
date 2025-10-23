@@ -12,6 +12,7 @@ import {
   OTPInput,
   FileInput,
   TextAreaInput,
+  TextInputGroup,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -27,6 +28,7 @@ type InputClassConstructor = new (
 
 
 const inputMap: Record<InputTypes, InputClassConstructor> = {
+  [InputTypes.TEXT_GROUP]: TextInputGroup,
   [InputTypes.TEXT]: TextInput,
   [InputTypes.SWITCH]: SwitchInput,
   [InputTypes.COLOR]: ColorInput,

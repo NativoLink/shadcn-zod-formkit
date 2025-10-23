@@ -21,12 +21,21 @@ export const FormBasics = () => {
   {
     name: "username",
     label: "Username",
-    inputType: InputTypes.TEXT,
-    // zodTypeAny: z
-    //   .string()
-    //   .min(3, "El nombre debe tener al menos 3 caracteres")
-    //   .max(20, "El nombre no puede tener más de 20 caracteres") ,
+    inputType: InputTypes.TEXT_GROUP,
+    zodTypeAny: z
+      .string()
+      .min(3, "El nombre debe tener al menos 3 caracteres")
+      .max(20, "El nombre no puede tener más de 20 caracteres") ,
   },
+  // {
+  //   name: "username",
+  //   label: "Username",
+  //   inputType: InputTypes.TEXT,
+  //   // zodTypeAny: z
+  //   //   .string()
+  //   //   .min(3, "El nombre debe tener al menos 3 caracteres")
+  //   //   .max(20, "El nombre no puede tener más de 20 caracteres") ,
+  // },
 
   // 📧 Campo de correo con validación personalizada (ZodTypeAny)
   {
