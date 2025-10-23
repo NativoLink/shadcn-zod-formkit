@@ -28,7 +28,7 @@ interface Props {
   isSubmitting?: boolean; // estado submit externo opcional
 }
 
-const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
+export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const groupConfig = input.inputGroupConfig;
   const autoValidate = groupConfig?.autoValidIcons;
 

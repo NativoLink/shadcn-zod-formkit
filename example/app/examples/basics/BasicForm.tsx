@@ -1,5 +1,5 @@
 'use client'
-import { BadgeX, Check, Lock, Mail, User } from 'lucide-react';
+import { BadgeX, Check, Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
 import { z } from "zod";
@@ -84,21 +84,26 @@ export const FormBasics = () => {
 
   // // 🎨 Color con validación personalizada
   [ 
-    // {
-    //   name: "favoriteColor",
-    //   label: "Color favorito",
-    //   inputType: InputTypes.COLOR,
-    //   required: false,
-    //   zodTypeAny: z
-    //     .string()
-    //     .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
-    // },
+    {
+      name: "favoriteColor",
+      label: "Color favorito",
+      inputType: InputTypes.COLOR,
+      required: false,
+      zodTypeAny: z
+        .string()
+        .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
+    },
 
     // 🔢 Número con rango
     {
       name: "age",
       label: "Edad",
       inputType: InputTypes.NUMBER,
+      keyboardType: TextInputType.NUMBER,
+      inputGroupConfig:{
+        autoValidIcons: true,
+        iconsLeft: [Hash]
+      },
       zodTypeAny: z
         .coerce.number("Debe ser un número") // fuerza a number
         .min(18, "Debe ser mayor de 18")
