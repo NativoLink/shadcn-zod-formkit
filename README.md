@@ -12,10 +12,10 @@
 
 ```bash
 # Using npm
-npm install @nativolink/react-form-maker-lib
+npm install shadcn-zod-formkit
 
 # Using yarn
-yarn add @nativolink/react-form-maker-lib
+yarn add shadcn-zod-formkit
 ```
 
  Add Shadcn
@@ -41,7 +41,7 @@ import {
   FieldProps,
   InputTypes,
   TextInputType
-} from "@nativolink/react-form-maker-lib";
+} from "shadcn-zod-formkit";
 
 export default function Home() {
   const record= {
@@ -68,7 +68,6 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
     name: "username",
     label: "Nombre de usuario",
     inputType: InputTypes.TEXT,
-    required: true,
     // ZodTypeAny: z
     //   .string()
     //   .min(3)
@@ -80,7 +79,6 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
     name: "email",
     label: "Correo electrónico",
     inputType: InputTypes.TEXT,
-    required: false,
   },
 ]
 ```
