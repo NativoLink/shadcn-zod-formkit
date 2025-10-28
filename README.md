@@ -97,6 +97,11 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST`  | 
   | **Radio Group**          |  `InputTypes.RADIO_GROUP`          | 
   | **Tags**                 |  `InputTypes.TAGS`                 | 
+  | **Input Date Time**      |  `InputTypes.DATE_TIME`            | 
+  | **Input Time**           |  `InputTypes.TIME`                 | 
+  | **Upload Multi File**    |  `InputTypes.FILE_MULTI_UPLOAD`    | 
+  | **Button Group**         |  `InputTypes.BUTTON_GROUP`         | 
+
 
 
 ## ✅ Features
