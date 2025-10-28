@@ -65,46 +65,46 @@ export const FieldSimpleCheckList = ({ input, value, onChange }: Props) => {
     onChange(updated); // sincroniza con el form
   };
 
+  const formField = <FormItem>
+    <div className="flex items-center justify-between p-2 border-b">
+      <FormLabel className="font-semibold">{input.label || input.name}</FormLabel>
+      <div className="flex items-center gap-2">
+        <Label htmlFor="main">Seleccionar todo</Label>
+        <Checkbox
+          id="main"
+          checked={allChecked}
+          onCheckedChange={handleMainToggle} />
+      </div>
+    </div>
+
+    <FormControl>
+      <div className="space-y-2 mt-3">
+        {options.map((opt, index) => (
+          <div
+            key={opt.id}
+            className={cn(
+              "p-2 rounded-lg flex justify-items-start gap-2 items-center",
+              index % 2 ? "bg-black/5" : "bg-white/5"
+            )}
+          >
+            <Checkbox
+              id={String(opt.id)}
+              checked={opt.checked || false}
+              onCheckedChange={(checked) => handleChildToggle(opt, checked as boolean)} />
+            <Label htmlFor={String(opt.id)}>{opt.label || opt.name}</Label>
+          </div>
+        ))}
+      </div>
+    </FormControl>
+
+    <FormMessage />
+  </FormItem>;
+
+  if (!input.wrapInCard) return <>{formField}</>;
+  
   return (
     <Card className="p-4 space-y-3">
-      <FormItem>
-        <div className="flex items-center justify-between p-2 border-b">
-          <FormLabel className="font-semibold">{input.label || input.name}</FormLabel>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="main">Seleccionar todo</Label>
-            <Checkbox
-              id="main"
-              checked={allChecked}
-              onCheckedChange={handleMainToggle}
-            />
-          </div>
-        </div>
-
-        <FormControl>
-          <div className="space-y-2 mt-3">
-            {options.map((opt, index) => (
-              <div
-                key={opt.id}
-                className={cn(
-                  "p-2 rounded-lg flex justify-items-start gap-2 items-center",
-                  index % 2 ? "bg-black/5" : "bg-white/5"
-                )}
-              >
-                <Checkbox
-                  id={String(opt.id)}
-                  checked={opt.checked || false}
-                  onCheckedChange={(checked) =>
-                    handleChildToggle(opt, checked as boolean)
-                  }
-                />
-                <Label htmlFor={String(opt.id)}>{opt.label || opt.name}</Label>
-              </div>
-            ))}
-          </div>
-        </FormControl>
-
-        <FormMessage />
-      </FormItem>
+      {formField}
     </Card>
   );
 };

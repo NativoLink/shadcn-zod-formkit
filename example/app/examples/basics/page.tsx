@@ -1,6 +1,12 @@
-'use client'
-
-import { FormBasics } from "./BasicForm";
+import { BasicFormPage } from "./BasicFormPage"
 
 
-export default FormBasics
+const page = () => {
+  return (
+    <>
+      <BasicFormPage />
+    </>
+  )
+}
+
+export default page

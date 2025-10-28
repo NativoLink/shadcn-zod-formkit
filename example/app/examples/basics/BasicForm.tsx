@@ -1,12 +1,10 @@
 'use client'
-import { CodeExample } from '@/components/ui/code-example';
 import { Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
 import { z } from "zod";
-import { rawCodeBasicForm } from './BasicForm.raw';
 
-export const FormBasics = () => {
+export default function FormBasics() {
 
   const [dataToSend, setDataToSend] = useState<any>({})
 
@@ -17,13 +15,12 @@ export const FormBasics = () => {
     favoriteColor: '#000000',
     age: 25,
     birthDate: undefined,
+    bloodType: "",
     otpCode: "",
     notifications: [],
   };
 
-
   const mockFields: Array<FieldProps |FieldProps[]> = [
-  // 🧍‍♂️ Campo requerido simple
   {
     name: "username",
     label: "Username",
@@ -37,9 +34,6 @@ export const FormBasics = () => {
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(20, "El nombre no puede tener más de 20 caracteres") ,
   },
-
-
-  // 📧 Campo de correo con validación personalizada (ZodTypeAny)
   {
     name: "email",
     label: "Correo electrónico",
@@ -53,8 +47,6 @@ export const FormBasics = () => {
       .email("Correo inválido")
       .optional(),
   },
-
-  // 🔒 Campo opcional (no requerido)
   {
     name: "password",
     label: "Contraseña",
@@ -69,8 +61,13 @@ export const FormBasics = () => {
       .min(6, validationMessages.minLength(6))
       .max(20, "No más de 20 caracteres"),
   },
-
-  // 🟢 Campo tipo switch (boolean)
+  {
+    name: "bloodType",
+    label: "Blood Type",
+    description:'This is a description',
+    inputType: InputTypes.RADIO_GROUP,
+    zodTypeAny: z.string(validationMessages.required).min(1, "Selecciona un tipo de sangre"),
+  },
   {
     name: "isActive",
     label: "Usuario activo",
@@ -78,8 +75,6 @@ export const FormBasics = () => {
     inputType: InputTypes.CHECKBOX,
     zodTypeAny: z.boolean().default(true),
   },
-
-  // 🎨 Color con validación personalizada
   [ 
     {
       name: "favoriteColor",
@@ -90,8 +85,6 @@ export const FormBasics = () => {
         .string()
         .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
     },
-
-    // 🔢 Número con rango
     {
       name: "age",
       label: "Edad",
@@ -107,9 +100,7 @@ export const FormBasics = () => {
         .max(99, "Debe ser menor de 99"),
     }
   ],
-
   [
-    // 📅 Fecha
     {
       name: "birthDate",
       label: "Fecha de nacimiento",
@@ -118,9 +109,6 @@ export const FormBasics = () => {
         message: "La fecha no puede ser futura",
       }),
     },
-
-
-    // 🔢 OTP (código)
     {
       name: "otpCode",
       label: "Código OTP",
@@ -131,7 +119,6 @@ export const FormBasics = () => {
         .min(6, "Debe tener al menos 6 dígitos"),
     }
   ],
-  // 🔢 Notifications
   {
     name: "notifications",
     label: "Recibir Notificaciones con:",
@@ -150,34 +137,27 @@ export const FormBasics = () => {
 ];
 
   return (
-      <>
-        <div className="flex flex-col w-full  bg-gray-500/20 rounded-lg p-2 gap-2">
-          <CodeExample code={rawCodeBasicForm} language="javascript" />
+    <>
+      <DynamicForm
+        withCard
+        errorAlertPosition='down'
+        fields={mockFields}
+        record={record}
+        onSubmit={async (resp: any) =>{ 
+          setDataToSend(resp.data)
+          const msg = "✅  Resultado final:"
+          console.log(resp.data, msg)
+        }}
+      />
+      <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
+        <div className="flex flex-row  text-lg text-gray-800 p-4">
+          DATA SENDED
         </div>
-
-        <DynamicForm
-          withCard
-          errorAlertPosition='down'
-          fields={mockFields}
-          record={record}
-          onSubmit={async (resp: any) =>{ 
-            setDataToSend(resp.data)
-            const msg = "✅  Resultado final:"
-            console.log(resp.data, msg)
-          }}
-        />
-
-        <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
-          <div className="flex flex-row  text-lg text-gray-800 p-4">
-            DATA SENDED
-          </div>
-          <pre className="flex flex-row  text-xs text-gray-800 p-4">
-            <code>{JSON.stringify(dataToSend, null, 2)}</code>
-          </pre>
-        </div>
-      </>
+        <pre className="flex flex-row  text-xs text-gray-800 p-4">
+          <code>{JSON.stringify(dataToSend, null, 2)}</code>
+        </pre>
+      </div>
+    </>
   );
 
-  
 }
-

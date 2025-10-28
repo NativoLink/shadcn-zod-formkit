@@ -7,6 +7,7 @@ export * from './file-input';
 export * from './grouped-switches-input';
 export * from './number-input';
 export * from './otp-input';
+export * from './radio-group-input';
 export * from './select-input';
 export * from './simple-check-list-input';
 export * from './switch-input';

@@ -8,7 +8,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { JSX, ReactNode } from "react";
-import { AccordionGroupForm, FormBasics } from "./examples";
+import { AccordionGroupForm, BasicFormPage } from "./examples";
 
 
 interface ITab {
@@ -21,7 +21,7 @@ export default function Home() {
 
 
   const tabs: ITab[] = [
-    { name: 'Basics', children: <FormBasics/>},
+    { name: 'Basics', children: <BasicFormPage/>},
     { name: 'Advanced', children: <AccordionGroupForm />}
   ]
   return (

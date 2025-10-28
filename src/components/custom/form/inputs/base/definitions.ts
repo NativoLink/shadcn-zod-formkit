@@ -17,6 +17,7 @@ export interface CustomFormProps {
 }
 
 export interface FieldProps {
+  wrapInCard?: boolean
   name: string // Campo debe coincidir con la definición en el esquema
   label: string
   placeHolder?: string
