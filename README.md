@@ -10,7 +10,7 @@
 
 ## 📌 Installation
 
-```bash
+```typescript
 # Using npm
 npm install shadcn-zod-formkit
 
@@ -19,12 +19,12 @@ yarn add shadcn-zod-formkit
 ```
 
  Add Shadcn
- ```bash 
+ ```typescript 
   # Add Shadcn 
   npx shadcn@latest init
  ```
  You need installa shadcn basic components
- ```bash 
+ ```typescript 
  # Add Shadcn Basics
  npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group 
  ```
@@ -32,8 +32,9 @@ yarn add shadcn-zod-formkit
 
 
 ##  🛠️ Basic Usage
+#### First Dynamic Form 
 
-```bash
+```typescript
 'use client'
 
 import { 
@@ -44,6 +45,8 @@ import {
 } from "shadcn-zod-formkit";
 
 export default function Home() {
+  // Record From DB example (User),
+  // record is used for define default values
   const record= {
     username: "John Doe ",
     email: "johndoe@example.com",
@@ -63,18 +66,12 @@ export default function Home() {
 }
 
 const mockFields: Array<FieldProps |FieldProps[]> = [
-  // 🧍‍♂️ Campo requerido simple
   {
     name: "username",
     label: "Nombre de usuario",
     inputType: InputTypes.TEXT,
-    // ZodTypeAny: z
-    //   .string()
-    //   .min(3)
-    //   .max(20),
+    ZodTypeAny: z .string().min(3).max(20),
   },
-
-  // // 📧 Campo de correo con validación personalizada (ZodTypeAny)
   {
     name: "email",
     label: "Correo electrónico",
@@ -82,6 +79,20 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   },
 ]
 ```
+
+## 📚 Field Types ( InputTypes ) Avaible
+  | Types                    | Use                            |
+  | -------------------------|:-------------------------------:
+  | **Text**                 |  `InputTypes.TEXT_GROUP`          | 
+  | **Color Picker**         |  `InputTypes.COLOR`               | 
+  | **Switch**               |  `InputTypes.SWITCH`              | 
+  | **Checkbox**             |  `InputTypes.CHECKBOX`            | 
+  | **Date Picker**          |  `InputTypes.DATE`                | 
+  | **Select**               |  `InputTypes.SELECT`              | 
+  | **OTP Code**             |  `InputTypes.OTP`                 | 
+  | **Upload File**          |  `InputTypes.FILE`                | 
+  | **Checkbox List**        |  `InputTypes.SIMPLE_CHECK_LIST`   | 
+  | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST` | 
 
 
 ## ✅ Features
