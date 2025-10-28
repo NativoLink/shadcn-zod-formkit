@@ -94,6 +94,7 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   | **Checkbox List**        |  `InputTypes.SIMPLE_CHECK_LIST`    | 
   | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST`  | 
   | **Radio Group**          |  `InputTypes.RADIO_GROUP`          | 
+  | **Tags**                 |  `InputTypes.TAGS`                 | 
 
 
 ## ✅ Features
