@@ -17,6 +17,10 @@ import {
   SimpleCheckListInput,
   RadioGroupInput,
   TagInput,
+  DateTimeInput,
+  TimeInput,
+  FileMultiUploadInput,
+  SliderInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -46,13 +50,29 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.OTP]: OTPInput,
   [InputTypes.FILE]: FileInput,
   [InputTypes.SIMPLE_CHECK_LIST]: SimpleCheckListInput,
-  [InputTypes.HIDDEN]: TextInput, //ToDo: // puedes asignar algo genérico
-  [InputTypes.CHECK_LIST]: TextInput, //ToDo:
-  // [InputTypes.SWITCH_LIST]: SwitchListInput, //ToDo:
   [InputTypes.TEXTAREA]: TextAreaInput,
-  [InputTypes.FORM]: TextInput, //ToDo:
   [InputTypes.RADIO_GROUP]: RadioGroupInput,
   [InputTypes.TAGS]: TagInput,
+  [InputTypes.DATE_TIME]: DateTimeInput,
+  [InputTypes.TIME]: TimeInput,
+  [InputTypes.FILE_MULTI_UPLOAD]: FileMultiUploadInput,
+  
+  
+  //ToDos: ============================================================
+  [InputTypes.SLIDER]: SliderInput, //ToDo: // PENDIENTE ... VISUALMENTE NO SE VE BIEN.!!!
+  [InputTypes.FORM]: TextInput,
+  [InputTypes.HIDDEN]: TextInput,
+  [InputTypes.CHECK_LIST]: TextInput,
+  // [InputTypes.SWITCH_LIST]: SwitchListInput,
+
+  // [InputTypes.RANGE]: TextInput,
+  // [InputTypes.MULTISELECT]: TextInput,
+  // [InputTypes.CURRENCY]: TextInput,
+  
+  // [InputTypes.IMAGE_UPLOAD]: TextInput,
+  // [InputTypes.AUDIO_UPLOAD]: TextInput,
+  // [InputTypes.VIDEO_UPLOAD]: TextInput,
+
 };
 
 export class InputFactory {

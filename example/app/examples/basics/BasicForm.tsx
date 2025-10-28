@@ -1,7 +1,13 @@
 'use client'
 import { Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
-import { DynamicForm, InputTypes, TextInputType, validationMessages, FieldProps } from 'shadcn-zod-formkit';
+import { 
+  DynamicForm,
+  InputTypes,
+  TextInputType,
+  validationMessages,
+  FieldProps 
+} from 'shadcn-zod-formkit';
 import { z } from "zod";
 
 export default function FormBasics() {
@@ -14,6 +20,9 @@ export default function FormBasics() {
     isActive: true,
     favoriteColor: '#000000',
     age: 25,
+    volume: 50,
+    passportPhoto: undefined,
+    alarmTime: undefined,
     birthDate: undefined,
     bloodType: "",
     otpCode: "",
@@ -22,7 +31,7 @@ export default function FormBasics() {
   };
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
-  {
+  [{
     name: "username",
     label: "Username",
     inputType: InputTypes.TEXT_GROUP,
@@ -47,7 +56,7 @@ export default function FormBasics() {
       .string()
       .email("Correo inválido")
       .optional(),
-  },
+  }],
   {
     name: "password",
     label: "Contraseña",
@@ -63,11 +72,22 @@ export default function FormBasics() {
       .max(20, "No más de 20 caracteres"),
   },
   {
+    name: "passportPhoto",
+    label: "Subir foto de pasaporte",
+    inputType: InputTypes.FILE_MULTI_UPLOAD,
+    description: "Puedes subir múltiples archivos a la vez",
+    inputGroupConfig: {
+      autoValidIcons: true
+    },
+    zodTypeAny: z.array(z.instanceof(File)).min(1, "Debes subir al menos un archivo")
+  },
+  {
     name: "bloodType",
     label: "Blood Type",
     description:'This is a description',
     inputType: InputTypes.RADIO_GROUP,
-    zodTypeAny: z.string(validationMessages.required).min(1, "Selecciona un tipo de sangre"),
+    zodTypeAny: z.string(validationMessages.required)
+      .min(1, "Selecciona un tipo de sangre"),
   },
   {
     name: "tags",
@@ -112,20 +132,48 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
-      zodTypeAny: z.coerce.date(validationMessages.required).refine((d) => d < new Date(), {
-        message: "La fecha no puede ser futura",
-      }),
+      zodTypeAny: z.coerce
+        .date(validationMessages.required)
+        .refine((d) => d < new Date(), {
+          message: "La fecha no puede ser futura",
+        }),
     },
     {
-      name: "otpCode",
-      label: "Código OTP",
-      inputType: InputTypes.OTP,
-      required: false,
-      zodTypeAny: z
-        .string(validationMessages.required)
-        .min(6, "Debe tener al menos 6 dígitos"),
-    }
+      name: "appointment",
+      label: "Agendar Cita - Fecha y hora",
+      inputType: InputTypes.DATE_TIME, // tipo que puedes agregar
+      placeHolder: "Selecciona fecha y hora",
+      description: "Selecciona la fecha y la hora de la cita",
+      required: true,
+      zodTypeAny: z.coerce.date().refine((d) => d > new Date(), {
+        message: "La fecha debe ser futura",
+      }),
+    },
   ],
+  {
+    name: "volume",
+    label: "Volumen",
+    inputType: InputTypes.SLIDER,
+    description: "Ajusta el volumen entre 0 y 100",
+    min: 0,
+    max: 100,
+    zodTypeAny: z.number().min(0).max(100)
+  },
+  {
+    name: "alarmTime",
+    label: "Hora de alarma",
+    inputType: InputTypes.TIME,
+    zodTypeAny: z.string().regex(/^([0-1]\d|2[0-3]):([0-5]\d)$/, "Formato HH:mm")
+  },
+  {
+    name: "otpCode",
+    label: "Código OTP",
+    inputType: InputTypes.OTP,
+    required: false,
+    zodTypeAny: z
+      .string(validationMessages.required)
+      .min(6, "Debe tener al menos 6 dígitos"),
+  },
   {
     name: "notifications",
     label: "Recibir Notificaciones con:",
@@ -133,10 +181,10 @@ export default function FormBasics() {
     required: false,
     listConfig: {
       list:  [
-        { id: 1, name: "PERMISSION CREATE", checked: false },
-        { id: 2, name: "PERMISSION READ", checked: false },
-        { id: 3, name: "PERMISSION UPDATE", checked: false },
-        { id: 4, name: "PERMISSION DELETE", checked: false },
+        { id: 1, name: "email", checked: false },
+        { id: 2, name: "sms", checked: false },
+        { id: 3, name: "phone call", checked: false },
+        { id: 4, name: "push notifications", checked: false },
       ],
       onOptionChange: (item) => {},
     }

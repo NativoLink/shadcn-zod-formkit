@@ -19,9 +19,17 @@ export enum InputTypes {
   COLOR = "color",
   RADIO_GROUP = "radio_group",
   TAGS = "tags",
+  DATE_TIME = "date_time",
+  TIME = "time",
+  FILE_MULTI_UPLOAD = "file_multi_upload",
+  SLIDER = "slider",
 }
 
 export const inputFieldComp = [
+  InputTypes.SLIDER,
+  InputTypes.FILE_MULTI_UPLOAD,
+  InputTypes.TIME,
+  InputTypes.DATE_TIME,
   InputTypes.TAGS,
   InputTypes.RADIO_GROUP,
   InputTypes.TEXT_GROUP,
