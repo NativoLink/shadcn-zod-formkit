@@ -14,6 +14,7 @@ import { FieldProps } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { CircleCheck, CircleX, Loader2, Upload } from "lucide-react";
 import { cn } from "@/src/lib/utils";
+import { Card } from "@/src/components/ui/card";
 
 export class FileMultiUploadInput extends BaseInput {
   render(): JSX.Element {
@@ -53,86 +54,85 @@ export const FieldFileMultiUpload = ({ input, form, isSubmitting }: Props) => {
     setDragOver(false);
   };
 
-  return (
-    <FormField
-      key={input.name}
-      control={form.control}
-      name={input.name}
-      render={({ field, fieldState }) => {
-        const isValid = !fieldState.error && files.length > 0;
+  const formField = <FormField
+    key={input.name}
+    control={form.control}
+    name={input.name}
+    render={({ field, fieldState }) => {
+      const isValid = !fieldState.error && files.length > 0;
 
-        return (
-          <FormItem className={input.className}>
-            <FormLabel><b>{input.label}</b></FormLabel>
+      return (
+        <FormItem className={input.className}>
+          <FormLabel><b>{input.label}</b></FormLabel>
 
-            <FormControl>
-              <div
+          <FormControl>
+            <div
+              ref={inputRef}
+              onClick={() => inputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); } }
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              className={cn(
+                "w-full h-40 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all duration-200",
+                dragOver ? "border-blue-500 bg-blue-50" : "border-gray-400 bg-gray-50",
+                isSubmitting && "opacity-50 cursor-not-allowed"
+              )}
+            >
+              <Upload className="w-10 h-10 text-gray-500 mb-2" />
+              <span className="text-gray-600 text-sm text-center px-2">
+                {files.length === 0
+                  ? "Arrastra tus archivos aquí o haz click para seleccionar"
+                  : `${files.length} archivo(s) seleccionados`}
+              </span>
+              <input
                 ref={inputRef}
-                onClick={() => inputRef.current?.click()}
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={handleDrop}
-                className={cn(
-                  "w-full h-40 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all duration-200",
-                  dragOver ? "border-blue-500 bg-blue-50" : "border-gray-400 bg-gray-50",
-                  isSubmitting && "opacity-50 cursor-not-allowed"
-                )}
-              >
-                <Upload className="w-10 h-10 text-gray-500 mb-2" />
-                <span className="text-gray-600 text-sm text-center px-2">
-                  {files.length === 0 
-                    ? "Arrastra tus archivos aquí o haz click para seleccionar" 
-                    : `${files.length} archivo(s) seleccionados`}
-                </span>
-                <input
-                  ref={inputRef}
-                  type="file"
-                  multiple
-                  className="hidden"
-                  disabled={input.disabled || isSubmitting}
-                  onChange={handleFileSelect}
-                />
-              </div>
-            </FormControl>
+                type="file"
+                multiple
+                className="hidden"
+                disabled={input.disabled || isSubmitting}
+                onChange={handleFileSelect} />
+            </div>
+          </FormControl>
 
-            {/* Lista de archivos seleccionados */}
-            {files.length > 0 && (
-              <ul className="mt-2 max-h-40 overflow-y-auto border rounded-md p-2 bg-white">
-                {files.map((f, idx) => (
-                  <li key={idx} className="flex justify-between items-center py-1 px-2 rounded hover:bg-gray-100">
-                    <span className="truncate">{f.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const filtered = files.filter((_, i) => i !== idx);
-                        setFiles(filtered);
-                        form.setValue(input.name, filtered);
-                      }}
-                      className="text-red-500 hover:text-red-700 text-sm"
-                    >
-                      Eliminar
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+          {/* Lista de archivos seleccionados */}
+          {files.length > 0 && (
+            <ul className="mt-2 max-h-40 overflow-y-auto border rounded-md p-2 bg-white">
+              {files.map((f, idx) => (
+                <li key={idx} className="flex justify-between items-center py-1 px-2 rounded hover:bg-gray-100">
+                  <span className="truncate">{f.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const filtered = files.filter((_, i) => i !== idx);
+                      setFiles(filtered);
+                      form.setValue(input.name, filtered);
+                    } }
+                    className="text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Eliminar
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
 
-            {input.description && <FormDescription>{input.description}</FormDescription>}
+          {input.description && <FormDescription>{input.description}</FormDescription>}
 
-            {autoValidate && (
-              <div className="mt-1">
-                {isSubmitting
-                  ? iconLoadingState
-                  : isValid
+          {autoValidate && (
+            <div className="mt-1">
+              {isSubmitting
+                ? iconLoadingState
+                : isValid
                   ? iconValidState
                   : iconInvalidState}
-              </div>
-            )}
+            </div>
+          )}
 
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
-  );
+          <FormMessage />
+        </FormItem>
+      );
+    } } />;
+
+  return <>{formField}</>;
+  
 };

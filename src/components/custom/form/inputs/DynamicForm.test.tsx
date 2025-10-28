@@ -5,7 +5,7 @@ import { DynamicForm } from './DynamicForm';
 
 describe('DynamicForm', () => {
   it('renders and shows submit button', () => {
-    render(<DynamicForm fields={[]} record={{}} onSubmit={vi.fn()} />);
+    render(<DynamicForm formTitle="Title Form" fields={[]} record={{}} onSubmit={vi.fn()} />);
     const button = screen.getByRole('button', { name: /enviar/i });
     expect(button).toBeInTheDocument();
   });

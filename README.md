@@ -58,6 +58,7 @@ export default function Home() {
 
   return (
     <DynamicForm
+      formTitle="Title Form"
       fields={mockFields}
       record={record}
       onSubmit={(data) => console.log("📤 Resultado final:", data)}

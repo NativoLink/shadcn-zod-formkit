@@ -34,7 +34,7 @@ export const FileForm = () => {
     label: "Imagen de perfil",
     inputType: InputTypes.FILE,
     required: true,
-    zodTypeAny: z
+    zodType: z
       .any()
       .refine(
         (file) => {
@@ -59,6 +59,7 @@ export const FileForm = () => {
       </div>
       <div className="w-full  bg-neutral-50/90 rounded-lg p-2">
         <DynamicForm
+        formTitle="Title Form"
         fields={mockFields}
         record={record}
         onSubmit={(data: any) => console.log("📤 Resultado final:", data)}

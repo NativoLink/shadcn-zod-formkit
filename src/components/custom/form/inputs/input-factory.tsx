@@ -27,6 +27,7 @@ import {
 import { JSX } from "react";
 import z, { ZodObject, ZodTypeAny } from "zod";
 import { AccordionGroupedSwitchInput } from "./types/accordion-grouped-switches";
+import { Card } from '@/src/components/ui/card';
 
 
 type InputClassConstructor = new (
@@ -81,7 +82,12 @@ export class InputFactory {
 
     const InputClass = inputMap[inputType] ?? TextInput;
     const instance = new InputClass(input, form, isSubmitting);
-    return instance.render()
+    if (!input.wrapInCard) return instance.render();
+    return (
+      <Card className="p-4 space-y-3">
+        {instance.render()}
+      </Card>
+      )
   }
 }
 
@@ -127,14 +133,26 @@ export function getDefaultValues<T extends Record<string, any>>(entity: T): Reco
 }
 
 
-export const getDynamicSchema = (fields: Array<FieldProps | FieldProps[]>): ZodObject<any> => {
+export const getDynamicSchema = (
+  fields: Array<FieldProps | FieldProps[]>,
+  extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[]
+): ZodObject<any> => {
 
   const flatFields: FieldProps[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
   const shape: Record<string, ZodTypeAny> = {};
 
   flatFields.forEach(f => {
-    shape[f.name] = f.zodTypeAny ?? z.any();
+    shape[f.name] = f.zodType ?? z.any();
   });
 
-  return z.object(shape);
+  let schema = z.object(shape);
+
+  // Aplica validaciones extra opcionales
+  if (extraValidations && extraValidations.length > 0) {
+    extraValidations.forEach(fn => {
+      schema = fn(schema);
+    });
+  }
+
+  return schema;
 };

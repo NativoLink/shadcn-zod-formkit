@@ -14,6 +14,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/
 import { FieldProps } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
+import { Card } from "@/src/components/ui/card";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
@@ -48,71 +49,69 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
     return !fieldState.error && value !== undefined && value !== "";
   });
 
-  return (
-    <FormField
-      key={input.name}
-      control={form.control}
-      name={input.name}
-      render={({ field, fieldState }) => {
-        // Actualiza validez dinámicamente
-        const validNow =
-          !fieldState.error && field.value !== undefined && field.value !== "";
-        if (validNow !== isValid) setIsValid(validNow);
+  const formField = <FormField
+    key={input.name}
+    control={form.control}
+    name={input.name}
+    render={({ field, fieldState }) => {
+      // Actualiza validez dinámicamente
+      const validNow = !fieldState.error && field.value !== undefined && field.value !== "";
+      if (validNow !== isValid) setIsValid(validNow);
 
-        return (
-          <FormItem className={input.className}>
-            <FormLabel><b>{input.label}</b></FormLabel>
-            <FormControl className="shadow-lg">
-              <InputGroup>
+      return (
+        <FormItem className={input.className}>
+          <FormLabel><b>{input.label}</b></FormLabel>
+          <FormControl className="shadow-lg">
+            <InputGroup>
 
-                {/* Iconos izquierda */}
-                {(iconsLeft.length > 0 || textLeft) && (
-                  <InputGroupAddon>
-                    {textLeft && <InputGroupText>{textLeft}</InputGroupText>}
-                    {iconsLeft.map((IconComponent, index) => (
-                      <IconComponent key={index} size={20} />
-                    ))}
-                  </InputGroupAddon>
-                )}
+              {/* Iconos izquierda */}
+              {(iconsLeft.length > 0 || textLeft) && (
+                <InputGroupAddon>
+                  {textLeft && <InputGroupText>{textLeft}</InputGroupText>}
+                  {iconsLeft.map((IconComponent, index) => (
+                    <IconComponent key={index} size={20} />
+                  ))}
+                </InputGroupAddon>
+              )}
 
-                {/* Input principal */}
-                <InputGroupInput
-                  placeholder={input.placeHolder}
-                  disabled={input.disabled || isSubmitting}
-                  {...field}
-                  type={input.keyboardType}
-                />
+              {/* Input principal */}
+              <InputGroupInput
+                placeholder={input.placeHolder}
+                disabled={input.disabled || isSubmitting}
+                {...field}
+                type={input.keyboardType} />
 
-                {/* Iconos derecha */}
-                {(iconsRight.length > 0 || textRight || autoValidate) && (
-                  <InputGroupAddon align="inline-end">
-                    {textRight && <InputGroupText>{textRight}</InputGroupText>}
-                    {iconsRight.map((IconComponent, index) => (
-                      <IconComponent key={index} size={20} />
-                    ))}
+              {/* Iconos derecha */}
+              {(iconsRight.length > 0 || textRight || autoValidate) && (
+                <InputGroupAddon align="inline-end">
+                  {textRight && <InputGroupText>{textRight}</InputGroupText>}
+                  {iconsRight.map((IconComponent, index) => (
+                    <IconComponent key={index} size={20} />
+                  ))}
 
-                    {/* Icono de validación / loading */}
-                    {autoValidate && (
-                      <div>
-                        {isSubmitting
-                          ? iconLoadingState
-                          : isValid
+                  {/* Icono de validación / loading */}
+                  {autoValidate && (
+                    <div>
+                      {isSubmitting
+                        ? iconLoadingState
+                        : isValid
                           ? iconValidState
                           : iconInvalidState}
-                      </div>
-                    )}
-                  </InputGroupAddon>
-                )}
+                    </div>
+                  )}
+                </InputGroupAddon>
+              )}
 
-              </InputGroup>
-            </FormControl>
+            </InputGroup>
+          </FormControl>
 
-            {/* Descripción */}
-            {input.description && <FormDescription>{input.description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
-  );
+          {/* Descripción */}
+          {input.description && <FormDescription>{input.description}</FormDescription>}
+          <FormMessage />
+        </FormItem>
+      );
+    } } />;
+    
+  return <>{formField}</>;
+
 };

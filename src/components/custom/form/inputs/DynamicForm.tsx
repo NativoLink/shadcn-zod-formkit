@@ -1,15 +1,17 @@
 "use client";
 
-import { startTransition, useEffect, useMemo, useTransition } from "react";
+import { useEffect, useMemo, useTransition } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 
 
 import { FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema, InputFactory } from "./input-factory";
 import { FormErrorsAlert } from "./base/form-errors";
-import { Button, Card, CardContent, Form } from "@/src/components/ui";
+import { Button, Card, CardContent, CardHeader, CardTitle, Form } from "@/src/components/ui";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, Settings } from "lucide-react";
+import { ZodObject } from "zod";
+
 
 type alertPositionType = 'up' | 'down'
 
@@ -20,9 +22,13 @@ interface formResp  {
   data: any
 }
 interface Props {
+  formTitle: string;
+  formSubTitle?: string;
+
   fields: Array<FieldProps|FieldProps[]>;
   record?: Record<string, any>;
   onSubmit?: (formResp: formResp) => void;
+  extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[];
 
   withErrorsAlert?: boolean
   errorAlertPosition?: alertPositionType
@@ -33,9 +39,12 @@ interface Props {
 }
 
 export const DynamicForm = ({ 
+  formTitle,
+  formSubTitle,
   fields,
   record = {},
   onSubmit,
+  extraValidations,
   withCard = false,
   withErrorsAlert = true,
   errorAlertPosition = 'up',
@@ -46,7 +55,7 @@ export const DynamicForm = ({
   const [isPending, startTransition] = useTransition()
 
   // ✅ Genera el schema usando la función dinámica
-  const schema = useMemo(() => getDynamicSchema(fields), [fields]);
+  const schema = useMemo(() => getDynamicSchema(fields, extraValidations), [fields, extraValidations]);
 
   // ✅ Obtiene los valores por defecto según la entidad
   const defaultValues = useMemo(() => getDefaultValues(record), [record]);
@@ -77,7 +86,12 @@ export const DynamicForm = ({
   };
 
   const formContent = (
-    <>
+    <div>
+      
+      <CardTitle className="flex  items-center gap-2 p-2 border-b">
+        <Settings className="h-5 w-5" />
+        {formTitle}
+      </CardTitle>
       { (withErrorsAlert && errorAlertPosition == 'up') && (<FormErrorsAlert formState={form.formState} fields={fields}/>)}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
@@ -122,7 +136,7 @@ export const DynamicForm = ({
       { (withErrorsAlert && errorAlertPosition == 'down') && (
         <FormErrorsAlert formState={form.formState} fields={fields}/>
       )}
-    </>
+    </div>
   ) 
 
   if (!withCard) return formContent

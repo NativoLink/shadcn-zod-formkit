@@ -11,71 +11,70 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { BaseInput } from "../base"
 import { JSX } from "react"
 import { cn } from '@/src/lib/utils';
+import { Card } from "@/src/components/ui/card"
 
 
 export class DateInput extends BaseInput {
   render(): JSX.Element {
     const { input, form, isSubmitting } = this;
-    return (
-      <FormField
-        key={input.name}
-        control={form.control}
-        name={input.name}
-        render={({ field }) => {
-          // 🔑 Inicializa el estado con el valor actual del formulario (si existe)
-          const [date, setDate] = React.useState<Date | undefined>(
-            field.value ? new Date(field.value) : undefined
-          )
+    
+    const formField = <FormField
+      key={input.name}
+      control={form.control}
+      name={input.name}
+      render={({ field }) => {
+        // 🔑 Inicializa el estado con el valor actual del formulario (si existe)
+        const [date, setDate] = React.useState<Date | undefined>(
+          field.value ? new Date(field.value) : undefined
+        )
 
-          // 🔑 Sincroniza el estado con el form cuando cambie
-          React.useEffect(() => {
-            if (field.value && !date) {
-              setDate(new Date(field.value))
-            }
-          }, [field.value])
-
-          const handleSelect = (selectedDate?: Date) => {
-            setDate(selectedDate)
-            field.onChange(selectedDate) // <-- Actualiza el form
+        // 🔑 Sincroniza el estado con el form cuando cambie
+        React.useEffect(() => {
+          if (field.value && !date) {
+            setDate(new Date(field.value))
           }
+        }, [field.value])
 
-          return (
-            <FormItem >
-              <FormLabel><b>{input.label}</b></FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  {/* <div className="flex flex-col justify-start gap-2 "> */}
-                  <FormControl>
+        const handleSelect = (selectedDate?: Date) => {
+          setDate(selectedDate)
+          field.onChange(selectedDate) // <-- Actualiza el form
+        }
 
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                      )}
-                      >
-                      <CalendarIcon />
-                      {date ? format(date, "PPP") : <span>{input.placeHolder ?? 'Fecha'}</span>}
-                    </Button>
-                  </FormControl>
-                    {/* </div> */}
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={handleSelect}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormDescription>{input.description}</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )
-        }}
-      />
-    )
+        return (
+          <FormItem>
+            <FormLabel><b>{input.label}</b></FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                {/* <div className="flex flex-col justify-start gap-2 "> */}
+                <FormControl>
+
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>{input.placeHolder ?? 'Fecha'}</span>}
+                  </Button>
+                </FormControl>
+                {/* </div> */}
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={handleSelect}
+                  initialFocus />
+              </PopoverContent>
+            </Popover>
+            <FormDescription>{input.description}</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )
+      } } />
+  return <>{formField}</>;
   }
 }
 

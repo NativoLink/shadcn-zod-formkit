@@ -51,13 +51,8 @@ const FieldTags = ({ input, form, isSubmitting }: Props): JSX.Element => {
       </FormItem>
     )} />;
 
-  if (!input.wrapInCard) return <>{formField}</>;
+  return <>{formField}</>;
   
-  return (
-    <Card className="p-4 space-y-3">
-      {formField}
-    </Card>
-  )
 }
 
 

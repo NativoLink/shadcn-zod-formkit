@@ -30,7 +30,7 @@ export interface FieldProps {
   value?: any
   min?: number,
   max?: number,
-  zodTypeAny?: ZodTypeAny;
+  zodType?: ZodTypeAny;
   
   list?: any[]
   dependsOn?: string // Nombre del campo del que depende este campo

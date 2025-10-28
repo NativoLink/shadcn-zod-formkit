@@ -96,7 +96,7 @@ export const AccordionGroupForm = () => {
       autoValidIcons: true,
       iconsLeft: [User]
     },
-    zodTypeAny: z
+    zodType: z
       .string()
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(20, "El nombre no puede tener más de 20 caracteres") ,
@@ -124,6 +124,7 @@ export const AccordionGroupForm = () => {
         <CodeExample code={rawCodeAccordionGroupForm} language="javascript" />
       </div>
         <DynamicForm
+        formTitle="Title Form"
         withCard
         fields={mockFields}
         record={record}

@@ -13,7 +13,7 @@ export const FormErrorsAlert = <T extends FieldValues,>({formState, fields}: Pro
 
   const flatFields: FieldProps[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
   return (
-    <>
+    <div style={{marginTop:4}}>
     { Object.entries(formState.errors).length > 0 && (
       <CustomAlert 
       title="Revisar los siguientes criterios" 
@@ -28,7 +28,7 @@ export const FormErrorsAlert = <T extends FieldValues,>({formState, fields}: Pro
       </ul>}
       className="mb-4" 
       variant="error" />)}
-    </>
+    </div>
   )
 }
 
