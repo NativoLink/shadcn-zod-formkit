@@ -18,9 +18,11 @@ export enum InputTypes {
   FORM = "form",
   COLOR = "color",
   RADIO_GROUP = "radio_group",
+  TAGS = "tags",
 }
 
 export const inputFieldComp = [
+  InputTypes.TAGS,
   InputTypes.RADIO_GROUP,
   InputTypes.TEXT_GROUP,
   InputTypes.ACCORDION_GROUPED_SWITCH_LIST,

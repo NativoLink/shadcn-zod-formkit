@@ -23,11 +23,12 @@ import {
 
 export class AccordionGroupedSwitchInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this
+    const { input, form, isSubmitting } = this
     return (
       <AccordionGroupedSwitches
         form={form}
         input={input}
+        isSubmitting={isSubmitting}
         groups={(input?.listConfig?.list as GroupedOption[]) ?? []}
         onChange={input?.listConfig?.onOptionChange ?? (() => {})}
       />
@@ -38,13 +39,14 @@ export class AccordionGroupedSwitchInput extends BaseInput {
 /* ========= COMPONENTE ========= */
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
-  groups?: GroupedOption[]
+  form: UseFormReturn;
+  input: FieldProps;
+  groups?: GroupedOption[];
+  isSubmitting?: boolean;
   onChange?: (optionsUpdated: InputOption[]) => void
 }
 
-export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange }: Props) => {
+export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange, isSubmitting }: Props) => {
   const [groupsState, setGroupsState] = useState<GroupedOption[]>([])
   const [selectedOptions, setSelectedOptions] = useState<InputOption[]>([])
 
@@ -109,6 +111,7 @@ export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange }:
                     </AccordionTrigger>
                     <AccordionContent>
                       <GroupedSwitches
+                        isSubmitting={isSubmitting}
                         input={input}
                         options={group.options}
                         onChange={(updated: InputOption[]) =>

@@ -15,10 +15,10 @@ import { UseFormReturn } from "react-hook-form";
 
 export class CheckboxInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
+    const { input, form, isSubmitting } = this;
 
     return (
-      <FieldCheckbox form={form} input={input} />
+      <FieldCheckbox form={form} input={input} isSubmitting={isSubmitting} />
     );
   }
 }
@@ -27,10 +27,10 @@ export class CheckboxInput extends BaseInput {
 interface Props {
   form: UseFormReturn;
   input: FieldProps;
-  isSubmitting?: boolean; // estado submit externo opcional
+  isSubmitting?: boolean;
 }
 
-const FieldCheckbox = ({ input, form }: Props) => {
+const FieldCheckbox = ({ input, form, isSubmitting }: Props) => {
   const className = input.className;
   return (
     <FormField
@@ -51,7 +51,7 @@ const FieldCheckbox = ({ input, form }: Props) => {
                 id={input.name}
                 checked={field.value}
                 onCheckedChange={field.onChange}
-                disabled={input.disabled}
+                disabled={input.disabled || isSubmitting}
                 className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white 
                   dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
               />

@@ -83,16 +83,17 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
 ## 📚 Field Types ( InputTypes ) Avaible
   | Types                    | Use                            |
   | -------------------------|:-------------------------------:
-  | **Text**                 |  `InputTypes.TEXT_GROUP`          | 
-  | **Color Picker**         |  `InputTypes.COLOR`               | 
-  | **Switch**               |  `InputTypes.SWITCH`              | 
-  | **Checkbox**             |  `InputTypes.CHECKBOX`            | 
-  | **Date Picker**          |  `InputTypes.DATE`                | 
-  | **Select**               |  `InputTypes.SELECT`              | 
-  | **OTP Code**             |  `InputTypes.OTP`                 | 
-  | **Upload File**          |  `InputTypes.FILE`                | 
-  | **Checkbox List**        |  `InputTypes.SIMPLE_CHECK_LIST`   | 
-  | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST` | 
+  | **Text**                 |  `InputTypes.TEXT_GROUP`           | 
+  | **Color Picker**         |  `InputTypes.COLOR`                | 
+  | **Switch**               |  `InputTypes.SWITCH`               | 
+  | **Checkbox**             |  `InputTypes.CHECKBOX`             | 
+  | **Date Picker**          |  `InputTypes.DATE`                 | 
+  | **Select**               |  `InputTypes.SELECT`               | 
+  | **OTP Code**             |  `InputTypes.OTP`                  | 
+  | **Upload File**          |  `InputTypes.FILE`                 | 
+  | **Checkbox List**        |  `InputTypes.SIMPLE_CHECK_LIST`    | 
+  | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST`  | 
+  | **Radio Group**          |  `InputTypes.RADIO_GROUP`          | 
 
 
 ## ✅ Features

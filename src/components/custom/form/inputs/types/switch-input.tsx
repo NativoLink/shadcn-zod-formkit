@@ -9,19 +9,20 @@ import { UseFormReturn } from "react-hook-form";
 
 export class SwitchInput extends BaseInput {
   render(): JSX.Element {
-  const { input, form } = this;
+  const { input, form, isSubmitting } = this;
     return (
-      <FieldSwitch input={input} form={form}/>
+      <FieldSwitch input={input} form={form} isSubmitting={isSubmitting} />
     )
   }
 }
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
+  form: UseFormReturn;
+  input: FieldProps;
+  isSubmitting?: boolean;
 }
 
-const FieldSwitch = ({ input, form }: Props): JSX.Element => {
+const FieldSwitch = ({ input, form, isSubmitting }: Props): JSX.Element => {
   const className = input.className
   return (<FormField
     key={input.name}
@@ -37,7 +38,10 @@ const FieldSwitch = ({ input, form }: Props): JSX.Element => {
             <FormMessage />
           </div>
           <FormControl>
-            <Switch checked={field.value} onCheckedChange={field.onChange} aria-disabled disabled={input.disabled} />
+            <Switch checked={field.value} 
+              onCheckedChange={field.onChange} 
+              aria-disabled 
+              disabled={input.disabled || isSubmitting} />
           </FormControl>
         </FormItem>
       </Card>

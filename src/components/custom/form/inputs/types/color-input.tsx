@@ -21,9 +21,9 @@ import { BaseInput, FieldProps } from "../base"
 
 export class ColorInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
+    const { input, form, isSubmitting } = this;
     return (
-      <FieldColor input={input} form={form} />
+      <FieldColor input={input} form={form} isSubmitting={isSubmitting} />
     )
   }
 }
@@ -31,11 +31,12 @@ export class ColorInput extends BaseInput {
 type HideInputOption = "rgb" | "hsv" | "hex";
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
+  form: UseFormReturn;
+  input: FieldProps;
+  isSubmitting?: boolean;
 }
 
-const FieldColor = ({ form, input }: Props) => {
+const FieldColor = ({ form, input, isSubmitting }: Props) => {
   const [ColorCmp, _setColorCmp] = useState<any>(ColorComp)
   return (
     <FormField
@@ -50,7 +51,7 @@ const FieldColor = ({ form, input }: Props) => {
                 value={field.value || "#000000"}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
-                disabled={input.disabled}
+                disabled={input.disabled || isSubmitting}
                 placeholder={input.placeHolder}
               />
             ) : (
@@ -59,7 +60,7 @@ const FieldColor = ({ form, input }: Props) => {
                 value={field.value || "#000000"}
                 onChange={(e) => field.onChange(e.target.value)}
                 onBlur={() => field.onBlur()}
-                disabled={input.disabled}
+                disabled={input.disabled || isSubmitting}
                 placeholder={input.placeHolder}
                 style={{ width: 48, height: 28 }}
               />

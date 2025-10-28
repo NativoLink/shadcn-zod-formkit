@@ -15,7 +15,7 @@ import { cn } from '@/src/lib/utils';
 
 export class DateInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
+    const { input, form, isSubmitting } = this;
     return (
       <FormField
         key={input.name}

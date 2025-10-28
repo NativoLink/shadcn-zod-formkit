@@ -9,28 +9,13 @@ export class NumberInput extends BaseInput {
   render(): JSX.Element {
     const { input, form, isSubmitting } = this;
     return (<FieldNumber  form={form} input={input} isSubmitting={isSubmitting}/>)
-    // <FormField
-    //   key={input.name}
-    //   control={form.control}
-    //   name={input.name}
-    //   render={({ field }) => (
-    //     <FormItem >
-    //       <FormLabel><b>{input.label}</b></FormLabel>
-    //       <FormControl>
-    //         <Input className="min-w-[180px] bg-white" placeholder={input.placeHolder} {...field} type="number"  disabled={input.disabled}/>
-    //       </FormControl>
-    //       <FormDescription>{input.description}</FormDescription>
-    //       <FormMessage />
-    //     </FormItem>
-    //   )}
-    // />
   }
 }
 
 interface Props {
   form: UseFormReturn;
   input: FieldProps;
-  isSubmitting?: boolean; // estado submit externo opcional
+  isSubmitting?: boolean;
 }
 
 const FieldNumber = ({form, input, isSubmitting}:Props) => {

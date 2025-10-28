@@ -9,13 +9,14 @@ import { cn } from "@/src/lib/utils";
 
 export class SimpleCheckListInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
+    const { input, form, isSubmitting } = this;
     return (
       <FormField
         control={form.control}
         name={input.name}
         render={({ field }) => (
           <FieldSimpleCheckList
+            isSubmitting={isSubmitting}
             input={input}
             value={field.value || []}
             onChange={field.onChange}
@@ -29,10 +30,11 @@ export class SimpleCheckListInput extends BaseInput {
 interface Props {
   input: FieldProps;
   value: InputOption[];
+  isSubmitting?: boolean;
   onChange: (value: InputOption[]) => void;
 }
 
-export const FieldSimpleCheckList = ({ input, value, onChange }: Props) => {
+export const FieldSimpleCheckList = ({ input, value, onChange, isSubmitting }: Props) => {
   const mockInputOptions: InputOption[] = [
     { id: 1, name: "MOCK OPTION - CREATE", checked: false },
     { id: 2, name: "MOCK OPTION - READ", checked: true },
@@ -88,6 +90,7 @@ export const FieldSimpleCheckList = ({ input, value, onChange }: Props) => {
             )}
           >
             <Checkbox
+              disabled={input.disabled || isSubmitting}
               id={String(opt.id)}
               checked={opt.checked || false}
               onCheckedChange={(checked) => handleChildToggle(opt, checked as boolean)} />

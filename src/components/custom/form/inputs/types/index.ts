@@ -11,6 +11,7 @@ export * from './radio-group-input';
 export * from './select-input';
 export * from './simple-check-list-input';
 export * from './switch-input';
+export * from './tags-input';
 export * from './text-area-input';
 export * from './text-input-group';
 export * from './text-input';

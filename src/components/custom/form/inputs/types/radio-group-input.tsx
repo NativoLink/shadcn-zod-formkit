@@ -1,6 +1,6 @@
 'use client'
 import { BaseInput, FieldProps, InputOption } from "../base";
-import { Card, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Label, RadioGroup, RadioGroupItem, Switch } from "@/src/components/ui";
+import { Card, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Label, RadioGroup, RadioGroupItem } from "@/src/components/ui";
 import { cn } from "@/src/lib/utils";
 import { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -10,19 +10,20 @@ import { UseFormReturn } from "react-hook-form";
 
 export class RadioGroupInput extends BaseInput {
   render(): JSX.Element {
-  const { input, form } = this;
+  const { input, form, isSubmitting } = this;
     return (
-      <FieldRadioGroup input={input} form={form}/>
+      <FieldRadioGroup input={input} form={form} isSubmitting={isSubmitting}/>
     )
   }
 }
 
 interface Props {
   form: UseFormReturn
-  input: FieldProps
+  input: FieldProps,
+  isSubmitting?: boolean;
 }
 
-const FieldRadioGroup = ({ input, form }: Props): JSX.Element => {
+const FieldRadioGroup = ({ input, form, isSubmitting }: Props): JSX.Element => {
   const mockInputOptions: InputOption[] = [
     { id: 1, name: "A+", value: "A+"  },
     { id: 2, name: "A-", value: "A-"  },
@@ -46,6 +47,7 @@ const FieldRadioGroup = ({ input, form }: Props): JSX.Element => {
           <FormLabel className="font-semibold">
             {input.label || input.name}
           </FormLabel>
+          {input.description && <FormDescription>{input.description}</FormDescription>}
         </div>
 
         <FormControl>
@@ -64,6 +66,7 @@ const FieldRadioGroup = ({ input, form }: Props): JSX.Element => {
                 )}
               >
                 <RadioGroupItem
+                  disabled={input.disabled || isSubmitting}
                   value={opt.value ??  String(opt.id)}
                   id={`opt-${opt.id}`} />
                 <Label htmlFor={`opt-${opt.id}`}>

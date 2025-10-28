@@ -18,6 +18,7 @@ export default function FormBasics() {
     bloodType: "",
     otpCode: "",
     notifications: [],
+    tags: [] as string[],
   };
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
@@ -67,6 +68,12 @@ export default function FormBasics() {
     description:'This is a description',
     inputType: InputTypes.RADIO_GROUP,
     zodTypeAny: z.string(validationMessages.required).min(1, "Selecciona un tipo de sangre"),
+  },
+  {
+    name: "tags",
+    label: "Tags",
+    inputType: InputTypes.TAGS,
+    zodTypeAny: z.array(z.string()),
   },
   {
     name: "isActive",

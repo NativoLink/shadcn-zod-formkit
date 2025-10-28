@@ -10,17 +10,18 @@ import { JSX } from "react"
 
 export class FileInput extends BaseInput {
   render(): JSX.Element {
-    const { input, form } = this;
-    return ( <FieldFile input={input} form={form}/> )
+    const { input, form, isSubmitting } = this;
+    return ( <FieldFile input={input} form={form} isSubmitting={isSubmitting} /> )
   }
 }
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
+  form: UseFormReturn;
+  input: FieldProps;
+  isSubmitting?: boolean;
 }
 
-const FieldFile = ({ form, input }: Props) => {
+const FieldFile = ({ form, input, isSubmitting }: Props) => {
   const [preview, setPreview] = useState<string | null>(form.getValues(input.name) ?? null)
   const [showPreview, setShowPreview] = useState<boolean>(input.fileConfig?.showPreview ?? false)
   
@@ -63,7 +64,7 @@ const FieldFile = ({ form, input }: Props) => {
                 multiple={multiple}
                 placeholder={input.placeHolder}
                 name={field.name}
-                disabled={input.disabled}
+                disabled={input.disabled || isSubmitting}
                 onChange={(e) => {field.onChange(e.target.files?.[0]); handleFileChange(e)}} 
               />
             </FormControl>

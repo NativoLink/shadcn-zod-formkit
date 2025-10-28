@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, Checkbox, Label } from '@/src
 
 export class CheckListInput extends BaseInput {
   render(): JSX.Element {
-    const { input } = this;
+    const { input, isSubmitting } = this;
     const listConfig = input?.listConfig
   // export const InputCheckList = ({input, onCheckedChange, title}:Props) => {
     let lista = listConfig?.list ?? []
@@ -33,6 +33,7 @@ export class CheckListInput extends BaseInput {
         {lista.map((item) => ( 
           <div key={item[optionValue as keyof typeof item] as React.Key} className="flex items-center space-x-2">
             <Checkbox
+              disabled={input.disabled || isSubmitting}
               id={String(item[optionValue as keyof typeof item])}
               checked={value.includes(item[optionValue as keyof typeof item] as string)}
               onCheckedChange={() => {/* onCheckedChange(item[optionValue as keyof typeof item]) */}}

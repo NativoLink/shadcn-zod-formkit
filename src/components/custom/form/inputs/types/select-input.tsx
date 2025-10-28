@@ -21,17 +21,18 @@ import { UseFormReturn } from "react-hook-form";
 export class SelectInput extends BaseInput {
   
   render() {
-    const { input, form } = this;
-    return ( <FieldSelect input={input} form={form} /> );
+    const { input, form, isSubmitting } = this;
+    return ( <FieldSelect input={input} form={form} isSubmitting={isSubmitting} /> );
   }
 }
 
 interface Props {
-  form: UseFormReturn
-  input: FieldProps
+  form: UseFormReturn;
+  input: FieldProps;
+  isSubmitting?: boolean;
 }
 
-const FieldSelect = ({ form, input }: Props) => {
+const FieldSelect = ({ form, input, isSubmitting }: Props) => {
   const mockInputOptions:InputOption[] = [
       { id: 1, name: 'MOCK OPTION - PERMISO 1', checked: false },
       { id: 2, name: 'MOCK OPTION - PERMISO 2', checked: true },
@@ -64,7 +65,11 @@ const FieldSelect = ({ form, input }: Props) => {
             <FormMessage />
           </div>
           <FormControl>
-            <Select onValueChange={field.onChange} defaultValue={value.toString()} value={field.value?.toString() ?? value.toString()}>
+            <Select 
+              disabled={input.disabled || isSubmitting}
+              onValueChange={field.onChange} 
+              defaultValue={value.toString()} 
+              value={field.value?.toString() ?? value.toString()}>
               <FormControl>
                 <SelectTrigger className="w-[60%] bg-black/10 dark:bg-white/25">
                   <SelectValue placeholder={input.placeHolder} />

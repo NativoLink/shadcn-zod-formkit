@@ -16,6 +16,7 @@ import {
   CheckboxInput,
   SimpleCheckListInput,
   RadioGroupInput,
+  TagInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -50,7 +51,8 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   // [InputTypes.SWITCH_LIST]: SwitchListInput, //ToDo:
   [InputTypes.TEXTAREA]: TextAreaInput,
   [InputTypes.FORM]: TextInput, //ToDo:
-  [InputTypes.RADIO_GROUP]: RadioGroupInput, //ToDo:
+  [InputTypes.RADIO_GROUP]: RadioGroupInput,
+  [InputTypes.TAGS]: TagInput,
 };
 
 export class InputFactory {

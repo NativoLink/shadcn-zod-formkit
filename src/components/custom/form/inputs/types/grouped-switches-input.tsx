@@ -15,20 +15,21 @@ import { cn } from "@/src/lib/utils";
 // export const GroupedSwitches = ({ options, onChange, }: Props) => {
 export class GroupedSwitchInput extends BaseInput {
   render(): JSX.Element {
-    const { input } = this;
+    const { input, isSubmitting } = this;
     return (
-      <GroupedSwitches options={[]} input={input}/>
+      <GroupedSwitches options={[]} input={input} isSubmitting={isSubmitting} />
     )
   }
 }
 
 interface Props {
-  input: FieldProps,
-  options?: InputOption[]
+  input: FieldProps;
+  options?: InputOption[];
+  isSubmitting?: boolean;
   onChange?: (optionsUpdated: InputOption[]) => void
 }
 
-export const GroupedSwitches = ({ options, onChange, input}: Props) => {
+export const GroupedSwitches = ({ options, onChange, input, isSubmitting}: Props) => {
 
   const mockInputOptions:InputOption[] = [
     { id: 1, name: 'MOCK OPTION - CREATE', checked: false },
@@ -76,6 +77,7 @@ export const GroupedSwitches = ({ options, onChange, input}: Props) => {
           <div key={opt.id} className={`p-2 rounded-lg flex flex-row w-full items-center justify-between ${!(index % 2 )? 'bg-black/5' : 'bg-white/5'}`}>
             <Label htmlFor={String(opt.id)}>{opt.label || opt.name}</Label>
             <Switch
+              disabled={input.disabled || isSubmitting}
               id={String(opt.id)}
               checked={opt?.checked || false}
               onCheckedChange={checked => handleChildToggle(opt, checked)}
