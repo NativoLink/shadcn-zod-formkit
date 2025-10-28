@@ -1,4 +1,5 @@
 export * from './accordion-grouped-switches';
+export * from './button-group-input';
 export * from './check-list-input';
 export * from './checkbox-input';
 export * from './color-input';

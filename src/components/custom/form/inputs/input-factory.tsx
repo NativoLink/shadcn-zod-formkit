@@ -21,6 +21,7 @@ import {
   TimeInput,
   FileMultiUploadInput,
   SliderInput,
+  ButtonGroupInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -57,6 +58,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.DATE_TIME]: DateTimeInput,
   [InputTypes.TIME]: TimeInput,
   [InputTypes.FILE_MULTI_UPLOAD]: FileMultiUploadInput,
+  [InputTypes.BUTTON_GROUP]: ButtonGroupInput,
   
   
   //ToDos: ============================================================

@@ -23,9 +23,11 @@ export enum InputTypes {
   TIME = "time",
   FILE_MULTI_UPLOAD = "file_multi_upload",
   SLIDER = "slider",
+  BUTTON_GROUP = "button_group",
 }
 
 export const inputFieldComp = [
+  InputTypes.BUTTON_GROUP,
   InputTypes.SLIDER,
   InputTypes.FILE_MULTI_UPLOAD,
   InputTypes.TIME,

@@ -57,7 +57,7 @@ export default function FormBasics() {
       .email("Correo inválido")
       .optional(),
   }],
-  {
+  [{
     name: "password",
     label: "Password",
     inputGroupConfig:{
@@ -81,6 +81,22 @@ export default function FormBasics() {
     inputType: InputTypes.TEXT_GROUP,
     keyboardType: TextInputType.PASSWORD,
     zodType: z.string(validationMessages.required)
+  }],
+
+  {
+    name: "gender",
+    label: "Género",
+    inputType: InputTypes.BUTTON_GROUP,
+    description: "Selecciona tu género",
+    listConfig: {
+      list: [
+        { id:1, name: "Masculino", value: "male" },
+        { id:2, name: "Femenino", value: "female" },
+        { id:3, name: "Otro", value: "other" },
+      ],
+      onOptionChange: (item:any) => {},
+    },
+    zodType: z.string().nonempty("Debes seleccionar una opción")
   },
   {
     wrapInCard: true,

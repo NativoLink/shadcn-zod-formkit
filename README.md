@@ -26,7 +26,7 @@ yarn add shadcn-zod-formkit
  You need installa shadcn basic components
  ```typescript 
  # Add Shadcn Basics
- npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group radio-group slider
+ npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group radio-group slider button-group
  ```
 
 
