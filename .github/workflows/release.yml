@@ -40,8 +40,8 @@ jobs:
 
       - name: 🚀 Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token interno de GitHub Actions
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}        # Tu token de npm (Automation)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "NPM Token: ${#NPM_TOKEN}"
           npx semantic-release
