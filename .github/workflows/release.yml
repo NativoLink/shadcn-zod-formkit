@@ -3,8 +3,9 @@ name: 🚀 Release on Merge to Main
 
 # Se dispara al cerrar pull requests hacia main
 on:
-  pull_request:
-    types: [closed]
+  # pull_request:
+  #   types: [closed]
+  push:
     branches:
       - main
 
