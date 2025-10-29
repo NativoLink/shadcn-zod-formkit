@@ -4,6 +4,7 @@
   "description": "Create dynamic forms easily using React, Zod, React Hook Form, and Shadcn UI.",
   "license": "MIT",
   "author": "Luis A. Rosario <ingluisrosario15@gmail.com>",
+  "publishConfig": { "access": "public" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NativoLink/shadcn-zod-formkit.git"
