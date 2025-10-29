@@ -41,12 +41,13 @@ jobs:
           cat ~/.npmrc
       # 5️⃣ Configurar token de npm manualmente (evita el intento OIDC)
       - name: 🔐 Setup npm auth
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
-          npm whoami || echo "⚠️ Token verificado pero no autenticado todavía"
+          echo "🧩 Creando archivo .npmrc..."
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "📄 Contenido de ~/.npmrc:"
+          cat ~/.npmrc
+          echo "🔢 Longitud del token:"
+          echo "${{ secrets.NPM_TOKEN }}" | wc -c
 
       # 6️⃣ Ejecutar Semantic Release
       - name: 🚀 Run Semantic Release
