@@ -44,6 +44,8 @@ import {
   TextInputType
 } from "shadcn-zod-formkit";
 
+import { Mail, User } from 'lucide-react';
+
 export default function Home() {
   // Record From DB example (User),
   // record is used for define default values
@@ -69,14 +71,26 @@ export default function Home() {
 const mockFields: Array<FieldProps |FieldProps[]> = [
   {
     name: "username",
-    label: "Nombre de usuario",
-    inputType: InputTypes.TEXT,
-    ZodTypeAny: z .string().min(3).max(20),
+    label: "Username",
+    inputType: InputTypes.TEXT_GROUP,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [User]
+    },
+    zodType: z.string().min(3).max(20),
   },
   {
     name: "email",
-    label: "Correo electrónico",
-    inputType: InputTypes.TEXT,
+    label: "Email",
+    inputType: InputTypes.TEXT_GROUP,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Mail],
+    },
+    zodType: z
+      .string()
+      .email("Invalid Email")
+      .optional(),
   },
 ]
 ```
@@ -117,8 +131,8 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   - Combine multiple FieldProps in arrays for grouped fields (like age + color).
 
 ## 🧠 Acknowledgements
-  React - A JavaScript library for building user interfaces.
-  Next.js - The React framework for production.
-  Tailwind CSS - A utility-first CSS framework for creating custom designs.
-  Zod - TypeScript-first schema declaration and validation.
+  - React - A JavaScript library for building user interfaces.
+  - Next.js - The React framework for production.
+  - Tailwind CSS - A utility-first CSS framework for creating custom designs.
+  - Zod - TypeScript-first schema declaration and validation.
 

@@ -1,20 +1,7 @@
-import { z, ZodType, ZodTypeAny } from "zod";
+import { z, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
 import { LucideProps } from "lucide-react";
 
-export interface CustomFormProps {
-  formTitle: string
-  inputConfig: FieldProps[]
-  fieldsConfig: Array<FieldProps | FieldProps[]>
-  defaultValues: Record<string, any>
-  formSchema: ZodType<any, any, any>;
-  submitBtnLabel?: string
-  className?: string
-  isFormChild?: boolean
-  columns?: number
-  gap?: number
-  onSubmit: (values: Record<string, any>) => void
-}
 
 export interface FieldProps {
   wrapInCard?: boolean
@@ -32,7 +19,7 @@ export interface FieldProps {
   max?: number,
   zodType?: ZodTypeAny;
   
-  list?: any[]
+  // list?: any[]
   dependsOn?: string // Nombre del campo del que depende este campo
   loadOptions?: (dependencyValue: any) => Promise<any[]> // Función para cargar opciones dinámicamente
   optionLabel?: string // Propiedad a mostrar como etiqueta en el select
