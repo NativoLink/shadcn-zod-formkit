@@ -1,33 +1,39 @@
 # 1. Limpia Todo
 rm -rf dist node_modules package-lock.json
 
-# 2. Actualiza package.json con la primera solución (recomendada)
-npm i 
+# 2. Reinstala dependencias
+npm i
 
-# 3. Incrementa versión
-npm version patch  # 1.0.0 -> 1.0.1
+# 3. Incrementa versión (patch = 0.0.1, minor = 0.1.0, major = 1.0.0)
+npm version patch  # o minor / major según el cambio
 
-# --- new: crear tag con la versión actual en package.json ---
+# --- new: crear y subir tag automáticamente según versión actual ---
 VERSION=$(node -p "require('./package.json').version")
-echo "Creando tag v$VERSION..."
-if git rev-parse "v$VERSION" >/dev/null 2>&1; then
-  echo "Tag v$VERSION ya existe, no se crea"
+TAG="v$VERSION"
+
+echo "🔖 Creando tag $TAG..."
+
+# Verifica si el tag ya existe en el repositorio remoto
+if git ls-remote --tags origin | grep -q "$TAG$"; then
+  echo "⚠️  El tag $TAG ya existe en remoto, no se creará de nuevo."
 else
-  git tag -a "v$VERSION" -m "Release v$VERSION"
-#   git push origin "v$VERSION"
+  git tag -a "$TAG" -m "Release $TAG"
+  git push origin "$TAG"
+  echo "✅ Tag $TAG creado y subido correctamente."
 fi
 # --- end new ---
 
-# 4. Build
+# 4. Compila el proyecto
 npm run build
 
-# 5. Verifica que los archivos coincidan
+# 5. Verifica los archivos generados
+echo "📦 Archivos generados en dist/:"
 ls dist/
-# Debe mostrar: index.cjs, index.js, index.d.ts
 
-# 6. Verifica que NO esté bundleado react-hook-form
+# 6. Verifica que react-hook-form NO esté bundleado
+echo "🔍 Verificando imports de react-hook-form..."
 head -100 dist/index.js | grep -A 5 "react-hook-form"
-# Solo debe mostrar el import, NO código interno
 
-# 7. Publica
+# 7. Publica en npm
+echo "🚀 Publicando paquete..."
 npm publish --access public

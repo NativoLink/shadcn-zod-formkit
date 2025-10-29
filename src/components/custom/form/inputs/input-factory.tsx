@@ -75,6 +75,8 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   // [InputTypes.IMAGE_UPLOAD]: TextInput,
   // [InputTypes.AUDIO_UPLOAD]: TextInput,
   // [InputTypes.VIDEO_UPLOAD]: TextInput,
+  
+  // [InputTypes.CREDIT_CARD]: TextInput,
 
 };
 

@@ -4,7 +4,7 @@
 
 
 
-📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, and OTP.
+📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, OTP and others.
 
 ---
 
@@ -106,7 +106,7 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
 
 ## ✅ Features
   - Fully dynamic fields array support.
-  - Multiple input types (text, email, number, color, date, select, switch, file, OTP).
+  - Multiple input types (text, email, number, color, date, select, switch, file, OTP, and others).
   - Zod validation integration for robust form validation.
   - Supports default values via record prop.
   - Works seamlessly with React 18+ and TypeScript.
@@ -114,4 +114,11 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
 ## 💡 Tips
   - Use peerDependencies for React to avoid version conflicts.
   - Wrap your forms inside a "use client" component if using Next.js App Router.
-- Combine multiple FieldProps in arrays for grouped fields (like age + color).
+  - Combine multiple FieldProps in arrays for grouped fields (like age + color).
+
+## 🧠 Acknowledgements
+  React - A JavaScript library for building user interfaces.
+  Next.js - The React framework for production.
+  Tailwind CSS - A utility-first CSS framework for creating custom designs.
+  Zod - TypeScript-first schema declaration and validation.
+

@@ -23,6 +23,7 @@ export default function FormBasics() {
     volume: 50,
     passportPhoto: undefined,
     alarmTime: undefined,
+    gender: undefined,
     birthDate: undefined,
     bloodType: "",
     otpCode: "",
@@ -107,7 +108,7 @@ export default function FormBasics() {
     inputGroupConfig: {
       autoValidIcons: true
     },
-    zodType: z.array(z.instanceof(File)).min(1, "Debes subir al menos un archivo")
+    // zodType: z.array(z.instanceof(File)).min(1, "Debes subir al menos un archivo")
   },
   {
     wrapInCard: true,
@@ -161,11 +162,11 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
-      zodType: z.coerce
-        .date(validationMessages.required)
-        .refine((d) => d < new Date(), {
-          message: "La fecha no puede ser futura",
-        }),
+      // zodType: z.coerce
+      //   .date(validationMessages.required)
+      //   .refine((d) => d < new Date(), {
+      //     message: "La fecha no puede ser futura",
+      //   }),
     },
     {
       name: "appointment",
@@ -173,10 +174,9 @@ export default function FormBasics() {
       inputType: InputTypes.DATE_TIME, // tipo que puedes agregar
       placeHolder: "Selecciona fecha y hora",
       description: "Selecciona la fecha y la hora de la cita",
-      required: true,
-      zodType: z.coerce.date().refine((d) => d > new Date(), {
-        message: "La fecha debe ser futura",
-      }),
+      // zodType: z.coerce.date().refine((d) => d > new Date(), {
+      //   message: "La fecha debe ser futura",
+      // }),
     },
   ],
   {
@@ -193,7 +193,7 @@ export default function FormBasics() {
     name: "alarmTime",
     label: "Hora de alarma",
     inputType: InputTypes.TIME,
-    zodType: z.string().regex(/^([0-1]\d|2[0-3]):([0-5]\d)$/, "Formato HH:mm")
+    // zodType: z.string().regex(/^([0-1]\d|2[0-3]):([0-5]\d)$/, "Formato HH:mm")
   },
   {
     name: "otpCode",
