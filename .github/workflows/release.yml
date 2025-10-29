@@ -17,7 +17,7 @@ jobs:
   release:
     name: Semantic Release
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
 
     steps:
       # 1️⃣ Hacer checkout completo del repo con tags
