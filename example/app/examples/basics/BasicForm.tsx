@@ -36,6 +36,7 @@ export default function FormBasics() {
     name: "username",
     label: "Username",
     inputType: InputTypes.TEXT_GROUP,
+    infoTooltip:"Your unique username to login",
     inputGroupConfig:{
       autoValidIcons: true,
       iconsLeft: [User]

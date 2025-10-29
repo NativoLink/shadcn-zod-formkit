@@ -13,8 +13,9 @@ import {
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/src/components/ui/input-group";
 import { FieldProps } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
-import { CircleCheck, CircleX, Loader2 } from "lucide-react";
+import { CircleCheck, CircleX, Info, Loader2 } from "lucide-react";
 import { Card } from "@/src/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
@@ -31,6 +32,7 @@ interface Props {
 
 export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const groupConfig = input.inputGroupConfig;
+  const infoTooltip = input?.infoTooltip;
   const autoValidate = groupConfig?.autoValidIcons;
 
   const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
@@ -82,8 +84,20 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                 type={input.keyboardType} />
 
               {/* Iconos derecha */}
-              {(iconsRight.length > 0 || textRight || autoValidate) && (
+              {(iconsRight.length > 0 || textRight || autoValidate || infoTooltip) && (
                 <InputGroupAddon align="inline-end">
+                  {infoTooltip && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info size={20} />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{infoTooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    
+                    )
+                  }
                   {textRight && <InputGroupText>{textRight}</InputGroupText>}
                   {iconsRight.map((IconComponent, index) => (
                     <IconComponent key={index} size={20} />
