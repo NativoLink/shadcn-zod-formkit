@@ -4,7 +4,6 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from "@/src/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { BaseInput, FieldProps, InputTypes } from "../base";
-import { type } from '../../../../../../example/.next/dev/types/routes';
 
 
 export class TextInput extends BaseInput {
