@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Luis A. Rosario <ingluisrosario15@gmail.com>",
   "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "repository": {
