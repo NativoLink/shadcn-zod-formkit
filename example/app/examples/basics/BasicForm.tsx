@@ -15,6 +15,7 @@ export default function FormBasics() {
   const [dataToSend, setDataToSend] = useState<any>({})
 
   const record = {
+    id: 1,
     username: "John Doe",
     email: "johndoe@example.com",
     isActive: true,
@@ -32,6 +33,12 @@ export default function FormBasics() {
   };
 
   const mockFields: Array<FieldProps |FieldProps[]> = [
+  {
+    name: "id",
+    label: "ID",
+    inputType: InputTypes.HIDDEN,
+    // hidden: true, // alternativa a InputTypes.HIDDEN
+  },
   [{
     name: "username",
     label: "Username",
