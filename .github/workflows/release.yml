@@ -1,7 +1,5 @@
-# .github/workflows/release.yml
-name: 🚀 Release on Merge to Main
+name: 🚀 Release on Main
 
-# Se dispara al cerrar pull requests hacia main
 on:
   push:
     branches:
@@ -15,18 +13,15 @@ permissions:
 
 jobs:
   release:
-    name: Semantic Release
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
-
     steps:
-      # 1️⃣ Hacer checkout completo del repo con tags
+      # 1️⃣ Checkout del repo con todos los tags
       - name: 🧭 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Configurar Node.js
+      # 2️⃣ Configurar Node.js y npm registry
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -40,6 +35,9 @@ jobs:
       # 4️⃣ Ejecutar Semantic Release
       - name: 🚀 Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Para crear releases en GitHub
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # Para publicar en npm
-        run: echo ${{ secrets.NPM_TOKEN }}  && npx semantic-release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # token GitHub
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # token npm
+        run: |
+          # Crear .npmrc temporal para la publicación
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          npx semantic-release
