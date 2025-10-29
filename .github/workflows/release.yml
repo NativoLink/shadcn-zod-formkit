@@ -1,37 +1,51 @@
+name: 🚀 Release on Merge to Main
+
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   release:
-    if: github.event.pull_request.merged == true
     name: Semantic Release
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout del repo con todo el historial (necesario para analizar commits)
       - name: 🧭 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 2️⃣ Configurar Node.js y el registry de npm
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
 
+      # 3️⃣ Instalar dependencias y compilar
       - name: 📦 Install dependencies
         run: |
           npm ci
           npm run build
 
+      # 4️⃣ Configurar token de npm manualmente (evita el intento OIDC)
       - name: 🔐 Setup npm auth
         run: |
+          echo "🧩 Creando archivo .npmrc..."
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "✅ NPM auth configurado."
+          echo "📄 Contenido de ~/.npmrc:"
+          cat ~/.npmrc
+          echo "🔢 Longitud del token:"
+          echo "${{ secrets.NPM_TOKEN }}" | wc -c
 
+      # 5️⃣ Ejecutar Semantic Release
       - name: 🚀 Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
