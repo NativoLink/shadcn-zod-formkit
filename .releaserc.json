@@ -1,5 +1,6 @@
 {
   "branches": ["main"],
+  "repositoryUrl": "https://github.com/NativoLink/shadcn-zod-formkit.git",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -23,7 +24,19 @@
         "changelogTitle": "# 📦 Changelog"
       }
     ],
-    "@semantic-release/npm",
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true,
+        "pkgRoot": ".",
+        "tarballDir": "dist",
+        "npmrc": false,
+        "publishConfig": {
+          "access": "public",
+          "registry": "https://registry.npmjs.org/"
+        }
+      }
+    ],
     [
       "@semantic-release/git",
       {
