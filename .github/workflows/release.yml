@@ -42,4 +42,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Para crear releases en GitHub
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # Para publicar en npm
-        run: npx semantic-release
+        run: echo ${{ secrets.NPM_TOKEN }}  && npx semantic-release
