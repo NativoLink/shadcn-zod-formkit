@@ -36,10 +36,6 @@ jobs:
           npm run build
 
       # 4️⃣ Configurar token de npm manualmente (evita el intento OIDC)
-      - name: 🧾 Verify npmrc
-        run: |
-          cat ~/.npmrc
-      # 5️⃣ Configurar token de npm manualmente (evita el intento OIDC)
       - name: 🔐 Setup npm auth
         run: |
           echo "🧩 Creando archivo .npmrc..."
@@ -49,7 +45,7 @@ jobs:
           echo "🔢 Longitud del token:"
           echo "${{ secrets.NPM_TOKEN }}" | wc -c
 
-      # 6️⃣ Ejecutar Semantic Release
+      # 5️⃣ Ejecutar Semantic Release
       - name: 🚀 Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
