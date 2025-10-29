@@ -42,5 +42,5 @@ jobs:
       - name: 🚀 Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Para crear releases en GitHub
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_TEST }}       # Para publicar en npm
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # Para publicar en npm
         run: npx semantic-release
