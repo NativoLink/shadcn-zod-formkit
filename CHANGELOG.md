@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.3.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.2.0...v1.3.0) (2025-10-30)
+
+### Features
+
+* **password-toggle:** add button toggle for show or hidde password ([7686aa8](https://github.com/NativoLink/shadcn-zod-formkit/commit/7686aa88a34b4a3ef9481f0852737e88e8458911))
+
 ## [1.2.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.1.0...v1.2.0) (2025-10-29)
 
 ### Features
