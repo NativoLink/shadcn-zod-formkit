@@ -64,33 +64,55 @@ export default function FormBasics() {
     inputType: InputTypes.HIDDEN,
     // hidden: true, // alternativa a InputTypes.HIDDEN
   },
-  [{
-    name: "username",
-    label: "Username",
-    inputType: InputTypes.TEXT_GROUP,
-    infoTooltip:"Your unique username to login",
-    inputGroupConfig:{
-      autoValidIcons: true,
-      iconsLeft: [User]
+  [
+    {
+      name: "username",
+      label: "Username",
+      inputType: InputTypes.TEXT_GROUP,
+      infoTooltip:"Your unique username to login",
+      inputGroupConfig:{
+        autoValidIcons: true,
+        iconsLeft: [User]
+      },
+      zodType: z
+        .string()
+        .min(3, "El nombre debe tener al menos 3 caracteres")
+        .max(20, "El nombre no puede tener más de 20 caracteres") ,
     },
-    zodType: z
-      .string()
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(20, "El nombre no puede tener más de 20 caracteres") ,
-  },
+    {
+      name: "email",
+      label: "Email",
+      inputType: InputTypes.TEXT_GROUP,
+      inputGroupConfig:{
+        autoValidIcons: true,
+        iconsLeft: [Mail],
+      },
+      zodType: z
+        .string()
+        .email("Correo inválido")
+        .optional(),
+    }
+  ],
   {
-    name: "email",
-    label: "Email",
-    inputType: InputTypes.TEXT_GROUP,
+    name: "shoppingPreferences",
+    label: "Shopping preferences",
+    inputType: InputTypes.MULTI_SELECT,
     inputGroupConfig:{
       autoValidIcons: true,
       iconsLeft: [Mail],
     },
-    zodType: z
-      .string()
-      .email("Correo inválido")
-      .optional(),
-  }],
+    listConfig: {
+      list: [
+        { id: 1, name: "Tecnología", value: "technology" },
+        { id: 2, name: "Moda", value: "fashion" },
+        { id: 3, name: "Hogar", value: "home" },
+        { id: 4, name: "Deportes", value: "sports" },
+        { id: 5, name: "Belleza", value: "beauty" },
+        { id: 6, name: "Viajes", value: "travel" }
+      ],
+      onOptionChange: (item:any) => {},
+    },
+  },
   {
     wrapInCard:true,
     name: "contacts",
