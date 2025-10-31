@@ -88,22 +88,36 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
 };
 
 export class InputFactory {
-  static create(input: FieldProps, form: UseFormReturn, isSubmitting:boolean = false): JSX.Element {
+  static create<T extends Record<string, any> = Record<string, any>>(
+    input: FieldProps<T>,
+    form: UseFormReturn<T>,
+    isSubmitting: boolean = false
+  ): JSX.Element {
     const inputType = (input.inputType as InputTypes) ?? InputTypes.TEXT;
 
-    const InputClass = inputMap[inputType] ?? TextInput;
+    const InputClass = (inputMap[inputType] ??
+      TextInput) as new (
+      input: FieldProps<T>,
+      form: UseFormReturn<T>,
+      isSubmitting: boolean
+    ) => { render: () => JSX.Element };
+
     const instance = new InputClass(input, form, isSubmitting);
+
     if (!input.wrapInCard) return instance.render();
+
     return (
       <Card className="p-4 space-y-3">
         {instance.render()}
       </Card>
-      )
+    );
   }
 }
 
-export function getDefaultValues<T extends Record<string, any>>(entity: T): Record<string, any> {
+export function getDefaultValues<T extends Record<string, any>>(entity?: Partial<T>): Record<string, any> {
   const defaults: Record<string, any> = {};
+
+  if (!entity) return defaults;
 
   for (const key in entity) {
     const value = entity[key];
@@ -127,7 +141,6 @@ export function getDefaultValues<T extends Record<string, any>>(entity: T): Reco
         break;
 
       case "object":
-        // Si es un array o un objeto, clonamos
         if (Array.isArray(value)) {
           defaults[key] = [...value];
         } else {
@@ -144,25 +157,27 @@ export function getDefaultValues<T extends Record<string, any>>(entity: T): Reco
 }
 
 
-export const getDynamicSchema = (
-  fields: Array<FieldProps | FieldProps[]>,
+export const getDynamicSchema = <T extends Record<string, any>>(
+  fields: Array<FieldProps<T> | FieldProps<T>[]>,
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[]
-): ZodObject<any> => {
+): ZodObject<Record<keyof T, ZodTypeAny>> => {
+  
+  const flatFields: FieldProps<T>[] = fields.flatMap(f =>
+    Array.isArray(f) ? f : [f]
+  );
 
-  const flatFields: FieldProps[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
-  const shape: Record<string, ZodTypeAny> = {};
+  const shape = flatFields.reduce((acc, f) => {
+    acc[f.name as keyof T] = f.zodType ?? z.any();
+    return acc;
+  }, {} as Record<keyof T, ZodTypeAny>);
 
-  flatFields.forEach(f => {
-    shape[f.name] = f.zodType ?? z.any();
-  });
-
-  let schema = z.object(shape);
+  let schema: ZodObject<Record<keyof T, ZodTypeAny>> = z.object(shape);
 
   // Aplica validaciones extra opcionales
-  if (extraValidations && extraValidations.length > 0) {
-    extraValidations.forEach(fn => {
+  if (extraValidations?.length) {
+    for (const fn of extraValidations) {
       schema = fn(schema);
-    });
+    }
   }
 
   return schema;

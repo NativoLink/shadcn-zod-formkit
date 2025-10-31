@@ -15,6 +15,9 @@ import { z } from "zod";
 
 interface IUserRecord {
     id: number;
+    appointment?: any;
+    password?: string;
+    confirmPassword?: string;
     username: string;
     email: string;
     isActive: boolean;
@@ -31,6 +34,8 @@ interface IUserRecord {
     secretKeys: never[];
     notifications: never[];
     tags: string[];
+    shoppingPreferences?: string[];
+    contacts?: Record<string,any>[],
 }
 
 export default function FormBasics() {
@@ -57,9 +62,9 @@ export default function FormBasics() {
     tags: [] as string[],
   };
 
-  const mockFields: Array<FieldProps |FieldProps[]> = [
+  const mockFields: Array<FieldProps<IUserRecord> |FieldProps<IUserRecord>[]> = [
   {
-    name: "id",
+    name: 'id',
     label: "ID",
     inputType: InputTypes.HIDDEN,
     // hidden: true, // alternativa a InputTypes.HIDDEN
@@ -326,20 +331,20 @@ export default function FormBasics() {
 
   return (
     <>
-      <DynamicForm
+      <DynamicForm<IUserRecord>
         formSubTitle="This is a subtitle"
         formTitle="Basic Form Example"
         withCard
         errorAlertPosition='down'
         fields={mockFields}
         record={record}
-        extraValidations={[
-          (s) =>
-            s.refine((data) => data.password === data.confirmPassword, {
-              path: ["confirmPassword"],
-              message: "Las contraseñas no coinciden",
-            }),
-        ]}
+        // extraValidations={[
+        //   (s) =>
+        //     s.refine((data) => data.password === data.confirmPassword, {
+        //       path: ["confirmPassword"],
+        //       message: "Las contraseñas no coinciden",
+        //     }),
+        // ]}
         onSubmit={async (resp: FormResp<IUserRecord>) => {
           setDataToSend(resp.data)
           const msg = "✅  Resultado final:"

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
 import { useEffect, useMemo, useTransition } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm, UseFormReturn, DefaultValues, Resolver } from "react-hook-form";
 
 import { FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema } from "./input-factory";
@@ -15,7 +15,7 @@ import { FormFieldsGrid } from "./FormFieldsGrid";
 type alertPositionType = 'up' | 'down';
 
 export interface FormResp<T> {
-  form?: UseFormReturn;
+  form?: UseFormReturn<any>;
   data: T;
 }
 
@@ -23,7 +23,7 @@ interface Props<T extends Record<string, any>> {
   formTitle: string;
   formSubTitle?: string;
   readOnly?: boolean;
-  fields: Array<FieldProps | FieldProps[]>;
+  fields: Array<FieldProps<T> | FieldProps<T>[]>;
   record?: Partial<T>;
   onSubmit?: (resp: FormResp<T>) => void;
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[];
@@ -51,34 +51,36 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const [isPending, startTransition] = useTransition();
 
-  // 🔹 Genera el schema dinámico
-  const schema = useMemo(() => getDynamicSchema(fields, extraValidations), [fields, extraValidations]);
+  // schema dinámico (genérico)
+  const schema = useMemo(() => getDynamicSchema<T>(fields, extraValidations), [fields, extraValidations]);
   type FormData = z.infer<typeof schema>;
 
-  // 🔹 Valores por defecto
-  const defaultValues = useMemo(() => getDefaultValues(record), [record]);
+  // resolver casteado para evitar incompatibilidades de tipos entre zodResolver y useForm genérico
+  const resolver = zodResolver(schema) as unknown as Resolver<FormData>;
 
-  // 🔹 Configura el formulario
+  // valores iniciales: aceptamos Partial<T> desde record
+  const initialValues = useMemo(() => getDefaultValues<T>(record), [record]);
+
+  // Aquí está el fix: casteamos a DefaultValues<FormData>
   const form = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues,
+    resolver,
+    defaultValues: initialValues as unknown as DefaultValues<FormData>,
   });
 
-  // 🔁 Reset cuando cambian fields o defaultValues
   useEffect(() => {
-    form.reset(defaultValues);
-  }, [defaultValues, form]);
+    form.reset(initialValues as unknown as DefaultValues<FormData>);
+  }, [initialValues, form]);
 
   const handleSubmit = (data: FormData) => {
-    if (readOnly) return; // 🚫 Evita enviar si está en solo lectura
+    if (readOnly) return;
 
     try {
       startTransition(async () => {
-        const resp: FormResp<T> = { data: data as T, form };
+        const resp: FormResp<T> = { data: data as unknown as T, form };
         onSubmit?.(resp);
       });
     } catch (error) {
-      console.error("Ocurrió un error al enviar el formulario.");
+      console.error("Ocurrió un error al enviar el formulario.", error);
     }
   };
 
@@ -88,9 +90,7 @@ export const DynamicForm = <T extends Record<string, any>>({
         <Pencil className="h-5 w-5" />
         <div className="flex flex-col">
           <p>{formTitle}</p>
-          {formSubTitle && (
-            <CardDescription>{formSubTitle}</CardDescription>
-          )}
+          {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
         </div>
       </CardTitle>
 
@@ -127,9 +127,9 @@ export const DynamicForm = <T extends Record<string, any>>({
         </form>
       </Form>
 
-      {withErrorsAlert && errorAlertPosition === 'down' && (
+      {/* {withErrorsAlert && errorAlertPosition === 'down' && (
         <FormErrorsAlert formState={form.formState} fields={fields} />
-      )}
+      )} */}
     </div>
   );
 
