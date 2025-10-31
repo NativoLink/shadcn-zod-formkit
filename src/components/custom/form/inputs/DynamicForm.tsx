@@ -127,9 +127,9 @@ export const DynamicForm = <T extends Record<string, any>>({
         </form>
       </Form>
 
-      {/* {withErrorsAlert && errorAlertPosition === 'down' && (
+      {withErrorsAlert && errorAlertPosition === 'down' && (
         <FormErrorsAlert formState={form.formState} fields={fields} />
-      )} */}
+      )}
     </div>
   );
 
