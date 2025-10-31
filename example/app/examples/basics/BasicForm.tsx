@@ -20,6 +20,7 @@ export default function FormBasics() {
     email: "johndoe@example.com",
     isActive: true,
     favoriteColor: '#000000',
+    salary: 0,
     age: 25,
     volume: 50,
     passportPhoto: undefined,
@@ -28,6 +29,7 @@ export default function FormBasics() {
     birthDate: undefined,
     bloodType: "",
     otpCode: "",
+    secretKeys: [],
     notifications: [],
     tags: [] as string[],
   };
@@ -128,10 +130,38 @@ export default function FormBasics() {
       .min(1, "Selecciona un tipo de sangre"),
   },
   {
+    name: "salary",
+    label: "Salary",
+    inputType: InputTypes.CURRENCY,
+    zodType: z.number().min(100),
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Hash]
+    },
+    currencyFormat: {
+      style: 'currency',
+      currency: 'DOP',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }
+    // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/, // e.g: 1,234.56
+  },
+  {
     name: "tags",
     label: "Tags",
     inputType: InputTypes.TAGS,
     zodType: z.array(z.string()),
+  },
+  {
+    name: "secretKeys",
+    label: "SECRET KEYS",
+    inputType: InputTypes.KEY_VALUE,
+    zodType: z.array( 
+      z.object({ key: z.string("se requiere por lo menos 1 clave ...")
+        .min(1, "La clave es requerida")
+        .regex(/^[a-zA-Z0-9_.-]+$/, "Solo letras, números o guiones"), 
+        value: z.string().min(1, "El valor es requerido") 
+      })).min(1, "Debe haber al menos un par clave-valor")
   },
   {
     name: "isActive",
