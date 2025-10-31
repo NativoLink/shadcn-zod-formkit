@@ -6,15 +6,37 @@ import {
   InputTypes,
   TextInputType,
   validationMessages,
+  FormResp,
   FieldProps 
 } from 'shadcn-zod-formkit';
 import { z } from "zod";
+
+
+interface IUserRecord {
+    id: number;
+    username: string;
+    email: string;
+    isActive: boolean;
+    favoriteColor: string;
+    salary: number;
+    age: number;
+    volume: number;
+    passportPhoto: undefined;
+    alarmTime: undefined;
+    gender: undefined;
+    birthDate: undefined;
+    bloodType: string;
+    otpCode: string;
+    secretKeys: never[];
+    notifications: never[];
+    tags: string[];
+}
 
 export default function FormBasics() {
 
   const [dataToSend, setDataToSend] = useState<any>({})
 
-  const record = {
+  const record: IUserRecord = {
     id: 1,
     username: "John Doe",
     email: "johndoe@example.com",
@@ -295,7 +317,7 @@ export default function FormBasics() {
               message: "Las contraseñas no coinciden",
             }),
         ]}
-        onSubmit={async (resp: any) => {
+        onSubmit={async (resp: FormResp<IUserRecord>) => {
           setDataToSend(resp.data)
           const msg = "✅  Resultado final:"
           console.log(resp.data, msg)
