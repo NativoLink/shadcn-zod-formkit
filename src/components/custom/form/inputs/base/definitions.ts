@@ -3,8 +3,8 @@ import { InputTypes } from "./input-types"
 import { LucideProps } from "lucide-react";
 
 
-export interface FieldProps {
-  name: string // Campo debe coincidir con la definición en el esquema
+export interface FieldProps<T = Record<string,any>> {
+  name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
   repeaterFields?: Array<FieldProps | FieldProps[]>;
