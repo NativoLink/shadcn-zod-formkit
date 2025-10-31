@@ -24,6 +24,7 @@ import {
   ButtonGroupInput,
   CurrencyInput,
   KeyValueListInput,
+  RepeaterInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -63,6 +64,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.BUTTON_GROUP]: ButtonGroupInput,
   [InputTypes.CURRENCY]: CurrencyInput,
   [InputTypes.KEY_VALUE]: KeyValueListInput,
+  [InputTypes.REPEATER]: RepeaterInput,
   
   
   //ToDos: ============================================================

@@ -7,6 +7,11 @@ export interface FieldProps {
   name: string // Campo debe coincidir con la definición en el esquema
   label: string
   
+  repeaterFields?: Array<FieldProps | FieldProps[]>;
+  minItems?: number;
+  maxItems?: number;
+
+
   currencyFormat?: Intl.NumberFormatOptions
   mask?: string | RegExp;
 
@@ -47,7 +52,6 @@ export interface FieldProps {
 
   inputGroupConfig?: inputGroudConfig
 }
-
 
 interface inputGroudConfig {
 

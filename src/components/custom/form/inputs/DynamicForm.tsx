@@ -11,6 +11,7 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Form } from "@/src/co
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Save, Settings } from "lucide-react";
 import { ZodObject } from "zod";
+import { FormFieldsGrid } from "./FormFieldsGrid";
 
 
 type alertPositionType = 'up' | 'down'
@@ -95,26 +96,9 @@ export const DynamicForm = ({
       { (withErrorsAlert && errorAlertPosition == 'up') && (<FormErrorsAlert formState={form.formState} fields={fields}/>)}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
+          {/* <FormFieldsGrid fields={fields} form={form} /> */}
           <div className="w-full grid grid-cols-1">
-            {fields.map((input, idx) =>
-              Array.isArray(input)
-                ? 
-                <span key={`field-group-${idx}`} className="w-full  flex flex-row justify-between py-3">
-                  {
-                    input.map((field, subIdx) => ( 
-                      <div key={subIdx} className="w-full px-2">
-                        {InputFactory.create(field, form, isPending) }
-                      </div>
-                    ))
-                  }
-                </span>
-                :
-                (<span key={`field-group-${idx}`} className="flex flex-col justify-between py-3 w-full px-2"> 
-                  {InputFactory.create(input, form, isPending)}
-                </span>)
-                
-                    
-            )}
+            <FormFieldsGrid fields={fields} form={form} />
           </div>
           <div className="flex flex-row gap-2 justify-end items-end justify-items-end">
             <Button type="submit" size={'lg'} className={submitBtnClass} disabled={isPending}>

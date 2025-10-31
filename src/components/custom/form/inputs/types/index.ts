@@ -13,6 +13,7 @@ export * from './key-value-input';
 export * from './number-input';
 export * from './otp-input';
 export * from './radio-group-input';
+export * from './repeater-input';
 export * from './select-input';
 export * from './simple-check-list-input';
 export * from './slide-input';
