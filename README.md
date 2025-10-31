@@ -116,7 +116,8 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   | **Upload Multi File**    |  `InputTypes.FILE_MULTI_UPLOAD`    | 
   | **Button Group**         |  `InputTypes.BUTTON_GROUP`         | 
   | **Input Currency**       |  `InputTypes.CURRENCY`             | 
-  | **Input Key Value**      |  `InputTypes.KEY_VALUE`             | 
+  | **Input Key Value**      |  `InputTypes.KEY_VALUE`            | 
+  | **Input Repeater**       |  `InputTypes.REPEATER`             | 
 
 
 
