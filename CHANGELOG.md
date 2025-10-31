@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.4.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.3.0...v1.4.0) (2025-10-31)
+
+### Features
+
+* **key-value-input:** new input for add many key with value ([292047c](https://github.com/NativoLink/shadcn-zod-formkit/commit/292047ca8e53a3e0f2ba3f3cc0a5b3946bd360dc))
+
 ## [1.3.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.2.0...v1.3.0) (2025-10-30)
 
 ### Features
