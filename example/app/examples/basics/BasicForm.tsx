@@ -11,6 +11,7 @@ import {
 } from 'shadcn-zod-formkit';
 import { z } from "zod";
 
+//ADD EXAMPLE WITH TYPING..
 
 interface IUserRecord {
     id: number;
