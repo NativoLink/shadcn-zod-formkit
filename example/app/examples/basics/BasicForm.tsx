@@ -68,6 +68,25 @@ export default function FormBasics() {
       .email("Correo inválido")
       .optional(),
   }],
+  {
+    wrapInCard:true,
+    name: "contacts",
+    label: "Contactos",
+    inputType: InputTypes.REPEATER,
+    repeaterFields: [
+      { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
+      [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
+      { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
+    ],
+    minItems: 1,
+    maxItems: 5,
+    zodType:z.array(
+      z.object({
+        name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
+        email: z.string().email("Debe ser un correo válido"),
+      })
+    ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
+  },
   [{
     name: "password",
     label: "Password",

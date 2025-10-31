@@ -26,9 +26,11 @@ export enum InputTypes {
   BUTTON_GROUP = "button_group",
   CURRENCY = "currency",
   KEY_VALUE = "key_value",
+  REPEATER = "repeater",
 }
 
 export const inputFieldComp = [
+  InputTypes.REPEATER,
   InputTypes.KEY_VALUE,
   InputTypes.CURRENCY,
   InputTypes.BUTTON_GROUP,
