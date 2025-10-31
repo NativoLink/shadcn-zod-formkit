@@ -10,6 +10,7 @@ export * from './file-input';
 export * from './file-multi-input';
 export * from './grouped-switches-input';
 export * from './key-value-input';
+export * from './multi-select-input';
 export * from './number-input';
 export * from './otp-input';
 export * from './radio-group-input';

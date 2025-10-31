@@ -27,9 +27,11 @@ export enum InputTypes {
   CURRENCY = "currency",
   KEY_VALUE = "key_value",
   REPEATER = "repeater",
+  MULTI_SELECT = "multi_select",
 }
 
 export const inputFieldComp = [
+  InputTypes.MULTI_SELECT,
   InputTypes.REPEATER,
   InputTypes.KEY_VALUE,
   InputTypes.CURRENCY,
