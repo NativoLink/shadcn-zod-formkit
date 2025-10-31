@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.7.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.6.0...v1.7.0) (2025-10-31)
+
+### Features
+
+* **DynamicForm:** add prop readOnly for disable all form ([749d9a9](https://github.com/NativoLink/shadcn-zod-formkit/commit/749d9a9d2ac9d2bd9aa08b99de75a05c730370e5))
+
 ## [1.6.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.5.0...v1.6.0) (2025-10-31)
 
 ### Features
