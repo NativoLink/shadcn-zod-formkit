@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.8.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.7.0...v1.8.0) (2025-10-31)
+
+### Features
+
+* **MultiSelectInput:** add new input MULTI_SELECT ([69b6698](https://github.com/NativoLink/shadcn-zod-formkit/commit/69b6698daee5fca9790a8ba99c6907afddf2698b))
+
 ## [1.7.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.6.0...v1.7.0) (2025-10-31)
 
 ### Features
