@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.9.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.0...v1.9.1) (2025-10-31)
+
+### Bug Fixes
+
+* **FormErrorsAlert:** uncomement FormErrorsAlert in component DynamicForm ([cae3d48](https://github.com/NativoLink/shadcn-zod-formkit/commit/cae3d48a12e2f6d10fdd6b61c6295668b77a802a))
+
 ## [1.9.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.8.0...v1.9.0) (2025-10-31)
 
 ### Features
