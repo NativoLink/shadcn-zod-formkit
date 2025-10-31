@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.9.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.8.0...v1.9.0) (2025-10-31)
+
+### Features
+
+* **FieldProps:** inferences keys by T ([6efaea9](https://github.com/NativoLink/shadcn-zod-formkit/commit/6efaea914ef97f2148dbf06bf5331dd03580d421))
+
 ## [1.8.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.7.0...v1.8.0) (2025-10-31)
 
 ### Features
