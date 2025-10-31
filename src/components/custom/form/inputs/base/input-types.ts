@@ -24,9 +24,13 @@ export enum InputTypes {
   FILE_MULTI_UPLOAD = "file_multi_upload",
   SLIDER = "slider",
   BUTTON_GROUP = "button_group",
+  CURRENCY = "currency",
+  KEY_VALUE = "key_value",
 }
 
 export const inputFieldComp = [
+  InputTypes.KEY_VALUE,
+  InputTypes.CURRENCY,
   InputTypes.BUTTON_GROUP,
   InputTypes.SLIDER,
   InputTypes.FILE_MULTI_UPLOAD,

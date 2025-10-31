@@ -22,6 +22,8 @@ import {
   FileMultiUploadInput,
   SliderInput,
   ButtonGroupInput,
+  CurrencyInput,
+  KeyValueListInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -59,6 +61,8 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.TIME]: TimeInput,
   [InputTypes.FILE_MULTI_UPLOAD]: FileMultiUploadInput,
   [InputTypes.BUTTON_GROUP]: ButtonGroupInput,
+  [InputTypes.CURRENCY]: CurrencyInput,
+  [InputTypes.KEY_VALUE]: KeyValueListInput,
   
   
   //ToDos: ============================================================
@@ -70,7 +74,6 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
 
   // [InputTypes.RANGE]: TextInput,
   // [InputTypes.MULTISELECT]: TextInput,
-  // [InputTypes.CURRENCY]: TextInput,
   
   // [InputTypes.IMAGE_UPLOAD]: TextInput,
   // [InputTypes.AUDIO_UPLOAD]: TextInput,
