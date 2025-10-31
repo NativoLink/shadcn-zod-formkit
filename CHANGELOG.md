@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.6.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.5.0...v1.6.0) (2025-10-31)
+
+### Features
+
+* **dynamic-form:** add typing to onSubmit ([7854f19](https://github.com/NativoLink/shadcn-zod-formkit/commit/7854f19bb4f082fbc504557daea928c7c7595d28))
+
 ## [1.5.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.4.0...v1.5.0) (2025-10-31)
 
 ### Features
