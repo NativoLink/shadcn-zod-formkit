@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.5.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.4.0...v1.5.0) (2025-10-31)
+
+### Features
+
+* **repeater-input:** add input repeater, you can use this input form add a list of something, example, a list of contacts, is like a form inside another form ([976349e](https://github.com/NativoLink/shadcn-zod-formkit/commit/976349e5656ad232571dfef61bae4abed97b2471))
+
 ## [1.4.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.3.0...v1.4.0) (2025-10-31)
 
 ### Features
