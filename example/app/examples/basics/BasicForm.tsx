@@ -16,6 +16,7 @@ import { z } from "zod";
 interface IUserRecord {
     id: number;
     continent?: string;
+    country?: string;
     appointment?: any;
     password?: string;
     confirmPassword?: string;
@@ -48,6 +49,7 @@ export default function FormBasics() {
     username: "John Doe",
     email: "johndoe@example.com",
     continent: '2',
+    country: '1',
     isActive: true,
     favoriteColor: '#000000',
     salary: 0,
@@ -120,28 +122,63 @@ export default function FormBasics() {
       onOptionChange: (item:any) => {},
     },
   },
+  // {
+  //   name: "continent",
+  //   label: "Your Location",
+  //   description: "Your description",
+  //   inputType: InputTypes.SELECT,
+  //   inputGroupConfig:{
+  //     autoValidIcons: true,
+  //     iconsLeft: [Earth],
+  //   },
+  //   listConfig: {
+  //     // optionValue:'value',
+  //     list: [
+  //       { value: '1', id: 1, name: "África" },
+  //       { value: '2', id: 2, name: "América" },
+  //       { value: '3', id: 3, name: "Antártida" },
+  //       { value: '4', id: 4, name: "Asia" },
+  //       { value: '5', id: 5, name: "Europa" },
+  //       { value: '6', id: 6, name: "Oceanía" },
+  //     ],
+  //     onOptionChange: (item:any) => {},
+  //   },
+  //   zodType: z.string("requerido")
+  // },
+
   {
     name: "continent",
-    label: "Your Location",
-    description: "Your description",
+    label: "Categoría",
     inputType: InputTypes.SELECT,
-    inputGroupConfig:{
-      autoValidIcons: true,
-      iconsLeft: [Earth],
-    },
     listConfig: {
-      // optionValue:'value',
       list: [
-        { value: '1', id: 1, name: "África" },
-        { value: '2', id: 2, name: "América" },
-        { value: '3', id: 3, name: "Antártida" },
-        { value: '4', id: 4, name: "Asia" },
-        { value: '5', id: 5, name: "Europa" },
-        { value: '6', id: 6, name: "Oceanía" },
+        { id: 1, name: "América", value: "1" },
+        { id: 2, name: "Europa", value: "2" },
       ],
-      onOptionChange: (item:any) => {},
+      onOptionChange: (item) => console.log("Seleccionaste:", item),
     },
-    zodType: z.string("requerido")
+    zodType: z.string(),
+  },
+  {
+    name: "country",
+    label: "País",
+    inputType: InputTypes.SELECT,
+    dependsOn: "continent",
+    loadOptions: async (categoria) => {
+      if (categoria === "1")
+        return [
+          { id: "1", name: "EE.UU." },
+          { id: "2", name: "Argentina" },
+        ];
+      if (categoria === "2")
+        return [
+          { id: "3", name: "España" },
+          { id: "4", name: "Francia" },
+        ];
+      return [];
+    },
+    listConfig: { list: [], onOptionChange: () => {} },
+    zodType: z.string(),
   },
   // {
   //   wrapInCard:true,
