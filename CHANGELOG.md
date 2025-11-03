@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.15.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.14.0...v1.15.0) (2025-11-03)
+
+### Features
+
+* **DynamicForm:** add childrenHeader ([c29488b](https://github.com/NativoLink/shadcn-zod-formkit/commit/c29488b8dbc00f679d61cbafbd353d02db605301))
+
 ## [1.14.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.13.0...v1.14.0) (2025-11-03)
 
 ### Features
