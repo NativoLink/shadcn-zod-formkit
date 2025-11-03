@@ -136,6 +136,12 @@ export default function FormBasics() {
         { id: 3, name: "Elemento C" },
       ],
       onOptionChange: (newList:any) => console.log("Nuevo orden:", newList),
+      children: (item: any, index: number) => (
+        <div className="flex items-center justify-between p-3 bg-blue-50 border rounded-md">
+          <span>{index + 1} {item.name} - CUSTOM ITEM</span>
+          <span className="text-xs text-gray-400">ID: {item.id}</span>
+        </div>
+      ),
     },
     zodType: z.array(z.object({ id: z.number(), name: z.string() })),
   },

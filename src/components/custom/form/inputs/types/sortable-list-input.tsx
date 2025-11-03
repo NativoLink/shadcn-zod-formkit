@@ -1,20 +1,7 @@
 'use client'
 
-import { JSX, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { BaseInput, FieldProps, InputOption } from "../base";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { GripVertical } from "lucide-react";
-
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/src/components/ui/form";
+import { JSX, ReactNode, useState } from "react"
+import { UseFormReturn } from "react-hook-form"
 import {
   DndContext,
   closestCenter,
@@ -22,58 +9,84 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from "@dnd-kit/core"
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { cn } from "@/src/lib/utils";
+} from "@dnd-kit/sortable"
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
+import { GripVertical } from "lucide-react"
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/src/components/ui/form"
+import { cn } from "@/src/lib/utils"
+import { BaseInput, FieldProps } from "../base"
 
-/**
- * Clase que extiende BaseInput (mantiene tu patrón)
- */
-export class SortableListInput extends BaseInput {
+// ============================================================================
+// 🔹 Clase principal que extiende de BaseInput
+// ============================================================================
+
+export class SortableListInput<T> extends BaseInput {
   render(): JSX.Element {
-    const { input, form, isSubmitting } = this;
+    const { input, form, isSubmitting } = this
+    const children = input.listConfig?.children ?? undefined
     return (
-      <FieldSortableList form={form} input={input} isSubmitting={isSubmitting} />
-    );
+      <FieldSortableList<T>
+        form={form}
+        input={input}
+        isSubmitting={isSubmitting}
+        children={children as (item: T, index: number) => ReactNode}
+      />
+    )
   }
 }
 
-interface Props {
-  form: UseFormReturn;
-  input: FieldProps;
-  isSubmitting?: boolean;
+// ============================================================================
+// 🔹 Campo principal con lógica de drag & drop
+// ============================================================================
+
+interface Props<T> {
+  form: UseFormReturn
+  input: FieldProps
+  isSubmitting?: boolean
+  children?: (item: T, index: number) => ReactNode
 }
 
-const FieldSortableList = ({ form, input, isSubmitting }: Props): JSX.Element => {
-  const [items, setItems] = useState<InputOption[]>((input.listConfig?.list ?? []).filter((item): item is InputOption => 'name' in item));
+function FieldSortableList<T>({
+  form,
+  input,
+  isSubmitting,
+  children,
+}: Props<T>): JSX.Element {
+  const [items, setItems] = useState<any[]>(() => input.listConfig?.list ?? [])
+  const sortableEnabled = input.listConfig?.sortable ?? true;
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
 
   const handleDragEnd = (event: any) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
+    if (!sortableEnabled) return; 
+    const { active, over } = event
+    if (!over || active.id === over.id) return
 
-    const oldIndex = items.findIndex((i) => i.id === active.id);
-    const newIndex = items.findIndex((i) => i.id === over.id);
-    const newList = arrayMove(items, oldIndex, newIndex);
+    const oldIndex = items.findIndex((i: any) => i.id === active.id)
+    const newIndex = items.findIndex((i: any) => i.id === over.id)
+    const newList = arrayMove(items, oldIndex, newIndex)
 
-    setItems(newList);
-    form.setValue(input.name, newList);
-
-    if (input.listConfig?.onOptionChange) {
-      input.listConfig.onOptionChange(newList);
-    }
-  };
+    setItems(newList)
+    form.setValue(input.name, newList)
+    input.listConfig?.onOptionChange?.(newList)
+  }
 
   return (
     <FormField
@@ -82,49 +95,55 @@ const FieldSortableList = ({ form, input, isSubmitting }: Props): JSX.Element =>
       name={input.name}
       render={() => (
         <FormItem className={cn("space-y-2", input.className)}>
-          <FormLabel><b>{input.label}</b></FormLabel>
+          {input.label && <FormLabel><b>{input.label}</b></FormLabel>}
           <FormControl>
-            <div className="border rounded-md p-3 bg-white">
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
+            {sortableEnabled ? (
+              <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                 <SortableContext
                   items={items.map((i) => i.id)}
                   strategy={verticalListSortingStrategy}
                 >
-                  {items.map((item) => (
-                    <SortableItem
-                      key={item.id}
-                      id={item.id}
-                      name={item.name}
-                      disabled={isSubmitting}
-                    />
-                  ))}
+                  <div className="flex flex-col gap-2">
+                    {items.map((item, index) => (
+                      <SortableWrapper key={item.id} id={item.id}>
+                        {typeof children === "function"
+                          ? children(item, index)
+                          : <div className="p-3 border rounded-md bg-white">{item.name}</div>}
+                      </SortableWrapper>
+                    ))}
+                  </div>
                 </SortableContext>
               </DndContext>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {items.map((item, index) =>
+                  typeof children === "function"
+                    ? children(item, index)
+                    : <div key={item.id} className="p-3 border rounded-md bg-gray-50">{item.name}</div>
+                )}
+              </div>
+            )}
           </FormControl>
-          {input.description && (
-            <FormDescription>{input.description}</FormDescription>
-          )}
+          {input.description && <FormDescription>{input.description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
     />
-  );
-};
+  )
+}
 
+// ============================================================================
+// 🔹 SortableWrapper: item individual draggable
+// ============================================================================
 
-export function SortableItem({
+function SortableWrapper({
   id,
-  name,
+  children,
   disabled,
 }: {
-  id: string | number;
-  name: string;
-  disabled?: boolean;
+  id: string | number
+  children: React.ReactNode
+  disabled?: boolean
 }) {
   const {
     attributes,
@@ -133,12 +152,12 @@ export function SortableItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({ id, disabled })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
 
   return (
     <div
@@ -147,14 +166,12 @@ export function SortableItem({
       {...attributes}
       {...listeners}
       className={cn(
-        "flex items-center justify-between p-2 border rounded-md mb-1 bg-muted/30 cursor-grab select-none",
-        isDragging && "opacity-60 bg-muted/50"
+        "flex items-center gap-2 p-2 border rounded-md mb-1 bg-muted/30 cursor-grab select-none transition-all",
+        isDragging && "opacity-60 bg-muted/50 scale-[0.98]"
       )}
     >
-      <div className="flex items-center gap-2">
-        <GripVertical className="w-4 h-4 opacity-70" />
-        <span>{name}</span>
-      </div>
+      <GripVertical className="w-4 h-4 opacity-70" />
+      <div className="flex-1">{children}</div>
     </div>
-  );
+  )
 }

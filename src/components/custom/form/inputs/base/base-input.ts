@@ -1,15 +1,16 @@
-import { JSX } from "react";
+import { JSX, ReactNode } from "react";
 
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps, GroupedOption, InputOption } from "./definitions";
 // import { FieldProps } from "./field-props";
 
 
-export abstract class BaseInput {
+export abstract class BaseInput<T = unknown> {
   constructor(
     protected readonly input: FieldProps,
     protected readonly form: UseFormReturn,
-    protected readonly isSubmitting?: boolean
+    protected readonly isSubmitting?: boolean,
+    protected readonly children?: ReactNode | ((item: T, index: number) => ReactNode)
   ) {}
 
   abstract render(): JSX.Element;
