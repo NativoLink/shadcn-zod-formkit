@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useTransition } from "react";
+import { ReactNode, useEffect, useMemo, useTransition } from "react";
 import { useForm, UseFormReturn, DefaultValues, Resolver } from "react-hook-form";
 
 import { FieldProps } from "./base";
@@ -32,6 +32,8 @@ interface Props<T extends Record<string, any>> {
   withCard?: boolean;
   submitBtnLabel?: string;
   submitBtnClass?: string;
+  children?: ReactNode
+  childrenHeader?: ReactNode
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -42,6 +44,8 @@ export const DynamicForm = <T extends Record<string, any>>({
   record = {},
   onSubmit,
   extraValidations,
+  children,
+  childrenHeader,
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
@@ -86,12 +90,18 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const formContent = (
     <div>
-      <CardTitle className="flex items-center gap-2 p-2 border-b">
-        <Pencil className="h-5 w-5" />
-        <div className="flex flex-col">
-          <p>{formTitle}</p>
-          {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
+      <CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
+        <div className="flex flex-row items-center gap-2 w-full">
+
+          <Pencil className="h-5 w-5" />
+          <div className="flex flex-col">
+            <CardTitle className="text-xl">{formTitle} </CardTitle>
+            {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
+          </div>
         </div>
+        {childrenHeader && (<div className="flex flex-row items-center gap-2 w-full h-full">
+          {childrenHeader}
+        </div>)}
       </CardTitle>
 
       {withErrorsAlert && errorAlertPosition === 'up' && (
@@ -105,6 +115,9 @@ export const DynamicForm = <T extends Record<string, any>>({
         >
           <div className="w-full grid grid-cols-1">
             <FormFieldsGrid fields={fields} form={form} readOnly={readOnly} />
+            {children && (<div className="flex flex-row items-center gap-2 w-full h-full">
+              {children}
+            </div>)}
           </div>
 
           {!readOnly && (
