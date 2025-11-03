@@ -30,9 +30,11 @@ export enum InputTypes {
   MULTI_SELECT = "multi_select",
   COMBOBOX = "COMBO_BOX",
   SORTABLE_LIST = "sortable_list",
+  REPEATER_TABS = "repeater_tabs",
 }
 
 export const inputFieldComp = [
+  InputTypes.REPEATER_TABS,
   InputTypes.SORTABLE_LIST,
   InputTypes.COMBOBOX,
   InputTypes.MULTI_SELECT,
