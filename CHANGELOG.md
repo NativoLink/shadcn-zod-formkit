@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.12.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.11.0...v1.12.0) (2025-11-03)
+
+### Features
+
+* **sortable-list-input:** sortable list, only change position, They are neither added nor deleted. ([f9bc6b9](https://github.com/NativoLink/shadcn-zod-formkit/commit/f9bc6b962c73b88b098031faa57db1a496bfaafd))
+
 ## [1.11.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.10.0...v1.11.0) (2025-11-03)
 
 ### Features
