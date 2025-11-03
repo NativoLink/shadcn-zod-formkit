@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.16.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.15.0...v1.16.0) (2025-11-03)
+
+### Features
+
+* **DynamicForm:** showIcon o showFormHeader ([24a1e18](https://github.com/NativoLink/shadcn-zod-formkit/commit/24a1e186bd62f56e1cfd2ec07b6ee94a522c47c7))
+
 ## [1.15.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.14.0...v1.15.0) (2025-11-03)
 
 ### Features
