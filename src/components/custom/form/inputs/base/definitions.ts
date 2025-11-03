@@ -1,6 +1,7 @@
 import { z, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
 import { LucideProps } from "lucide-react";
+import { ReactNode } from "react";
 
 
 export interface FieldProps<T = Record<string,any>> {
@@ -68,12 +69,14 @@ interface inputGroudConfig {
 
 
 interface ListConfig {
+  children?: ReactNode | ((item: any, index: number) => ReactNode);
   list: InputOption[] | GroupedOption[]
   optionLabel?: string
   optionValue?: InputOption| string | number | object
   onOptionChange: (item?: InputOption | InputOption[] | GroupedOption ) => void
   optionDescription?: string
   selectedList?: InputOption[]
+  sortable?: boolean;
 }
 
 export interface InputOption {
