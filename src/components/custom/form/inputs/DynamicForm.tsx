@@ -20,6 +20,8 @@ export interface FormResp<T> {
 }
 
 interface Props<T extends Record<string, any>> {
+  showIcon?: boolean
+  showFormHeader?: boolean
   formTitle: string;
   formSubTitle?: string;
   readOnly?: boolean;
@@ -46,6 +48,8 @@ export const DynamicForm = <T extends Record<string, any>>({
   extraValidations,
   children,
   childrenHeader,
+  showIcon = true,
+  showFormHeader = true,
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
@@ -90,10 +94,10 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const formContent = (
     <div>
-      <CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
+      {showFormHeader && (<CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
         <div className="flex flex-row items-center gap-2 w-full">
 
-          <Pencil className="h-5 w-5" />
+          {showIcon && (<Pencil className="h-5 w-5" />)}
           <div className="flex flex-col">
             <CardTitle className="text-xl">{formTitle} </CardTitle>
             {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
@@ -102,7 +106,7 @@ export const DynamicForm = <T extends Record<string, any>>({
         {childrenHeader && (<div className="flex flex-row items-center gap-2 w-full h-full">
           {childrenHeader}
         </div>)}
-      </CardTitle>
+      </CardTitle>)}
 
       {withErrorsAlert && errorAlertPosition === 'up' && (
         <FormErrorsAlert formState={form.formState} fields={fields} />
