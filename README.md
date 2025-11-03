@@ -119,6 +119,8 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   | **Input Key Value**      |  `InputTypes.KEY_VALUE`            | 
   | **Input Repeater**       |  `InputTypes.REPEATER`             | 
   | **Input Multi Select**   |  `InputTypes.MULTI_SELECT`         | 
+  | **Select With Search**   |  `InputTypes.COMBOBOX`             | 
+  | **Input Drag Drop List** |  `InputTypes.SORTABLE_LIST`        | 
 
 
 
