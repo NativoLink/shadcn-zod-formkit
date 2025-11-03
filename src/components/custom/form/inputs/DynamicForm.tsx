@@ -60,7 +60,6 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   // valores iniciales: aceptamos Partial<T> desde record
   const initialValues = useMemo(() => getDefaultValues<T>(record), [record]);
-  console.log('initialValues',initialValues)
 
   // Aquí está el fix: casteamos a DefaultValues<FormData>
   const form = useForm<FormData>({

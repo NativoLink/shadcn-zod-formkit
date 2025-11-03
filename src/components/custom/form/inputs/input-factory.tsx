@@ -27,6 +27,7 @@ import {
   RepeaterInput,
   MultiSelectInput,
   ComboboxInput,
+  SortableListInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -69,6 +70,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.REPEATER]: RepeaterInput,
   [InputTypes.MULTI_SELECT]: MultiSelectInput,
   [InputTypes.COMBOBOX]: ComboboxInput,
+  [InputTypes.SORTABLE_LIST]: SortableListInput,
   
   
   //ToDos: ============================================================
