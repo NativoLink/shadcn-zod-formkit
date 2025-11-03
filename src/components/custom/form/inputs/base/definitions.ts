@@ -8,6 +8,7 @@ export interface FieldProps<T = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
+  tabLabelField?:string
   childrenPosition?: 'up' | 'down'
   children?: ReactNode | ((item: any, index: number) => ReactNode);
   defaultValue?: any;
