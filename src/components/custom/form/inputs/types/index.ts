@@ -7,6 +7,7 @@ export * from './combo-box-input';
 export * from './currency-input';
 export * from './date-input';
 export * from './date-time-input';
+export * from './drag-drop-list';
 export * from './file-input';
 export * from './file-multi-input';
 export * from './grouped-switches-input';

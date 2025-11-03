@@ -36,6 +36,7 @@ interface IUserRecord {
     secretKeys: never[];
     notifications: never[];
     tags: string[];
+    ordenItems?: string[];
     shoppingPreferences?: string[];
     contacts?: Record<string,any>[],
 }
@@ -61,6 +62,7 @@ export default function FormBasics() {
     birthDate: undefined,
     bloodType: "",
     otpCode: "",
+    ordenItems: [],
     secretKeys: [],
     notifications: [],
     tags: [] as string[],
@@ -123,6 +125,21 @@ export default function FormBasics() {
     },
   },
   {
+    name: "ordenItems",
+    label: "Ordenar elementos",
+    description: "Arrastra para cambiar el orden de los elementos",
+    inputType: InputTypes.SORTABLE_LIST,
+    listConfig: {
+      list: [
+        { id: 1, name: "Elemento A" },
+        { id: 2, name: "Elemento B" },
+        { id: 3, name: "Elemento C" },
+      ],
+      onOptionChange: (newList:any) => console.log("Nuevo orden:", newList),
+    },
+    zodType: z.array(z.object({ id: z.number(), name: z.string() })),
+  },
+  {
     name: "continent",
     label: "Continente",
     inputType: InputTypes.COMBOBOX, // 👈 Usa el nuevo ComboboxInput
@@ -133,7 +150,7 @@ export default function FormBasics() {
         { id: 2, name: "Europa", value: "2" },
         { id: 3, name: "Asia", value: "3" },
       ],
-      onOptionChange: (item) => console.log("🌎 Seleccionaste continente:", item),
+      onOptionChange: (item:any) => console.log("🌎 Seleccionaste continente:", item),
     },
     zodType: z.string().min(1, "El continente es obligatorio"),
   },
@@ -170,31 +187,31 @@ export default function FormBasics() {
         { id: 1, name: "América", value: "1" },
         { id: 2, name: "Europa", value: "2" },
       ],
-      onOptionChange: (item) => console.log("Seleccionaste:", item),
+      onOptionChange: (item:any) => console.log("Seleccionaste:", item),
     },
     zodType: z.string(),
   },
-  {
-    name: "country",
-    label: "País",
-    inputType: InputTypes.SELECT,
-    dependsOn: "continent",
-    loadOptions: async (categoria) => {
-      if (categoria === "1")
-        return [
-          { id: "1", name: "EE.UU." },
-          { id: "2", name: "Argentina" },
-        ];
-      if (categoria === "2")
-        return [
-          { id: "3", name: "España" },
-          { id: "4", name: "Francia" },
-        ];
-      return [];
-    },
-    listConfig: { list: [], onOptionChange: () => {} },
-    zodType: z.string(),
-  },
+  // {
+  //   name: "country",
+  //   label: "País",
+  //   inputType: InputTypes.SELECT,
+  //   dependsOn: "continent",
+  //   loadOptions: async (categoria) => {
+  //     if (categoria === "1")
+  //       return [
+  //         { id: "1", name: "EE.UU." },
+  //         { id: "2", name: "Argentina" },
+  //       ];
+  //     if (categoria === "2")
+  //       return [
+  //         { id: "3", name: "España" },
+  //         { id: "4", name: "Francia" },
+  //       ];
+  //     return [];
+  //   },
+  //   listConfig: { list: [], onOptionChange: () => {} },
+  //   zodType: z.string(),
+  // },
   // {
   //   wrapInCard:true,
   //   name: "contacts",
