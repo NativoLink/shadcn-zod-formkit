@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.14.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.13.0...v1.14.0) (2025-11-03)
+
+### Features
+
+* **fieldProps:** with children , optional ([613f949](https://github.com/NativoLink/shadcn-zod-formkit/commit/613f94939e1c8771a54a83546f40a746470c7176))
+
 ## [1.13.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.12.0...v1.13.0) (2025-11-03)
 
 ### Features
