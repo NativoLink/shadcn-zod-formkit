@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX } from "react";
+import { JSX, ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "./base";
 import { InputFactory } from "./input-factory";
@@ -13,6 +13,9 @@ interface Props<T extends Record<string, any> = Record<string, any>> {
   className?: string;
   gap?: string; // opcional, para espacio entre columnas
 }
+
+const isRenderableChild = (c?: ReactNode | ((item: any, index: number) => ReactNode)) =>
+  c !== undefined && c !== null && typeof c !== "function";
 
 /**
  * 📋 FormFieldsGrid
@@ -30,28 +33,62 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
 }: Props<T>): JSX.Element => {
   return (
     <div className={`w-full grid grid-cols-1 ${gap} ${className}`}>
-      {fields.map((input, idx) =>
-        Array.isArray(input) ? (
-          <span
+      {fields.map((inputOrGroup, idx) =>
+        Array.isArray(inputOrGroup) ? (
+          <div
             key={`field-group-${idx}`}
-            className="w-full flex flex-row justify-between py-3"
+            className="w-full flex flex-row items-start gap-4 py-3"
           >
-            {input.map((field, subIdx) => {
-              if (readOnly) field.disabled = true;
+            {inputOrGroup.map((field, subIdx) => {
+              // NO mutamos field: creamos una copia (inmutable)
+              const fieldCopy = {
+                ...field,
+                disabled: readOnly ? true : field.disabled,
+              };
+
+              const renderInlineChild =
+                fieldCopy.childrenPosition !== "down" && isRenderableChild(fieldCopy.children);
+
+              const renderInlineChildDown =
+                fieldCopy.childrenPosition === "down" && isRenderableChild(fieldCopy.children);
+
               return (
-                <div key={subIdx} className="w-full px-2">
-                  {InputFactory.create(field, form, isPending)}
+                <div key={`field-${idx}-${subIdx}`} className="w-full px-2">
+                  {renderInlineChild && <>{fieldCopy.children}</>}
+                  {/*
+                    Pasamos children a InputFactory.create para que el componente concreto
+                    (p. ej. SortableListInput) lo use si es función render-prop.
+                    InputFactory.create signature se adapta abajo si es necesario.
+                  */}
+                  {InputFactory.create(fieldCopy, form, isPending)}
+                  {renderInlineChildDown && <>{fieldCopy.children}</>}
                 </div>
               );
             })}
-          </span>
+          </div>
         ) : (
-          <span
-            key={`field-group-${idx}`}
+          <div
+            key={`field-single-${idx}`}
             className="flex flex-col justify-between py-3 w-full px-2"
           >
-            {InputFactory.create(input, form, isPending)}
-          </span>
+            {(() => {
+              const fieldCopy = {
+                ...inputOrGroup,
+                disabled: readOnly ? true : inputOrGroup.disabled,
+              };
+
+              const renderUp = fieldCopy.childrenPosition !== "down" && isRenderableChild(fieldCopy.children);
+              const renderDown = fieldCopy.childrenPosition === "down" && isRenderableChild(fieldCopy.children);
+
+              return (
+                <>
+                  {renderUp && <>{fieldCopy.children}</>}
+                  {InputFactory.create(fieldCopy, form, isPending)}
+                  {renderDown && <>{fieldCopy.children}</>}
+                </>
+              );
+            })()}
+          </div>
         )
       )}
     </div>

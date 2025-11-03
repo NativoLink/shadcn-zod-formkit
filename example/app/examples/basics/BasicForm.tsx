@@ -1,4 +1,5 @@
 'use client'
+import { Card } from '@/components/ui/card';
 import { Earth, Hash, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 import { 
@@ -77,6 +78,11 @@ export default function FormBasics() {
   },
   [
     {
+      // children: (
+      //   <div className="flex items-center justify-between p-3 bg-blue-50 border rounded-md">
+      //     <span>CUSTOM ITEM</span>
+      //   </div>
+      // ),
       name: "username",
       label: "Username",
       inputType: InputTypes.TEXT_GROUP,
