@@ -8,7 +8,8 @@ import {
   TextInputType,
   validationMessages,
   FormResp,
-  FieldProps 
+  FieldProps, 
+  Button
 } from 'shadcn-zod-formkit';
 import { z } from "zod";
 
@@ -38,6 +39,7 @@ interface IUserRecord {
     notifications: never[];
     tags: string[];
     ordenItems?: string[];
+    cycles?: unknown[];
     shoppingPreferences?: string[];
     contacts?: Record<string,any>[],
 }
@@ -66,6 +68,7 @@ export default function FormBasics() {
     ordenItems: [],
     secretKeys: [],
     notifications: [],
+    cycles: [],
     tags: [] as string[],
   };
 
@@ -151,21 +154,21 @@ export default function FormBasics() {
     },
     zodType: z.array(z.object({ id: z.number(), name: z.string() })),
   },
-  {
-    name: "continent",
-    label: "Continente",
-    inputType: InputTypes.COMBOBOX, // 👈 Usa el nuevo ComboboxInput
-    placeHolder: "Selecciona un continente",
-    listConfig: {
-      list: [
-        { id: 1, name: "América", value: "1" },
-        { id: 2, name: "Europa", value: "2" },
-        { id: 3, name: "Asia", value: "3" },
-      ],
-      onOptionChange: (item:any) => console.log("🌎 Seleccionaste continente:", item),
-    },
-    zodType: z.string().min(1, "El continente es obligatorio"),
-  },
+  // {
+  //   name: "continent",
+  //   label: "Continente",
+  //   inputType: InputTypes.COMBOBOX, // 👈 Usa el nuevo ComboboxInput
+  //   placeHolder: "Selecciona un continente",
+  //   listConfig: {
+  //     list: [
+  //       { id: 1, name: "América", value: "1" },
+  //       { id: 2, name: "Europa", value: "2" },
+  //       { id: 3, name: "Asia", value: "3" },
+  //     ],
+  //     onOptionChange: (item:any) => console.log("🌎 Seleccionaste continente:", item),
+  //   },
+  //   zodType: z.string().min(1, "El continente es obligatorio"),
+  // },
   // {
   //   name: "continent",
   //   label: "Your Location",
@@ -203,27 +206,49 @@ export default function FormBasics() {
     },
     zodType: z.string(),
   },
-  // {
-  //   name: "country",
-  //   label: "País",
-  //   inputType: InputTypes.SELECT,
-  //   dependsOn: "continent",
-  //   loadOptions: async (categoria) => {
-  //     if (categoria === "1")
-  //       return [
-  //         { id: "1", name: "EE.UU." },
-  //         { id: "2", name: "Argentina" },
-  //       ];
-  //     if (categoria === "2")
-  //       return [
-  //         { id: "3", name: "España" },
-  //         { id: "4", name: "Francia" },
-  //       ];
-  //     return [];
-  //   },
-  //   listConfig: { list: [], onOptionChange: () => {} },
-  //   zodType: z.string(),
-  // },
+  {
+    name: "country",
+    label: "País",
+    inputType: InputTypes.SELECT,
+    dependsOn: "continent",
+    loadOptions: async (categoria) => {
+      if (categoria === "1")
+        return [
+          { id: "1", name: "EE.UU." },
+          { id: "2", name: "Argentina" },
+        ];
+      if (categoria === "2")
+        return [
+          { id: "3", name: "España" },
+          { id: "4", name: "Francia" },
+        ];
+      return [];
+    },
+    listConfig: { list: [], onOptionChange: () => {} },
+    zodType: z.string(),
+  },
+
+  {
+  name: "cycles",
+  label: "Ciclos del proceso",
+  description: "Agrega o elimina ciclos con sus datos específicos",
+  inputType: InputTypes.REPEATER_TABS,
+  tabLabelField: "name", // 🔹 mostrará el nombre del ciclo en el tab
+  repeaterFields: [
+    [
+      { name: "name", label: "Nombre del ciclo", placeHolder: "Ej: Ciclo 1" },
+      { name: "duration", label: "Duración (días)", inputType: InputTypes.NUMBER }
+    ],
+    [
+      { name: "description", label: "Descripción", placeHolder: "Detalle opcional" }
+    ]
+  ],
+  zodType: z.array(z.object({
+    name: z.string(),
+    duration: z.number().optional(),
+    description: z.string().optional()
+  }))
+}
   // {
   //   wrapInCard:true,
   //   name: "contacts",
@@ -442,6 +467,7 @@ export default function FormBasics() {
         formTitle="Basic Form Example"
         withCard
         errorAlertPosition='down'
+        // childrenHeader={<Button> childrenHeader</Button>}
         fields={mockFields}
         record={record}
         // extraValidations={[
