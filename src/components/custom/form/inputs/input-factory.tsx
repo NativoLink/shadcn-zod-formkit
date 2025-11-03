@@ -26,6 +26,7 @@ import {
   KeyValueListInput,
   RepeaterInput,
   MultiSelectInput,
+  ComboboxInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -67,6 +68,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.KEY_VALUE]: KeyValueListInput,
   [InputTypes.REPEATER]: RepeaterInput,
   [InputTypes.MULTI_SELECT]: MultiSelectInput,
+  [InputTypes.COMBOBOX]: ComboboxInput,
   
   
   //ToDos: ============================================================
