@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.10.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.2...v1.10.0) (2025-11-03)
+
+### Features
+
+* **select-input:** Load the data of a select element based on what is selected in a parent select element, a select element that may depend on what is selected in another. ([723d446](https://github.com/NativoLink/shadcn-zod-formkit/commit/723d446c17fa56da46ed3d0c5534e35eb2b1481c))
+
 ## [1.9.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.1...v1.9.2) (2025-11-03)
 
 ### Bug Fixes
