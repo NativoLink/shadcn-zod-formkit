@@ -6,6 +6,8 @@ import { LucideProps } from "lucide-react";
 export interface FieldProps<T = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
+
+  defaultValue?: any;
   
   repeaterFields?: Array<FieldProps | FieldProps[]>;
   minItems?: number;

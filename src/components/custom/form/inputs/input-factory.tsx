@@ -114,47 +114,56 @@ export class InputFactory {
   }
 }
 
-export function getDefaultValues<T extends Record<string, any>>(entity?: Partial<T>): Record<string, any> {
+export function getDefaultValues<T extends Record<string, any>>(
+  entity?: Partial<T>,
+  fields?: Array<FieldProps<T> | FieldProps<T>[]>
+): Record<string, any> {
   const defaults: Record<string, any> = {};
 
-  if (!entity) return defaults;
+  // Aplícalo primero desde la entidad (datos existentes)
+  if (entity) {
+    for (const key in entity) {
+      const value = entity[key];
 
-  for (const key in entity) {
-    const value = entity[key];
+      if (value === null || value === undefined) {
+        defaults[key] = ""; // Valor vacío por defecto
+        continue;
+      }
 
-    if (value === null || value === undefined) {
-      defaults[key] = ""; // Valor vacío por defecto
-      continue;
+      switch (typeof value) {
+        case "string":
+          defaults[key] = value;
+          break;
+        case "number":
+          defaults[key] = value;
+          break;
+        case "boolean":
+          defaults[key] = value;
+          break;
+        case "object":
+          defaults[key] = Array.isArray(value) ? [...value] : { ...value };
+          break;
+        default:
+          defaults[key] = value;
+      }
     }
+  }
 
-    switch (typeof value) {
-      case "string":
-        defaults[key] = value ?? "";
-        break;
+  // 🔥 Luego aplica los valores por defecto definidos en los fields
+  if (fields) {
+    const flatFields = fields.flat();
 
-      case "number":
-        defaults[key] = value ?? 0;
-        break;
-
-      case "boolean":
-        defaults[key] = value ?? false;
-        break;
-
-      case "object":
-        if (Array.isArray(value)) {
-          defaults[key] = [...value];
-        } else {
-          defaults[key] = { ...value };
-        }
-        break;
-
-      default:
-        defaults[key] = value;
+    for (const field of flatFields) {
+      const key = field.name as string;
+      if (defaults[key] === undefined) {
+        defaults[key] = field.value ?? field.defaultValue ?? "";
+      }
     }
   }
 
   return defaults;
 }
+
 
 
 export const getDynamicSchema = <T extends Record<string, any>>(
