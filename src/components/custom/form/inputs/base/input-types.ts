@@ -28,9 +28,11 @@ export enum InputTypes {
   KEY_VALUE = "key_value",
   REPEATER = "repeater",
   MULTI_SELECT = "multi_select",
+  COMBOBOX = "COMBO_BOX",
 }
 
 export const inputFieldComp = [
+  InputTypes.COMBOBOX,
   InputTypes.MULTI_SELECT,
   InputTypes.REPEATER,
   InputTypes.KEY_VALUE,

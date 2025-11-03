@@ -3,6 +3,7 @@ export * from './button-group-input';
 export * from './check-list-input';
 export * from './checkbox-input';
 export * from './color-input';
+export * from './combo-box-input';
 export * from './currency-input';
 export * from './date-input';
 export * from './date-time-input';

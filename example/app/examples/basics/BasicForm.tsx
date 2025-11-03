@@ -122,6 +122,21 @@ export default function FormBasics() {
       onOptionChange: (item:any) => {},
     },
   },
+  {
+    name: "continent",
+    label: "Continente",
+    inputType: InputTypes.COMBOBOX, // 👈 Usa el nuevo ComboboxInput
+    placeHolder: "Selecciona un continente",
+    listConfig: {
+      list: [
+        { id: 1, name: "América", value: "1" },
+        { id: 2, name: "Europa", value: "2" },
+        { id: 3, name: "Asia", value: "3" },
+      ],
+      onOptionChange: (item) => console.log("🌎 Seleccionaste continente:", item),
+    },
+    zodType: z.string().min(1, "El continente es obligatorio"),
+  },
   // {
   //   name: "continent",
   //   label: "Your Location",
