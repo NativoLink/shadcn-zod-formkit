@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.9.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.1...v1.9.2) (2025-11-03)
+
+### Bug Fixes
+
+* **select-input:** load defaultValue on SelectInput ([1b8f496](https://github.com/NativoLink/shadcn-zod-formkit/commit/1b8f49683efe238200648b32810f3e9e5968716f))
+
 ## [1.9.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.0...v1.9.1) (2025-10-31)
 
 ### Bug Fixes
