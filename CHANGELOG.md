@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.11.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.10.0...v1.11.0) (2025-11-03)
+
+### Features
+
+* **combobox:** new input combo-box-input.tsx ([e1dda95](https://github.com/NativoLink/shadcn-zod-formkit/commit/e1dda95a2a4f6393dcb6328bc6fd66804ec02860))
+
 ## [1.10.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.9.2...v1.10.0) (2025-11-03)
 
 ### Features
