@@ -7,7 +7,9 @@ import { ReactNode } from "react";
 export interface FieldProps<T = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
-
+  
+  childrenPosition?: 'up' | 'down'
+  children?: ReactNode | ((item: any, index: number) => ReactNode);
   defaultValue?: any;
   
   repeaterFields?: Array<FieldProps | FieldProps[]>;
