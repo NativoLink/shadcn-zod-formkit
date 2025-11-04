@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.22.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.0...v1.22.1) (2025-11-04)
+
+### Bug Fixes
+
+* **FormFieldGrid:** Gap fixed ([0ec8f57](https://github.com/NativoLink/shadcn-zod-formkit/commit/0ec8f5755ab883480f678d99dcbd5874232867d5))
+
 ## [1.22.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.21.1...v1.22.0) (2025-11-04)
 
 ### Features
