@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.20.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.19.0...v1.20.0) (2025-11-04)
+
+### Features
+
+* **button-group:** implement onOptionChange ([4e1c546](https://github.com/NativoLink/shadcn-zod-formkit/commit/4e1c54665aecf15b613a48f8d645fe2e43a9cd90))
+
 ## [1.19.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.18.1...v1.19.0) (2025-11-04)
 
 ### Features
