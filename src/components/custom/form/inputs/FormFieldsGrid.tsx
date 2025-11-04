@@ -33,10 +33,14 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
     const renderUp = fieldCopy.childrenPosition !== "down" && isRenderableChild(fieldCopy.children);
     const renderDown = fieldCopy.childrenPosition === "down" && isRenderableChild(fieldCopy.children);
 
-    const dirClass = fieldCopy.direction === 'row' ? 'flex flex-row items-center gap-4' : 'flex flex-col gap-2';
+    // Layout responsive: columna por defecto, fila en sm+ si direction es row
+    const dirClass =
+      fieldCopy.direction === "row"
+        ? "flex flex-col sm:flex-row sm:items-center sm:gap-4 w-full flex-wrap"
+        : "flex flex-col gap-2 w-full";
 
     return (
-      <div className={`${dirClass} w-full`}>
+      <div className={dirClass}>
         {renderUp && <>{fieldCopy.children}</>}
         {InputFactory.create(fieldCopy, form, isPending)}
         {renderDown && <>{fieldCopy.children}</>}
@@ -44,31 +48,30 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
     );
   };
 
-  // Renderiza una columna
   const renderColumn = (col: FieldConfig<T>[]) => {
     if (col.length === 0) return null;
 
-    const colDirection = isFieldProps(col[0]) && col[0].direction === 'row' ? 'flex flex-row gap-4' : 'flex flex-col gap-2';
+    const colDirection = isFieldProps(col[0]) && col[0].direction === 'row'
+      ? "flex flex-col sm:flex-row sm:items-center sm:gap-4 w-full flex-wrap"
+      : "flex flex-col gap-2 w-full";
 
     return (
-      <div className={`${colDirection} flex-1`}>
+      <div className={colDirection}>
         {col.map((item, idx) => {
           if (isFieldProps(item)) return renderField(item);
-          if (Array.isArray(item)) return renderColumn(item); // sub-array → columna
+          if (Array.isArray(item)) return renderColumn(item);
           return null;
         })}
       </div>
     );
   };
 
-  // Renderiza una fila (array de columnas)
   const renderRow = (row: FieldConfig<T>[]) => {
     if (row.length === 0) return null;
 
     return (
-      <div className="w-full flex flex-row gap-4 py-2">
+      <div className="w-full flex flex-col sm:flex-row sm:gap-4 py-2 flex-wrap">
         {row.map((col, idx) => {
-          // Normaliza: si es objeto suelto, lo metemos en array para tratarlo como columna
           if (isFieldProps(col)) return renderColumn([col]);
           if (Array.isArray(col)) return renderColumn(col);
           return null;
@@ -78,7 +81,7 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
   };
 
   return (
-    <div className={`w-full flex flex-col gap-4 ${className}`}>
+    <div className={`w-full flex flex-col ${gap} ${className}`}>
       {fields.map((f, idx) => {
         if (isFieldProps(f)) return <div key={idx}>{renderField(f)}</div>;
         if (Array.isArray(f)) return <div key={idx}>{renderRow(f)}</div>;
