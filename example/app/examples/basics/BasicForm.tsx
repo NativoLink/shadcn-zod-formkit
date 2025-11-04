@@ -97,6 +97,7 @@ export default function FormBasics() {
   },
   [
     {
+      direction: 'col',
       name: "email",
       label: "Email",
       inputType: InputTypes.TEXT_GROUP,
