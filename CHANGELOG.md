@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.18.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.18.0...v1.18.1) (2025-11-04)
+
+### Bug Fixes
+
+* **DynamicForm:** onClick now work with form-data ([09a3247](https://github.com/NativoLink/shadcn-zod-formkit/commit/09a324714daaa8001e5b6d7342ce8291bfccdbb7))
+
 ## [1.18.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.17.0...v1.18.0) (2025-11-04)
 
 ### Features
