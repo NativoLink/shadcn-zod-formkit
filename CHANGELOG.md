@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.21.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.21.0...v1.21.1) (2025-11-04)
+
+### Bug Fixes
+
+* **FormFieldGrid:** refactor and more dynamic grid ([ed661fb](https://github.com/NativoLink/shadcn-zod-formkit/commit/ed661fb9ce573444bae7c865b0f1593d6d8642b7))
+
 ## [1.21.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.20.0...v1.21.0) (2025-11-04)
 
 ### Features
