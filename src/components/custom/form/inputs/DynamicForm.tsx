@@ -13,6 +13,7 @@ import { ZodObject, z } from "zod";
 import { FormFieldsGrid } from "./FormFieldsGrid";
 
 type alertPositionType = 'up' | 'down';
+// type btnType = 'submit' | 'button';
 
 export interface FormResp<T> {
   form?: UseFormReturn<any>;
@@ -28,6 +29,7 @@ interface Props<T extends Record<string, any>> {
   fields: Array<FieldProps<T> | FieldProps<T>[]>;
   record?: Partial<T>;
   onSubmit?: (resp: FormResp<T>) => void;
+  onClick?: () => void;
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[];
   withErrorsAlert?: boolean;
   errorAlertPosition?: alertPositionType;
@@ -36,6 +38,7 @@ interface Props<T extends Record<string, any>> {
   submitBtnClass?: string;
   children?: ReactNode
   childrenHeader?: ReactNode
+  // btnType?: btnType
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -45,14 +48,16 @@ export const DynamicForm = <T extends Record<string, any>>({
   readOnly = false,
   record = {},
   onSubmit,
+  onClick,
   extraValidations,
   children,
   childrenHeader,
-  showIcon = true,
+  showIcon = false,
   showFormHeader = true,
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
+  // btnType = 'submit',
   submitBtnClass = '',
   submitBtnLabel = 'Guardar',
 }: Props<T>) => {
@@ -99,7 +104,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 
           {showIcon && (<Pencil className="h-5 w-5" />)}
           <div className="flex flex-col">
-            <CardTitle className="text-xl">{formTitle} </CardTitle>
+            <div className="text-xl">{formTitle} </div>
             {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
           </div>
         </div>
@@ -126,7 +131,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 
           {!readOnly && (
             <div className="flex flex-row gap-2 justify-end items-end">
-              <Button type="submit" size="lg" className={submitBtnClass} disabled={isPending}>
+              <Button type={onClick ? 'button' : 'submit'} size="lg" className={submitBtnClass} disabled={isPending} onClick={onClick}>
                 {isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />

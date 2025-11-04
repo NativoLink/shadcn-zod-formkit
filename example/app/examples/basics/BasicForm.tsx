@@ -466,6 +466,8 @@ export default function FormBasics() {
         formSubTitle="This is a subtitle"
         formTitle="Basic Form Example"
         withCard
+        // showFormHeader={false}
+        // showIcon={false}
         errorAlertPosition='down'
         // childrenHeader={<Button> childrenHeader</Button>}
         fields={mockFields}
@@ -482,8 +484,12 @@ export default function FormBasics() {
           const msg = "✅  Resultado final:"
           console.log(resp.data, msg)
         }}
+        onClick={async () => {
+          // setDataToSend(resp.data)
+          alert("✅  Resultado final:")
+        }}
       /> 
-       
+
       <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
         <div className="flex flex-row  text-lg text-gray-800 p-4">
           DATA SENDED
