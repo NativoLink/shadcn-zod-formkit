@@ -80,25 +80,34 @@ export default function FormBasics() {
     inputType: InputTypes.HIDDEN,
     // hidden: true, // alternativa a InputTypes.HIDDEN
   },
+  {
+
+    name: "username",
+    label: "Username",
+    inputType: InputTypes.TEXT_GROUP,
+    infoTooltip:"Your unique username to login",
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [User]
+    },
+    zodType: z
+      .string()
+      .min(3, "El nombre debe tener al menos 3 caracteres")
+      .max(20, "El nombre no puede tener más de 20 caracteres") ,
+  },
   [
     {
-      // children: (
-      //   <div className="flex items-center justify-between p-3 bg-blue-50 border rounded-md">
-      //     <span>CUSTOM ITEM</span>
-      //   </div>
-      // ),
-      name: "username",
-      label: "Username",
+      name: "email",
+      label: "Email",
       inputType: InputTypes.TEXT_GROUP,
-      infoTooltip:"Your unique username to login",
       inputGroupConfig:{
         autoValidIcons: true,
-        iconsLeft: [User]
+        iconsLeft: [Mail],
       },
       zodType: z
         .string()
-        .min(3, "El nombre debe tener al menos 3 caracteres")
-        .max(20, "El nombre no puede tener más de 20 caracteres") ,
+        .email("Correo inválido")
+        .optional(),
     },
     {
       name: "email",
@@ -108,7 +117,6 @@ export default function FormBasics() {
         autoValidIcons: true,
         iconsLeft: [Mail],
       },
-      direction: 'col',
       zodType: z
         .string()
         .email("Correo inválido")
@@ -195,99 +203,99 @@ export default function FormBasics() {
   //   zodType: z.string("requerido")
   // },
 
+  // {
+  //   name: "continent",
+  //   label: "Categoría",
+  //   inputType: InputTypes.SELECT,
+  //   listConfig: {
+  //     list: [
+  //       { id: 1, name: "América", value: "1" },
+  //       { id: 2, name: "Europa", value: "2" },
+  //     ],
+  //     onOptionChange: (item:any) => console.log("Seleccionaste:", item),
+  //   },
+  //   zodType: z.string(),
+  // },
+  // {
+  //   name: "country",
+  //   label: "País",
+  //   inputType: InputTypes.SELECT,
+  //   dependsOn: "continent",
+  //   loadOptions: async (categoria) => {
+  //     if (categoria === "1")
+  //       return [
+  //         { id: "1", name: "EE.UU." },
+  //         { id: "2", name: "Argentina" },
+  //       ];
+  //     if (categoria === "2")
+  //       return [
+  //         { id: "3", name: "España" },
+  //         { id: "4", name: "Francia" },
+  //       ];
+  //     return [];
+  //   },
+  //   listConfig: { list: [], onOptionChange: () => {} },
+  //   zodType: z.string(),
+  // },
+
+  // {
+  //   name: "cycles",
+  //   label: "Ciclos del proceso",
+  //   description: "Agrega o elimina ciclos con sus datos específicos",
+  //   inputType: InputTypes.REPEATER_TABS,
+  //   tabLabelField: "name", // 🔹 mostrará el nombre del ciclo en el tab
+  //   repeaterFields: [
+  //     [
+  //       { name: "name", label: "Nombre del ciclo", placeHolder: "Ej: Ciclo 1" },
+  //       { name: "duration", label: "Duración (días)", inputType: InputTypes.NUMBER }
+  //     ],
+  //     [
+  //       { name: "description", label: "Descripción", placeHolder: "Detalle opcional" }
+  //     ]
+  //   ],
+  //   zodType: z.array(z.object({
+  //     name: z.string(),
+  //     duration: z.number().optional(),
+  //     description: z.string().optional()
+  //   }))
+  // },
+
   {
-    name: "continent",
-    label: "Categoría",
-    inputType: InputTypes.SELECT,
+    wrapInCard: true,
+    name: "isActive",
+    label: "",
+    inputType: InputTypes.BUTTON_GROUP,
+    description: "Selecciona tu género",
     listConfig: {
       list: [
-        { id: 1, name: "América", value: "1" },
-        { id: 2, name: "Europa", value: "2" },
+        { id:1, name: "Activo", value: true },
+        { id:2, name: "Inactivo", value: false },
+        { id:3, name: "Todos", value: undefined },
       ],
-      onOptionChange: (item:any) => console.log("Seleccionaste:", item),
+      onOptionChange: (item?: any) => {
+        toast.success(`changed ${item}`)
+      },
     },
-    zodType: z.string(),
   },
   {
-    name: "country",
-    label: "País",
-    inputType: InputTypes.SELECT,
-    dependsOn: "continent",
-    loadOptions: async (categoria) => {
-      if (categoria === "1")
-        return [
-          { id: "1", name: "EE.UU." },
-          { id: "2", name: "Argentina" },
-        ];
-      if (categoria === "2")
-        return [
-          { id: "3", name: "España" },
-          { id: "4", name: "Francia" },
-        ];
-      return [];
-    },
-    listConfig: { list: [], onOptionChange: () => {} },
-    zodType: z.string(),
-  },
-
-  {
-    name: "cycles",
-    label: "Ciclos del proceso",
-    description: "Agrega o elimina ciclos con sus datos específicos",
-    inputType: InputTypes.REPEATER_TABS,
-    tabLabelField: "name", // 🔹 mostrará el nombre del ciclo en el tab
+    wrapInCard:true,
+    name: "contacts",
+    label: "Contactos",
+    inputType: InputTypes.REPEATER,
     repeaterFields: [
-      [
-        { name: "name", label: "Nombre del ciclo", placeHolder: "Ej: Ciclo 1" },
-        { name: "duration", label: "Duración (días)", inputType: InputTypes.NUMBER }
-      ],
-      [
-        { name: "description", label: "Descripción", placeHolder: "Detalle opcional" }
-      ]
+      { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
+      [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
+      { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
     ],
-    zodType: z.array(z.object({
-      name: z.string(),
-      duration: z.number().optional(),
-      description: z.string().optional()
-    }))
+    minItems: 1,
+    maxItems: 5,
+    zodType:z.array(
+      z.object({
+        name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
+        email: z.string().email("Debe ser un correo válido"),
+      })
+    ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
   },
-
-  {
-        wrapInCard: true,
-        name: "isActive",
-        label: "",
-        inputType: InputTypes.BUTTON_GROUP,
-        description: "Selecciona tu género",
-        listConfig: {
-          list: [
-            { id:1, name: "Activo", value: true },
-            { id:2, name: "Inactivo", value: false },
-            { id:3, name: "Todos", value: undefined },
-          ],
-          onOptionChange: (item?: any) => {
-            toast.success(`changed ${item}`)
-          },
-        },
-      }
-  // {
-  //   wrapInCard:true,
-  //   name: "contacts",
-  //   label: "Contactos",
-  //   inputType: InputTypes.REPEATER,
-  //   repeaterFields: [
-  //     { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
-  //     [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
-  //     { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
-  //   ],
-  //   minItems: 1,
-  //   maxItems: 5,
-  //   zodType:z.array(
-  //     z.object({
-  //       name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
-  //       email: z.string().email("Debe ser un correo válido"),
-  //     })
-  //   ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
-  // },
   // [{
   //   name: "password",
   //   label: "Password",
@@ -480,6 +488,16 @@ export default function FormBasics() {
   // }
 ];
 
+// const mockFields: FieldConfig<IUserRecord>[] = [
+//   [
+//     [{ name: "otpCode", label: "Código", inputType: InputTypes.TEXT_GROUP, zodType: z.string() }],
+//     [
+//       { name: "favoriteColor", label: "Color", inputType: InputTypes.COLOR, direction:'col', zodType: z.string() },
+//       { name: "email", label: "email", inputType: InputTypes.TEXT_GROUP, zodType: z.string() }
+//     ],
+//   ],
+//   { name: "username", label: "Username", inputType: InputTypes.TEXT_GROUP, zodType: z.string() },
+// ];
   return (
     <>
       <DynamicForm<IUserRecord>
