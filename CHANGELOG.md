@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.19.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.18.1...v1.19.0) (2025-11-04)
+
+### Features
+
+* **DynamicForm:** add Dynamic Button Group on FormFooter ([b88f01b](https://github.com/NativoLink/shadcn-zod-formkit/commit/b88f01b1bc9d2edefab35d7ab3ed7b05626e06bf))
+
 ## [1.18.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.18.0...v1.18.1) (2025-11-04)
 
 ### Bug Fixes
