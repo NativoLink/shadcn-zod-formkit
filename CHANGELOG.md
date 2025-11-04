@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.18.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.17.0...v1.18.0) (2025-11-04)
+
+### Features
+
+* **DynamicForm:** swith btnType in form submit or button, automatic know using onClick Function ([c01d336](https://github.com/NativoLink/shadcn-zod-formkit/commit/c01d3366cf0bab76765b184712ce964dc5a7944d))
+
 ## [1.17.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.16.0...v1.17.0) (2025-11-03)
 
 ### Features
