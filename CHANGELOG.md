@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.22.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.2...v1.22.3) (2025-11-04)
+
+### Bug Fixes
+
+* **tailwind-styles:** Tailwind ?? ([acca01b](https://github.com/NativoLink/shadcn-zod-formkit/commit/acca01b657cc1b877099eee8333617e4243ae2e3))
+
 ## [1.22.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.1...v1.22.2) (2025-11-04)
 
 ### Bug Fixes
