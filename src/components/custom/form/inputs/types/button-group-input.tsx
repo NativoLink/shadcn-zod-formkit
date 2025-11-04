@@ -40,11 +40,11 @@ export const FieldButtonGroup = ({ input, form, isSubmitting, className = "w-ful
 
   return (
         <ButtonGroup className="flex flex-row  w-full">
-        {options.map((option) => (
+        {options.map((option, key) => (
           <Button
             type="button"
             className={className}
-            key={option.value}
+            key={key}
             variant={selectedValue === option.value ? "default" : "outline"}
             onClick={() => handleSelect(option.value)}
             disabled={isSubmitting}

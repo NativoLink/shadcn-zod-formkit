@@ -4,6 +4,25 @@ import { LucideProps } from "lucide-react";
 import { ReactNode } from "react";
 
 
+export const flattenFields = <T extends Record<string, any>>(fields: FieldConfig<T>[]): FieldProps<T>[] => {
+  const result: FieldProps<T>[] = [];
+
+  for (const field of fields) {
+    if (Array.isArray(field)) {
+      result.push(...flattenFields(field));
+    } else if ((field as any).fields) {
+      result.push(...flattenFields((field as any).fields));
+    } else {
+      result.push(field);
+    }
+  }
+
+  return result;
+};
+
+
+export type FieldConfig<T> = FieldProps<T> | FieldConfig<T>[];
+
 export interface FieldProps<T = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
@@ -13,6 +32,7 @@ export interface FieldProps<T = Record<string,any>> {
   childrenPosition?: 'up' | 'down'
   children?: ReactNode | ((item: any, index: number) => ReactNode);
   defaultValue?: any;
+  direction?: 'row' | 'col';
   
   repeaterFields?: Array<FieldProps | FieldProps[]>;
   minItems?: number;
