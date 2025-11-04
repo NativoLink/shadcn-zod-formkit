@@ -1,8 +1,7 @@
 'use client';
 
-import { ReactNode, useEffect, useMemo, useTransition } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useTransition } from "react";
 import { useForm, UseFormReturn, DefaultValues, Resolver } from "react-hook-form";
-
 import { FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema } from "./input-factory";
 import { FormErrorsAlert } from "./base/form-errors";
@@ -13,7 +12,6 @@ import { ZodObject, z } from "zod";
 import { FormFieldsGrid } from "./FormFieldsGrid";
 
 type alertPositionType = 'up' | 'down';
-// type btnType = 'submit' | 'button';
 
 export interface FormResp<T> {
   form?: UseFormReturn<any>;
@@ -21,24 +19,23 @@ export interface FormResp<T> {
 }
 
 interface Props<T extends Record<string, any>> {
-  showIcon?: boolean
-  showFormHeader?: boolean
+  showIcon?: boolean;
+  showFormHeader?: boolean;
   formTitle: string;
   formSubTitle?: string;
   readOnly?: boolean;
   fields: Array<FieldProps<T> | FieldProps<T>[]>;
   record?: Partial<T>;
   onSubmit?: (resp: FormResp<T>) => void;
-  onClick?: () => void;
+  onClick?: (resp: FormResp<T>) => void; // 👈 ahora recibe datos
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[];
   withErrorsAlert?: boolean;
   errorAlertPosition?: alertPositionType;
   withCard?: boolean;
   submitBtnLabel?: string;
   submitBtnClass?: string;
-  children?: ReactNode
-  childrenHeader?: ReactNode
-  // btnType?: btnType
+  children?: ReactNode;
+  childrenHeader?: ReactNode;
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -57,24 +54,18 @@ export const DynamicForm = <T extends Record<string, any>>({
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
-  // btnType = 'submit',
   submitBtnClass = '',
   submitBtnLabel = 'Guardar',
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
 
-  // schema dinámico (genérico)
   const schema = useMemo(() => getDynamicSchema<T>(fields, extraValidations), [fields, extraValidations]);
   type FormData = z.infer<typeof schema>;
-
-  // resolver casteado para evitar incompatibilidades de tipos entre zodResolver y useForm genérico
   const resolver = zodResolver(schema) as unknown as Resolver<FormData>;
 
-  // valores iniciales: aceptamos Partial<T> desde record
   const initialValues = useMemo(() => getDefaultValues<T>(record), [record]);
 
-  // Aquí está el fix: casteamos a DefaultValues<FormData>
   const form = useForm<FormData>({
     resolver,
     defaultValues: initialValues as unknown as DefaultValues<FormData>,
@@ -86,32 +77,41 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const handleSubmit = (data: FormData) => {
     if (readOnly) return;
+    startTransition(() => {
+      const resp: FormResp<T> = { data: data as unknown as T, form };
+      onSubmit?.(resp);
+    });
+  };
 
-    try {
-      startTransition(async () => {
-        const resp: FormResp<T> = { data: data as unknown as T, form };
-        onSubmit?.(resp);
-      });
-    } catch (error) {
-      console.error("Ocurrió un error al enviar el formulario.", error);
-    }
+  // 👇 NUEVA FUNCIÓN para manejar onClick y pasar data
+  const handleClick = async () => {
+    if (!onClick) return;
+    const isValid = await form.trigger(); // valida antes de obtener data
+    if (!isValid) return; // evita enviar si hay errores
+
+    const data = form.getValues() as unknown as T;
+    const resp: FormResp<T> = { data, form };
+    onClick(resp);
   };
 
   const formContent = (
     <div>
-      {showFormHeader && (<CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
-        <div className="flex flex-row items-center gap-2 w-full">
-
-          {showIcon && (<Pencil className="h-5 w-5" />)}
-          <div className="flex flex-col">
-            <div className="text-xl">{formTitle} </div>
-            {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
+      {showFormHeader && (
+        <CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
+          <div className="flex flex-row items-center gap-2 w-full">
+            {showIcon && <Pencil className="h-5 w-5" />}
+            <div className="flex flex-col">
+              <div className="text-xl">{formTitle}</div>
+              {formSubTitle && <CardDescription>{formSubTitle}</CardDescription>}
+            </div>
           </div>
-        </div>
-        {childrenHeader && (<div className="flex flex-row items-center gap-2 w-full h-full">
-          {childrenHeader}
-        </div>)}
-      </CardTitle>)}
+          {childrenHeader && (
+            <div className="flex flex-row items-center gap-2 w-full h-full">
+              {childrenHeader}
+            </div>
+          )}
+        </CardTitle>
+      )}
 
       {withErrorsAlert && errorAlertPosition === 'up' && (
         <FormErrorsAlert formState={form.formState} fields={fields} />
@@ -124,14 +124,22 @@ export const DynamicForm = <T extends Record<string, any>>({
         >
           <div className="w-full grid grid-cols-1">
             <FormFieldsGrid fields={fields} form={form} readOnly={readOnly} />
-            {children && (<div className="flex flex-row items-center gap-2 w-full h-full">
-              {children}
-            </div>)}
+            {children && (
+              <div className="flex flex-row items-center gap-2 w-full h-full">
+                {children}
+              </div>
+            )}
           </div>
 
           {!readOnly && (
             <div className="flex flex-row gap-2 justify-end items-end">
-              <Button type={onClick ? 'button' : 'submit'} size="lg" className={submitBtnClass} disabled={isPending} onClick={onClick}>
+              <Button
+                type={onClick ? 'button' : 'submit'}
+                size="lg"
+                className={submitBtnClass}
+                disabled={isPending}
+                onClick={onClick ? handleClick : undefined} // 👈 aquí el cambio
+              >
                 {isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -159,9 +167,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   return (
     <Card>
-      <CardContent>
-        {formContent}
-      </CardContent>
+      <CardContent>{formContent}</CardContent>
     </Card>
   );
 };

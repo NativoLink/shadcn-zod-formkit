@@ -484,9 +484,10 @@ export default function FormBasics() {
           const msg = "✅  Resultado final:"
           console.log(resp.data, msg)
         }}
-        onClick={async () => {
+        onClick={({data}) => {
           // setDataToSend(resp.data)
           alert("✅  Resultado final:")
+          console.log("✅  Resultado final:", data)
         }}
       /> 
 
