@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.22.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.21.1...v1.22.0) (2025-11-04)
+
+### Features
+
+* **responsive-form-field-grid :** now is responsive grid ([7bf84c0](https://github.com/NativoLink/shadcn-zod-formkit/commit/7bf84c02420f4024dccb0d3a42ca1783c5c4f76f))
+
 ## [1.21.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.21.0...v1.21.1) (2025-11-04)
 
 ### Bug Fixes
