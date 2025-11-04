@@ -14,7 +14,8 @@ interface Option {
 export class ButtonGroupInput extends BaseInput {
   render(): JSX.Element {
     const { input, form, isSubmitting } = this;
-    return <FieldButtonGroup input={input} form={form} isSubmitting={isSubmitting} />;
+    const className = input.className
+    return <FieldButtonGroup input={input} form={form} isSubmitting={isSubmitting}  className={className}/>;
   }
 }
 
@@ -22,22 +23,27 @@ interface Props {
   input: FieldProps;
   form: UseFormReturn;
   isSubmitting?: boolean;
+  className?: string;
 }
 
-export const FieldButtonGroup = ({ input, form, isSubmitting }: Props) => {
+export const FieldButtonGroup = ({ input, form, isSubmitting, className = "w-full flex-1" }: Props) => {
   const options: InputOption[] = (input.listConfig?.list ?? []).filter((option): option is InputOption => 'name' in option);
 
   const handleSelect = (value: any) => {
     form.setValue(input.name, value, { shouldValidate: true });
+    if (input.listConfig?.onOptionChange)  input.listConfig.onOptionChange(value);
   };
+
+
 
   const selectedValue = form.watch(input.name);
 
   return (
-        <ButtonGroup>
+        <ButtonGroup className="flex flex-row  w-full">
         {options.map((option) => (
           <Button
             type="button"
+            className={className}
             key={option.value}
             variant={selectedValue === option.value ? "default" : "outline"}
             onClick={() => handleSelect(option.value)}

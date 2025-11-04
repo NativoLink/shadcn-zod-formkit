@@ -40,7 +40,6 @@ const FieldFile = ({ form, input, isSubmitting }: Props) => {
     if (file) {
       const objectUrl = URL.createObjectURL(file)
       setPreview(objectUrl)
-      console.log("🚀 ~ handleFileChange ~ objectUrl:", objectUrl)
     } else {
       setPreview(null)
     }

@@ -230,26 +230,44 @@ export default function FormBasics() {
   },
 
   {
-  name: "cycles",
-  label: "Ciclos del proceso",
-  description: "Agrega o elimina ciclos con sus datos específicos",
-  inputType: InputTypes.REPEATER_TABS,
-  tabLabelField: "name", // 🔹 mostrará el nombre del ciclo en el tab
-  repeaterFields: [
-    [
-      { name: "name", label: "Nombre del ciclo", placeHolder: "Ej: Ciclo 1" },
-      { name: "duration", label: "Duración (días)", inputType: InputTypes.NUMBER }
+    name: "cycles",
+    label: "Ciclos del proceso",
+    description: "Agrega o elimina ciclos con sus datos específicos",
+    inputType: InputTypes.REPEATER_TABS,
+    tabLabelField: "name", // 🔹 mostrará el nombre del ciclo en el tab
+    repeaterFields: [
+      [
+        { name: "name", label: "Nombre del ciclo", placeHolder: "Ej: Ciclo 1" },
+        { name: "duration", label: "Duración (días)", inputType: InputTypes.NUMBER }
+      ],
+      [
+        { name: "description", label: "Descripción", placeHolder: "Detalle opcional" }
+      ]
     ],
-    [
-      { name: "description", label: "Descripción", placeHolder: "Detalle opcional" }
-    ]
-  ],
-  zodType: z.array(z.object({
-    name: z.string(),
-    duration: z.number().optional(),
-    description: z.string().optional()
-  }))
-}
+    zodType: z.array(z.object({
+      name: z.string(),
+      duration: z.number().optional(),
+      description: z.string().optional()
+    }))
+  },
+
+  {
+        wrapInCard: true,
+        name: "isActive",
+        label: "",
+        inputType: InputTypes.BUTTON_GROUP,
+        description: "Selecciona tu género",
+        listConfig: {
+          list: [
+            { id:1, name: "Activo", value: true },
+            { id:2, name: "Inactivo", value: false },
+            { id:3, name: "Todos", value: undefined },
+          ],
+          onOptionChange: (item?: any) => {
+            toast.success(`changed ${item}`)
+          },
+        },
+      }
   // {
   //   wrapInCard:true,
   //   name: "contacts",
@@ -469,14 +487,14 @@ export default function FormBasics() {
         withCard
         submitBtnClass='w-full flex-1'
 
-        // listBtnConfig={[
-        //   {
-        //     variant:'outline',
-        //     label: 'BUTTON 1',
-        //     btnType: 'button',
-        //     onClick: () => {alert('FROM BUTTON 1')}
-        //   }
-        // ]}
+        listBtnConfig={[
+          {
+            variant:'outline',
+            label: 'BUTTON 1',
+            btnType: 'button',
+            onClick: () => {alert('FROM BUTTON 1')}
+          }
+        ]}
         // showFormHeader={false}
         // showIcon={false}
         errorAlertPosition='down'
