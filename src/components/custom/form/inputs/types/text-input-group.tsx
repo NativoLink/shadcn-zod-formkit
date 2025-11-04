@@ -16,7 +16,7 @@ import {
   InputGroupInput, 
   InputGroupText 
 } from "@/src/components/ui/input-group";
-import { FieldProps } from "../base/definitions";
+import { FieldProps, TextInputType } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
@@ -57,7 +57,8 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
 
   // 👁️ Estado para mostrar/ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
-  const isPasswordField = input.keyboardType === "password";
+  const isPasswordField = input.keyboardType === TextInputType.PASSWORD;
+  const isNumberField = input.keyboardType === TextInputType.NUMBER;
 
   const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField
   const formField = (
@@ -89,8 +90,24 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                 <InputGroupInput
                   placeholder={input.placeHolder}
                   disabled={input.disabled || isSubmitting}
-                  {...field}
-                  type={isPasswordField && !showPassword ? "password" : "text"}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                  type={
+                    isPasswordField && !showPassword
+                      ? "password"
+                      : isNumberField
+                      ? "number"
+                      : "text"
+                  }
+                  value={field.value ?? ""}
+                  onChange={(e) => {
+                    let value: any = e.target.value;
+                    if (isNumberField) {
+                      value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
+                    }
+                    field.onChange(value);
+                  }}
                 />
 
                 {/* Iconos derecha */}

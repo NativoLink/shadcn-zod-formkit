@@ -81,6 +81,13 @@ interface ListConfig {
   selectedList?: InputOption[]
   sortable?: boolean;
 }
+export interface BtnConfig {
+  label: string;
+  btnType: 'submit' | 'button';
+  onClick: () => void
+  variant?:  "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
+  disabled?: boolean;
+}
 
 export interface InputOption {
   id: number | string

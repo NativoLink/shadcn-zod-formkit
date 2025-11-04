@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/tabs"
 import { JSX, ReactNode } from "react";
 import { AccordionGroupForm, BasicFormPage } from "./examples";
+import { Toaster } from "@/components/ui/sonner";
 
 
 interface ITab {
@@ -43,6 +44,7 @@ export default function Home() {
           </TabsContent>
         )}
       </Tabs>
+      <Toaster />
     </main>
   )
 }
