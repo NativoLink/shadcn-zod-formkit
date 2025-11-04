@@ -1,6 +1,6 @@
 'use client'
 import { UseFormReturn } from "react-hook-form";
-import { BaseInput, FieldProps, InputTypes } from "./base";
+import { BaseInput, FieldConfig, FieldProps, InputTypes } from "./base";
 import { 
   TextInput,
   SelectInput,
@@ -122,43 +122,18 @@ export class InputFactory {
 
 export function getDefaultValues<T extends Record<string, any>>(
   entity?: Partial<T>,
-  fields?: Array<FieldProps<T> | FieldProps<T>[]>
+  fields?: FieldConfig<T>[]
 ): Record<string, any> {
   const defaults: Record<string, any> = {};
 
-  // Aplícalo primero desde la entidad (datos existentes)
   if (entity) {
-    for (const key in entity) {
-      const value = entity[key];
-
-      if (value === null || value === undefined) {
-        defaults[key] = ""; // Valor vacío por defecto
-        continue;
-      }
-
-      switch (typeof value) {
-        case "string":
-          defaults[key] = value;
-          break;
-        case "number":
-          defaults[key] = value;
-          break;
-        case "boolean":
-          defaults[key] = value;
-          break;
-        case "object":
-          defaults[key] = Array.isArray(value) ? [...value] : { ...value };
-          break;
-        default:
-          defaults[key] = value;
-      }
-    }
+    Object.entries(entity).forEach(([key, value]) => {
+      defaults[key] = value ?? "";
+    });
   }
 
-  // 🔥 Luego aplica los valores por defecto definidos en los fields
   if (fields) {
-    const flatFields = fields.flat();
-
+    const flatFields = flattenFields(fields); // ✅ aplanado recursivo completo
     for (const field of flatFields) {
       const key = field.name as string;
       if (defaults[key] === undefined) {
@@ -172,15 +147,31 @@ export function getDefaultValues<T extends Record<string, any>>(
 
 
 
+const flattenFields = <T extends Record<string, any>>(fields: FieldConfig<T>[]): FieldProps<T>[] => {
+  const result: FieldProps<T>[] = [];
+
+  for (const field of fields) {
+    if (Array.isArray(field)) {
+      result.push(...flattenFields(field));
+    } else if ((field as any).fields) {
+      result.push(...flattenFields((field as any).fields));
+    } else {
+      result.push(field);
+    }
+  }
+
+  return result;
+};
+
 export const getDynamicSchema = <T extends Record<string, any>>(
-  fields: Array<FieldProps<T> | FieldProps<T>[]>,
+  fields: FieldConfig<T>[],
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[]
 ): ZodObject<Record<keyof T, ZodTypeAny>> => {
-  
-  const flatFields: FieldProps<T>[] = fields.flatMap(f =>
-    Array.isArray(f) ? f : [f]
-  );
 
+  // 🔁 aplanamos el árbol completo de campos
+  const flatFields = flattenFields(fields);
+
+  // 🎯 construimos el shape del schema
   const shape = flatFields.reduce((acc, f) => {
     acc[f.name as keyof T] = f.zodType ?? z.any();
     return acc;
@@ -188,7 +179,7 @@ export const getDynamicSchema = <T extends Record<string, any>>(
 
   let schema: ZodObject<Record<keyof T, ZodTypeAny>> = z.object(shape);
 
-  // Aplica validaciones extra opcionales
+  // ⚙️ Aplicar validaciones adicionales si las hay
   if (extraValidations?.length) {
     for (const fn of extraValidations) {
       schema = fn(schema);

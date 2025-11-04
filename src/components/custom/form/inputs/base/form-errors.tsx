@@ -1,22 +1,48 @@
-import { FieldValues, FormState } from 'react-hook-form'
-import { CustomAlert } from '@/src/components/custom/custom-alert'
-import { FieldProps } from './definitions'
+import { FieldValues, FormState } from "react-hook-form";
+import { CustomAlert } from "@/src/components/custom/custom-alert";
+import { FieldConfig, FieldProps } from "./definitions";
+
+// ✅ mismo tipo recursivo que usamos antes
+
 
 interface Props<T extends FieldValues = Record<string, any>> {
-  formState: FormState<any> // 👈 aquí cambiamos
-  fields: Array<FieldProps<T> | FieldProps<T>[]>
+  formState: FormState<any>;
+  fields: FieldConfig<T>[]; // 👈 ahora soporta anidación
 }
+
+/**
+ * 🔁 Función recursiva para aplanar la estructura de campos
+ */
+const flattenFields = <T extends FieldValues>(
+  fields: FieldConfig<T>[]
+): FieldProps<T>[] => {
+  const result: FieldProps<T>[] = [];
+
+  for (const field of fields) {
+    if (Array.isArray(field)) {
+      result.push(...flattenFields(field));
+    } else if ((field as any).fields) {
+      // 👇 si el campo tiene subcampos, también los aplanamos
+      result.push(...flattenFields((field as any).fields));
+    } else {
+      result.push(field);
+    }
+  }
+
+  return result;
+};
 
 export const FormErrorsAlert = <T extends FieldValues = Record<string, any>>({
   formState,
-  fields
+  fields,
 }: Props<T>) => {
+  const flatFields = flattenFields(fields); // ✅ recursivo
 
-  const flatFields: FieldProps<T>[] = fields.flatMap(f => Array.isArray(f) ? f : [f]);
+  const hasErrors = Object.keys(formState.errors).length > 0;
 
   return (
     <div style={{ marginTop: 4 }}>
-      {Object.entries(formState.errors).length > 0 && (
+      {hasErrors && (
         <CustomAlert
           title="Revisar los siguientes criterios"
           description={
@@ -24,7 +50,7 @@ export const FormErrorsAlert = <T extends FieldValues = Record<string, any>>({
               {Object.entries(formState.errors).map(([key, value]) => (
                 <li key={key}>
                   <strong>{getFieldLabel<T>(key, flatFields)}:</strong>{" "}
-                  {value?.message?.toString() ?? ''}
+                  {value?.message?.toString() ?? ""}
                 </li>
               ))}
             </ul>

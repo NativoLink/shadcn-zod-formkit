@@ -9,7 +9,8 @@ import {
   validationMessages,
   FormResp,
   FieldProps, 
-  Button
+  Button,
+  FieldConfig
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
@@ -72,8 +73,7 @@ export default function FormBasics() {
     cycles: [],
     tags: [] as string[],
   };
-
-  const mockFields: Array<FieldProps<IUserRecord> |FieldProps<IUserRecord>[]> = [
+  const mockFields: FieldConfig<IUserRecord> = [
   {
     name: 'id',
     label: "ID",
@@ -108,6 +108,7 @@ export default function FormBasics() {
         autoValidIcons: true,
         iconsLeft: [Mail],
       },
+      direction: 'col',
       zodType: z
         .string()
         .email("Correo inválido")
