@@ -34,9 +34,6 @@ export const FieldButtonGroup = ({ input, form, isSubmitting }: Props) => {
   const selectedValue = form.watch(input.name);
 
   return (
-    // <div className="flex flex-col gap-1 w-full">
-    //   <label className="font-semibold">{input.label}</label>
-    //   <div className="flex flex-wrap gap-2">
         <ButtonGroup>
         {options.map((option) => (
           <Button
@@ -50,8 +47,5 @@ export const FieldButtonGroup = ({ input, form, isSubmitting }: Props) => {
           </Button>
         ))}
         </ButtonGroup>
-    //   </div>
-    //   {input.description && <p className="text-sm text-muted-foreground">{input.description}</p>}
-    // </div>
   );
 };

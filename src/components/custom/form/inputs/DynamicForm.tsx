@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useMemo, useRef, useTransition } from "react";
 import { useForm, UseFormReturn, DefaultValues, Resolver } from "react-hook-form";
-import { FieldProps } from "./base";
+import { BtnConfig, FieldProps } from "./base";
 import { getDefaultValues, getDynamicSchema } from "./input-factory";
 import { FormErrorsAlert } from "./base/form-errors";
 import { Button, Card, CardContent, CardDescription, CardTitle, Form } from '@/src/components/ui';
@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Pencil, Save } from "lucide-react";
 import { ZodObject, z } from "zod";
 import { FormFieldsGrid } from "./FormFieldsGrid";
+import { ButtonGroup } from "@/src/components/ui/button-group";
 
 type alertPositionType = 'up' | 'down';
 
@@ -36,6 +37,7 @@ interface Props<T extends Record<string, any>> {
   submitBtnClass?: string;
   children?: ReactNode;
   childrenHeader?: ReactNode;
+  listBtnConfig?: BtnConfig[];
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -55,6 +57,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   errorAlertPosition = 'up',
   withCard = false,
   submitBtnClass = '',
+  listBtnConfig = [],
   submitBtnLabel = 'Guardar',
 }: Props<T>) => {
 
@@ -131,29 +134,43 @@ export const DynamicForm = <T extends Record<string, any>>({
             )}
           </div>
 
-          {!readOnly && (
-            <div className="flex flex-row gap-2 justify-end items-end">
-              <Button
-                type={onClick ? 'button' : 'submit'}
-                size="lg"
-                className={submitBtnClass}
-                disabled={isPending}
-                onClick={onClick ? handleClick : undefined} // 👈 aquí el cambio
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Guardando...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4 mr-2" />
-                    {submitBtnLabel}
-                  </>
-                )}
-              </Button>
-            </div>
-          )}
+            <ButtonGroup className="flex flex-row  w-full">
+              {
+                listBtnConfig.map((btn, key) => (
+                  <Button
+                    type={btn.btnType}
+                    key={key}
+                    size="lg"
+                    className={submitBtnClass}
+                    variant={btn.variant}
+                    onClick={btn.onClick}
+                    disabled={btn.disabled}
+                  >
+                  {btn.label}
+                </Button>
+              ))}
+              {!readOnly && (
+                  <Button
+                    type={onClick ? 'button' : 'submit'}
+                    size="lg"
+                    className={submitBtnClass}
+                    disabled={isPending}
+                    onClick={onClick ? handleClick : undefined} // 👈 aquí el cambio
+                  >
+                    {isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Guardando...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4 mr-2" />
+                        {submitBtnLabel}
+                      </>
+                    )}
+                  </Button>
+              )}
+            </ButtonGroup>
         </form>
       </Form>
 

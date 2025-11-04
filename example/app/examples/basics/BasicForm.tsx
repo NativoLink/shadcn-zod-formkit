@@ -11,6 +11,7 @@ import {
   FieldProps, 
   Button
 } from 'shadcn-zod-formkit';
+import { toast } from 'sonner';
 import { z } from "zod";
 
 //ADD EXAMPLE WITH TYPING..
@@ -466,6 +467,16 @@ export default function FormBasics() {
         formSubTitle="This is a subtitle"
         formTitle="Basic Form Example"
         withCard
+        submitBtnClass='w-full flex-1'
+
+        // listBtnConfig={[
+        //   {
+        //     variant:'outline',
+        //     label: 'BUTTON 1',
+        //     btnType: 'button',
+        //     onClick: () => {alert('FROM BUTTON 1')}
+        //   }
+        // ]}
         // showFormHeader={false}
         // showIcon={false}
         errorAlertPosition='down'
@@ -481,13 +492,15 @@ export default function FormBasics() {
         // ]}
         onSubmit={async (resp: FormResp<IUserRecord>) => {
           setDataToSend(resp.data)
-          const msg = "✅  Resultado final:"
-          console.log(resp.data, msg)
         }}
         onClick={({data}) => {
           // setDataToSend(resp.data)
-          alert("✅  Resultado final:")
-          console.log("✅  Resultado final:", data)
+          toast.info(
+            <pre className="flex flex-row  text-xs text-gray-800 p-4">
+              <code>{JSON.stringify(data, null, 2)}</code>
+            </pre>
+          );
+          // console.log("✅  Resultado final:", data)
         }}
       /> 
 
