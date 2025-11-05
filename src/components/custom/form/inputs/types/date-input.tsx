@@ -8,7 +8,7 @@ import { Button } from "@/src/components/ui/button"
 import { Calendar } from "@/src/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover"
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form"
-import { BaseInput } from "../base"
+import { BaseInput, handleOnChage } from "../base"
 import { JSX } from "react"
 import { cn } from '@/src/lib/utils';
 import { Card } from "@/src/components/ui/card"
@@ -37,7 +37,8 @@ export class DateInput extends BaseInput {
 
         const handleSelect = (selectedDate?: Date) => {
           setDate(selectedDate)
-          field.onChange(selectedDate) // <-- Actualiza el form
+          // field.onChange(selectedDate) // <-- Actualiza el form
+          handleOnChage(selectedDate, input, field)
         }
 
         return (

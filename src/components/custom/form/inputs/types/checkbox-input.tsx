@@ -1,6 +1,6 @@
 'use client'
 
-import { BaseInput, FieldProps } from "../base";
+import { BaseInput, FieldProps, handleOnChage } from "../base";
 import { JSX } from "react";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import {
@@ -50,7 +50,7 @@ const FieldCheckbox = ({ input, form, isSubmitting }: Props) => {
               <Checkbox
                 id={input.name}
                 checked={field.value}
-                onCheckedChange={field.onChange}
+                onCheckedChange={(e) => handleOnChage(e, input, field)}
                 disabled={input.disabled || isSubmitting}
                 className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white 
                   dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"

@@ -1,6 +1,6 @@
 'use client'
 import { JSX } from 'react';
-import { BaseInput } from '../base'
+import { BaseInput, handleOnChage } from '../base'
 import { Card, CardContent, CardHeader, CardTitle, Checkbox, Label } from '@/src/components/ui';
 
 
@@ -33,6 +33,7 @@ export class CheckListInput extends BaseInput {
         {lista.map((item) => ( 
           <div key={item[optionValue as keyof typeof item] as React.Key} className="flex items-center space-x-2">
             <Checkbox
+              onChange={(e) => handleOnChage(e, input)}
               disabled={input.disabled || isSubmitting}
               id={String(item[optionValue as keyof typeof item])}
               checked={value.includes(item[optionValue as keyof typeof item] as string)}

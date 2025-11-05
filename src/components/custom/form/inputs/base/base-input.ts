@@ -1,6 +1,6 @@
 import { JSX, ReactNode } from "react";
 
-import { UseFormReturn } from "react-hook-form";
+import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form";
 import { FieldProps, GroupedOption, InputOption } from "./definitions";
 // import { FieldProps } from "./field-props";
 
@@ -46,4 +46,10 @@ export const entitiesToGroupedOption = (data:any[], optionValue:string = 'name' 
     if(entidad) entities.push(entidad);
   }
   return entities;
+}
+
+export const handleOnChage = (event: any[] | any, input: FieldProps, field?: ControllerRenderProps<FieldValues, string>): void => {
+  console.log("🚀 ~ handleOnChage ~ event:", event)
+  if (event) field?.onChange(event)
+  input.onChange?.(event)
 }

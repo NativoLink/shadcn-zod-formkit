@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
 import { Card } from "@/src/components/ui/card"
-import { FieldProps, BaseInput } from "../base";
+import { FieldProps, BaseInput, handleOnChage } from "../base";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@/src/components/ui";
 import { JSX } from "react"
 
@@ -64,7 +64,10 @@ const FieldFile = ({ form, input, isSubmitting }: Props) => {
                 placeholder={input.placeHolder}
                 name={field.name}
                 disabled={input.disabled || isSubmitting}
-                onChange={(e) => {field.onChange(e.target.files?.[0]); handleFileChange(e)}} 
+                onChange={(e) => {
+                  field.onChange(e.target.files?.[0]); handleFileChange(e)
+                  handleOnChage(e.target.files?.[0], input, field)
+                }} 
               />
             </FormControl>
             { preview && (<Button type="button" onClick={() => { setShowPreview(!showPreview); }}>

@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@/src/components/ui/popover";
 
-import { BaseInput } from "../base";
+import { BaseInput, handleOnChage } from "../base";
 import { FieldProps, InputOption } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 
@@ -123,6 +123,7 @@ const FieldCombobox = ({ form, input, isSubmitting }: Props) => {
                       const newValue = currentValue === value ? "" : currentValue;
                       setValue(newValue);
                       form.setValue(input.name, newValue);
+                      handleOnChage(options.find((o) => getValue(o) === newValue), input)
                       input.listConfig?.onOptionChange?.(
                         options.find((o) => getValue(o) === newValue)
                       );

@@ -3,7 +3,7 @@ import { JSX } from "react";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
-import { BaseInput, FieldProps, InputTypes } from "../base";
+import { BaseInput, FieldProps, handleOnChage, InputTypes } from "../base";
 
 
 export class TextInput extends BaseInput {
@@ -34,6 +34,7 @@ const FieldText = ({input, form, isSubmitting }: Props ): JSX.Element => {
         { !hidden && (<FormLabel><b>{input.label}</b></FormLabel>)}
         <FormControl className="shadow-lg">
           <Input className="min-w-[180px]" placeholder={input.placeHolder} {...field} type={type}
+            onChange={(e)=> handleOnChage(e, input, field)}
             disabled={input.disabled || isSubmitting} />
         </FormControl>
         {input.description && <FormDescription> {input.description} </FormDescription>}

@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX, useState } from "react";
-import { BaseInput } from "../base/base-input";
+import { BaseInput, handleOnChage } from "../base/base-input";
 import { 
   FormControl, 
   FormDescription, 
@@ -106,6 +106,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                     if (isNumberField) {
                       value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
                     }
+                    handleOnChage(value, input, field)
                     field.onChange(value);
                   }}
                 />

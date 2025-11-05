@@ -180,29 +180,29 @@ export default function FormBasics() {
   //   },
   //   zodType: z.string().min(1, "El continente es obligatorio"),
   // },
-  // {
-  //   name: "continent",
-  //   label: "Your Location",
-  //   description: "Your description",
-  //   inputType: InputTypes.SELECT,
-  //   inputGroupConfig:{
-  //     autoValidIcons: true,
-  //     iconsLeft: [Earth],
-  //   },
-  //   listConfig: {
-  //     // optionValue:'value',
-  //     list: [
-  //       { value: '1', id: 1, name: "África" },
-  //       { value: '2', id: 2, name: "América" },
-  //       { value: '3', id: 3, name: "Antártida" },
-  //       { value: '4', id: 4, name: "Asia" },
-  //       { value: '5', id: 5, name: "Europa" },
-  //       { value: '6', id: 6, name: "Oceanía" },
-  //     ],
-  //     onOptionChange: (item:any) => {},
-  //   },
-  //   zodType: z.string("requerido")
-  // },
+  {
+    name: "continent",
+    label: "Your Location",
+    description: "Your description",
+    inputType: InputTypes.SELECT,
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Earth],
+    },
+    listConfig: {
+      // optionValue:'value',
+      list: [
+        { value: '1', id: 1, name: "África" },
+        { value: '2', id: 2, name: "América" },
+        { value: '3', id: 3, name: "Antártida" },
+        { value: '4', id: 4, name: "Asia" },
+        { value: '5', id: 5, name: "Europa" },
+        { value: '6', id: 6, name: "Oceanía" },
+      ],
+      onOptionChange: (item:any) => {},
+    },
+    zodType: z.string("requerido")
+  },
 
   // {
   //   name: "continent",
@@ -261,23 +261,23 @@ export default function FormBasics() {
   //   }))
   // },
 
-  {
-    wrapInCard: true,
-    name: "isActive",
-    label: "",
-    inputType: InputTypes.BUTTON_GROUP,
-    description: "Selecciona tu género",
-    listConfig: {
-      list: [
-        { id:1, name: "Activo", value: true },
-        { id:2, name: "Inactivo", value: false },
-        { id:3, name: "Todos", value: undefined },
-      ],
-      onOptionChange: (item?: any) => {
-        toast.success(`changed ${item}`)
-      },
-    },
-  },
+  // {
+  //   wrapInCard: true,
+  //   name: "isActive",
+  //   label: "",
+  //   inputType: InputTypes.BUTTON_GROUP,
+  //   description: "Selecciona tu género",
+  //   listConfig: {
+  //     list: [
+  //       { id:1, name: "Activo", value: true },
+  //       { id:2, name: "Inactivo", value: false },
+  //       { id:3, name: "Todos", value: undefined },
+  //     ],
+  //     onOptionChange: (item?: any) => {
+  //       toast.success(`changed ${item}`)
+  //     },
+  //   },
+  // },
   // {
   //   wrapInCard:true,
   //   name: "contacts",
@@ -285,8 +285,7 @@ export default function FormBasics() {
   //   inputType: InputTypes.REPEATER,
   //   repeaterFields: [
   //     { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
-  //     [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
-  //     { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
+  //     { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
   //   ],
   //   minItems: 1,
   //   maxItems: 5,
@@ -375,23 +374,24 @@ export default function FormBasics() {
   //   }
   //   // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/, // e.g: 1,234.56
   // },
-  // {
-  //   name: "tags",
-  //   label: "Tags",
-  //   inputType: InputTypes.TAGS,
-  //   zodType: z.array(z.string()),
-  // },
-  // {
-  //   name: "secretKeys",
-  //   label: "SECRET KEYS",
-  //   inputType: InputTypes.KEY_VALUE,
-  //   zodType: z.array( 
-  //     z.object({ key: z.string("se requiere por lo menos 1 clave ...")
-  //       .min(1, "La clave es requerida")
-  //       .regex(/^[a-zA-Z0-9_.-]+$/, "Solo letras, números o guiones"), 
-  //       value: z.string().min(1, "El valor es requerido") 
-  //     })).min(1, "Debe haber al menos un par clave-valor")
-  // },
+  {
+    name: "tags",
+    label: "Tags",
+    withDuplicatTag: true,
+    inputType: InputTypes.TAGS,
+    zodType: z.array(z.string()),
+  },
+  {
+    name: "secretKeys",
+    label: "SECRET KEYS",
+    inputType: InputTypes.KEY_VALUE,
+    zodType: z.array( 
+      z.object({ key: z.string("se requiere por lo menos 1 clave ...")
+        .min(1, "La clave es requerida")
+        .regex(/^[a-zA-Z0-9_.-]+$/, "Solo letras, números o guiones"), 
+        value: z.string().min(1, "El valor es requerido") 
+      })).min(1, "Debe haber al menos un par clave-valor")
+  },
   // {
   //   name: "isActive",
   //   label: "Usuario activo",
@@ -400,15 +400,15 @@ export default function FormBasics() {
   //   zodType: z.boolean().default(true),
   // },
   // [ 
-  //   {
-  //     name: "favoriteColor",
-  //     label: "Color favorito",
-  //     inputType: InputTypes.COLOR,
-  //     required: false,
-  //     zodType: z
-  //       .string()
-  //       .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
-  //   },
+    {
+      name: "favoriteColor",
+      label: "Color favorito",
+      inputType: InputTypes.COLOR,
+      required: false,
+      zodType: z
+        .string()
+        .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
+    },
   //   {
   //     name: "age",
   //     label: "Edad",
@@ -425,16 +425,16 @@ export default function FormBasics() {
   //   }
   // ],
   // [
-  //   {
-  //     name: "birthDate",
-  //     label: "Fecha de nacimiento",
-  //     inputType: InputTypes.DATE,
-  //     // zodType: z.coerce
-  //     //   .date(validationMessages.required)
-  //     //   .refine((d) => d < new Date(), {
-  //     //     message: "La fecha no puede ser futura",
-  //     //   }),
-  //   },
+    {
+      name: "birthDate",
+      label: "Fecha de nacimiento",
+      inputType: InputTypes.DATE,
+      // zodType: z.coerce
+      //   .date(validationMessages.required)
+      //   .refine((d) => d < new Date(), {
+      //     message: "La fecha no puede ser futura",
+      //   }),
+    },
   //   {
   //     name: "appointment",
   //     label: "Agendar Cita - Fecha y hora",

@@ -2,7 +2,7 @@
 
 import { JSX, useState } from "react"
 import { Switch, Label, Card } from "@/src/components/ui"
-import { BaseInput } from "../base"
+import { BaseInput, handleOnChage } from "../base"
 import { FieldProps, InputOption } from "../base/definitions";
 import { cn } from "@/src/lib/utils";
 
@@ -51,13 +51,14 @@ export const GroupedSwitches = ({ options, onChange, input, isSubmitting}: Props
     onChange?.(updated.filter((opt) => opt.checked));
   }
 
-  const handleChildToggle = (option: InputOption, checked: boolean) => {
+  const handleChildToggle = (option: InputOption, checked: boolean, input: FieldProps) => {
     const updated = switches.map((opt) =>
       opt.id === option.id ? { ...opt, checked } : opt
     );
     setSwitches(updated);
     setAllChecked(updated.every((opt) => opt.checked));
     onChange?.(updated.filter((opt) => opt.checked));
+    handleOnChage(updated.filter((opt) => opt.checked),input)
   }
 
   return (
@@ -80,7 +81,7 @@ export const GroupedSwitches = ({ options, onChange, input, isSubmitting}: Props
               disabled={input.disabled || isSubmitting}
               id={String(opt.id)}
               checked={opt?.checked || false}
-              onCheckedChange={checked => handleChildToggle(opt, checked)}
+              onCheckedChange={checked => handleChildToggle(opt, checked, input) }
             />
           </div>
         ))}

@@ -1,5 +1,5 @@
 'use client'
-import { BaseInput, FieldProps, InputOption } from "../base";
+import { BaseInput, FieldProps, handleOnChage, InputOption } from "../base";
 import { Card, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Label, RadioGroup, RadioGroupItem } from "@/src/components/ui";
 import { cn } from "@/src/lib/utils";
 import { JSX } from "react";
@@ -54,7 +54,7 @@ const FieldRadioGroup = ({ input, form, isSubmitting }: Props): JSX.Element => {
           <RadioGroup
             {...field}
             value={field.value ?? ""}
-            onValueChange={field.onChange}
+            onValueChange={(e)=> handleOnChage(e, input, field)}
             className="space-y-2 mt-3"
           >
             {options.map((opt, index) => (
