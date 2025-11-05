@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { BaseInput } from "../base/base-input";
 import {
   FormControl,
@@ -15,13 +15,12 @@ import { Button } from "@/src/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base/definitions";
 import { Plus, Trash2 } from "lucide-react";
-import { useEffect } from "react";
 
-export class KeyValueListInput extends BaseInput {
+export class StringValueListInput extends BaseInput {
   render(): JSX.Element {
     const { input, form, isSubmitting } = this;
     return (
-      <FieldKeyValueList
+      <FieldStringValueList
         input={input}
         form={form}
         isSubmitting={isSubmitting}
@@ -37,12 +36,12 @@ interface Props {
 }
 
 /**
- * 🧠 Lista editable de pares clave-valor
+ * 🧠 Lista editable de strings
  */
-export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
+export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
   const fieldName = input.name;
 
-  // Inicializamos el valor como array vacío si no existe
+  // Inicializamos como array vacío si no existe
   useEffect(() => {
     const current = form.getValues(fieldName);
     if (!Array.isArray(current)) {
@@ -50,21 +49,21 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
     }
   }, [form, fieldName]);
 
-  const handleAddPair = () => {
+  const handleAddItem = () => {
     const current = form.getValues(fieldName) || [];
-    form.setValue(fieldName, [...current, { key: "", value: "" }]);
+    form.setValue(fieldName, [...current, ""]);
   };
 
-  const handleRemovePair = (index: number) => {
+  const handleRemoveItem = (index: number) => {
     const current = form.getValues(fieldName) || [];
-    const updated = current.filter((_: any, i: number) => i !== index);
+    const updated = current.filter((_: string, i: number) => i !== index);
     form.setValue(fieldName, updated);
   };
 
-  const handleChange = (index: number, fieldType: "key" | "value", newValue: string) => {
+  const handleChange = (index: number, newValue: string) => {
     const current = form.getValues(fieldName) || [];
-    const updated = current.map((item: any, i: number) =>
-      i === index ? { ...item, [fieldType]: newValue } : item
+    const updated = current.map((item: string, i: number) =>
+      i === index ? newValue : item
     );
     form.setValue(fieldName, updated);
   };
@@ -74,48 +73,40 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
       control={form.control}
       name={fieldName}
       render={() => {
-        const pairs = form.watch(fieldName) || [];
+        const items = form.watch(fieldName) || [];
 
         return (
           <FormItem className={input.className}>
             <FormLabel><b>{input.label}</b></FormLabel>
             <FormMessage />
             <FormControl>
-              <div className="flex flex-col gap-3 rounded-xl p-3 ">
-                {pairs.length === 0 && (
+              <div className="flex flex-col gap-3  rounded-xl ">
+                {items.length === 0 && (
                   <p className="text-sm text-muted-foreground">
-                    No pairs have been added yet.
+                    No items have been added yet.
                   </p>
                 )}
 
-                {pairs.map((pair: { key: string; value: string }, index: number) => (
+                {items.map((value: string, index: number) => (
                   <div
                     key={index}
                     className="flex gap-2 items-center"
                   >
                     <Input
-                      placeholder="Key"
-                      value={pair.key}
+                      placeholder={`Item ${index + 1}`}
+                      value={value}
                       disabled={isSubmitting}
-                      onChange={(e) => handleChange(index, "key", e.target.value)}
-                      className="w-1/2"
+                      onChange={(e) => handleChange(index, e.target.value)}
                     />
-                    <Input
-                      placeholder="Value"
-                      value={pair.value}
-                      disabled={isSubmitting}
-                      onChange={(e) => handleChange(index, "value", e.target.value)}
-                      className="w-1/2"
-                    />
-                    <Button
+                    {input.isRemovebleOption && (<Button
                       type="button"
                       variant="destructive"
                       size="icon"
-                      onClick={() => handleRemovePair(index)}
+                      onClick={() => handleRemoveItem(index)}
                       disabled={isSubmitting}
                     >
                       <Trash2 size={18} />
-                    </Button>
+                    </Button>)}
                   </div>
                 ))}
 
@@ -124,7 +115,7 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={handleAddPair}
+                    onClick={handleAddItem}
                     disabled={isSubmitting}
                   >
                     <Plus size={18} className="mr-1" />
