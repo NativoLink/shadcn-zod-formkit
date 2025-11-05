@@ -61,7 +61,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
-  submitBtnClass,
+  submitBtnClass="text-lg w-1/4",
   listBtnConfig = [],
   submitBtnLabel = 'Guardar',
   submitBtnLabelSubmiting = 'Guardando...',
@@ -155,7 +155,7 @@ export const DynamicForm = <T extends Record<string, any>>({
           <Button
             type={onClick ? 'button' : 'submit'}
             size="icon-lg"
-            className={cn("text-lg",submitBtnClass)}
+            className={cn(submitBtnClass)}
             disabled={isPending}
             onClick={onClick ? handleClick : undefined}
           >
