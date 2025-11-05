@@ -1,20 +1,13 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { InputTypes } from "../form/inputs/base/input-types"
-import { FieldProps, GroupedOption, InputOption } from "../form/inputs/base/definitions"
+import { FieldProps, GroupedOption, InputOption, InputTypes } from "../form/inputs/base"
 import { DynamicForm } from "../form/inputs/DynamicForm"
+import { Search } from "lucide-react"
 
-interface FilterOption {
-  name: string
-  label?: string
-  inputType: InputTypes
-  options?: Array<{ label: string; value: any }> | string[]
-  placeholder?: string
-}
 
 interface GenericFilterProps<T> {
-  filters?: FilterOption[]
+  filters?: Array<FieldProps | FieldProps[]>
   pagination?: boolean
   autoSubmit?: boolean
   defaultValues?: Record<string, any>
@@ -27,28 +20,26 @@ interface GenericFilterProps<T> {
   withEndDate?: boolean
   withActive?: boolean
   withLimit?: boolean
-  customFieldsConfig?: Array<FieldProps<T>|FieldProps<T>[]> 
+  wrapInCard?: boolean
 }
 
-
-
 interface Filter {
-  page?: number;
-  limit?: number;
-  seach?: string;
-  active?: boolean;
-  initDate?: Date;
-  endDate?: Date;
+  page?: number
+  limit?: number
+  search?: string
+  active?: boolean
+  initDate?: Date
+  endDate?: Date
   defaultValues?: Record<string, any>
 }
 
 /**
- * ✅ Componente genérico de filtro con DynamicForm.
+ * ✅ Componente genérico y dinámico de filtro
  */
-export function GenericFilter<T = Record<string,any>>({
-  filters,
+export const GenericFilter = <T,>({
+  filters = [],
   pagination,
-  autoSubmit = true,
+  autoSubmit = false,
   defaultValues = {},
   initPage = 1,
   initLimit = 10,
@@ -59,17 +50,15 @@ export function GenericFilter<T = Record<string,any>>({
   withEndDate = true,
   withActive = true,
   withLimit = true,
-}: GenericFilterProps<T>) {
-  
+  wrapInCard = true,
+}: GenericFilterProps<T>) => {
   const record: Filter = {
     page: initPage,
     limit: initLimit,
     ...defaultValues,
-
   }
+
   const [values, setValues] = useState<Filter>(record)
-
-
   const isFirstRender = useRef(true)
 
   useEffect(() => {
@@ -77,12 +66,11 @@ export function GenericFilter<T = Record<string,any>>({
       isFirstRender.current = false
       return
     }
-    // onChange(values)
   }, [values])
 
   const handleChange = (name: string, value: any) => {
-    alert('changing')
     setValues((prev) => ({ ...prev, [name]: value }))
+    if (autoSubmit && onChange) onChange({ ...values, [name]: value })
   }
 
   const handleReset = () => {
@@ -93,95 +81,103 @@ export function GenericFilter<T = Record<string,any>>({
     })
   }
 
-  const searchField: FieldProps = {
-        name: 'search',
-        label: 'Buscar',
-        inputType: InputTypes.TEXT_GROUP,
-        onChange: (...args) => {
-          console.log('args',args)
-          handleChange('active', true)
-        }
-      }
-  const initDateField: FieldProps = {
-        name: "initDate",
-        label: "Fecha de Inicio",
-        inputType: InputTypes.DATE,
-        onChange: (...args) => {
-          console.log('args',args)
-          handleChange('active', true)
-        }
-      }
-  const endDateField: FieldProps = {
-        name: "endDate",
-        label: "Fecha de Inicio",
-        inputType: InputTypes.DATE,
-      }
-  const activeField: FieldProps = {
-        wrapInCard: true,
-        name: "active",
-        label: "",
-        inputType: InputTypes.BUTTON_GROUP,
-        description: "Selecciona tu género",
-        listConfig: {
-          list: [
-            { id:1, name: "Activo", value: true },
-            { id:2, name: "Inactivo", value: false },
-            { id:3, name: "Todos", value: undefined },
-          ],
-          onOptionChange: (item?: InputOption | InputOption[] | GroupedOption) => {
-            if (Array.isArray(item)) {
-              // Handle array of InputOption if needed
-              // Example: handleChange for the first item
-              if (item[0]) handleChange(item[0].name ?? item[0].label, item[0].value)
-            } else if (item && typeof item === "object" && "value" in item) {
-              // Handle single InputOption
-            }
-            handleChange('active', true)
-            // Optionally handle GroupedOption if needed
-          },
-        },
-      }
+  // 🧩 Filtros base (predefinidos)
+  const baseFields: FieldProps[] = [
+    ...(withSearch
+      ? [
+          {
+            name: "search",
+            label: "Buscar",
+            inputType: InputTypes.TEXT_GROUP,
+            inputGroupConfig: { iconsLeft: [Search] },
+            onChange: (value: any) => handleChange("search", value),
+          } as FieldProps,
+        ]
+      : []),
+    ...(withInitDate
+      ? [
+          {
+            name: "initDate",
+            label: "Fecha de Inicio",
+            inputType: InputTypes.DATE,
+            onChange: (value: any) => handleChange("initDate", value),
+          } as FieldProps,
+        ]
+      : []),
+    ...(withEndDate
+      ? [
+          {
+            name: "endDate",
+            label: "Fecha Final",
+            inputType: InputTypes.DATE,
+            onChange: (value: any) => handleChange("endDate", value),
+          } as FieldProps,
+        ]
+      : []),
+    ...(withActive
+      ? [
+          {
+            wrapInCard: true,
+            name: "active",
+            label: "",
+            inputType: InputTypes.BUTTON_GROUP,
+            description: "Estado",
+            listConfig: {
+              list: [
+                { id: 1, name: "Activo", value: true },
+                { id: 2, name: "Inactivo", value: false },
+                { id: 3, name: "Todos", value: undefined },
+              ],
+              onOptionChange: (item?: InputOption | InputOption[]) => {
+                if (Array.isArray(item) && item[0]) handleChange("active", item[0].value)
+                else if (item && "value" in item) handleChange("active", item.value)
+              },
+            },
+          } as FieldProps,
+        ]
+      : []),
+    ...(withLimit
+      ? [
+          {
+            name: "limit",
+            label: "Límite por página",
+            inputType: InputTypes.SELECT,
+            listConfig: {
+              list: rangeLimit.map((num) => ({
+                value: String(num),
+                id: num,
+                name: String(num),
+              })),
+              onOptionChange: (item: any) => handleChange("limit", Number(item?.value ?? 10)),
+            },
+          } as FieldProps,
+        ]
+      : []),
+  ]
 
-    const rangeLimitField = {
-        name: 'limit',
-        label: 'Limite por Página',
-        inputType: InputTypes.SELECT,
-        listConfig: {
-        list: rangeLimit.map((num) => ({ value: String(num), id: num, name: String(num), })),
-        onOptionChange: (item:any) => {},
-      },
-    }
-
-  const customFieldsConfig: Array<FieldProps|FieldProps[]> = []
-  // type FieldConfig = Array<FieldProps|FieldProps[]> | FieldProps | FieldConfig[];
-  const fieldsConfig: Array<FieldProps|FieldProps[]> = [
-  // const fieldsConfig: FieldConfig = [
-      ...customFieldsConfig,
-      ...(withSearch ? [searchField] : []),
-      ...(withInitDate ? [initDateField] : []),
-      ...(withEndDate ? [endDateField] : []),
-      ...(withActive ? [activeField] : []),
-      ...(withLimit ? [rangeLimitField] : []),
+  
+  // 🧱 Combina todos los campos
+  const fieldsConfig: Array<FieldProps | FieldProps[]> = [
+    ...filters,
+    baseFields,
   ]
 
   return (
     <div className="flex flex-col md:flex-row md:items-end gap-4 py-3">
       <div className="flex-1">
         <DynamicForm<Filter>
+          withCard={wrapInCard}
           withSubmitBtn={!autoSubmit}
           formTitle=""
           submitBtnLabel="Buscar"
           fields={fieldsConfig}
           record={values}
-          // onChange={handleChange}
           showFormHeader={false}
-          // withCard
+          onSubmit={({ data }) => {
+            if (onChange && !autoSubmit) onChange(data)
+          }}
         />
       </div>
-
-      {/* <Button variant="secondary" onClick={handleReset}>
-        Reset
-      </Button> */}
     </div>
   )
 }

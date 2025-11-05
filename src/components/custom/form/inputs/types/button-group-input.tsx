@@ -44,7 +44,7 @@ export const FieldButtonGroup = ({ input, form, isSubmitting, className = "w-ful
           <Button
             type="button"
             className={className}
-            key={key}
+            key={`${input.name}-${key}-btn-g`}
             variant={selectedValue === option.value ? "default" : "outline"}
             onClick={() => {
               handleSelect(option.value)

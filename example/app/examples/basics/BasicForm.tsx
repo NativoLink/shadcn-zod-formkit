@@ -10,7 +10,8 @@ import {
   FormResp,
   FieldProps, 
   Button,
-  FieldConfig
+  FieldConfig,
+  GenericFilter
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
@@ -524,57 +525,105 @@ export default function FormBasics() {
 //   { name: "username", label: "Username", inputType: InputTypes.TEXT_GROUP, zodType: z.string() },
 // ];
   return (
-    <>
-      <DynamicForm<IUserRecord>
-        formSubTitle="This is a subtitle"
-        formTitle="Basic Form Example"
-        withCard
-        
+    <div className='w-full gap-2 grid grid-cols-1'>
 
-        // listBtnConfig={[
-        //   {
-        //     variant:'outline',
-        //     label: 'BUTTON 1',
-        //     btnType: 'button',
-        //     onClick: () => {alert('FROM BUTTON 1')}
-        //   }
-        // ]}
-        // showFormHeader={false}
-        // showIcon={false}
-        errorAlertPosition='down'
-        // childrenHeader={<Button> childrenHeader</Button>}
-        fields={mockFields}
-        record={record}
-        // extraValidations={[
-        //   (s) =>
-        //     s.refine((data) => data.password === data.confirmPassword, {
-        //       path: ["confirmPassword"],
-        //       message: "Las contraseñas no coinciden",
-        //     }),
-        // ]}
-        onSubmit={async (resp: FormResp<IUserRecord>) => {
-          setDataToSend(resp.data)
-        }}
-        onClick={({data}) => {
-          setDataToSend(data)
-          toast.info(
-            <pre className="flex flex-row  text-xs text-gray-800 p-4">
-              <code>{JSON.stringify(data, null, 2)}</code>
-            </pre>
-          );
-          // console.log("✅  Resultado final:", data)
-        }}
-      /> 
+      <GenericFilter  
+      filters={[
+        [{
+          name: "status",
+          label: "Estado",
+          inputType: InputTypes.SELECT,
+          listConfig: {
+            list: [
+              { id: 1, name: "Nuevo", value: "nuevo" },
+              { id: 2, name: "Pendiente", value: "pendiente" },
+              { id: 3, name: "Completado", value: "completado" },
+            ],
+            onOptionChange: (item:any) => {},
+          },
+        },
+        {
+          name: "priority",
+          label: "Prioridad",
+          wrapInCard:true,
+          inputType: InputTypes.BUTTON_GROUP,
+          listConfig: {
+            list: [
+              { id: 1, name: "Alta", value: "alta" },
+              { id: 2, name: "Media", value: "media" },
+              { id: 3, name: "Baja", value: "baja" },
+            ],
+            onOptionChange: (item:any) => {},
+          },
+        }],
+      ]}
+        onChange={(e)=> {
+          const msg = 'TU FUNCION DE BUSCAR'
+          alert(msg)
+          console.log(msg, e)
+      }}
+      // autoSubmit={true}
+        // withEndDate={false}
+        // withInitDate={false}
+      />
+      
+      <div className='w-full gap-2 grid grid-cols-2'>
+        <div className='w-full'>
+          
+              
+            <DynamicForm<IUserRecord>
+              formSubTitle="This is a subtitle"
+              formTitle="Basic Form Example"
+              withCard
 
-      <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
-        <div className="flex flex-row  text-lg text-gray-800 p-4">
-          DATA SENDED
+            // listBtnConfig={[
+              //   {
+                //     variant:'outline',
+                //     label: 'BUTTON 1',
+                //     btnType: 'button',
+                //     onClick: () => {alert('FROM BUTTON 1')}
+                //   }
+                // ]}
+                // showFormHeader={false}
+                // showIcon={false}
+                errorAlertPosition='down'
+                // childrenHeader={<Button> childrenHeader</Button>}
+                fields={mockFields}
+                record={record}
+                // extraValidations={[
+                  //   (s) =>
+                  //     s.refine((data) => data.password === data.confirmPassword, {
+                  //       path: ["confirmPassword"],
+                  //       message: "Las contraseñas no coinciden",
+                  //     }),
+                  // ]}
+                  onSubmit={async (resp: FormResp<IUserRecord>) => {
+                    setDataToSend(resp.data)
+                  }}
+                  onClick={({data}) => {
+                    setDataToSend(data)
+                    toast.info(
+                      <pre className="flex flex-row  text-xs text-gray-800 p-4">
+                  <code>{JSON.stringify(data, null, 2)}</code>
+                </pre>
+              );
+              // console.log("✅  Resultado final:", data)
+            }}
+            /> 
+
         </div>
-        <pre className="flex flex-row  text-xs text-gray-800 p-4">
-          <code>{JSON.stringify(dataToSend, null, 2)}</code>
-        </pre>
+
+        <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
+          {/* <GenericFilter /> */}
+          <div className="flex flex-row  text-lg text-gray-800 p-4">
+            DATA SENDED
+          </div>
+          <pre className="flex flex-row  text-xs text-gray-800 p-4">
+            <code>{JSON.stringify(dataToSend, null, 2)}</code>
+          </pre>
+        </div>
       </div>
-    </>
+    </div>
   );
 
 }

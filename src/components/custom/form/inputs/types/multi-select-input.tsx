@@ -95,7 +95,7 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                             (item) => getValue(item).toString() === val
                           );
                           return (
-                            <Badge key={val} variant="secondary">
+                            <Badge key={`${input.name}-${val}-ms`} variant="secondary">
                               {option?.name ?? val}
                             </Badge>
                           );
@@ -119,7 +119,7 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                           const selected = selectedValues.includes(value);
                           return (
                             <CommandItem
-                              key={value}
+                              key={`${value}-ms`}
                               onSelect={() => {
                                 handleOnChage(value,input,field)
                                 toggleOption(value)}

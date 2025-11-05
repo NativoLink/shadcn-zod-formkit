@@ -14,7 +14,6 @@ import { FieldProps } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { CircleCheck, CircleX, Loader2, Upload } from "lucide-react";
 import { cn } from "@/src/lib/utils";
-import { Card } from "@/src/components/ui/card";
 
 export class FileMultiUploadInput extends BaseInput {
   render(): JSX.Element {

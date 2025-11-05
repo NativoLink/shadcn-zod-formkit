@@ -147,7 +147,7 @@ const FieldSelect = ({ form, input, isSubmitting }: Props) => {
 
                 <SelectContent>
                   {lista.map((item) => (
-                    <SelectItem value={getValue(item)} key={item.id}>
+                    <SelectItem value={getValue(item)} key={`${input.name}-${item.id}-s`}>
                       {item.name}
                     </SelectItem>
                   ))}
