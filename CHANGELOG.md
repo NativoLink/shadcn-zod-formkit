@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.23.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.23.1...v1.23.2) (2025-11-05)
+
+### Bug Fixes
+
+* **form-button-group-issue:** remove default width ([9d93300](https://github.com/NativoLink/shadcn-zod-formkit/commit/9d93300242fe5e5b53d6436ece545c998e1ffb22))
+
 ## [1.23.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.23.0...v1.23.1) (2025-11-05)
 
 ### Bug Fixes
