@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.25.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.24.0...v1.25.0) (2025-11-05)
+
+### Features
+
+* **string-list-input:** New Input for add Array of String Like(similar) tags ([27d34d1](https://github.com/NativoLink/shadcn-zod-formkit/commit/27d34d13371fbbf0d739a96b901d366e9b1cf84d))
+
 ## [1.24.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.23.2...v1.24.0) (2025-11-05)
 
 ### Features
