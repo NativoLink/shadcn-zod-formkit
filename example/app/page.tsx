@@ -38,7 +38,7 @@ export default function Home() {
         { 
         tabs.map((tab, indx) => 
           <TabsContent key={indx} value={tab.value ?? tab.name}>
-            <div className="grid grid-cols-3 align-middle justify-around w-full gap-6 p-2">
+            <div className="flex flex-row align-middle justify-around w-full gap-6 p-2">
               {tab.children}
             </div>
           </TabsContent>
