@@ -505,7 +505,7 @@ export default function FormBasics() {
         formSubTitle="This is a subtitle"
         formTitle="Basic Form Example"
         withCard
-        submitBtnClass='w-1/4'
+        
 
         // listBtnConfig={[
         //   {
