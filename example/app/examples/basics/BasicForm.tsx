@@ -37,7 +37,7 @@ interface IUserRecord {
     birthDate: undefined;
     bloodType: string;
     otpCode: string;
-    secretKeys: never[];
+    secretKeys: any[];
     notifications: never[];
     tags: string[];
     ordenItems?: string[];
@@ -68,10 +68,25 @@ export default function FormBasics() {
     bloodType: "",
     otpCode: "",
     ordenItems: [],
-    secretKeys: [],
+    contacts:[
+      {
+        "name": "juan XX",
+        "email": "123123@adsd.com"
+      }
+    ],
+    secretKeys: [
+    {
+      "key": "1",
+      "value": "zzzz"
+    },
+    {
+      "key": "2",
+      "value": "asdaLUISsd"
+    }
+  ],
     notifications: [],
     cycles: [],
-    tags: [] as string[],
+    tags: [ "tag1", "tag2"],
   };
   const mockFields: FieldConfig<IUserRecord> = [
   {
@@ -278,24 +293,24 @@ export default function FormBasics() {
   //     },
   //   },
   // },
-  // {
-  //   wrapInCard:true,
-  //   name: "contacts",
-  //   label: "Contactos",
-  //   inputType: InputTypes.REPEATER,
-  //   repeaterFields: [
-  //     { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
-  //     { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
-  //   ],
-  //   minItems: 1,
-  //   maxItems: 5,
-  //   zodType:z.array(
-  //     z.object({
-  //       name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
-  //       email: z.string().email("Debe ser un correo válido"),
-  //     })
-  //   ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
-  // },
+  {
+    wrapInCard:true,
+    name: "contacts",
+    label: "Contactos",
+    inputType: InputTypes.REPEATER,
+    repeaterFields: [
+      { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
+      { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
+    ],
+    minItems: 1,
+    maxItems: 5,
+    zodType:z.array(
+      z.object({
+        name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
+        email: z.string().email("Debe ser un correo válido"),
+      })
+    ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
+  },
   // [{
   //   name: "password",
   //   label: "Password",
@@ -374,11 +389,20 @@ export default function FormBasics() {
   //   }
   //   // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/, // e.g: 1,234.56
   // },
+  // {
+  //   name: "tags",
+  //   label: "Tags",
+  //   wrapInCard: true,
+  //   withDuplicatTag: true,
+  //   inputType: InputTypes.TAGS,
+  //   zodType: z.array(z.string()),
+  // },
   {
     name: "tags",
     label: "Tags",
+    wrapInCard: true,
     withDuplicatTag: true,
-    inputType: InputTypes.TAGS,
+    inputType: InputTypes.STRING_LIST,
     zodType: z.array(z.string()),
   },
   {

@@ -31,9 +31,11 @@ export enum InputTypes {
   COMBOBOX = "COMBO_BOX",
   SORTABLE_LIST = "sortable_list",
   REPEATER_TABS = "repeater_tabs",
+  STRING_LIST = "string_list",
 }
 
 export const inputFieldComp = [
+  InputTypes.STRING_LIST,
   InputTypes.REPEATER_TABS,
   InputTypes.SORTABLE_LIST,
   InputTypes.COMBOBOX,

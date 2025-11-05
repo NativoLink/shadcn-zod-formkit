@@ -29,6 +29,7 @@ import {
   ComboboxInput,
   SortableListInput,
   RepeaterTabsInput,
+  StringValueListInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -73,6 +74,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.COMBOBOX]: ComboboxInput,
   [InputTypes.SORTABLE_LIST]: SortableListInput,
   [InputTypes.REPEATER_TABS]: RepeaterTabsInput,
+  [InputTypes.STRING_LIST]: StringValueListInput,
   
   
   //ToDos: ============================================================

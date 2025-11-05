@@ -21,6 +21,7 @@ export * from './select-input';
 export * from './simple-check-list-input';
 export * from './slide-input';
 export * from './sortable-list-input';
+export * from './string-value-input';
 export * from './switch-input';
 export * from './tags-input';
 export * from './text-area-input';
