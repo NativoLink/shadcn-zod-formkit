@@ -278,25 +278,25 @@ export default function FormBasics() {
       },
     },
   },
-  {
-    wrapInCard:true,
-    name: "contacts",
-    label: "Contactos",
-    inputType: InputTypes.REPEATER,
-    repeaterFields: [
-      { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
-      [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
-      { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
-    ],
-    minItems: 1,
-    maxItems: 5,
-    zodType:z.array(
-      z.object({
-        name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
-        email: z.string().email("Debe ser un correo válido"),
-      })
-    ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
-  },
+  // {
+  //   wrapInCard:true,
+  //   name: "contacts",
+  //   label: "Contactos",
+  //   inputType: InputTypes.REPEATER,
+  //   repeaterFields: [
+  //     { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
+  //     [ { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
+  //     { name: "xxx", label: "xxx", placeHolder: "Ej: juan@mail.com" }],
+  //   ],
+  //   minItems: 1,
+  //   maxItems: 5,
+  //   zodType:z.array(
+  //     z.object({
+  //       name: z.string().min(1, "El nombre es obligatorio").max(50, "Máximo 50 caracteres"),
+  //       email: z.string().email("Debe ser un correo válido"),
+  //     })
+  //   ).min(1, "Debe agregar al menos un contacto").max(5, "Máximo 5 contactos permitidos"),
+  // },
   // [{
   //   name: "password",
   //   label: "Password",
@@ -505,16 +505,16 @@ export default function FormBasics() {
         formSubTitle="This is a subtitle"
         formTitle="Basic Form Example"
         withCard
-        submitBtnClass='w-full flex-1'
+        submitBtnClass='w-1/4'
 
-        listBtnConfig={[
-          {
-            variant:'outline',
-            label: 'BUTTON 1',
-            btnType: 'button',
-            onClick: () => {alert('FROM BUTTON 1')}
-          }
-        ]}
+        // listBtnConfig={[
+        //   {
+        //     variant:'outline',
+        //     label: 'BUTTON 1',
+        //     btnType: 'button',
+        //     onClick: () => {alert('FROM BUTTON 1')}
+        //   }
+        // ]}
         // showFormHeader={false}
         // showIcon={false}
         errorAlertPosition='down'
@@ -532,7 +532,7 @@ export default function FormBasics() {
           setDataToSend(resp.data)
         }}
         onClick={({data}) => {
-          // setDataToSend(resp.data)
+          setDataToSend(data)
           toast.info(
             <pre className="flex flex-row  text-xs text-gray-800 p-4">
               <code>{JSON.stringify(data, null, 2)}</code>
