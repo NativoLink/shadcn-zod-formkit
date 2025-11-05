@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.26.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.25.0...v1.26.0) (2025-11-05)
+
+### Features
+
+* **generic-filter-form:** Filter Generic ([c298706](https://github.com/NativoLink/shadcn-zod-formkit/commit/c298706ed956917ad7ebc0317d2fc131fb75e926))
+
 ## [1.25.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.24.0...v1.25.0) (2025-11-05)
 
 ### Features
