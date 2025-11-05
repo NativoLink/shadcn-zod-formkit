@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX, useState, useEffect } from "react";
-import { BaseInput } from "../base/base-input";
+import { BaseInput, handleOnChage } from "../base/base-input";
 import { 
   FormControl, 
   FormDescription, 
@@ -91,7 +91,10 @@ export const FieldDateTimeInput = ({ form, input, isSubmitting }: Props) => {
                   type="datetime-local"
                   value={dateTime}
                   disabled={input.disabled || isSubmitting}
-                  onChange={(e) => handleChange(e.target.value)}
+                  onChange={(e) =>{ 
+                    handleOnChage(e.target.value, input, field);
+                    handleChange(e.target.value);
+                  }}
                 />
 
                 {/* Iconos derecha */}

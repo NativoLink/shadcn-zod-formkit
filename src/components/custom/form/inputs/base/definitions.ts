@@ -27,6 +27,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
+  withDuplicatTag?: boolean
   onChange?: (...event: any[]) => void
   tabLabelField?:string
   childrenPosition?: 'up' | 'down'
@@ -34,7 +35,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   defaultValue?: any;
   direction?: 'row' | 'col';
   
-  repeaterFields?: FieldConfig<RT>;
+  repeaterFields?: Array<FieldProps<RT> | FieldProps<RT>[]>;
   minItems?: number;
   maxItems?: number;
 

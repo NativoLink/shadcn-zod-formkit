@@ -1,7 +1,7 @@
 "use client"
 import React, { JSX, useEffect, useState } from "react"
 import { ColorPicker, IColor, useColor } from "react-color-palette"
-import { UseFormReturn } from "react-hook-form"
+import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form"
 import "react-color-palette/css"
 import { cn } from "@/src/lib/utils"
 import { 
@@ -16,7 +16,7 @@ import {
   PopoverContent, 
   PopoverTrigger,
 } from "@/src/components/ui"
-import { BaseInput, FieldProps } from "../base"
+import { BaseInput, FieldProps, handleOnChage } from "../base"
 // ...existing code...
 
 export class ColorInput extends BaseInput {
@@ -36,8 +36,13 @@ interface Props {
   isSubmitting?: boolean;
 }
 
+
+
+
 const FieldColor = ({ form, input, isSubmitting }: Props) => {
   const [ColorCmp, _setColorCmp] = useState<any>(ColorComp)
+
+  
   return (
     <FormField
       control={form.control}
@@ -49,21 +54,27 @@ const FieldColor = ({ form, input, isSubmitting }: Props) => {
             {ColorCmp ? (
               <ColorCmp
                 value={field.value || "#000000"}
-                onChange={field.onChange}
+                onChange={(event: any[])=> {
+                  handleOnChage(event, input, field)
+                }}
                 onBlur={field.onBlur}
                 disabled={input.disabled || isSubmitting}
                 placeholder={input.placeHolder}
               />
             ) : (
-              <input
-                type="color"
-                value={field.value || "#000000"}
-                onChange={(e) => field.onChange(e.target.value)}
-                onBlur={() => field.onBlur()}
-                disabled={input.disabled || isSubmitting}
-                placeholder={input.placeHolder}
-                style={{ width: 48, height: 28 }}
-              />
+              'N/A'
+              // <input
+              //   type="color"
+              //   value={field.value || "#000000"}
+              //   onChange={(e) => {
+              //     field.onChange(e.target.value);
+              //     input.onChange?.(e)
+              //   }}
+              //   onBlur={() => field.onBlur()}
+              //   disabled={input.disabled || isSubmitting}
+              //   placeholder={input.placeHolder}
+              //   style={{ width: 48, height: 28 }}
+              // />
             )}
           </FormControl>
           <FormDescription>{input.description}</FormDescription>

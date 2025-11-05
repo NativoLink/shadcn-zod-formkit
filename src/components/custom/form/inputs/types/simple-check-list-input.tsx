@@ -2,7 +2,7 @@
 
 import { JSX, useState } from "react";
 import { Card, Label, Checkbox } from "@/src/components/ui";
-import { BaseInput } from "../base";
+import { BaseInput, handleOnChage } from "../base";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
 import { FieldProps, InputOption } from "../base/definitions";
 import { cn } from "@/src/lib/utils";
@@ -19,7 +19,7 @@ export class SimpleCheckListInput extends BaseInput {
             isSubmitting={isSubmitting}
             input={input}
             value={field.value || []}
-            onChange={field.onChange}
+            onChange={(e) =>handleOnChage(e, input, field)}
           />
         )}
       />
@@ -56,6 +56,7 @@ export const FieldSimpleCheckList = ({ input, value, onChange, isSubmitting }: P
   const handleMainToggle = (checked: boolean) => {
     const updated = options.map((opt) => ({ ...opt, checked }));
     setOptions(updated);
+    handleOnChage(updated, input)
     onChange(updated); // sincroniza con el form
   };
 
@@ -63,6 +64,7 @@ export const FieldSimpleCheckList = ({ input, value, onChange, isSubmitting }: P
     const updated = options.map((opt) =>
       opt.id === option.id ? { ...opt, checked } : opt
     );
+    handleOnChage(updated, input)
     setOptions(updated);
     onChange(updated); // sincroniza con el form
   };

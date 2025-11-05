@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/src/components/ui";
-import { BaseInput } from "../base";
+import { BaseInput, handleOnChage } from "../base";
 import { FieldProps, InputOption } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -119,7 +119,8 @@ const FieldSelect = ({ form, input, isSubmitting }: Props) => {
               <Select
                 disabled={input.disabled || isSubmitting || loading}
                 onValueChange={(val) => {
-                  field.onChange(val);
+                  handleOnChage(val, input, field)
+                  // field.onChange(val);
                   setValue(val);
 
                   // 🔸 Ejecuta el callback definido si existe

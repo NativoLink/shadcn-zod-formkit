@@ -15,7 +15,7 @@ import {
 
 } from "@/src/components/ui";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { BaseInput } from "../base";
+import { BaseInput, handleOnChage } from "../base";
 import { FieldProps, InputOption } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/src/lib/utils";
@@ -120,7 +120,10 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                           return (
                             <CommandItem
                               key={value}
-                              onSelect={() => toggleOption(value)}
+                              onSelect={() => {
+                                handleOnChage(value,input,field)
+                                toggleOption(value)}
+                              }
                             >
                               <Check
                                 className={cn(

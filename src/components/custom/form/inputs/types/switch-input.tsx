@@ -1,5 +1,5 @@
 'use client'
-import { BaseInput, FieldProps } from "../base";
+import { BaseInput, FieldProps, handleOnChage } from "../base";
 import { Card, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Switch } from "@/src/components/ui";
 import { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -39,7 +39,7 @@ const FieldSwitch = ({ input, form, isSubmitting }: Props): JSX.Element => {
           </div>
           <FormControl>
             <Switch checked={field.value} 
-              onCheckedChange={field.onChange} 
+              onCheckedChange={(event)=>  handleOnChage(event, input, field)} 
               aria-disabled 
               disabled={input.disabled || isSubmitting} />
           </FormControl>

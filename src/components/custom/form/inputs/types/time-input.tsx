@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX, useState, useEffect } from "react";
-import { BaseInput } from "../base/base-input";
+import { BaseInput, handleOnChage } from "../base/base-input";
 import { 
   FormControl, 
   FormDescription, 
@@ -67,6 +67,7 @@ export const FieldTimeInput = ({ form, input, isSubmitting }: Props) => {
 
         const handleChange = (val: string) => {
           setTime(val);
+          handleOnChage(val, input, field)
           field.onChange(val);
         };
 

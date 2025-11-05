@@ -1,6 +1,6 @@
 'use client'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, InputOTP, InputOTPGroup, InputOTPSlot } from "@/src/components/ui"
-import { BaseInput, FieldProps } from "../base";
+import { BaseInput, FieldProps, handleOnChage } from "../base";
 import { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -34,7 +34,7 @@ const FieldOTP = ({ form, input, isSubmitting }: Props ): JSX.Element => {
       <FormItem>
         <FormLabel><b>{input.label}</b></FormLabel>
         <FormControl>
-          <InputOTP maxLength={totalPositions.length} {...field}>
+          <InputOTP maxLength={totalPositions.length} {...field} onChange={(event)=>  handleOnChage(event, input, field)}>
             <InputOTPGroup>
               {totalPositions.map((position) => (
                 <InputOTPSlot key={position} index={position} />

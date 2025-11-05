@@ -16,7 +16,7 @@ import {
   InputGroupText 
 } from "@/src/components/ui/input-group";
 import { FieldProps } from "../base/definitions";
-import { BaseInput } from "../base/base-input";
+import { BaseInput, handleOnChage } from "../base/base-input";
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 
 export class CurrencyInput extends BaseInput {
@@ -153,6 +153,7 @@ export const FieldCurrency = ({ form, input, isSubmitting }: Props): JSX.Element
                   setRawValue(newVal);
                   const parsed = parseValue(newVal);
                   if (parsed !== null) field.onChange(parsed);
+                  handleOnChage(parsed, input, field)
                 }}
                 onBlur={(e) => {
                   const formatted = formatValue(e.target.value);

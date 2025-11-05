@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX } from "react";
-import { BaseInput, FieldProps, InputOption } from "../base";
+import { BaseInput, FieldProps, handleOnChage, InputOption } from "../base";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "@/src/components/ui/button";
 import { ButtonGroup } from "@/src/components/ui/button-group";
@@ -46,7 +46,10 @@ export const FieldButtonGroup = ({ input, form, isSubmitting, className = "w-ful
             className={className}
             key={key}
             variant={selectedValue === option.value ? "default" : "outline"}
-            onClick={() => handleSelect(option.value)}
+            onClick={() => {
+              handleSelect(option.value)
+              handleOnChage(option.value, input)
+            }}
             disabled={isSubmitting}
           >
             {option.label ?? option.name }

@@ -3,7 +3,7 @@
 
 import { UseFormReturn } from 'react-hook-form'
 import { JSX, useEffect, useState } from 'react'
-import { BaseInput, FieldProps, GroupedOption, InputOption } from '../base'
+import { BaseInput, FieldProps, GroupedOption, handleOnChage, InputOption } from '../base'
 import { GroupedSwitches } from './grouped-switches-input'
 import { 
   Accordion,
@@ -71,7 +71,7 @@ export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange, i
   }
 
   // 🔹 Manejar cambio en switches individuales
-  const handleOptionChange = (field: any, updatedGroupLabel: string, updatedOptions: InputOption[]) => {
+  const handleOptionChange = (field: any, updatedGroupLabel: string, updatedOptions: InputOption[], input: FieldProps) => {
     const newGroups = groupsState.map((group) =>
       group.label === updatedGroupLabel ? { ...group, options: updatedOptions } : group
     )
@@ -82,6 +82,7 @@ export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange, i
     setSelectedOptions(allChecked)
     field.onChange(allChecked)
     onChange?.(allChecked)
+    handleOnChage(allChecked, input, field)
   }
 
   return (
@@ -115,7 +116,7 @@ export const AccordionGroupedSwitches = ({ form, input, groups = [], onChange, i
                         input={input}
                         options={group.options}
                         onChange={(updated: InputOption[]) =>
-                          handleOptionChange(field, group.label, updated)
+                          handleOptionChange(field, group.label, updated, input)
                         }
                       />
                     </AccordionContent>

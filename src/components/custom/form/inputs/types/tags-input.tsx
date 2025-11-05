@@ -1,9 +1,8 @@
 'use client'
 import React, { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Badge, Card, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/src/components/ui";
-import { BaseInput, FieldProps } from "../base";
-import { X as RemoveIcon } from "lucide-react";
+import { Badge, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/src/components/ui";
+import { BaseInput, FieldProps, handleOnChage } from "../base";
 import { cn } from "@/src/lib/utils";
 
 
@@ -41,8 +40,9 @@ const FieldTags = ({ input, form, isSubmitting }: Props): JSX.Element => {
 
         <FormControl>
           <TagsInput
+            input={input}
             value={field.value ?? []}
-            onValueChange={field.onChange}
+            onValueChange={(event)=>  handleOnChage(event, input, field)}
             placeholder="Enter for add tag"
           />
         </FormControl>
@@ -69,6 +69,7 @@ const SPLITTER_REGEX = /[\n#?=&\t,./-]+/;
 const FORMATTING_REGEX = /^[^a-zA-Z0-9]*|[^a-zA-Z0-9]*$/g;
 
 interface TagsInputProps extends React.HTMLAttributes<HTMLDivElement> {
+  input: FieldProps;
   value: string[];
   onValueChange: (value: string[]) => void;
   placeholder?: string;
@@ -81,6 +82,7 @@ interface TagsInputProps extends React.HTMLAttributes<HTMLDivElement> {
 const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
   (
     {
+      input,
       value,
       onValueChange,
       placeholder,
@@ -98,7 +100,7 @@ const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
     const parseMaxItems = maxItems ?? Infinity;
 
     const addTag = (val: string) => {
-      if (!value.includes(val) && value.length < parseMaxItems) {
+      if ((!value.includes(val) && value.length < parseMaxItems) || input.withDuplicatTag) {
         onValueChange([...value, val]);
       }
     };

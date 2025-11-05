@@ -1,6 +1,6 @@
 'use client'
-import { JSX } from "react";
-import { BaseInput } from "../base/base-input"
+import { JSX, ChangeEvent } from "react";
+import { BaseInput, handleOnChage } from "../base/base-input"
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Textarea } from "@/src/components/ui"
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base";
@@ -31,7 +31,13 @@ function FieldTextArea({ form, input, isSubmitting }: Props): JSX.Element {
       <FormItem className="shadow-lg">
         <FormLabel><b>{input.label}</b></FormLabel>
         <FormControl>
-          <Textarea className="min-w-[260px] bg-white" placeholder={input.placeHolder} {...field} disabled={input.disabled || isSubmitting} />
+          <Textarea className="min-w-[260px] bg-white" 
+          placeholder={input.placeHolder} 
+          {...field} 
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+            handleOnChage(event, input, field)
+          }}
+          disabled={input.disabled || isSubmitting} />
         </FormControl>
         {input.description && <FormDescription>{input.description}</FormDescription>}
         <FormMessage />
