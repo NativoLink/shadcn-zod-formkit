@@ -2,7 +2,7 @@
 
 import { JSX, ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FieldConfig, FieldProps } from "./base";
+import { FieldConfig } from "./base";
 import { InputFactory } from "./input-factory";
 
 interface Props<T extends Record<string, any> = Record<string, any>> {

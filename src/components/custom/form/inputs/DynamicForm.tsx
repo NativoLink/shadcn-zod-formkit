@@ -11,6 +11,7 @@ import { Loader2, Pencil, Save } from "lucide-react";
 import { ZodObject, z } from "zod";
 import { FormFieldsGrid } from "./FormFieldsGrid";
 import { ButtonGroup } from "@/src/components/ui/button-group";
+import { cn } from "@/src/lib/utils";
 
 type alertPositionType = 'up' | 'down';
 
@@ -33,8 +34,12 @@ interface Props<T extends Record<string, any>> {
   withErrorsAlert?: boolean;
   errorAlertPosition?: alertPositionType;
   withCard?: boolean;
+  withFormWrapper?: boolean;
+  withSubmitBtn?: boolean;
   submitBtnLabel?: string;
+  submitBtnLabelSubmiting?: string;
   submitBtnClass?: string;
+  btnGroupDirection?: 'flex-start' | 'flex-end' | 'flex-center';
   children?: ReactNode;
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
@@ -56,9 +61,13 @@ export const DynamicForm = <T extends Record<string, any>>({
   withErrorsAlert = true,
   errorAlertPosition = 'up',
   withCard = false,
-  submitBtnClass = '',
+  submitBtnClass,
   listBtnConfig = [],
   submitBtnLabel = 'Guardar',
+  submitBtnLabelSubmiting = 'Guardando...',
+  withFormWrapper = true,
+  btnGroupDirection = "flex-end",
+  withSubmitBtn = true
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
@@ -110,6 +119,63 @@ export const DynamicForm = <T extends Record<string, any>>({
     onClick(resp);
   };
 
+  const formBody = (
+    <>
+      <div className="w-full grid grid-cols-1">
+        <FormFieldsGrid
+          fields={fields as unknown as FieldConfig<T>[]}
+          form={form}
+          readOnly={readOnly}
+        />
+        {children && (
+          <div className="flex flex-row items-center gap-2 w-full h-full">
+            {children}
+          </div>
+        )}
+      </div>
+
+      <ButtonGroup className="flex flex-row w-full h-full" style={{
+          justifyContent: btnGroupDirection, // Alinea horizontalmente a la derecha
+          alignItems: "center",       // Centra verticalmente (opcional)
+        }}>
+        {listBtnConfig.map((btn, key) => (
+          <Button
+            type={btn.btnType}
+            key={key}
+            size="icon-lg"
+            className={submitBtnClass}
+            variant={btn.variant}
+            onClick={btn.onClick}
+            disabled={btn.disabled}
+          >
+            {btn.label}
+          </Button>
+        ))}
+        {!readOnly && withSubmitBtn &&  (
+          <Button
+            type={onClick ? 'button' : 'submit'}
+            size="icon-lg"
+            className={cn("text-lg",submitBtnClass)}
+            disabled={isPending}
+            onClick={onClick ? handleClick : undefined}
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                {submitBtnLabelSubmiting}
+              </>
+            ) : (
+              <>
+                <Save className="h-5 w-5 mr-2" />
+                {submitBtnLabel}
+              </>
+            )}
+          </Button>
+        )}
+      </ButtonGroup>
+    </>
+  )
+
   /** 🧩 Render del contenido principal del formulario */
   const formContent = (
     <div>
@@ -137,62 +203,9 @@ export const DynamicForm = <T extends Record<string, any>>({
         />
       )}
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className={`flex flex-col gap-2 ${readOnly ? 'opacity-70 pointer-events-none select-none' : ''}`}
-        >
-          <div className="w-full grid grid-cols-1">
-            <FormFieldsGrid
-              fields={fields as unknown as FieldConfig<T>[]}
-              form={form}
-              readOnly={readOnly}
-            />
-            {children && (
-              <div className="flex flex-row items-center gap-2 w-full h-full">
-                {children}
-              </div>
-            )}
-          </div>
+      {withFormWrapper && (<FormWrapper form={form} handleSubmit={handleSubmit}>{formBody}</FormWrapper>)}
+      {!withFormWrapper && (formBody)}
 
-          <ButtonGroup className="flex flex-row w-full">
-            {listBtnConfig.map((btn, key) => (
-              <Button
-                type={btn.btnType}
-                key={key}
-                size="lg"
-                className={submitBtnClass}
-                variant={btn.variant}
-                onClick={btn.onClick}
-                disabled={btn.disabled}
-              >
-                {btn.label}
-              </Button>
-            ))}
-            {!readOnly && (
-              <Button
-                type={onClick ? 'button' : 'submit'}
-                size="lg"
-                className={submitBtnClass}
-                disabled={isPending}
-                onClick={onClick ? handleClick : undefined}
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Guardando...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4 mr-2" />
-                    {submitBtnLabel}
-                  </>
-                )}
-              </Button>
-            )}
-          </ButtonGroup>
-        </form>
-      </Form>
 
       {withErrorsAlert && errorAlertPosition === 'down' && (
         <FormErrorsAlert
@@ -211,3 +224,26 @@ export const DynamicForm = <T extends Record<string, any>>({
     </Card>
   );
 };
+
+
+interface FormWrapperProps {
+  form:UseFormReturn<any>
+  handleSubmit: (data: any) => void
+  children: ReactNode;
+  readOnly?: boolean
+}
+
+const FormWrapper = ({form, handleSubmit, children, readOnly}: FormWrapperProps) => {
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className={`flex flex-col gap-2 ${readOnly ? 'opacity-70 pointer-events-none select-none' : ''}`}
+      >
+        {children}
+      </form>
+    </Form>
+  )
+}
+
+
