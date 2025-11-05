@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.23.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.4...v1.23.0) (2025-11-05)
+
+### Features
+
+* **form-wrapper): Wrap Inputs for default in <Form><form> ...,  prop => (withFormWrapper:boolean) , other change (style:** align button-group (flex-start or flex-end) ([487eb1b](https://github.com/NativoLink/shadcn-zod-formkit/commit/487eb1bd95107569dcf26313ee80470565ef05cf))
+
 ## [1.22.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.3...v1.22.4) (2025-11-05)
 
 ### Bug Fixes
