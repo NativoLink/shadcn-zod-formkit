@@ -133,7 +133,7 @@ export const DynamicForm = <T extends Record<string, any>>({
       {withErrorsAlert && errorAlertPosition === 'up' && (
         <FormErrorsAlert
           formState={form.formState}
-          fields={fields as unknown as Array<FieldProps<T> | FieldProps<T>[] | FieldProps<T>[][]>}
+          fields={fields as unknown as FieldConfig<T>[]}
         />
       )}
 
@@ -144,7 +144,7 @@ export const DynamicForm = <T extends Record<string, any>>({
         >
           <div className="w-full grid grid-cols-1">
             <FormFieldsGrid
-              fields={fields as unknown as Array<FieldProps<T> | FieldProps<T>[] | FieldProps<T>[][]>}
+              fields={fields as unknown as FieldConfig<T>[]}
               form={form}
               readOnly={readOnly}
             />

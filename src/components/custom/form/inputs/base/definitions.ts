@@ -21,9 +21,9 @@ export const flattenFields = <T extends Record<string, any>>(fields: FieldConfig
 };
 
 
-export type FieldConfig<T> = FieldProps<T> | FieldConfig<T>[];
+export type FieldConfig<T, RT = Record<string,any>> = FieldProps<T,RT> | FieldConfig<T,RT>[];
 
-export interface FieldProps<T = Record<string,any>> {
+export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
@@ -34,7 +34,7 @@ export interface FieldProps<T = Record<string,any>> {
   defaultValue?: any;
   direction?: 'row' | 'col';
   
-  repeaterFields?: Array<FieldProps | FieldProps[]>;
+  repeaterFields?: FieldConfig<RT>;
   minItems?: number;
   maxItems?: number;
 
