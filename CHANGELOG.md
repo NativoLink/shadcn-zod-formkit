@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.22.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.3...v1.22.4) (2025-11-05)
+
+### Bug Fixes
+
+* **form-fields-grid:** Rollback to version 1.19.0 ([319ef7a](https://github.com/NativoLink/shadcn-zod-formkit/commit/319ef7aa263c008f993a6fd681882aec7585bbf9))
+
 ## [1.22.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.22.2...v1.22.3) (2025-11-04)
 
 ### Bug Fixes
