@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.24.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.23.2...v1.24.0) (2025-11-05)
+
+### Features
+
+* **implemte-handle-on-change:** apply to 90% of input, and add Prop (withDuplicatTag) in FieldProps for duplicate tags ([fe52e4e](https://github.com/NativoLink/shadcn-zod-formkit/commit/fe52e4e2a1065e390280f2056585edddfebd45c8))
+
 ## [1.23.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.23.1...v1.23.2) (2025-11-05)
 
 ### Bug Fixes
