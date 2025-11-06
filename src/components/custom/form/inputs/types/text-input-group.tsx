@@ -101,9 +101,9 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                     if (isNumberField) {
                       value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
                     }
-                    handleOnChage(value, input, field)
                     field.onChange(value);
                     isValidField(input, form)
+                    handleOnChage(value.trimStart(), input, field)
                   }}
                 />
 
