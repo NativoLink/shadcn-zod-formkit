@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.27.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.1...v1.27.2) (2025-11-06)
+
+### Bug Fixes
+
+* **text-input-group:**  remove trimStart ([ab78a90](https://github.com/NativoLink/shadcn-zod-formkit/commit/ab78a90a8a94a1ee834b6d8a8d079c4950ff1a14))
+
 ## [1.27.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.0...v1.27.1) (2025-11-06)
 
 ### Bug Fixes
