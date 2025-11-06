@@ -103,7 +103,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                     }
                     field.onChange(value);
                     isValidField(input, form)
-                    handleOnChage(value.trimStart(), input, field)
+                    handleOnChage(value, input, field)
                   }}
                 />
 
