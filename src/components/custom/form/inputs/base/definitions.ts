@@ -5,7 +5,10 @@ import { ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 
-export const flattenFields = <T extends Record<string, any>>(fields: FieldConfig<T>[]): FieldProps<T>[] => {
+export const flattenFields = <T extends Record<string, any>>(
+  fields: FieldConfig<T>[],
+  onAnyFieldChange?:  (data:any) => void
+): FieldProps<T>[] => {
   const result: FieldProps<T>[] = [];
 
   for (const field of fields) {
@@ -14,6 +17,7 @@ export const flattenFields = <T extends Record<string, any>>(fields: FieldConfig
     } else if ((field as any).fields) {
       result.push(...flattenFields((field as any).fields));
     } else {
+      if (onAnyFieldChange) field.onAnyFieldChange = (data:any) => onAnyFieldChange(data)
       result.push(field);
     }
   }
@@ -46,6 +50,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   currencyFormat?: Intl.NumberFormatOptions
   mask?: string | RegExp;
 
+  onAnyFieldChange?: (data:Record<string,any>) => void
   wrapInCard?: boolean
   placeHolder?: string
   description?: string

@@ -106,12 +106,12 @@ export default function FormBasics() {
       autoValidIcons: true,
       iconsLeft: [User]
     },
-    onChange: (item, formValues) => {
-      // console.log('formValues',formValues)
-      // setTimeout(()=>{
-        setDataToSend(formValues)
-      // },250)
-    },
+    // onChange: (item, formValues) => {
+    //   // console.log('formValues',formValues)
+    //   // setTimeout(()=>{
+    //     setDataToSend(formValues)
+    //   // },250)
+    // },
     zodType: z
       .string("Es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -580,7 +580,8 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
-
+              withSubmitBtn={false}
+              onAnyFieldChange={setDataToSend}
             // listBtnConfig={[
               //   {
                 //     variant:'outline',

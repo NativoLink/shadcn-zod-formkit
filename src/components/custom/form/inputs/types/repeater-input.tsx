@@ -53,7 +53,7 @@ export const FieldRepeater = ({ form, input, isSubmitting }: Props) => {
               {fields.map((item, index) => (
                 <div
                   key={item.id}
-                  className="border p-3 rounded-md flex flex-col gap-3"
+                  className="border p-3 rounded-md flex flex-col gap-4 py-3"
                 >
 
                   {/* <FormFieldsGrid fields={input?.repeaterFields ?? []} form={form} /> */}
