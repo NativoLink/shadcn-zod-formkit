@@ -414,6 +414,7 @@ export default function FormBasics() {
     name: "secretKeys",
     label: "SECRET KEYS",
     inputType: InputTypes.KEY_VALUE,
+    // isRemovebleOption: true,
     zodType: z.array( 
       z.object({ key: z.string("se requiere por lo menos 1 clave ...")
         .min(1, "La clave es requerida")

@@ -14,8 +14,12 @@ import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base/definitions";
-import { Plus, Trash2 } from "lucide-react";
+import { Link2Icon, Plus, Trash2 } from "lucide-react";
 import { useEffect } from "react";
+import { FieldTextGroup } from "./text-input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/src/components/ui/input-group";
+import { ButtonGroup, ButtonGroupText } from "@/src/components/ui/button-group";
+import { Label } from "@radix-ui/react-label";
 
 export class KeyValueListInput extends BaseInput {
   render(): JSX.Element {
@@ -81,7 +85,7 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
             <FormLabel><b>{input.label}</b></FormLabel>
             <FormMessage />
             <FormControl>
-              <div className="flex flex-col gap-3 rounded-xl p-3 ">
+              <div className="flex flex-col gap-3 rounded-xl ">
                 {pairs.length === 0 && (
                   <p className="text-sm text-muted-foreground">
                     No pairs have been added yet.
@@ -91,23 +95,54 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                 {pairs.map((pair: { key: string; value: string }, index: number) => (
                   <div
                     key={index}
-                    className="flex gap-2 items-center"
-                  >
-                    <Input
+                    className="flex flex-row w-full gap-2 items-center py-0.5"
+                  > 
+
+                  <ButtonGroup className="w-full">
+                    <ButtonGroupText asChild>
+                      <Label htmlFor="key">Key</Label>
+                    </ButtonGroupText>
+                    <InputGroup>
+                      <InputGroupInput
+                        placeholder="Key"
+                        value={pair.key}
+                        disabled={isSubmitting}
+                        onChange={(e) => handleChange(index, "key", e.target.value)}
+                        className="flex-1"
+                      />
+                    </InputGroup>
+                  </ButtonGroup>
+
+                  <ButtonGroup className="w-full">
+                    <ButtonGroupText asChild>
+                      <Label htmlFor="value">Value</Label>
+                    </ButtonGroupText>
+                    <InputGroup>
+                      <InputGroupInput
+                        placeholder="Value"
+                        value={pair.value}
+                        disabled={isSubmitting}
+                        onChange={(e) => handleChange(index, "value", e.target.value)}
+                        className="flex-1"
+                      />
+                    </InputGroup>
+                  </ButtonGroup>
+
+                    {/* <Input
                       placeholder="Key"
                       value={pair.key}
                       disabled={isSubmitting}
                       onChange={(e) => handleChange(index, "key", e.target.value)}
                       className="w-1/2"
-                    />
-                    <Input
+                    /> */}
+                    {/* <Input
                       placeholder="Value"
                       value={pair.value}
                       disabled={isSubmitting}
                       onChange={(e) => handleChange(index, "value", e.target.value)}
                       className="w-1/2"
-                    />
-                    <Button
+                    /> */}
+                    { input.isRemovebleOption && (<Button
                       type="button"
                       variant="destructive"
                       size="icon"
@@ -115,7 +150,7 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                       disabled={isSubmitting}
                     >
                       <Trash2 size={18} />
-                    </Button>
+                    </Button>)}
                   </div>
                 ))}
 
