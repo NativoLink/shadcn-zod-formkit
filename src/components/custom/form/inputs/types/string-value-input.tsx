@@ -90,7 +90,7 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
                 {items.map((value: string, index: number) => (
                   <div
                     key={index}
-                    className="flex gap-2 items-center"
+                    className="flex items-center gap-4 py-2"
                   >
                     <Input
                       placeholder={`Item ${index + 1}`}

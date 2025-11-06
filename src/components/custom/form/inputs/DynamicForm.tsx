@@ -28,6 +28,7 @@ interface Props<T extends Record<string, any>> {
   readOnly?: boolean;
   fields: FieldConfig<T>[];
   record?: Partial<T>;
+  onAnyFieldChange?: (data: Record<string,any>) => void;
   onSubmit?: (resp: FormResp<T>) => void;
   onClick?: (resp: FormResp<T>) => void;
   extraValidations?: ((schema: ZodObject<any>) => ZodObject<any>)[];
@@ -51,6 +52,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   fields,
   readOnly = false,
   record = {},
+  onAnyFieldChange,
   onSubmit,
   onClick,
   extraValidations,
@@ -80,7 +82,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   //   );
   // };
 
-  const allFields = flattenFields(fields);
+  const allFields = flattenFields(fields, onAnyFieldChange);
   return getDynamicSchema<T>(allFields, extraValidations);
 }, [fields, extraValidations]);
 

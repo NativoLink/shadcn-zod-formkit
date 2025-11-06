@@ -50,8 +50,9 @@ export const entitiesToGroupedOption = (data:any[], optionValue:string = 'name' 
 
 export const handleOnChage = (event: any[] | any, input: FieldProps, field?: ControllerRenderProps<FieldValues, string>): void => {
   if (event) field?.onChange(event)
-  input.onChange?.(event, input.form?.getValues())
-  // console.log("🚀 ~ handleOnChage ~ input:", input.form?.formState.errors)
+  const data = input.form?.getValues()
+  input.onChange?.(event, data)
+  if (input.onAnyFieldChange) input.onAnyFieldChange?.(data)
 }
 
 export const isValidField = (input: FieldProps, form: UseFormReturn, defaultValue?: any): boolean => {
