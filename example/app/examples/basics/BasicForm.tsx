@@ -106,8 +106,14 @@ export default function FormBasics() {
       autoValidIcons: true,
       iconsLeft: [User]
     },
+    onChange: (item, formValues) => {
+      // console.log('formValues',formValues)
+      // setTimeout(()=>{
+        setDataToSend(formValues)
+      // },250)
+    },
     zodType: z
-      .string()
+      .string("Es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(20, "El nombre no puede tener más de 20 caracteres") ,
   },
@@ -118,13 +124,12 @@ export default function FormBasics() {
       label: "Email",
       inputType: InputTypes.TEXT_GROUP,
       inputGroupConfig:{
-        autoValidIcons: true,
+        // autoValidIcons: true,
         iconsLeft: [Mail],
       },
       zodType: z
         .string()
         .email("Correo inválido")
-        .optional(),
     },
     {
       name: "email",
@@ -136,8 +141,7 @@ export default function FormBasics() {
       },
       zodType: z
         .string()
-        .email("Correo inválido")
-        .optional(),
+        .email("Correo inválido"),
     }
   ],
   {
@@ -454,11 +458,11 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
-      // zodType: z.coerce
-      //   .date(validationMessages.required)
-      //   .refine((d) => d < new Date(), {
-      //     message: "La fecha no puede ser futura",
-      //   }),
+      zodType: z.coerce
+        .date(validationMessages.required)
+        .refine((d) => d < new Date(), {
+          message: "La fecha no puede ser futura",
+        }),
     },
   //   {
   //     name: "appointment",
@@ -527,7 +531,7 @@ export default function FormBasics() {
   return (
     <div className='w-full gap-2 grid grid-cols-1'>
 
-      <GenericFilter  
+      {/* <GenericFilter  
       filters={[
         [{
           name: "status",
@@ -562,11 +566,11 @@ export default function FormBasics() {
           alert(msg)
           console.log(msg, e)
       }}
-      // autoSubmit={true}
+      autoSubmit={true}
         // withEndDate={false}
         // withInitDate={false}
       />
-      
+       */}
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
           
