@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [1.26.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.26.0...v1.26.1) (2025-11-06)
+
+### Bug Fixes
+
+* **date-input:** autoValidate work - fixed ([c6fde65](https://github.com/NativoLink/shadcn-zod-formkit/commit/c6fde650344b9df50dc3d397294adee23158b349))
+* **text-group:** autoValidate work - fixed ([0eea48b](https://github.com/NativoLink/shadcn-zod-formkit/commit/0eea48b8e45a133f41dcb01a7015cd855b8f2f30))
+
 ## [1.26.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.25.0...v1.26.0) (2025-11-05)
 
 ### Features
