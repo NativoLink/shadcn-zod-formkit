@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.27.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.0...v1.27.1) (2025-11-06)
+
+### Bug Fixes
+
+* **on-any-field-change:** generic function for each field ([f664076](https://github.com/NativoLink/shadcn-zod-formkit/commit/f664076a54fd2db35ba2b3a24a262594bc50342d))
+
 ## [1.27.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.26.1...v1.27.0) (2025-11-06)
 
 ### Features
