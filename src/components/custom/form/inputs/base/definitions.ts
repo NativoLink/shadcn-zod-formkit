@@ -2,6 +2,7 @@ import { z, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
 import { LucideProps } from "lucide-react";
 import { ReactNode } from "react";
+import { UseFormReturn } from "react-hook-form";
 
 
 export const flattenFields = <T extends Record<string, any>>(fields: FieldConfig<T>[]): FieldProps<T>[] => {
@@ -27,9 +28,10 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
+  form?: UseFormReturn<any>;
   isRemovebleOption?:boolean
   withDuplicatTag?: boolean
-  onChange?: (...event: any[]) => void
+  onChange?: (event: any[], formValues?: Record<string,any>) => void
   tabLabelField?:string
   childrenPosition?: 'up' | 'down'
   children?: ReactNode | ((item: any, index: number) => ReactNode);

@@ -49,7 +49,20 @@ export const entitiesToGroupedOption = (data:any[], optionValue:string = 'name' 
 }
 
 export const handleOnChage = (event: any[] | any, input: FieldProps, field?: ControllerRenderProps<FieldValues, string>): void => {
-  console.log("🚀 ~ handleOnChage ~ event:", event)
   if (event) field?.onChange(event)
-  input.onChange?.(event)
+  input.onChange?.(event, input.form?.getValues())
+  console.log("🚀 ~ handleOnChage ~ input:", input.form?.formState.errors)
 }
+
+export const isValidField = (input: FieldProps, form: UseFormReturn, defaultValue?: any): boolean => {
+    const value = defaultValue ?? form.getValues(input.name);
+    const fieldState = form.getFieldState(input.name);
+    
+    // Si el campo tiene un esquema zod, validamos con él
+    if (input.zodType) {
+      const result = input.zodType.safeParse(value);
+      return result.success;
+    }
+    // Si no tiene zodType, usamos la validación estándar de react-hook-form
+    return !fieldState.error && value !== undefined && value !== "";
+  }

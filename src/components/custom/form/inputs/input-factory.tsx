@@ -101,6 +101,7 @@ export class InputFactory {
     form: UseFormReturn<T>,
     isSubmitting: boolean = false
   ): JSX.Element {
+    input.form  = form
     const inputType = (input.inputType as InputTypes) ?? InputTypes.TEXT;
 
     const InputClass = (inputMap[inputType] ??

@@ -97,7 +97,8 @@ export const DynamicForm = <T extends Record<string, any>>({
   /** 🔄 Reset cuando cambia record */
   useEffect(() => {
     form.reset(initialValues as unknown as DefaultValues<FormData>);
-  }, [initialValues, form]);
+  // }, [initialValues, form]);
+  }, []);
 
   /** 💾 onSubmit */
   const handleSubmit = (data: FormData) => {

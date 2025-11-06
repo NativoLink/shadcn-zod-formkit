@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX, useState } from "react";
-import { BaseInput, handleOnChage } from "../base/base-input";
+import { BaseInput, handleOnChage, isValidField } from "../base/base-input";
 import { 
   FormControl, 
   FormDescription, 
@@ -49,11 +49,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const textRight = groupConfig?.textRight;
 
   // Estado local para manejar validez desde el primer render
-  const [isValid, setIsValid] = useState<boolean>(() => {
-    const value = form.getValues(input.name);
-    const fieldState = form.getFieldState(input.name);
-    return !fieldState.error && value !== undefined && value !== "";
-  });
+  const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
 
   // 👁️ Estado para mostrar/ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
@@ -66,9 +62,8 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
       key={input.name}
       control={form.control}
       name={input.name}
-      render={({ field, fieldState }) => {
-        const validNow = !fieldState.error && field.value !== undefined && field.value !== "";
-        if (validNow !== isValid) setIsValid(validNow);
+      render={({ field }) => {
+        setIsValid(isValidField(input, form));
 
         return (
           <FormItem className={input.className}>
@@ -108,6 +103,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                     }
                     handleOnChage(value, input, field)
                     field.onChange(value);
+                    isValidField(input, form)
                   }}
                 />
 
