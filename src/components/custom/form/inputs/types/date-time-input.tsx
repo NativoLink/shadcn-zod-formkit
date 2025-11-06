@@ -30,7 +30,7 @@ interface Props {
 
 export const FieldDateTimeInput = ({ form, input, isSubmitting }: Props) => {
   const groupConfig = input.inputGroupConfig;
-  const autoValidate = groupConfig?.autoValidIcons;
+  const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
 
   const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
   const iconInvalidState = <CircleX style={{ color: "#ff8080" }} />;
@@ -102,7 +102,7 @@ export const FieldDateTimeInput = ({ form, input, isSubmitting }: Props) => {
                   <InputGroupAddon align="inline-end">
                     {textRight && <InputGroupText>{textRight}</InputGroupText>}
                     {iconsRight.map((IconComponent, index) => (
-                      <IconComponent key={index} size={20} />
+                      <IconComponent key={index} size={24} />
                     ))}
 
                     {autoValidate && (

@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+button svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}

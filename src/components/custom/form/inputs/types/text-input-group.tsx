@@ -37,7 +37,7 @@ interface Props {
 export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const groupConfig = input.inputGroupConfig;
   const infoTooltip = input?.infoTooltip;
-  const autoValidate = groupConfig?.autoValidIcons;
+  const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
 
   const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
   const iconInvalidState = <CircleX style={{ color: "#ff8080" }} />;

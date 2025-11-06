@@ -124,7 +124,7 @@ export default function FormBasics() {
       label: "Email",
       inputType: InputTypes.TEXT_GROUP,
       inputGroupConfig:{
-        autoValidIcons: true,
+        // autoValidIcons: true,
         iconsLeft: [Mail],
       },
       zodType: z
@@ -458,11 +458,11 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
-      // zodType: z.coerce
-      //   .date(validationMessages.required)
-      //   .refine((d) => d < new Date(), {
-      //     message: "La fecha no puede ser futura",
-      //   }),
+      zodType: z.coerce
+        .date(validationMessages.required)
+        .refine((d) => d < new Date(), {
+          message: "La fecha no puede ser futura",
+        }),
     },
   //   {
   //     name: "appointment",
