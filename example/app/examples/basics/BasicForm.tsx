@@ -580,7 +580,7 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
-              withSubmitBtn={false}
+              // withSubmitBtn={false}
               onAnyFieldChange={setDataToSend}
             // listBtnConfig={[
               //   {
@@ -590,31 +590,30 @@ export default function FormBasics() {
                 //     onClick: () => {alert('FROM BUTTON 1')}
                 //   }
                 // ]}
-                // showFormHeader={false}
-                // showIcon={false}
-                errorAlertPosition='down'
-                // childrenHeader={<Button> childrenHeader</Button>}
-                fields={mockFields}
-                record={record}
-                // extraValidations={[
-                  //   (s) =>
-                  //     s.refine((data) => data.password === data.confirmPassword, {
-                  //       path: ["confirmPassword"],
-                  //       message: "Las contraseñas no coinciden",
-                  //     }),
-                  // ]}
-                  onSubmit={async (resp: FormResp<IUserRecord>) => {
-                    setDataToSend(resp.data)
-                  }}
-                  onClick={({data}) => {
-                    setDataToSend(data)
-                    toast.info(
-                      <pre className="flex flex-row  text-xs text-gray-800 p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-              );
-              // console.log("✅  Resultado final:", data)
-            }}
+              // showFormHeader={false}
+              // showIcon={false}
+              errorAlertPosition='down'
+              // childrenHeader={<Button> childrenHeader</Button>}
+              fields={mockFields}
+              record={record}
+              // extraValidations={[
+                //   (s) =>
+                //     s.refine((data) => data.password === data.confirmPassword, {
+                //       path: ["confirmPassword"],
+                //       message: "Las contraseñas no coinciden",
+                //     }),
+                // ]}
+              // onSubmit={async (resp: FormResp<IUserRecord>) => {
+              //   setDataToSend(resp.data)
+              // }}
+              // onClick={({data}) => {
+              //         setDataToSend(data)
+              //         toast.info(
+              //           <pre className="flex flex-row  text-xs text-gray-800 p-4">
+              //       <code>{JSON.stringify(data, null, 2)}</code>
+              //     </pre>
+              //   );
+              // }}
             /> 
 
         </div>
