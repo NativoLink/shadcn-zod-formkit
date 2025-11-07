@@ -57,7 +57,7 @@ export default function FormBasics() {
     email: "johndoe@example.com",
     continent: '2',
     country: '1',
-    isActive: true,
+    isActive: false,
     favoriteColor: '#000000',
     salary: 0,
     age: 25,
@@ -422,6 +422,13 @@ export default function FormBasics() {
         value: z.string().min(1, "El valor es requerido") 
       })).min(1, "Debe haber al menos un par clave-valor")
   },
+  {
+    name: "isActive",
+    label: "Usuario activo",
+    description:'This is a description',
+    inputType: InputTypes.SWITCH,
+    zodType: z.boolean(),
+  },
   // {
   //   name: "isActive",
   //   label: "Usuario activo",
@@ -618,15 +625,15 @@ export default function FormBasics() {
 
         </div>
 
-        <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
+        <Card>
           {/* <GenericFilter /> */}
-          <div className="flex flex-row  text-lg text-gray-800 p-4">
+          <div className="flex flex-row  text-lg  p-4">
             DATA SENDED
           </div>
-          <pre className="flex flex-row  text-xs text-gray-800 p-4">
+          <pre className="flex flex-row  text-xs  p-4">
             <code>{JSON.stringify(dataToSend, null, 2)}</code>
           </pre>
-        </div>
+        </Card>
       </div>
     </div>
   );

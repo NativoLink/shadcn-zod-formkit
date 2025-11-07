@@ -39,9 +39,8 @@ const FieldSwitch = ({ input, form, isSubmitting }: Props): JSX.Element => {
           </div>
           <FormControl>
             <Switch checked={field.value} 
-              onCheckedChange={(event)=>  handleOnChage(event, input, field)} 
-              aria-disabled 
-              disabled={input.disabled || isSubmitting} />
+              onCheckedChange={(event)=> { handleOnChage(event, input, field)}}  
+              disabled={false} />
           </FormControl>
         </FormItem>
       </Card>
