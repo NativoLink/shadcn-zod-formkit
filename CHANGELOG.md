@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.27.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.2...v1.27.3) (2025-11-07)
+
+### Bug Fixes
+
+* **handle-on-chage:** Before not work with boolean values (SWITCH) ([02aaa47](https://github.com/NativoLink/shadcn-zod-formkit/commit/02aaa47c11d177f2d81abc248e6d5219e19fd475))
+
 ## [1.27.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.1...v1.27.2) (2025-11-06)
 
 ### Bug Fixes
