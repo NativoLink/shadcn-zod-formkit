@@ -48,12 +48,30 @@ export const entitiesToGroupedOption = (data:any[], optionValue:string = 'name' 
   return entities;
 }
 
-export const handleOnChage = (event: any[] | any, input: FieldProps, field?: ControllerRenderProps<FieldValues, string>): void => {
-  if (event) field?.onChange(event)
-  const data = input.form?.getValues()
-  input.onChange?.(event, data)
-  if (input.onAnyFieldChange) input.onAnyFieldChange?.(data)
-}
+export const handleOnChage = (
+  event: any[] | any,
+  input: FieldProps,
+  field?: ControllerRenderProps<FieldValues, string>
+): void => {
+  let value: any = event;
+
+  // 🔹 Detecta si el valor viene de un input DOM normal
+  if (event && typeof event === "object" && "target" in event) {
+    value = (event.target as HTMLInputElement).value;
+  }
+
+  // 🔹 React Hook Form: actualiza el valor del campo
+  field?.onChange(value);
+
+  // 🔹 Obtiene los valores actuales del formulario
+  const data = input.form?.getValues();
+
+  // 🔹 Llama al callback específico del input (si existe)
+  input.onChange?.(value, data);
+
+  // 🔹 Callback global (si existe)
+  input.onAnyFieldChange?.(data);
+};
 
 export const isValidField = (input: FieldProps, form: UseFormReturn, defaultValue?: any): boolean => {
     const value = defaultValue ?? form.getValues(input.name);
