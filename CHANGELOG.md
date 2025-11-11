@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.27.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.3...v1.27.4) (2025-11-11)
+
+### Bug Fixes
+
+* **string-list-input:** with-add-btn ([31e0ce5](https://github.com/NativoLink/shadcn-zod-formkit/commit/31e0ce5817b5e7ebeab6e64562e6a0d2a8967d52))
+
 ## [1.27.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.2...v1.27.3) (2025-11-07)
 
 ### Bug Fixes
