@@ -446,20 +446,20 @@ export default function FormBasics() {
         .string()
         .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
     },
-  //   {
-  //     name: "age",
-  //     label: "Edad",
-  //     inputType: InputTypes.NUMBER,
-  //     keyboardType: TextInputType.NUMBER,
-  //     inputGroupConfig:{
-  //       autoValidIcons: true,
-  //       iconsLeft: [Hash]
-  //     },
-  //     zodType: z
-  //       .coerce.number("Debe ser un número") // fuerza a number
-  //       .min(18, "Debe ser mayor de 18")
-  //       .max(99, "Debe ser menor de 99"),
-  //   }
+    {
+      name: "age",
+      label: "Edad",
+      inputType: InputTypes.NUMBER,
+      keyboardType: TextInputType.NUMBER,
+      inputGroupConfig:{
+        autoValidIcons: true,
+        iconsLeft: [Hash]
+      },
+      zodType: z
+        .coerce.number("Debe ser un número") // fuerza a number
+        .min(18, "Debe ser mayor de 18")
+        .max(99, "Debe ser menor de 99"),
+    },
   // ],
   // [
     {
@@ -588,7 +588,7 @@ export default function FormBasics() {
               formTitle="Basic Form Example"
               withCard
               // withSubmitBtn={false}
-              onAnyFieldChange={setDataToSend}
+              // onAnyFieldChange={setDataToSend}
             // listBtnConfig={[
               //   {
                 //     variant:'outline',

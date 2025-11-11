@@ -40,6 +40,7 @@ interface Props {
  */
 export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
   const fieldName = input.name;
+  const withAddBtn = input.withAddBtn ?? false
 
   // Inicializamos como array vacío si no existe
   useEffect(() => {
@@ -111,7 +112,7 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
                 ))}
 
                 <div className="flex justify-end mt-2">
-                  <Button
+                 { withAddBtn && (<Button
                     type="button"
                     variant="outline"
                     size="sm"
@@ -119,7 +120,7 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
                     disabled={isSubmitting}
                   >
                     <Plus size={18} className="mr-1" />
-                  </Button>
+                  </Button>)}
                 </div>
               </div>
             </FormControl>
