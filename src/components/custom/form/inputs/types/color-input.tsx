@@ -1,7 +1,7 @@
 "use client"
 import React, { JSX, useEffect, useState } from "react"
-import { ColorPicker, IColor, useColor } from "react-color-palette"
-import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form"
+import { ColorPicker, useColor } from 'react-color-palette';
+import { UseFormReturn } from "react-hook-form"
 import "react-color-palette/css"
 import { cn } from "@/src/lib/utils"
 import { 
@@ -36,7 +36,18 @@ interface Props {
   isSubmitting?: boolean;
 }
 
-
+const PRESET_COLORS = [
+  "#ef4444", // red
+  "#f97316", // orange
+  "#eab308", // yellow
+  "#22c55e", // green
+  "#06b6d4", // cyan
+  "#3b82f6", // blue
+  "#8b5cf6", // purple
+  "#ec4899", // pink
+  "#64748b", // slate
+  "#000000", // black
+]
 
 
 const FieldColor = ({ form, input, isSubmitting }: Props) => {
@@ -99,16 +110,42 @@ export interface ColorCompProps {
 
 const ColorComp = React.forwardRef<HTMLButtonElement, ColorCompProps>(
   ({ value = "#000000", onChange, onBlur, disabled, className, hideInput =["hsv"] }, ref) => {
+    // const [color, setColor] = useColor(value)
+    // const [open, setOpen] = React.useState(false)
+
+    // React.useEffect(() => {
+    //   if (value !== color.hex) {
+    //     setColor({ ...color, hex: value })
+    //   }
+    // }, [color, setColor, value])
+
+    // const handleColorChange = (newColor: IColor) => {
+    //   setColor(newColor)
+    //   onChange?.(newColor.hex)
+    // }
+
+    // const handleOpenChange = (newOpen: boolean) => {
+    //   setOpen(newOpen)
+    //   if (!newOpen) {
+    //     onBlur?.()
+    //   }
+    // }
+
     const [color, setColor] = useColor(value)
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
 
     React.useEffect(() => {
       if (value !== color.hex) {
         setColor({ ...color, hex: value })
       }
-    }, [color, setColor, value])
+    }, [value])
 
-    const handleColorChange = (newColor: IColor) => {
+    const handleColorChange = (newColor: string) => {
+      setColor({ ...color, hex: newColor })
+      onChange?.(newColor)
+    }
+
+    const handlePickerChange = (newColor: any) => {
       setColor(newColor)
       onChange?.(newColor.hex)
     }
@@ -121,24 +158,45 @@ const ColorComp = React.forwardRef<HTMLButtonElement, ColorCompProps>(
     }
 
     return (
-      <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger asChild>
-          <Button
-            ref={ref}
-            variant="outline"
-            disabled={disabled}
-            className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground", className)}
-          >
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 border border-border rounded-sm" style={{ backgroundColor: color.hex, width: 20, height:20 }} />
-              <span>{color.hex}</span>
-            </div>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-3" align="start">
-          <ColorPicker color={color} onChange={handleColorChange} hideInput={hideInput} />
-        </PopoverContent>
-      </Popover>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap gap-2 p-2">
+          {PRESET_COLORS.map((presetColor) => (
+            <button
+              key={presetColor}
+              type="button"
+              disabled={disabled}
+              className={cn(
+                "size-6 rounded-md border-2 transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed",
+                color.hex === presetColor
+                  ? "border-foreground ring-2 ring-foreground/20"
+                  : "border-border hover:border-foreground/50",
+              )}
+              style={{ backgroundColor: presetColor }}
+              onClick={() => handleColorChange(presetColor)}
+              aria-label={`Select color ${presetColor}`}
+            />
+          ))}
+        </div>
+        
+        <Popover open={open} onOpenChange={handleOpenChange}>
+          <PopoverTrigger asChild>
+            <Button
+              ref={ref}
+              variant="outline"
+              disabled={disabled}
+              className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground", className)}
+            >
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-4 border border-border rounded-sm" style={{ backgroundColor: color.hex, width: 20, height:20 }} />
+                <span>{color.hex}</span>
+              </div>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-3" align="start">
+            <ColorPicker color={color} onChange={handlePickerChange} hideInput={hideInput} />
+          </PopoverContent>
+        </Popover>
+      </div>
     )
   },
 )
