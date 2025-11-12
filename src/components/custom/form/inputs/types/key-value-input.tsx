@@ -16,7 +16,7 @@ import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base/definitions";
 import { Link2Icon, Plus, Trash2 } from "lucide-react";
 import { useEffect } from "react";
-import { FieldTextGroup } from "./text-input-group";
+import { CustomInputGroup, FieldTextGroup } from "./text-input-group";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/src/components/ui/input-group";
 import { ButtonGroup, ButtonGroupText } from "@/src/components/ui/button-group";
 import { Label } from "@radix-ui/react-label";
@@ -102,7 +102,16 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                     <ButtonGroupText asChild>
                       <Label htmlFor="key">Key</Label>
                     </ButtonGroupText>
-                    <InputGroup>
+                    <CustomInputGroup 
+                        autoValidate={true}
+                        value={pair.key}
+                        input={input}
+                        isValid={pair.key.trim() != ''}
+                        isSubmitting={isSubmitting}
+                        onChange={(e) => handleChange(index, "key", e.target.value)}
+                        form={form}
+                      />
+                    {/* <InputGroup>
                       <InputGroupInput
                         placeholder="Key"
                         value={pair.key}
@@ -110,7 +119,7 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                         onChange={(e) => handleChange(index, "key", e.target.value)}
                         className="flex-1"
                       />
-                    </InputGroup>
+                    </InputGroup> */}
                   </ButtonGroup>
 
                   <ButtonGroup className="w-full">
@@ -118,13 +127,22 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                       <Label htmlFor="value">Value</Label>
                     </ButtonGroupText>
                     <InputGroup>
-                      <InputGroupInput
+                      <CustomInputGroup 
+                        autoValidate={true}
+                        value={pair.value}
+                        input={input}
+                        isValid={pair.value.trim() != ''}
+                        isSubmitting={isSubmitting}
+                        onChange={(e) => handleChange(index, "value", e.target.value)}
+                        form={form}
+                      />
+                      {/* <InputGroupInput
                         placeholder="Value"
                         value={pair.value}
                         disabled={isSubmitting}
                         onChange={(e) => handleChange(index, "value", e.target.value)}
                         className="flex-1"
-                      />
+                      /> */}
                     </InputGroup>
                   </ButtonGroup>
 
