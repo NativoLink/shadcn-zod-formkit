@@ -15,10 +15,11 @@ import {
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
+import ExampleWizardForm from './ExampleWizardForm';
 
 //ADD EXAMPLE WITH TYPING..
 
-interface IUserRecord {
+export interface IUserRecord {
     id: number;
     continent?: string;
     country?: string;
@@ -584,8 +585,8 @@ export default function FormBasics() {
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
           
-              
-            <DynamicForm<IUserRecord>
+            <ExampleWizardForm />
+            {/* <DynamicForm<IUserRecord>
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
@@ -623,7 +624,7 @@ export default function FormBasics() {
               //     </pre>
               //   );
               // }}
-            /> 
+            />  */}
 
         </div>
 

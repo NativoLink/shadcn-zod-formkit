@@ -37,11 +37,13 @@ interface Props {
 }
 
 const PRESET_COLORS = [
+  "#9A275A", // QuinaMagenta
   "#800000", // Maroon
   "#ef4444", // red
   "#f97316", // orange
   "#eab308", // yellow
   "#22c55e", // green
+  "#99EDCC", // Aquamarine
   "#00FF00", // lime
   "#00FFFF", // Aqua
   "#06b6d4", // cyan
@@ -51,8 +53,9 @@ const PRESET_COLORS = [
   "#FF00FF", // Fuchsia
   "#ec4899", // pink
   "#64748b", // slate
-  "#808080", // Gray
   "#000000", // black
+  "#808080", // Gray
+  "#FFFFFF", // White
 ]
 
 
@@ -172,7 +175,7 @@ const ColorComp = React.forwardRef<HTMLButtonElement, ColorCompProps>(
               type="button"
               disabled={disabled}
               className={cn(
-                "size-6 rounded-md border-2 transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed",
+                "size-6 shadow-lg rounded-md border-2 border-black transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed",
                 color.hex === presetColor
                   ? "border-foreground ring-2 ring-foreground/20"
                   : "border-border hover:border-foreground/50",
