@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.30.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.29.0...v1.30.0) (2025-11-12)
+
+### Features
+
+* **color-input:** add more default colors (PRESET_COLORS) ([a685dee](https://github.com/NativoLink/shadcn-zod-formkit/commit/a685dee7b82d254f9612db6258af50b41e6d1fee))
+
 ## [1.29.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.28.0...v1.29.0) (2025-11-12)
 
 ### Features
