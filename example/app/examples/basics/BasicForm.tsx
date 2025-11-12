@@ -610,9 +610,9 @@ export default function FormBasics() {
                 //       message: "Las contraseñas no coinciden",
                 //     }),
                 // ]}
-              // onSubmit={async (resp: FormResp<IUserRecord>) => {
-              //   setDataToSend(resp.data)
-              // }}
+              onSubmit={async (resp: FormResp<IUserRecord>) => {
+                setDataToSend(resp.data)
+              }}
               // onClick={({data}) => {
               //         setDataToSend(data)
               //         toast.info(
