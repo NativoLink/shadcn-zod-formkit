@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.29.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.28.0...v1.29.0) (2025-11-12)
+
+### Features
+
+* **text-input-group:** refactor text-input-group , new component CustomInputGroup ([10a3a0a](https://github.com/NativoLink/shadcn-zod-formkit/commit/10a3a0ace025eea9cbe5ad4a1322da65ba37d5fe))
+
 ## [1.28.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.4...v1.28.0) (2025-11-12)
 
 ### Features
