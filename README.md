@@ -121,6 +121,8 @@ const mockFields: Array<FieldProps |FieldProps[]> = [
   | **Input Multi Select**   |  `InputTypes.MULTI_SELECT`         | 
   | **Select With Search**   |  `InputTypes.COMBOBOX`             | 
   | **Input Drag Drop List** |  `InputTypes.SORTABLE_LIST`        | 
+  | **Dynamic Tabs**         |  `InputTypes.REPEATER_TABS`        | 
+  | **Dynamic String List**  |  `InputTypes.STRING_LIST`          | 
 
 
 
