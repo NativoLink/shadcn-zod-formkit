@@ -148,17 +148,20 @@ export const CustomInputGroup = ({
             : "text"}
         value={field?.value ?? value ?? ""}
         onChange={(e) => {
-          if (onChange) {
-            onChange(e)
+            if (onChange) {
+              onChange(e)
+            }
+            let value: any = e.target.value;
+            if (isNumberField) {
+              value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
+            }
+            field?.onChange(value);
+            isValidField(input, form);
+            handleOnChage(value, input, field);
           }
-          let value: any = e.target.value;
-          if (isNumberField) {
-            value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
-          }
-          field?.onChange(value);
-          isValidField(input, form);
-          handleOnChage(value, input, field);
-        } } />
+        } 
+        // {...field} 
+        />
 
       {/* Iconos derecha */}
       {showInputGroupAddons && (
