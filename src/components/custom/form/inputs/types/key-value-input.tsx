@@ -126,7 +126,6 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                     <ButtonGroupText asChild>
                       <Label htmlFor="value">Value</Label>
                     </ButtonGroupText>
-                    <InputGroup>
                       <CustomInputGroup 
                         autoValidate={true}
                         value={pair.value}
@@ -143,7 +142,6 @@ export const FieldKeyValueList = ({ form, input, isSubmitting }: Props) => {
                         onChange={(e) => handleChange(index, "value", e.target.value)}
                         className="flex-1"
                       /> */}
-                    </InputGroup>
                   </ButtonGroup>
 
                     {/* <Input
