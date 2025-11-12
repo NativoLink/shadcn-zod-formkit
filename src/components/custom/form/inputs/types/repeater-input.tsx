@@ -1,7 +1,7 @@
 'use client'
 
-import { JSX } from "react";
-import { BaseInput } from "../base/base-input";
+import { JSX, useEffect, useState } from "react";
+import { BaseInput, isValidField } from "../base/base-input";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import {
   FormControl,
@@ -16,6 +16,7 @@ import { Input } from "@/src/components/ui/input";
 import { FieldProps } from "../base/definitions";
 import { Plus, Trash2 } from "lucide-react";
 import { FormFieldsGrid } from "../FormFieldsGrid";
+import { CustomInputGroup } from "./text-input-group";
 
 export class RepeaterInput extends BaseInput {
   render(): JSX.Element {
@@ -39,6 +40,12 @@ export const FieldRepeater = ({ form, input, isSubmitting }: Props) => {
 
   const canAdd = !input.maxItems || fields.length < input.maxItems;
   const canRemove = fields.length > (input.minItems ?? 0);
+
+  const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
+
+  useEffect(() => {
+    setIsValid(isValidField(input, form));
+  },[input])
 
   return (
     <FormField
@@ -66,7 +73,7 @@ export const FieldRepeater = ({ form, input, isSubmitting }: Props) => {
                     return (
                       <div
                         key={groupIndex}
-                        className={`grid gap-3 grid-cols-${cols}`}
+                        className={`grid gap-1 grid-cols-${cols}`}
                       >
                         {group.map((subField) => (
                           <FormField
@@ -77,11 +84,20 @@ export const FieldRepeater = ({ form, input, isSubmitting }: Props) => {
                               <FormItem className="flex-1">
                                 <FormLabel>{subField.label}</FormLabel>
                                 <FormControl>
-                                  <Input
+                                  <CustomInputGroup 
+                                    autoValidate={true}
+                                    value={field.value}
+                                    input={subField}
+                                    isValid={isValid}
+                                    // onChange={(e) => handleChange(index, e.target.value)}
+                                    field={field}
+                                    form={form}
+                                  />
+                                  {/* <Input
                                     placeholder={subField.placeHolder}
                                     disabled={subField.disabled || isSubmitting}
                                     {...field}
-                                  />
+                                  /> */}
                                 </FormControl>
                                 <FormMessage>{fieldState.error?.message}</FormMessage>
                               </FormItem>
