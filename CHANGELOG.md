@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.28.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.4...v1.28.0) (2025-11-12)
+
+### Features
+
+* **color-picker:** now with default color list ([375512c](https://github.com/NativoLink/shadcn-zod-formkit/commit/375512c099e83c1885610bd039e00e5f50a1c55e))
+
 ## [1.27.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.27.3...v1.27.4) (2025-11-11)
 
 ### Bug Fixes
