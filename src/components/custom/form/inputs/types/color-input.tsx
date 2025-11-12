@@ -37,15 +37,21 @@ interface Props {
 }
 
 const PRESET_COLORS = [
+  "#800000", // Maroon
   "#ef4444", // red
   "#f97316", // orange
   "#eab308", // yellow
   "#22c55e", // green
+  "#00FF00", // lime
+  "#00FFFF", // Aqua
   "#06b6d4", // cyan
   "#3b82f6", // blue
   "#8b5cf6", // purple
+  "#800080", // purple
+  "#FF00FF", // Fuchsia
   "#ec4899", // pink
   "#64748b", // slate
+  "#808080", // Gray
   "#000000", // black
 ]
 
