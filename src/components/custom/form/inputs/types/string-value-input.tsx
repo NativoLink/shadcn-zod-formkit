@@ -1,7 +1,7 @@
 'use client';
 
-import { JSX, useEffect } from "react";
-import { BaseInput } from "../base/base-input";
+import { JSX, useEffect, useState } from "react";
+import { BaseInput, isValidField } from "../base/base-input";
 import {
   FormControl,
   FormDescription,
@@ -15,6 +15,7 @@ import { Button } from "@/src/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base/definitions";
 import { Plus, Trash2 } from "lucide-react";
+import { CustomInputGroup } from "./text-input-group";
 
 export class StringValueListInput extends BaseInput {
   render(): JSX.Element {
@@ -41,8 +42,13 @@ interface Props {
 export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
   const fieldName = input.name;
   const withAddBtn = input.withAddBtn ?? false
+  const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
 
   // Inicializamos como array vacío si no existe
+  useEffect(() => {
+    setIsValid(isValidField(input, form));
+  },[input])
+  
   useEffect(() => {
     const current = form.getValues(fieldName);
     if (!Array.isArray(current)) {
@@ -73,7 +79,7 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
     <FormField
       control={form.control}
       name={fieldName}
-      render={() => {
+      render={(field) => {
         const items = form.watch(fieldName) || [];
 
         return (
@@ -93,12 +99,21 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
                     key={index}
                     className="flex items-center gap-4 py-2"
                   >
-                    <Input
+                    <CustomInputGroup 
+                      autoValidate={true}
+                      value={value}
+                      input={input}
+                      isValid={isValid}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                      // field={field}
+                      form={form}
+                    />
+                    {/* <Input
                       placeholder={`Item ${index + 1}`}
                       value={value}
                       disabled={isSubmitting}
                       onChange={(e) => handleChange(index, e.target.value)}
-                    />
+                    /> */}
                     {input.isRemovebleOption && (<Button
                       type="button"
                       variant="destructive"
@@ -112,7 +127,7 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
                 ))}
 
                 <div className="flex justify-end mt-2">
-                 { withAddBtn && (<Button
+                { withAddBtn && (<Button
                     type="button"
                     variant="outline"
                     size="sm"

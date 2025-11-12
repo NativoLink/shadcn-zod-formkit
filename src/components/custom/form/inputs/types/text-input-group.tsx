@@ -1,6 +1,6 @@
 'use client'
 
-import { JSX, useState } from "react";
+import { ChangeEventHandler, Dispatch, ForwardRefExoticComponent, JSX, RefAttributes, SetStateAction, useEffect, useState } from "react";
 import { BaseInput, handleOnChage, isValidField } from "../base/base-input";
 import { 
   FormControl, 
@@ -17,8 +17,8 @@ import {
   InputGroupText 
 } from "@/src/components/ui/input-group";
 import { FieldProps, TextInputType } from "../base/definitions";
-import { UseFormReturn } from "react-hook-form";
-import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff } from "lucide-react";
+import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form";
+import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff, LucideProps } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
 
 export class TextInputGroup extends BaseInput {
@@ -35,6 +35,67 @@ interface Props {
 }
 
 export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
+  // Estado local para manejar validez desde el primer render
+  const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
+
+  const formField = (
+    <FormField
+      key={input.name}
+      control={form.control}
+      name={input.name}
+      render={({ field }) => {
+        setIsValid(isValidField(input, form));
+
+        return (
+          <FormItem className={input.className}>
+            <FormLabel><b>{input.label}</b></FormLabel>
+            <FormControl className="shadow-lg">
+              {
+                CustomInputGroup({
+                  input,
+                  isSubmitting,
+                  field,
+                  form,
+                  isValid,
+                })
+              }
+            </FormControl>
+
+            {/* Descripción */}
+            {input.description && <FormDescription>{input.description}</FormDescription>}
+            <FormMessage />
+          </FormItem>
+        );
+      }}
+    />
+  );
+    
+  return <>{formField}</>;
+};
+
+
+interface customInputGroup {
+  value?: any;
+  input: FieldProps<Record<string,any>,Record<string,any>>,
+  field?: ControllerRenderProps<FieldValues, string>,
+  form: UseFormReturn, 
+  isSubmitting?: boolean,
+  isValid?: boolean,
+  setShowPassword?: Dispatch<SetStateAction<boolean>>, 
+  autoValidate?: boolean, 
+  onChange?: ChangeEventHandler<HTMLInputElement> | undefined
+}
+
+export const CustomInputGroup = ({
+  value,
+  input,
+  field,
+  form,
+  isSubmitting,
+  onChange,
+  isValid
+  }: customInputGroup) => {
+  
   const groupConfig = input.inputGroupConfig;
   const infoTooltip = input?.infoTooltip;
   const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
@@ -49,7 +110,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const textRight = groupConfig?.textRight;
 
   // Estado local para manejar validez desde el primer render
-  const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
+  // const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
 
   // 👁️ Estado para mostrar/ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
@@ -57,110 +118,92 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
   const isNumberField = input.keyboardType === TextInputType.NUMBER;
 
   const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField
-  const formField = (
-    <FormField
-      key={input.name}
-      control={form.control}
-      name={input.name}
-      render={({ field }) => {
-        setIsValid(isValidField(input, form));
+  
+  // useEffect(()=>{
+  //   setIsValid(isValidField(input, form));
+  // },[input])
+  return (
+    <InputGroup>
+      {/* Iconos izquierda */}
+      {(iconsLeft.length > 0 || textLeft) && (
+        <InputGroupAddon>
+          {textLeft && <InputGroupText>{textLeft}</InputGroupText>}
+          {iconsLeft.map((IconComponent, index) => (
+            <IconComponent key={index} size={20} />
+          ))}
+        </InputGroupAddon>
+      )}
 
-        return (
-          <FormItem className={input.className}>
-            <FormLabel><b>{input.label}</b></FormLabel>
-            <FormControl className="shadow-lg">
-              <InputGroup>
+      {/* Input principal */}
+      <InputGroupInput
+        placeholder={input.placeHolder}
+        disabled={input.disabled || isSubmitting}
+        onBlur={field?.onBlur}
+        name={field?.name}
+        ref={field?.ref}
+        type={isPasswordField && !showPassword
+          ? "password"
+          : isNumberField
+            ? "number"
+            : "text"}
+        value={field?.value ?? value ?? ""}
+        onChange={(e) => {
+          if (onChange) {
+            onChange(e)
+          }
+          let value: any = e.target.value;
+          if (isNumberField) {
+            value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
+          }
+          field?.onChange(value);
+          isValidField(input, form);
+          handleOnChage(value, input, field);
+        } } />
 
-                {/* Iconos izquierda */}
-                {(iconsLeft.length > 0 || textLeft) && (
-                  <InputGroupAddon>
-                    {textLeft && <InputGroupText>{textLeft}</InputGroupText>}
-                    {iconsLeft.map((IconComponent, index) => (
-                      <IconComponent key={index} size={20} />
-                    ))}
-                  </InputGroupAddon>
-                )}
+      {/* Iconos derecha */}
+      {showInputGroupAddons && (
+        <InputGroupAddon align="inline-end">
+          {/* Tooltip de información */}
+          {infoTooltip && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info size={20} />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{infoTooltip}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
 
-                {/* Input principal */}
-                <InputGroupInput
-                  placeholder={input.placeHolder}
-                  disabled={input.disabled || isSubmitting}
-                  onBlur={field.onBlur}
-                  name={field.name}
-                  ref={field.ref}
-                  type={
-                    isPasswordField && !showPassword
-                      ? "password"
-                      : isNumberField
-                      ? "number"
-                      : "text"
-                  }
-                  value={field.value ?? ""}
-                  onChange={(e) => {
-                    let value: any = e.target.value;
-                    if (isNumberField) {
-                      value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
-                    }
-                    field.onChange(value);
-                    isValidField(input, form)
-                    handleOnChage(value, input, field)
-                  }}
-                />
+          {textRight && <InputGroupText>{textRight}</InputGroupText>}
+          {iconsRight.map((IconComponent, index) => (
+            <IconComponent key={index} size={20} />
+          ))}
 
-                {/* Iconos derecha */}
-                {showInputGroupAddons && (
-                  <InputGroupAddon align="inline-end">
-                    {/* Tooltip de información */}
-                    {infoTooltip && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Info size={20} />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{infoTooltip}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    )}
+          {/* 👁️ Toggle mostrar/ocultar contraseña */}
+          {isPasswordField && (
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword) }
+              className="p-1"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          )}
 
-                    {textRight && <InputGroupText>{textRight}</InputGroupText>}
-                    {iconsRight.map((IconComponent, index) => (
-                      <IconComponent key={index} size={20} />
-                    ))}
-
-                    {/* 👁️ Toggle mostrar/ocultar contraseña */}
-                    {isPasswordField && (
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="p-1"
-                      >
-                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                      </button>
-                    )}
-
-                    {/* Icono de validación / loading */}
-                    {autoValidate && (
-                      <div>
-                        {isSubmitting
-                          ? iconLoadingState
-                          : isValid
-                            ? iconValidState
-                            : iconInvalidState}
-                      </div>
-                    )}
-                  </InputGroupAddon>
-                )}
-              </InputGroup>
-            </FormControl>
-
-            {/* Descripción */}
-            {input.description && <FormDescription>{input.description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
+          {/* Icono de validación / loading */}
+          {autoValidate && (
+            <div>
+              {isSubmitting
+                ? iconLoadingState
+                : isValid
+                  ? iconValidState
+                  : iconInvalidState}
+            </div>
+          )}
+        </InputGroupAddon>
+      )}
+    </InputGroup>
   );
-    
-  return <>{formField}</>;
-};
+}
+

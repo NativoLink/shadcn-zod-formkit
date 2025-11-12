@@ -408,7 +408,8 @@ export default function FormBasics() {
     wrapInCard: true,
     withDuplicatTag: true,
     inputType: InputTypes.STRING_LIST,
-    zodType: z.array(z.string()),
+    zodType: z.array(z.string().min(1)),
+    isRemovebleOption: true,
   },
   {
     name: "secretKeys",
@@ -462,16 +463,16 @@ export default function FormBasics() {
     },
   // ],
   // [
-    {
-      name: "birthDate",
-      label: "Fecha de nacimiento",
-      inputType: InputTypes.DATE,
-      zodType: z.coerce
-        .date(validationMessages.required)
-        .refine((d) => d < new Date(), {
-          message: "La fecha no puede ser futura",
-        }),
-    },
+    // {
+    //   name: "birthDate",
+    //   label: "Fecha de nacimiento",
+    //   inputType: InputTypes.DATE,
+    //   zodType: z.coerce
+    //     .date(validationMessages.required)
+    //     .refine((d) => d < new Date(), {
+    //       message: "La fecha no puede ser futura",
+    //     }),
+    // },
   //   {
   //     name: "appointment",
   //     label: "Agendar Cita - Fecha y hora",
