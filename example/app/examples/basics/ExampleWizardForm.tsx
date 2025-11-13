@@ -96,6 +96,15 @@ const userFields: FieldConfig<IUserRecord>[] = [
         .string()
         .regex(/^#([0-9A-Fa-f]{6})$/, "Debe ser un color hexadecimal válido"),
     },
+    {
+      step:3,
+      name: "isActive",
+      label: "Usuario activo",
+      description:'This is a description',
+      inputType: InputTypes.SWITCH,
+      zodType: z.boolean(),
+      disabled: true
+    }
   ],
 ]
 
