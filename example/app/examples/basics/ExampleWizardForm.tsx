@@ -11,6 +11,7 @@ import {
   FieldConfig } from 'shadcn-zod-formkit';
 import { IUserRecord } from "./BasicForm";
 import { Hash, Mail, User } from "lucide-react";
+import { toast } from "sonner";
 
 
 // ✅ 1️⃣ Define tu esquema de validación con Zod
@@ -167,8 +168,13 @@ export default function ExampleWizardForm() {
     <WizardForm<IUserRecord>
       record={record}
       fields={userFields}
-      onSubmit={(resp) => {
-        console.log("✅ Resultado final del Wizard:", resp)
+      onSubmit={({data}) => {
+        console.log("✅ Resultado final del Wizard:", data)
+        toast.info(
+                <pre className="flex flex-row  text-xs text-gray-800 p-4">
+            <code>{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        );
       }}
     />
       

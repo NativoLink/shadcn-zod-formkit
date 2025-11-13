@@ -38,10 +38,10 @@ export function Stepper({ steps, currentStep, clickable = false, onStepClick }: 
                 <div
                   onClick={() => handleStepClick(stepNumber)}
                   className={cn(
-                    "flex size-10 items-center justify-center rounded-full border-2 transition-all duration-300",
+                    "flex size-10 items-center shadow-lg  justify-center rounded-full border-2 transition-all duration-300",
                     isCompleted && "border-primary bg-primary text-primary-foreground",
-                    isCurrent && "border-primary bg-background text-primary shadow-lg scale-110",
-                    isUpcoming && "border-muted-foreground/30 bg-background text-muted-foreground",
+                    isCurrent && "border-primary bg-background text-primary scale-110",
+                    isUpcoming && "border-muted-foreground/60 bg-background border-b text-muted-foreground",
                     clickable && "cursor-pointer hover:scale-125 hover:shadow-xl",
                     !clickable && "cursor-default",
                   )}
