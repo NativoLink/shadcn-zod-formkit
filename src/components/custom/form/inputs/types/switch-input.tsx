@@ -40,7 +40,7 @@ const FieldSwitch = ({ input, form, isSubmitting }: Props): JSX.Element => {
           <FormControl>
             <Switch checked={field.value} 
               onCheckedChange={(event)=> { handleOnChage(event, input, field)}}  
-              disabled={false} />
+              disabled={input.disabled || isSubmitting} />
           </FormControl>
         </FormItem>
       </Card>
