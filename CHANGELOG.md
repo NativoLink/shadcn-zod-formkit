@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [1.30.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.30.0...v1.30.1) (2025-11-13)
+
+### Bug Fixes
+
+* **switch:** disabled FIXED - deploy ([1d6c0c6](https://github.com/NativoLink/shadcn-zod-formkit/commit/1d6c0c631366100f97481c2fa9fb963f67e7a466))
+* **switch:** disabled FIXED ([b163f71](https://github.com/NativoLink/shadcn-zod-formkit/commit/b163f7124314cf2a860035f75b0bcd2e25fb7e7b))
+
 ## [1.30.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.29.0...v1.30.0) (2025-11-12)
 
 ### Features
