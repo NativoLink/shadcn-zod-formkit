@@ -1,5 +1,15 @@
 # 📦 Changelog
 
+## [1.31.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.30.1...v1.31.0) (2025-11-14)
+
+### Features
+
+* **FieldProps:** new prop showWhen for show other field, visibility condition ([d62abaf](https://github.com/NativoLink/shadcn-zod-formkit/commit/d62abaf31fb8b4ceff795a41e58c145a30bfe47f))
+
+### Bug Fixes
+
+* **release:** with npm ci ([b739313](https://github.com/NativoLink/shadcn-zod-formkit/commit/b739313ea86724553dd63cded30ceb9659ba00c1))
+
 ## [1.30.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.30.0...v1.30.1) (2025-11-13)
 
 ### Bug Fixes
