@@ -56,8 +56,8 @@ export default function FormBasics() {
     id: 1,
     username: "John Doe",
     email: "johndoe@example.com",
-    continent: '2',
-    country: '1',
+    continent: '1',
+    country: '',
     isActive: false,
     favoriteColor: '#000000',
     salary: 0,
@@ -201,29 +201,53 @@ export default function FormBasics() {
   //   },
   //   zodType: z.string().min(1, "El continente es obligatorio"),
   // },
+  
+
+
   {
     name: "continent",
-    label: "Your Location",
-    description: "Your description",
+    label: "Continente",
+    description: "Selecciona tu continente",
     inputType: InputTypes.SELECT,
-    inputGroupConfig:{
+
+
+    inputGroupConfig: {
       autoValidIcons: true,
       iconsLeft: [Earth],
     },
+
     listConfig: {
-      // optionValue:'value',
       list: [
-        { value: '1', id: 1, name: "África" },
-        { value: '2', id: 2, name: "América" },
-        { value: '3', id: 3, name: "Antártida" },
-        { value: '4', id: 4, name: "Asia" },
-        { value: '5', id: 5, name: "Europa" },
-        { value: '6', id: 6, name: "Oceanía" },
+        { id: 1, value: "1", name: "África" },
+        { id: 2, value: "2", name: "América" },
+        { id: 3, value: "3", name: "Antártida" },
+        { id: 4, value: "4", name: "Asia" },
+        { id: 5, value: "5", name: "Europa" },
+        { id: 6, value: "6", name: "Oceanía" },
       ],
-      onOptionChange: (item:any) => {},
+      onOptionChange: () => {},
     },
-    zodType: z.string("requerido")
+
+    zodType: z.string("requerido"),
   },
+
+  {
+    name: "country",
+    label: "País",
+    inputType: InputTypes.SELECT,
+    listConfig: {
+      list: [
+        { id: 1, name: "República Dominicana", value: "RD" },
+        { id: 2, name: "México", value: "MX" },
+        { id: 3, name: "Colombia", value: "CO" },
+      ],
+      onOptionChange: () => {},
+    },
+    // 👇 Aquí usas showWhen de verdad
+    showWhen: (values) => values.continent == "2",
+    zodType: z.string("requerido").min(1),
+  },
+
 
   // {
   //   name: "continent",
@@ -585,8 +609,8 @@ export default function FormBasics() {
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
           
-            <ExampleWizardForm />
-            {/* <DynamicForm<IUserRecord>
+            {/* <ExampleWizardForm /> */}
+            <DynamicForm<IUserRecord>
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
@@ -624,7 +648,7 @@ export default function FormBasics() {
               //     </pre>
               //   );
               // }}
-            />  */}
+            /> 
 
         </div>
 

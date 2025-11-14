@@ -174,6 +174,12 @@ export const getDynamicSchema = <T extends Record<string, any>>(
   // 🔁 aplanamos el árbol completo de campos
   const flatFields = flattenFields(fields);
 
+  // // 🔥 Filtrar solo los visibles
+  // const visibleFields = flatFields.filter(f =>
+  //   !f.showWhen || f.showWhen(values)
+  // );
+
+
   // 🎯 construimos el shape del schema
   const shape = flatFields.reduce((acc, f) => {
     acc[f.name as keyof T] = f.zodType ?? z.any();
