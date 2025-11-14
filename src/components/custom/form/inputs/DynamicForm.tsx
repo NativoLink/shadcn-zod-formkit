@@ -44,6 +44,7 @@ interface Props<T extends Record<string, any>> {
   children?: ReactNode;
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
+  debug?:boolean
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -69,19 +70,14 @@ export const DynamicForm = <T extends Record<string, any>>({
   submitBtnLabelSubmiting = 'Guardando...',
   withFormWrapper = true,
   btnGroupDirection = "flex-end",
-  withSubmitBtn = true
+  withSubmitBtn = true,
+  debug = false
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
 
   /** ✅ Schema dinámico basado en los campos */
   const schema = useMemo(() => {
-  // const flattenFields = (items: any[]): FieldProps<T>[] => {
-  //   return items.flatMap(item => 
-  //     Array.isArray(item) ? flattenFields(item) : item
-  //   );
-  // };
-
   const allFields = flattenFields(fields, onAnyFieldChange);
   return getDynamicSchema<T>(allFields, extraValidations);
 }, [fields, extraValidations]);
@@ -117,7 +113,7 @@ export const DynamicForm = <T extends Record<string, any>>({
     const isValid = await form.trigger();
     if (!isValid) return;
 
-    const data = form.getValues() as unknown as T;
+    const data = form.watch() as unknown as T;
     const resp: FormResp<T> = { data, form };
     onClick(resp);
   };
@@ -234,9 +230,11 @@ interface FormWrapperProps {
   handleSubmit: (data: any) => void
   children: ReactNode;
   readOnly?: boolean
+  debug?: boolean
 }
 
-const FormWrapper = ({form, handleSubmit, children, readOnly}: FormWrapperProps) => {
+const FormWrapper = ({form, handleSubmit, children, readOnly, debug}: FormWrapperProps) => {
+  const allValues = form.watch();
   return (
     <Form {...form}>
       <form
@@ -244,6 +242,11 @@ const FormWrapper = ({form, handleSubmit, children, readOnly}: FormWrapperProps)
         className={`flex flex-col gap-2 ${readOnly ? 'opacity-70 pointer-events-none select-none' : ''}`}
       >
         {children}
+        {debug && (
+          <pre className="mt-4 p-3 bg-muted text-xs rounded">
+            {JSON.stringify(allValues, null, 2)}
+          </pre>
+        )}
       </form>
     </Form>
   )

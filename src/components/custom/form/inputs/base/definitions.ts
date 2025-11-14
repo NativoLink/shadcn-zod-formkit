@@ -32,6 +32,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   
+  showWhen?: (values: Record<string, any>) => boolean
   step?:number;
   withAddBtn?: boolean;
   form?: UseFormReturn<any>;
@@ -112,6 +113,8 @@ interface ListConfig {
   optionDescription?: string
   selectedList?: InputOption[]
   sortable?: boolean;
+
+  // filterList?: (all: any, values: any) => any
 }
 export interface BtnConfig {
   label: string;
