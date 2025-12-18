@@ -80,6 +80,7 @@ const FieldTimeInput = ({ form, input, isSubmitting }: Props) => {
 
                   <Button
                     variant="outline"
+                    type="button"
                     className={cn(
                       "w-full justify-start text-left py-0.5 ",
                       !date && "text-muted-foreground"
