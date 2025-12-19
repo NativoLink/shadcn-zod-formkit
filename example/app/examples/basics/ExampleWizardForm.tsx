@@ -14,16 +14,9 @@ import { Hash, Mail, User } from "lucide-react";
 import { toast } from "sonner";
 
 
-// ✅ 1️⃣ Define tu esquema de validación con Zod
-const userSchema = z.object({
-  name: z.string().min(1, "Requerido"),
-  email: z.string().email("Email inválido"),
-  age: z.number().min(18, "Debes ser mayor de edad"),
-  country: z.string().min(1, "Requerido"),
-  city: z.string().optional(),
-})
 
-// ✅ 2️⃣ Define tus campos por paso
+
+// ✅ 1️⃣ Define tus campos por paso
 const userFields: FieldConfig<IUserRecord>[] = [
   // Paso 1
   [
@@ -109,7 +102,7 @@ const userFields: FieldConfig<IUserRecord>[] = [
   ],
 ]
 
-// ✅ 3️⃣ Usa el WizardForm dentro de un componente
+// ✅ 2️⃣ Usa el WizardForm dentro de un componente
 export default function ExampleWizardForm() {
   const record: IUserRecord = {
     id: 1,
@@ -152,31 +145,35 @@ export default function ExampleWizardForm() {
 
   return (
 
-    // <DynamicForm<IUserRecord>
-    //   record={record}
-    //     formSubTitle="This is a subtitle"
-    //     formTitle="Basic Form Example"
-    //     withCard
-
-    //     errorAlertPosition='down'
-    //     fields={userFields}
-
-    //     onSubmit={async (resp: FormResp<IUserRecord>) => {
-    //       // setDataToSend(resp.data)
-    //     }}
-    //   /> 
-    <WizardForm<IUserRecord>
-      record={record}
-      fields={userFields}
-      onSubmit={({data}) => {
-        console.log("✅ Resultado final del Wizard:", data)
-        toast.info(
-                <pre className="flex flex-row  text-xs text-gray-800 p-4">
-            <code>{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        );
-      }}
-    />
+    <WizardForm<IUserRecord> fields={userFields} record={record} skipSteps={false}>
+      {({ stepFields, currentStep, setCurrentStep, totalSteps }) => {
+        const isTheEnd = currentStep == totalSteps;
+        const btnLabel = isTheEnd ? 'Save' : 'Next'
+        return (
+        <DynamicForm<IUserRecord>
+          record={record}
+          formSubTitle="This is a subtitle"
+          formTitle={`Wizard Form Example - Step ${currentStep}`}
+          withCard
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          submitBtnLabel={btnLabel}
+          errorAlertPosition='down'
+          fields={stepFields}
+          isWrapInWizard={true}
+          onSubmit={({data, form}) => {
+            setCurrentStep((prev) => prev + ( isTheEnd ? 0 : 1))
+            if (isTheEnd){ 
+            console.log("✅ Resultado final del Wizard:", data)
+            toast.info(
+                    <pre className="flex flex-row  text-xs text-gray-800 p-4">
+                <code>{JSON.stringify(form?.getValues(), null, 2)}</code>
+              </pre>
+            );}
+          }}
+        /> 
+      )}}
+    </WizardForm>
       
   )
 }

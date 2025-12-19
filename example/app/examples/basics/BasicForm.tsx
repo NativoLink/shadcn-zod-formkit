@@ -609,8 +609,8 @@ export default function FormBasics() {
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
           
-            {/* <ExampleWizardForm /> */}
-            <DynamicForm<IUserRecord>
+            <ExampleWizardForm />
+            {/* <DynamicForm<IUserRecord>
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
@@ -648,7 +648,7 @@ export default function FormBasics() {
               //     </pre>
               //   );
               // }}
-            /> 
+            />  */}
 
         </div>
 

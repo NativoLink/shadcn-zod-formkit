@@ -45,6 +45,12 @@ interface Props<T extends Record<string, any>> {
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
   debug?:boolean
+
+
+
+  isWrapInWizard?: boolean
+  currentStep?: number
+  totalSteps?: number
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -71,16 +77,19 @@ export const DynamicForm = <T extends Record<string, any>>({
   withFormWrapper = true,
   btnGroupDirection = "flex-end",
   withSubmitBtn = true,
-  debug = false
+  debug = false,
+  isWrapInWizard = false,
+  totalSteps = 0,
+  currentStep = 1,
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
 
   /** ✅ Schema dinámico basado en los campos */
   const schema = useMemo(() => {
-  const allFields = flattenFields(fields, onAnyFieldChange);
-  return getDynamicSchema<T>(allFields, extraValidations);
-}, [fields, extraValidations]);
+    const allFields = flattenFields(fields, onAnyFieldChange);
+    return getDynamicSchema<T>(allFields, extraValidations);
+  }, [fields, extraValidations]);
 
   type FormData = z.infer<typeof schema>;
   const resolver = zodResolver(schema) as unknown as Resolver<FormData>;
@@ -160,13 +169,13 @@ export const DynamicForm = <T extends Record<string, any>>({
           >
             {isPending ? (
               <>
-                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
                 {submitBtnLabelSubmiting}
+                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
               </>
             ) : (
               <>
-                <Save className="h-5 w-5 mr-2" />
                 {submitBtnLabel}
+                {(totalSteps == 0 || totalSteps == currentStep) && (<Save className="h-5 w-5 mr-2" />)}
               </>
             )}
           </Button>
@@ -202,7 +211,13 @@ export const DynamicForm = <T extends Record<string, any>>({
         />
       )}
 
-      {withFormWrapper && (<FormWrapper form={form} handleSubmit={handleSubmit}>{formBody}</FormWrapper>)}
+      {withFormWrapper && (
+        <FormWrapper 
+          form={form} 
+          isWrapInWizard={isWrapInWizard}
+          handleSubmit={handleSubmit}>{formBody}
+        </FormWrapper>)
+      }
       {!withFormWrapper && (formBody)}
 
 
@@ -231,9 +246,10 @@ interface FormWrapperProps {
   children: ReactNode;
   readOnly?: boolean
   debug?: boolean
+  isWrapInWizard?:boolean
 }
 
-const FormWrapper = ({form, handleSubmit, children, readOnly, debug}: FormWrapperProps) => {
+const FormWrapper = ({form, handleSubmit, children, readOnly, debug, isWrapInWizard}: FormWrapperProps) => {
   const allValues = form.watch();
   return (
     <Form {...form}>
