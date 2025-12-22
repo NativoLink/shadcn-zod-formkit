@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.32.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.31.0...v1.32.0) (2025-12-22)
+
+### Features
+
+* **wizard:** wip --- WORK IN PROGRESS --- ([77c64e9](https://github.com/NativoLink/shadcn-zod-formkit/commit/77c64e9ccb5e30f370542c0d71bb568f6df9a239))
+
 ## [1.31.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.30.1...v1.31.0) (2025-11-14)
 
 ### Features
