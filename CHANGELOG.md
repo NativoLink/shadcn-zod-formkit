@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.33.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.32.0...v1.33.0) (2025-12-23)
+
+### Features
+
+* **info-tooltip:** input-date ([31cfc1b](https://github.com/NativoLink/shadcn-zod-formkit/commit/31cfc1b5a858ff9bab129593579dd37a1cba4b45))
+
 ## [1.32.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.31.0...v1.32.0) (2025-12-22)
 
 ### Features
