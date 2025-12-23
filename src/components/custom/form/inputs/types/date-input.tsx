@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { format } from "date-fns"
-import { CalendarIcon, CircleCheck, CircleX, Loader2 } from "lucide-react"
+import { CalendarIcon, CircleCheck, CircleX, Info, Loader2 } from "lucide-react"
 
 import { Button } from "@/src/components/ui/button"
 import { Calendar } from "@/src/components/ui/calendar"
@@ -13,6 +13,7 @@ import { JSX, useState } from "react"
 import { cn } from '@/src/lib/utils';
 import { UseFormReturn } from "react-hook-form"
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText } from "@/src/components/ui/input-group"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components"
 
 
 interface Props {
@@ -30,7 +31,7 @@ export class DateInput extends BaseInput {
 const FieldTimeInput = ({ form, input, isSubmitting }: Props) => {
 
   const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
-
+  const infoTooltip = input?.infoTooltip;
   const groupConfig = input.inputGroupConfig;
   const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
 
@@ -77,6 +78,19 @@ const FieldTimeInput = ({ form, input, isSubmitting }: Props) => {
               {/* <div className="flex flex-col justify-start gap-2 "> */}
               <FormControl>
                 <InputGroup className="flex flex-row gap-1">
+
+
+                 {/* Tooltip de información */}
+                  {infoTooltip && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info size={20} />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{infoTooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
 
                   <Button
                     variant="outline"
