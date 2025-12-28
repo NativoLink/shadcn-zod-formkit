@@ -130,11 +130,13 @@ const FieldTimeInput = ({ form, input, isSubmitting }: Props) => {
               </FormControl>
               {/* </div> */}
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
+                defaultMonth={date}
                 selected={date}
                 onSelect={handleSelect}
+                captionLayout={'dropdown'}
                 initialFocus />
             </PopoverContent>
           </Popover>

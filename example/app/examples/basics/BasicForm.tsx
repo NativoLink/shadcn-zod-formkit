@@ -489,16 +489,16 @@ export default function FormBasics() {
     },
   // ],
   // [
-    // {
-    //   name: "birthDate",
-    //   label: "Fecha de nacimiento",
-    //   inputType: InputTypes.DATE,
-    //   zodType: z.coerce
-    //     .date(validationMessages.required)
-    //     .refine((d) => d < new Date(), {
-    //       message: "La fecha no puede ser futura",
-    //     }),
-    // },
+    {
+      name: "birthDate",
+      label: "Fecha de nacimiento",
+      inputType: InputTypes.DATE,
+      zodType: z.coerce
+        .date(validationMessages.required)
+        .refine((d) => d < new Date(), {
+          message: "La fecha no puede ser futura",
+        }),
+    },
   //   {
   //     name: "appointment",
   //     label: "Agendar Cita - Fecha y hora",
@@ -609,8 +609,8 @@ export default function FormBasics() {
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
           
-            <ExampleWizardForm />
-            {/* <DynamicForm<IUserRecord>
+            {/* <ExampleWizardForm /> */}
+            <DynamicForm<IUserRecord>
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
@@ -648,7 +648,7 @@ export default function FormBasics() {
               //     </pre>
               //   );
               // }}
-            />  */}
+            /> 
 
         </div>
 
