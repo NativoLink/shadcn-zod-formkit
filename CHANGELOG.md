@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.34.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.33.0...v1.34.0) (2025-12-28)
+
+### Features
+
+* **date-picker:** updated, change moth or year from manual select in picker ([a140d35](https://github.com/NativoLink/shadcn-zod-formkit/commit/a140d350330a659383c9d70ca059c2cc0f2f6a0f))
+
 ## [1.33.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.32.0...v1.33.0) (2025-12-23)
 
 ### Features
