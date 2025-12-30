@@ -16,17 +16,18 @@ export abstract class BaseInput {
 }
 
 
-export const entityToInputOption = (entitiy:any, name:string = 'name', description:string = 'description', groupedLabel?:string): InputOption => ({
+export const entityToInputOption = (entitiy:any, name:string = 'name', description:string = 'description', groupedLabel?:string, optionLabel:string = 'label'): InputOption => ({
   id: entitiy['id'],
   name: entitiy[name],
+  label: entitiy[optionLabel],
   description:  entitiy[description],
   groupedLabel
 })
 
-export const entitiesToInputOption = (data:any[], optionValue:string = 'name', groupedLabel?:string): InputOption[] => {
+export const entitiesToInputOption = (data:any[], optionValue:string = 'name', groupedLabel?:string, optionLabel:string = 'description'): InputOption[] => {
   const entities: InputOption[] = [];
   for (const key of data) {
-    const entidad = entityToInputOption(key, optionValue, undefined, groupedLabel);
+    const entidad = entityToInputOption(key, optionValue, optionLabel, groupedLabel);
     if(entidad) entities.push(entidad);
   }
   return entities;
