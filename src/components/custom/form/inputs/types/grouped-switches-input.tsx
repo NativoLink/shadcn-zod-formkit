@@ -76,7 +76,7 @@ export const GroupedSwitches = ({ options, onChange, input, isSubmitting}: Props
         {/* Switches hijos */}
         {switches.map((opt, index) => (
           <div key={opt.id} className={`p-2 rounded-lg flex flex-row w-full items-center justify-between ${!(index % 2 )? 'bg-black/5' : 'bg-white/5'}`}>
-            <Label htmlFor={String(opt.id)}>{opt.label || opt.name}</Label>
+            <Label htmlFor={String(opt.id)}>{opt.label || opt.description || opt.name}</Label>
             <Switch
               disabled={input.disabled || isSubmitting}
               id={String(opt.id)}

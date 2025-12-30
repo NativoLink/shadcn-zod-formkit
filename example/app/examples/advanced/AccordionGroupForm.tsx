@@ -44,7 +44,7 @@ export const AccordionGroupForm = () => {
       Object.entries(permissionsByCategory).map(([category, perms], indx):GroupedOption => ({
         id: indx+1,
         label: category,
-        options: entitiesToInputOption(perms, 'description', category),
+        options: entitiesToInputOption(perms, 'name', category),
         selectedOptions: []
       }))
     );
@@ -123,18 +123,20 @@ export const AccordionGroupForm = () => {
       <div className="flex flex-col w-full  bg-gray-500/20 rounded-lg p-2 gap-2">
         <CodeExample code={rawCodeAccordionGroupForm} language="javascript" />
       </div>
-        <DynamicForm
-        formTitle="Title Form"
-        withCard
-        fields={mockFields}
-        record={record}
-        onSubmit={async (resp: any) =>{ 
-            setDataToSend(resp.data)
-            const msg = "✅  Resultado final:"
-            console.log(resp.data, msg)
-            // alert(resp)
-          }}
-        />
+        <div className='w-full'>
+          <DynamicForm
+          formTitle="Title Form"
+          withCard
+          fields={mockFields}
+          record={record}
+          onSubmit={async (resp: any) =>{ 
+              setDataToSend(resp.data)
+              const msg = "✅  Resultado final:"
+              console.log(resp.data, msg)
+              // alert(resp)
+            }}
+          />
+        </div>
       <div className="w-full flex flex-col  bg-gray-100 rounded-lg">
         <div className="flex flex-row  text-lg text-gray-800 p-4">
             DATA SENDED
