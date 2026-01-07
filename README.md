@@ -146,6 +146,23 @@ Each field is defined using the `FieldProps` interface.
 | `infoTooltip` | `string` | ❌ | Add text Info tooltip  |
 | `description` | `string` | ❌ | Description text |
 
+#### 🔀 DynamicForm props
+| Property           | Type                        | Description            |
+| ------------------ | --------------------------- | ---------------------- |
+| `onSubmit`         | `(resp:FormResp<T>) => void;`| Function for submit  |
+| `formTitle`        | `string`                   | Title  |
+| `formSubTitle`     | `string`                   | Sud Title  |
+| `showFormHeader`   | `boolean`                  | For hidden header   |
+| `withCard`         | `boolean`                  | Wrap in Card   |
+| `showIcon`         | `boolean`                  | Load dynamic options   |
+| `readOnly`         | `boolean`                  | Disable all inputs   |
+| `withErrorsAlert`  | `boolean`                  | Show or hidden erros card |
+| `children`         | `ReactNode`                | For add other component   |
+| `fields`           | `FieldConfig<T>[]`         | For add inputs |
+| `submitBtnLabel`   | `string`                   | Text for default button submit |
+
+
+
 #### 🔀 Conditional & Dynamic Behavior
 | Property           | Type                        | Description            |
 | ------------------ | --------------------------- | ---------------------- |
