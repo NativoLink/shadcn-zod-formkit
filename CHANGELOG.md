@@ -1,5 +1,22 @@
 # 📦 Changelog
 
+## [2.0.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.34.1...v2.0.0) (2026-03-03)
+
+### ⚠ BREAKING CHANGES
+
+* **inputs:** None - all new features are opt-in
+
+### Features
+
+* **inputs:** add 5 new input types ([4237bf7](https://github.com/NativoLink/shadcn-zod-formkit/commit/4237bf788fb56afeee597b69a65517d9092ee5bd))
+* **hooks:** add custom hooks for form management ([0e7911e](https://github.com/NativoLink/shadcn-zod-formkit/commit/0e7911e204fcc3414e2bf6dd874544fa8791e96e))
+* **example:** add demo for new input types ([acc72c7](https://github.com/NativoLink/shadcn-zod-formkit/commit/acc72c784a344d35930a052030f1d5ef28bec4d3))
+* **exports:** add modular exports for tree-shaking ([469c5f3](https://github.com/NativoLink/shadcn-zod-formkit/commit/469c5f33c29ea513e7ce0616b980ea52e49ad362))
+* **validation:** add pre-built validation utilities ([fc6d00a](https://github.com/NativoLink/shadcn-zod-formkit/commit/fc6d00a8bfda73cd9cdf09789ca4fd9cc522ff7b))
+* **theme:** add theme configuration system ([d60a11d](https://github.com/NativoLink/shadcn-zod-formkit/commit/d60a11d0ad9f6b1bfd6994a9e6b4982c6376952f))
+* **types:** extend FieldProps with new input properties ([dbbe41a](https://github.com/NativoLink/shadcn-zod-formkit/commit/dbbe41aa5c4ed7658a266ba8a82e4eaba04f431c))
+* **factory:** integrate new input types into InputFactory ([86c8878](https://github.com/NativoLink/shadcn-zod-formkit/commit/86c887893ec846baace269b125938136b346cec2))
+
 ## [1.34.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.34.0...v1.34.1) (2025-12-30)
 
 ### Bug Fixes
