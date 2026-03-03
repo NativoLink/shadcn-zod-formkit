@@ -1,242 +1,1008 @@
-⚡️  # React Dynamic Form Maker
+⚡️ # React Dynamic Form Maker
 
 ⚡️ **Next.js & Client Components**
 
-
-
-📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, OTP and others.
+📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, OTP and many more.
 
 ---
 
 ## 📌 Installation
 
-```typescript
+```bash
 # Using npm
 npm install shadcn-zod-formkit
 
 # Using yarn
 yarn add shadcn-zod-formkit
+
+# Using pnpm
+pnpm add shadcn-zod-formkit
 ```
 
- Add Shadcn
- ```typescript 
-  # Add Shadcn 
-  npx shadcn@latest init
- ```
- You need installa shadcn basic components
- ```typescript 
- # Add Shadcn Basics
- npx shadcn@latest add  accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group radio-group slider button-group command tabs
- ```
+### Add Shadcn UI
 
+```bash
+# Initialize Shadcn 
+npx shadcn@latest init
+```
 
+### Install Required Shadcn Components
 
-##  🛠️ Basic Usage
-#### First Dynamic Form 
+```bash
+# Add Shadcn Basics
+npx shadcn@latest add accordion alert badge button calendar card checkbox dialog popover form input label select sonner tooltip switch textarea input-otp collapsible input-group radio-group slider button-group command tabs
+```
+
+---
+
+## 🛠️ Basic Usage
+
+### First Dynamic Form 
 
 ```typescript
 'use client'
 
 import { 
   DynamicForm,
-  FieldProps,
+  FieldConfig,
   InputTypes,
   TextInputType
 } from "shadcn-zod-formkit";
-
 import { Mail, User } from 'lucide-react';
+import { z } from 'zod';
 
-export default function Home() {
-  // Record From DB example (User),
-  // record is used for define default values
-  const record= {
-    username: "John Doe ",
+interface IUser {
+  username: string;
+  email: string;
+  age: number;
+}
+
+export default function BasicFormExample() {
+  const record: IUser = {
+    username: "John Doe",
     email: "johndoe@example.com",
-    isActive: true,
-    favoriteColor: undefined,
     age: 25,
-    role: "editor",
   };
 
+  const fields: FieldConfig<IUser> = [
+    {
+      name: "username",
+      label: "Username",
+      inputType: InputTypes.TEXT_GROUP,
+      inputGroupConfig: {
+        autoValidIcons: true,
+        iconsLeft: [User]
+      },
+      zodType: z.string().min(3).max(20),
+    },
+    {
+      name: "email",
+      label: "Email",
+      inputType: InputTypes.TEXT_GROUP,
+      inputGroupConfig: {
+        autoValidIcons: true,
+        iconsLeft: [Mail],
+      },
+      zodType: z.string().email("Invalid Email"),
+    },
+    {
+      name: "age",
+      label: "Age",
+      inputType: InputTypes.NUMBER,
+      zodType: z.coerce.number().min(18).max(99),
+    }
+  ];
+
   return (
-    <DynamicForm
-      formTitle="Title Form"
-      fields={mockFields}
+    <DynamicForm<IUser>
+      formTitle="User Registration"
+      formSubTitle="Fill in your details"
+      withCard
+      fields={fields}
       record={record}
-      onSubmit={(data) => console.log("📤 Resultado final:", data)}
+      onSubmit={({ data }) => {
+        console.log("📤 Form submitted:", data);
+      }}
     />
   );
 }
+```
 
-const mockFields: Array<FieldProps |FieldProps[]> = [
+---
+
+## 📚 Available Input Types
+
+| Input Type                          | Constant                                  | Description                           |
+|-------------------------------------|-------------------------------------------|---------------------------------------|
+| **Text Input**                      | `InputTypes.TEXT_GROUP`                   | Text input with icon support          |
+| **Number Input**                    | `InputTypes.NUMBER`                       | Numeric input                         |
+| **Currency Input**                  | `InputTypes.CURRENCY`                     | Currency formatted input              |
+| **Color Picker**                    | `InputTypes.COLOR`                        | Color selection                       |
+| **Switch**                          | `InputTypes.SWITCH`                       | Toggle switch                         |
+| **Checkbox**                        | `InputTypes.CHECKBOX`                     | Single checkbox                       |
+| **Date Picker**                     | `InputTypes.DATE`                         | Date selection                        |
+| **Date Time Picker**                | `InputTypes.DATE_TIME`                    | Date and time selection               |
+| **Time Picker**                     | `InputTypes.TIME`                         | Time selection                        |
+| **Select**                          | `InputTypes.SELECT`                       | Dropdown select                       |
+| **Multi Select**                    | `InputTypes.MULTI_SELECT`                 | Multiple selection dropdown           |
+| **Combobox**                        | `InputTypes.COMBOBOX`                     | Searchable select                     |
+| **Radio Group**                     | `InputTypes.RADIO_GROUP`                  | Radio button group                    |
+| **Button Group**                    | `InputTypes.BUTTON_GROUP`                 | Button selection group                |
+| **Slider**                          | `InputTypes.SLIDER`                       | Range slider                          |
+| **OTP Code**                        | `InputTypes.OTP`                          | One-time password input               |
+| **File Upload**                     | `InputTypes.FILE`                         | Single file upload                    |
+| **Multi File Upload**               | `InputTypes.FILE_MULTI_UPLOAD`            | Multiple file upload                  |
+| **Tags**                            | `InputTypes.TAGS`                         | Tag input (deprecated)                |
+| **String List**                     | `InputTypes.STRING_LIST`                  | Dynamic string list                   |
+| **Simple Check List**               | `InputTypes.SIMPLE_CHECK_LIST`            | Simple checkbox list                  |
+| **Grouped Switch List**             | `InputTypes.GROUPED_SWITCH_LIST`          | Grouped switches                      |
+| **Accordion Grouped Switches**      | `InputTypes.ACCORDION_GROUPED_SWITCH_LIST`| Accordion with grouped switches       |
+| **Key-Value Input**                 | `InputTypes.KEY_VALUE`                    | Key-value pair input                  |
+| **Repeater**                        | `InputTypes.REPEATER`                     | Dynamic array of fields               |
+| **Repeater Tabs**                   | `InputTypes.REPEATER_TABS`                | Dynamic tabs with fields              |
+| **Sortable List**                   | `InputTypes.SORTABLE_LIST`                | Drag and drop sortable list           |
+| **Hidden**                          | `InputTypes.HIDDEN`                       | Hidden field                          |
+
+---
+
+## 🧩 DynamicForm Props
+
+### Main Props
+
+| Property              | Type                              | Required | Default      | Description                          |
+|-----------------------|-----------------------------------|----------|--------------|--------------------------------------|
+| `formTitle`           | `string`                          | ✅       | -            | Form title                           |
+| `formSubTitle`        | `string`                          | ❌       | -            | Form subtitle                        |
+| `fields`              | `FieldConfig<T>[]`                | ✅       | -            | Array of field configurations        |
+| `record`              | `Partial<T>`                      | ❌       | `{}`         | Initial form values                  |
+| `onSubmit`            | `(resp: FormResp<T>) => void`     | ❌       | -            | Submit handler                       |
+| `onClick`             | `(resp: FormResp<T>) => void`     | ❌       | -            | Click handler (alternative to submit)|
+| `onAnyFieldChange`    | `(data: Record<string,any>) => void` | ❌    | -            | Triggered on any field change        |
+
+### Display Options
+
+| Property              | Type                              | Default      | Description                          |
+|-----------------------|-----------------------------------|--------------|--------------------------------------|
+| `withCard`            | `boolean`                         | `false`      | Wrap form in a card                  |
+| `showFormHeader`      | `boolean`                         | `true`       | Show/hide form header                |
+| `showIcon`            | `boolean`                         | `false`      | Show icon in header                  |
+| `readOnly`            | `boolean`                         | `false`      | Make all fields read-only            |
+| `withErrorsAlert`     | `boolean`                         | `true`       | Show error alert                     |
+| `errorAlertPosition`  | `'up' \| 'down'`                  | `'up'`       | Position of error alert              |
+
+### Button Configuration
+
+| Property                  | Type                              | Default         | Description                          |
+|---------------------------|-----------------------------------|-----------------|--------------------------------------|
+| `withSubmitBtn`           | `boolean`                         | `true`          | Show submit button                   |
+| `submitBtnLabel`          | `string`                          | `'Guardar'`     | Submit button label                  |
+| `submitBtnLabelSubmiting` | `string`                          | `'Guardando...'`| Label while submitting               |
+| `submitBtnClass`          | `string`                          | `''`            | Custom CSS class for submit button   |
+| `btnGroupDirection`       | `'flex-start' \| 'flex-end' \| 'flex-center'` | `'flex-end'` | Button alignment    |
+| `listBtnConfig`           | `BtnConfig[]`                     | `[]`            | Additional custom buttons            |
+
+### Advanced Options
+
+| Property              | Type                                          | Description                          |
+|-----------------------|-----------------------------------------------|--------------------------------------|
+| `extraValidations`    | `((schema: ZodObject<any>) => ZodObject<any>)[]` | Additional Zod validations        |
+| `children`            | `ReactNode`                                   | Additional content                   |
+| `childrenHeader`      | `ReactNode`                                   | Custom header content                |
+| `debug`               | `boolean`                                     | Enable debug mode                    |
+
+### Wizard Form Props
+
+| Property              | Type                              | Description                          |
+|-----------------------|-----------------------------------|--------------------------------------|
+| `isWrapInWizard`      | `boolean`                         | Enable wizard mode                   |
+| `currentStep`         | `number`                          | Current step number                  |
+| `totalSteps`          | `number`                          | Total number of steps                |
+
+---
+
+## 🔧 FieldProps Configuration
+
+### Common Properties
+
+| Property          | Type                              | Required | Description                          |
+|-------------------|-----------------------------------|----------|--------------------------------------|
+| `name`            | `keyof T`                         | ✅       | Field key (must match type)          |
+| `label`           | `string`                          | ✅       | Field label                          |
+| `inputType`       | `InputTypes`                      | ✅       | Type of input                        |
+| `zodType`         | `ZodTypeAny`                      | ❌       | Zod validation schema                |
+| `placeHolder`     | `string`                          | ❌       | Input placeholder                    |
+| `description`     | `string`                          | ❌       | Helper text below input              |
+| `disabled`        | `boolean`                         | ❌       | Disable input                        |
+| `required`        | `boolean`                         | ❌       | Mark as required                     |
+| `hidden`          | `boolean`                         | ❌       | Hide field                           |
+| `className`       | `string`                          | ❌       | Custom CSS class                     |
+| `infoTooltip`     | `string`                          | ❌       | Tooltip text                         |
+| `wrapInCard`      | `boolean`                         | ❌       | Wrap field in card                   |
+| `defaultValue`    | `any`                             | ❌       | Default value                        |
+| `direction`       | `'row' \| 'col'`                  | ❌       | Layout direction                     |
+
+### Conditional & Dynamic Behavior
+
+| Property          | Type                                  | Description                          |
+|-------------------|---------------------------------------|--------------------------------------|
+| `showWhen`        | `(values: Record<string, any>) => boolean` | Conditional rendering           |
+| `dependsOn`       | `string`                              | Field dependency                     |
+| `loadOptions`     | `(value: any) => Promise<any[]>`      | Load dynamic options                 |
+| `onChange`        | `(event: any[], formValues?: Record<string,any>) => void` | Change handler |
+| `onAnyFieldChange`| `(data: Record<string,any>) => void`  | Global change listener               |
+
+### Input Group Configuration
+
+| Property              | Type                              | Description                          |
+|-----------------------|-----------------------------------|--------------------------------------|
+| `inputGroupConfig`    | `inputGroudConfig`                | Input group settings                 |
+
+#### inputGroudConfig Properties
+
+| Property          | Type                              | Description                          |
+|-------------------|-----------------------------------|--------------------------------------|
+| `autoValidIcons`  | `boolean`                         | Auto validation icons                |
+| `iconsLeft`       | `LucideIcon[]`                    | Left icons                           |
+| `iconsRight`      | `LucideIcon[]`                    | Right icons                          |
+| `textLeft`        | `string`                          | Prefix text                          |
+| `textRight`       | `string`                          | Suffix text                          |
+
+### List Configuration
+
+| Property          | Type                                  | Description                          |
+|-------------------|---------------------------------------|--------------------------------------|
+| `listConfig`      | `ListConfig`                          | List/options configuration           |
+
+#### ListConfig Properties
+
+| Property          | Type                                  | Description                          |
+|-------------------|---------------------------------------|--------------------------------------|
+| `list`            | `InputOption[] \| GroupedOption[]`    | Options array                        |
+| `optionLabel`     | `string`                              | Display property                     |
+| `optionValue`     | `string`                              | Value property                       |
+| `optionDescription` | `string`                            | Description property                 |
+| `onOptionChange`  | `(item?: InputOption \| InputOption[] \| GroupedOption) => void` | Selection callback |
+| `selectedList`    | `InputOption[]`                       | Pre-selected items                   |
+| `sortable`        | `boolean`                             | Enable drag & drop                   |
+| `children`        | `ReactNode \| ((item: any, index: number) => ReactNode)` | Custom render function |
+
+### File Input Configuration
+
+| Property          | Type                              | Description                          |
+|-------------------|-----------------------------------|--------------------------------------|
+| `fileConfig`      | `object`                          | File input settings                  |
+
+#### fileConfig Properties
+
+| Property          | Type                              | Description                          |
+|-------------------|-----------------------------------|--------------------------------------|
+| `accept`          | `string`                          | Accepted file types                  |
+| `multiple`        | `boolean`                         | Allow multiple files                 |
+| `maxSize`         | `number`                          | Max file size (bytes)                |
+| `previewSize`     | `number`                          | Preview size                         |
+| `showPreview`     | `boolean`                         | Show file preview                    |
+
+### Repeater Configuration
+
+| Property              | Type                              | Description                          |
+|-----------------------|-----------------------------------|--------------------------------------|
+| `repeaterFields`      | `Array<FieldProps<RT> \| FieldProps<RT>[]>` | Nested fields for repeater |
+| `minItems`            | `number`                          | Minimum items                        |
+| `maxItems`            | `number`                          | Maximum items                        |
+| `withAddBtn`          | `boolean`                         | Show add button                      |
+| `isRemovebleOption`   | `boolean`                         | Allow item removal                   |
+| `tabLabelField`       | `string`                          | Field to use as tab label (for REPEATER_TABS) |
+
+### Number & Currency Configuration
+
+| Property          | Type                              | Description                          |
+|-------------------|-----------------------------------|--------------------------------------|
+| `min`             | `number`                          | Minimum value                        |
+| `max`             | `number`                          | Maximum value                        |
+| `currencyFormat`  | `Intl.NumberFormatOptions`        | Currency formatting options          |
+| `mask`            | `string \| RegExp`                | Input mask                           |
+
+### Wizard Configuration
+
+| Property          | Type                              | Description                          |
+|-------------------|-----------------------------------|--------------------------------------|
+| `step`            | `number`                          | Step number for wizard forms         |
+
+---
+
+
+
+## 📖 Usage Examples
+
+### Conditional Fields with `showWhen`
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "continent",
+    label: "Continent",
+    inputType: InputTypes.SELECT,
+    listConfig: {
+      list: [
+        { id: 1, value: "1", name: "Africa" },
+        { id: 2, value: "2", name: "America" },
+        { id: 3, value: "3", name: "Europe" },
+      ],
+      onOptionChange: () => {},
+    },
+    zodType: z.string(),
+  },
+  {
+    name: "country",
+    label: "Country",
+    inputType: InputTypes.SELECT,
+    listConfig: {
+      list: [
+        { id: 1, name: "Dominican Republic", value: "RD" },
+        { id: 2, name: "Mexico", value: "MX" },
+        { id: 3, name: "Colombia", value: "CO" },
+      ],
+      onOptionChange: () => {},
+    },
+    // Only show when America is selected
+    showWhen: (values) => values.continent === "2",
+    zodType: z.string().min(1),
+  },
+];
+```
+
+### Dynamic Options with `dependsOn` and `loadOptions`
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "category",
+    label: "Category",
+    inputType: InputTypes.SELECT,
+    listConfig: {
+      list: [
+        { id: 1, name: "Electronics", value: "1" },
+        { id: 2, name: "Clothing", value: "2" },
+      ],
+      onOptionChange: () => {},
+    },
+    zodType: z.string(),
+  },
+  {
+    name: "product",
+    label: "Product",
+    inputType: InputTypes.SELECT,
+    dependsOn: "category",
+    loadOptions: async (categoryId) => {
+      if (categoryId === "1") {
+        return [
+          { id: "1", name: "Laptop" },
+          { id: "2", name: "Phone" },
+        ];
+      }
+      if (categoryId === "2") {
+        return [
+          { id: "3", name: "Shirt" },
+          { id: "4", name: "Pants" },
+        ];
+      }
+      return [];
+    },
+    listConfig: { list: [], onOptionChange: () => {} },
+    zodType: z.string(),
+  },
+];
+```
+
+### Repeater Fields (Dynamic Arrays)
+
+```typescript
+interface IContact {
+  name: string;
+  email: string;
+}
+
+const fields: FieldConfig<IUser> = [
+  {
+    name: "contacts",
+    label: "Contacts",
+    inputType: InputTypes.REPEATER,
+    wrapInCard: true,
+    repeaterFields: [
+      { 
+        name: "name", 
+        label: "Name", 
+        placeHolder: "e.g. John",
+        zodType: z.string().min(1).max(50)
+      },
+      { 
+        name: "email", 
+        label: "Email", 
+        placeHolder: "e.g. john@mail.com",
+        zodType: z.string().email()
+      },
+    ],
+    minItems: 1,
+    maxItems: 5,
+    zodType: z.array(
+      z.object({
+        name: z.string().min(1, "Name is required").max(50),
+        email: z.string().email("Must be a valid email"),
+      })
+    ).min(1, "At least one contact is required").max(5, "Maximum 5 contacts"),
+  },
+];
+```
+
+### Repeater Tabs (Dynamic Tabs)
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "cycles",
+    label: "Process Cycles",
+    description: "Add or remove cycles with specific data",
+    inputType: InputTypes.REPEATER_TABS,
+    tabLabelField: "name", // Shows cycle name in tab
+    repeaterFields: [
+      [
+        { name: "name", label: "Cycle Name", placeHolder: "e.g. Cycle 1" },
+        { name: "duration", label: "Duration (days)", inputType: InputTypes.NUMBER }
+      ],
+      [
+        { name: "description", label: "Description", placeHolder: "Optional details" }
+      ]
+    ],
+    zodType: z.array(z.object({
+      name: z.string(),
+      duration: z.number().optional(),
+      description: z.string().optional()
+    }))
+  },
+];
+```
+
+### Key-Value Input
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "secretKeys",
+    label: "Secret Keys",
+    inputType: InputTypes.KEY_VALUE,
+    wrapInCard: true,
+    zodType: z.array(
+      z.object({
+        key: z.string()
+          .min(1, "Key is required")
+          .regex(/^[a-zA-Z0-9_.-]+$/, "Only letters, numbers or hyphens"),
+        value: z.string().min(1, "Value is required")
+      })
+    ).min(1, "At least one key-value pair is required")
+  },
+];
+```
+
+### String List (Tags)
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "tags",
+    label: "Tags",
+    wrapInCard: true,
+    withDuplicatTag: false,
+    inputType: InputTypes.STRING_LIST,
+    isRemovebleOption: true,
+    zodType: z.array(z.string().min(1)),
+  },
+];
+```
+
+### Sortable List (Drag & Drop)
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "ordenItems",
+    label: "Sort Elements",
+    description: "Drag to change order",
+    inputType: InputTypes.SORTABLE_LIST,
+    listConfig: {
+      list: [
+        { id: 1, name: "Element A" },
+        { id: 2, name: "Element B" },
+        { id: 3, name: "Element C" },
+      ],
+      onOptionChange: (newList) => console.log("New order:", newList),
+      children: (item: any, index: number) => (
+        <div className="flex items-center justify-between p-3 bg-blue-50 border rounded-md">
+          <span>{index + 1}. {item.name}</span>
+          <span className="text-xs text-gray-400">ID: {item.id}</span>
+        </div>
+      ),
+    },
+    zodType: z.array(z.object({ id: z.number(), name: z.string() })),
+  },
+];
+```
+
+### Multi Select
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "shoppingPreferences",
+    label: "Shopping Preferences",
+    inputType: InputTypes.MULTI_SELECT,
+    listConfig: {
+      list: [
+        { id: 1, name: "Technology", value: "technology" },
+        { id: 2, name: "Fashion", value: "fashion" },
+        { id: 3, name: "Home", value: "home" },
+        { id: 4, name: "Sports", value: "sports" },
+      ],
+      onOptionChange: (item) => console.log("Selected:", item),
+    },
+  },
+];
+```
+
+### Button Group
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "gender",
+    label: "Gender",
+    inputType: InputTypes.BUTTON_GROUP,
+    description: "Select your gender",
+    listConfig: {
+      list: [
+        { id: 1, name: "Male", value: "male" },
+        { id: 2, name: "Female", value: "female" },
+        { id: 3, name: "Other", value: "other" },
+      ],
+      onOptionChange: (item) => {},
+    },
+    zodType: z.string().min(1, "You must select an option")
+  },
+];
+```
+
+### Currency Input
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "salary",
+    label: "Salary",
+    inputType: InputTypes.CURRENCY,
+    inputGroupConfig: {
+      autoValidIcons: true,
+      iconsLeft: [Hash]
+    },
+    currencyFormat: {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    },
+    zodType: z.number().min(100),
+  },
+];
+```
+
+### File Upload
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "profileImage",
+    label: "Profile Image",
+    inputType: InputTypes.FILE,
+    fileConfig: {
+      accept: "image/jpeg,image/png",
+      multiple: false,
+      maxSize: 10 * 1024 * 1024, // 10MB
+      showPreview: true,
+    },
+    zodType: z
+      .any()
+      .refine(
+        (file) => {
+          if (!file) return true;
+          return (
+            file.size <= 10 * 1024 * 1024 &&
+            ["image/jpeg", "image/png"].includes(file.type)
+          );
+        },
+        { message: "Only JPG or PNG images under 10MB are allowed" }
+      )
+      .optional(),
+  },
+];
+```
+
+### Multi File Upload
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "documents",
+    label: "Upload Documents",
+    inputType: InputTypes.FILE_MULTI_UPLOAD,
+    description: "You can upload multiple files at once",
+    fileConfig: {
+      accept: "application/pdf,image/*",
+      multiple: true,
+      maxSize: 5 * 1024 * 1024, // 5MB per file
+    },
+  },
+];
+```
+
+### Accordion Grouped Switches
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: 'permissions',
+    label: 'User Permissions',
+    inputType: InputTypes.ACCORDION_GROUPED_SWITCH_LIST,
+    listConfig: {
+      selectedList: selectedPermissions,
+      list: entitiesToGroupedOption(groups), 
+      optionLabel: "name",
+      optionValue: "id",
+      onOptionChange: (item) => { 
+        handleRolesChange(item as InputOption[])
+      },
+    }
+  },
+];
+```
+
+### Wizard Form (Multi-Step)
+
+```typescript
+import { WizardForm, DynamicForm, FieldConfig } from 'shadcn-zod-formkit';
+
+const userFields: FieldConfig<IUser>[] = [
+  // Step 1
+  [
+    {
+      step: 1,
+      name: "username",
+      label: "Username",
+      inputType: InputTypes.TEXT_GROUP,
+      zodType: z.string().min(3).max(20),
+    },
+    {
+      step: 1,
+      name: "email",
+      label: "Email",
+      inputType: InputTypes.TEXT_GROUP,
+      zodType: z.string().email(),
+    },
+  ],
+  // Step 2
+  [
+    {
+      step: 2,
+      name: "age",
+      label: "Age",
+      inputType: InputTypes.NUMBER,
+      zodType: z.coerce.number().min(18).max(99),
+    },
+  ],
+  // Step 3
+  [
+    {
+      step: 3,
+      name: "favoriteColor",
+      label: "Favorite Color",
+      inputType: InputTypes.COLOR,
+      zodType: z.string().regex(/^#([0-9A-Fa-f]{6})$/),
+    },
+  ],
+];
+
+export default function ExampleWizardForm() {
+  return (
+    <WizardForm<IUser> fields={userFields} record={record}>
+      {({ stepFields, currentStep, setCurrentStep, totalSteps }) => {
+        const isTheEnd = currentStep === totalSteps;
+        const btnLabel = isTheEnd ? 'Save' : 'Next';
+        
+        return (
+          <DynamicForm<IUser>
+            record={record}
+            formTitle={`Wizard Form - Step ${currentStep}`}
+            withCard
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            submitBtnLabel={btnLabel}
+            fields={stepFields}
+            isWrapInWizard={true}
+            onSubmit={({ data }) => {
+              setCurrentStep((prev) => prev + (isTheEnd ? 0 : 1));
+              if (isTheEnd) {
+                console.log("✅ Final result:", data);
+              }
+            }}
+          />
+        );
+      }}
+    </WizardForm>
+  );
+}
+```
+
+### Field Layout (Rows and Columns)
+
+```typescript
+// Fields in the same array will be displayed in the same row
+const fields: FieldConfig<IUser> = [
+  // Single field (full width)
   {
     name: "username",
     label: "Username",
     inputType: InputTypes.TEXT_GROUP,
-    inputGroupConfig:{
-      autoValidIcons: true,
-      iconsLeft: [User]
-    },
-    zodType: z.string().min(3).max(20),
+    zodType: z.string(),
   },
-  {
-    name: "email",
-    label: "Email",
-    inputType: InputTypes.TEXT_GROUP,
-    inputGroupConfig:{
-      autoValidIcons: true,
-      iconsLeft: [Mail],
+  // Two fields in the same row
+  [
+    {
+      name: "firstName",
+      label: "First Name",
+      inputType: InputTypes.TEXT_GROUP,
+      zodType: z.string(),
     },
-    zodType: z
-      .string()
-      .email("Invalid Email")
-      .optional(),
-  },
-]
+    {
+      name: "lastName",
+      label: "Last Name",
+      inputType: InputTypes.TEXT_GROUP,
+      zodType: z.string(),
+    },
+  ],
+  // Nested arrays for complex layouts
+  [
+    [
+      {
+        name: "city",
+        label: "City",
+        inputType: InputTypes.TEXT_GROUP,
+        direction: 'col', // Force column direction
+        zodType: z.string(),
+      }
+    ],
+    [
+      {
+        name: "state",
+        label: "State",
+        inputType: InputTypes.TEXT_GROUP,
+        zodType: z.string(),
+      },
+      {
+        name: "zip",
+        label: "ZIP Code",
+        inputType: InputTypes.TEXT_GROUP,
+        zodType: z.string(),
+      }
+    ],
+  ],
+];
 ```
 
-## 📚 Field Types ( InputTypes ) Avaible
-  | Types                    | Use                            |
-  | -------------------------|:-------------------------------:
-  | **Text**                 |  `InputTypes.TEXT_GROUP`           | 
-  | **Color Picker**         |  `InputTypes.COLOR`                | 
-  | **Switch**               |  `InputTypes.SWITCH`               | 
-  | **Checkbox**             |  `InputTypes.CHECKBOX`             | 
-  | **Date Picker**          |  `InputTypes.DATE`                 | 
-  | **Date Time Picker**     |  `InputTypes.DATE_TIME`            | 
-  | **Select**               |  `InputTypes.SELECT`               | 
-  | **OTP Code**             |  `InputTypes.OTP`                  | 
-  | **Upload File**          |  `InputTypes.FILE`                 | 
-  | **Checkbox List**        |  `InputTypes.SIMPLE_CHECK_LIST`    | 
-  | **Switch List**          |  `InputTypes.GROUPED_SWITCH_LIST`  | 
-  | **Radio Group**          |  `InputTypes.RADIO_GROUP`          | 
-  | **Tags**                 |  `InputTypes.TAGS`                 | 
-  | **Input Date Time**      |  `InputTypes.DATE_TIME`            | 
-  | **Input Time**           |  `InputTypes.TIME`                 | 
-  | **Upload Multi File**    |  `InputTypes.FILE_MULTI_UPLOAD`    | 
-  | **Button Group**         |  `InputTypes.BUTTON_GROUP`         | 
-  | **Input Currency**       |  `InputTypes.CURRENCY`             | 
-  | **Input Key Value**      |  `InputTypes.KEY_VALUE`            | 
-  | **Input Repeater**       |  `InputTypes.REPEATER`             | 
-  | **Input Multi Select**   |  `InputTypes.MULTI_SELECT`         | 
-  | **Select With Search**   |  `InputTypes.COMBOBOX`             | 
-  | **Input Drag Drop List** |  `InputTypes.SORTABLE_LIST`        | 
-  | **Dynamic Tabs**         |  `InputTypes.REPEATER_TABS`        | 
-  | **Dynamic String List**  |  `InputTypes.STRING_LIST`          | 
+### Custom Validation
+
+```typescript
+<DynamicForm<IUser>
+  fields={fields}
+  record={record}
+  extraValidations={[
+    (schema) =>
+      schema.refine((data) => data.password === data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+      }),
+  ]}
+  onSubmit={({ data }) => console.log(data)}
+/>
+```
+
+### Custom Buttons
+
+```typescript
+<DynamicForm<IUser>
+  fields={fields}
+  record={record}
+  listBtnConfig={[
+    {
+      variant: 'outline',
+      label: 'Cancel',
+      btnType: 'button',
+      onClick: () => router.back()
+    },
+    {
+      variant: 'secondary',
+      label: 'Save Draft',
+      btnType: 'button',
+      onClick: () => saveDraft()
+    }
+  ]}
+  onSubmit={({ data }) => console.log(data)}
+/>
+```
+
+---
+
+## 🔧 Helper Functions
+
+### entitiesToInputOption
+
+Convert an array of entities to InputOption format:
+
+```typescript
+import { entitiesToInputOption } from 'shadcn-zod-formkit';
+
+const users = [
+  { id: 1, username: "john", email: "john@example.com" },
+  { id: 2, username: "jane", email: "jane@example.com" },
+];
+
+const options = entitiesToInputOption(users, 'username', 'users', 'email');
+// Result: [
+//   { id: 1, name: "john", description: "john@example.com", groupedLabel: "users" },
+//   { id: 2, name: "jane", description: "jane@example.com", groupedLabel: "users" }
+// ]
+```
+
+### entitiesToGroupedOption
+
+Convert grouped entities to GroupedOption format:
+
+```typescript
+import { entitiesToGroupedOption } from 'shadcn-zod-formkit';
+
+const groups = [
+  {
+    id: 1,
+    label: "Administrators",
+    options: [...],
+    selectedOptions: []
+  },
+  {
+    id: 2,
+    label: "Users",
+    options: [...],
+    selectedOptions: []
+  }
+];
+
+const groupedOptions = entitiesToGroupedOption(groups);
+```
+
+---
 
 
-## 🧩 FieldProps
+## 🎨 TypeScript Support
 
-Each field is defined using the `FieldProps` interface.
+This library is fully typed with TypeScript. Define your form data interface for complete type safety:
 
-### Common Properties
+```typescript
+interface IUserForm {
+  username: string;
+  email: string;
+  age: number;
+  isActive: boolean;
+  favoriteColor: string;
+  tags: string[];
+  contacts: Array<{
+    name: string;
+    email: string;
+  }>;
+}
 
-| Property | Type | Required | Description |
-|--------|------|----------|-------------|
-| `name` | `string` | ✅ | Field key |
-| `label` | `string` | ✅ | Label text |
-| `inputType` | `InputTypes` | ✅ | Input type |
-| `zodType` | `ZodType` | ❌ | Validation schema |
-| `placeHolder` | `string` | ❌ | Input placeholder |
-| `disabled` | `boolean` | ❌ | Disable input |
-| `options` | `Array` | ❌ | For select, radio, checkbox |
-| `keyboardType` | `TextInputType` | ❌ | For Keyboard  |
-| `className` | `string` | ❌ | For add CSS class  |
-| `hidden` | `boolean` | ❌ | Hidden Input  |
-| `infoTooltip` | `string` | ❌ | Add text Info tooltip  |
-| `description` | `string` | ❌ | Description text |
+// Full type safety throughout
+const fields: FieldConfig<IUserForm> = [
+  {
+    name: "username", // ✅ Autocomplete and type checking
+    label: "Username",
+    inputType: InputTypes.TEXT_GROUP,
+    zodType: z.string(),
+  },
+  // ... more fields
+];
 
-#### 🔀 DynamicForm props
-| Property           | Type                        | Description            |
-| ------------------ | --------------------------- | ---------------------- |
-| `onSubmit`         | `(resp:FormResp<T>) => void;`| Function for submit  |
-| `formTitle`        | `string`                   | Title  |
-| `formSubTitle`     | `string`                   | Sud Title  |
-| `showFormHeader`   | `boolean`                  | For hidden header   |
-| `withCard`         | `boolean`                  | Wrap in Card   |
-| `showIcon`         | `boolean`                  | Load dynamic options   |
-| `readOnly`         | `boolean`                  | Disable all inputs   |
-| `withErrorsAlert`  | `boolean`                  | Show or hidden erros card |
-| `children`         | `ReactNode`                | For add other component   |
-| `fields`           | `FieldConfig<T>[]`         | For add inputs |
-| `submitBtnLabel`   | `string`                   | Text for default button submit |
+<DynamicForm<IUserForm>
+  fields={fields}
+  record={initialData}
+  onSubmit={({ data }) => {
+    // data is fully typed as IUserForm
+    console.log(data.username); // ✅ Type safe
+  }}
+/>
+```
 
-
-
-#### 🔀 Conditional & Dynamic Behavior
-| Property           | Type                        | Description            |
-| ------------------ | --------------------------- | ---------------------- |
-| `showWhen`         | `(values) => boolean`       | Conditional rendering  |
-| `dependsOn`        | `string`                    | Dependency field       |
-| `loadOptions`      | `(value) => Promise<any[]>` | Load dynamic options   |
-| `onAnyFieldChange` | `(data) => void`            | Global change listener |
-
-
-#### 📋 List Configuration
-| Property            | Type                               | Description        |
-| ------------------- | ---------------------------------- | ------------------ |
-| `list`              | `InputOption[] \| GroupedOption[]` | Options list       |
-| `optionLabel`       | `string`                           | Display property   |
-| `optionValue`       | `string`                           | Value property     |
-| `optionDescription` | `string`                           | Description field  |
-| `sortable`          | `boolean`                          | Enable drag & drop |
-| `onOptionChange`    | `(item) => void`                   | Selection callback |
-
-#### 🔤 Input Group Configuration
-| Property         | Type           | Description           |
-| ---------------- | -------------- | --------------------- |
-| `autoValidIcons` | `boolean`      | Auto validation icons |
-| `iconsLeft`      | `LucideIcon[]` | Left icons            |
-| `iconsRight`     | `LucideIcon[]` | Right icons           |
-| `textLeft`       | `string`       | Prefix text           |
-| `textRight`      | `string`       | Suffix text           |
-
-
-#### 📂 File Input Configuration
-| Property      | Type      | Description          |
-| ------------- | --------- | -------------------- |
-| `accept`      | `string`  | Accepted file types  |
-| `multiple`    | `boolean` | Allow multiple files |
-| `maxSize`     | `number`  | Max file size        |
-| `previewSize` | `number`  | Preview size         |
-| `showPreview` | `boolean` | Show file preview    |
-
-
-#### 🗂️ GroupedOption
-| Property          | Type            | Description    |
-| ----------------- | --------------- | -------------- |
-| `label`           | `string`        | Group label    |
-| `options`         | `InputOption[]` | Group options  |
-| `selectedOptions` | `InputOption[]` | Selected items |
-| `disabled`        | `boolean`       | Disable group  |
-
-
-#### 🔁 Repeater Fields (Dynamic Arrays)
-| Property            | Type           | Description     |
-| ------------------- | -------------- | --------------- |
-| `repeaterFields`    | `FieldProps[]` | Nested fields   |
-| `minItems`          | `number`       | Minimum items   |
-| `maxItems`          | `number`       | Maximum items   |
-| `withAddBtn`        | `boolean`      | Show add button |
-| `isRemovebleOption` | `boolean`      | Allow remove    |
-
-
+---
 
 ## ✅ Features
-  - Fully dynamic fields array support.
-  - Multiple input types (text, email, number, color, date, select, switch, file, OTP, and others).
-  - Zod validation integration for robust form validation.
-  - Supports default values via record prop.
-  - Works seamlessly with React 18+ and TypeScript.
+
+- ✨ Fully dynamic fields array support
+- 🎯 25+ input types (text, email, number, color, date, select, switch, file, OTP, and more)
+- 🔒 Zod validation integration for robust form validation
+- 📝 TypeScript support with full type safety
+- 🎨 Built on Shadcn UI components
+- 🔄 Conditional fields with `showWhen`
+- 🔗 Dynamic options with `dependsOn` and `loadOptions`
+- 📋 Repeater fields for dynamic arrays
+- 🧙‍♂️ Multi-step wizard forms
+- 🎨 Flexible layouts (rows, columns, nested)
+- 🔧 Custom validation and buttons
+- 📱 Responsive and accessible
+- 🎯 Works seamlessly with React 19+ and Next.js
+
+---
 
 ## 💡 Tips
-  - Use peerDependencies for React to avoid version conflicts.
-  - Wrap your forms inside a "use client" component if using Next.js App Router.
-  - Combine multiple FieldProps in arrays for grouped fields (like age + color).
+
+- Use `FieldConfig<T>` with TypeScript interfaces for full type safety
+- Wrap your forms inside a `"use client"` component if using Next.js App Router
+- Combine multiple FieldProps in arrays for grouped fields in the same row
+- Use `showWhen` for conditional rendering instead of manually hiding fields
+- Use `dependsOn` and `loadOptions` for cascading selects
+- Set `wrapInCard={true}` on individual fields to visually group them
+- Use `extraValidations` for cross-field validation (e.g., password confirmation)
+- The `record` prop sets initial values - perfect for edit forms
+- Use `onAnyFieldChange` to react to any field change in real-time
+- For wizard forms, use the `WizardForm` wrapper component with `step` property on fields
+
+---
+
+## 📦 Peer Dependencies
+
+```json
+{
+  "react": "^19.2.3",
+  "react-dom": "^19.2.3",
+  "zod": "^4.1.12"
+}
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+
+MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+---
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/NativoLink/shadcn-zod-formkit)
+- [NPM Package](https://www.npmjs.com/package/shadcn-zod-formkit)
+- [Report Issues](https://github.com/NativoLink/shadcn-zod-formkit/issues)
+
+---
 
 ## 🧠 Acknowledgements
-  - React - A JavaScript library for building user interfaces.
-  - Next.js - The React framework for production.
-  - Tailwind CSS - A utility-first CSS framework for creating custom designs.
-  - Zod - TypeScript-first schema declaration and validation.
 
+- [React](https://react.dev/) - A JavaScript library for building user interfaces
+- [Next.js](https://nextjs.org/) - The React framework for production
+- [Shadcn UI](https://ui.shadcn.com/) - Beautifully designed components
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
+- [Zod](https://zod.dev/) - TypeScript-first schema declaration and validation
+- [React Hook Form](https://react-hook-form.com/) - Performant, flexible forms
+- [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible components
+
+---
+
+Made with ❤️ by [Luis A. Rosario](https://github.com/NativoLink)
