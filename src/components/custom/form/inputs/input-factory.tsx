@@ -30,6 +30,12 @@ import {
   SortableListInput,
   RepeaterTabsInput,
   StringValueListInput,
+  // ✨ New input types
+  RatingInput,
+  PhoneInput,
+  UrlInput,
+  PasswordInput,
+  AutocompleteInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -76,6 +82,12 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.REPEATER_TABS]: RepeaterTabsInput,
   [InputTypes.STRING_LIST]: StringValueListInput,
   
+  // ✨ New input types
+  [InputTypes.RATING]: RatingInput,
+  [InputTypes.PHONE]: PhoneInput,
+  [InputTypes.URL]: UrlInput,
+  [InputTypes.PASSWORD]: PasswordInput,
+  [InputTypes.AUTOCOMPLETE]: AutocompleteInput,
   
   //ToDos: ============================================================
   [InputTypes.SLIDER]: SliderInput, //ToDo: // PENDIENTE ... VISUALMENTE NO SE VE BIEN.!!!
