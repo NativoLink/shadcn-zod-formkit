@@ -28,3 +28,11 @@ export * from './text-area-input';
 export * from './text-input-group';
 export * from './text-input';
 export * from './time-input';
+
+// ✨ New input types
+export * from './rating-input';
+export * from './phone-input';
+export * from './url-input';
+export * from './password-input';
+export * from './autocomplete-input';
+
