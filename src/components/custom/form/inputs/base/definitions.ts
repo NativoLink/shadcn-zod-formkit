@@ -69,6 +69,22 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
 
   infoTooltip?: string
   
+  // Rating input specific
+  showValue?: boolean
+  size?: 'sm' | 'md' | 'lg'
+  allowHalf?: boolean
+  
+  // Phone input specific
+  defaultCountryCode?: string
+  
+  // URL input specific
+  showPreview?: boolean
+  autoProtocol?: boolean
+  
+  // Password input specific
+  showStrength?: boolean
+  showRequirements?: boolean
+  
   // list?: any[]
   dependsOn?: string // Nombre del campo del que depende este campo
   loadOptions?: (dependencyValue: any) => Promise<any[]> // Función para cargar opciones dinámicamente
@@ -90,6 +106,31 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   }
 
   inputGroupConfig?: inputGroudConfig
+
+  // ✨ New UX improvements
+  helpText?: string              // Expandable help text
+  helpLink?: string              // Link to documentation
+  prefix?: string | ReactNode    // Visual prefix
+  suffix?: string | ReactNode    // Visual suffix
+  loading?: boolean              // Loading state
+  skeleton?: boolean             // Show skeleton while loading
+  debounce?: number              // Debounce for onChange (ms)
+  maxLength?: number             // Max length with visual counter
+  showCharCount?: boolean        // Show "50/100" counter
+  copyable?: boolean             // Copy button for value
+  clearable?: boolean            // X button to clear value
+  
+  // Validation improvements
+  validateOnBlur?: boolean       // Validate on blur
+  validateOnChange?: boolean     // Validate on change
+  showValidIcon?: boolean        // Show ✓ when valid
+  asyncValidation?: (value: any) => Promise<string | true>  // Async validation
+  debounceValidation?: number    // Debounce for async validation (ms)
+  
+  // Accessibility
+  ariaLabel?: string
+  ariaDescribedBy?: string
+  ariaRequired?: boolean
 }
 
 interface inputGroudConfig {

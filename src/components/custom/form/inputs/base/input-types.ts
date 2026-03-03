@@ -32,6 +32,13 @@ export enum InputTypes {
   SORTABLE_LIST = "sortable_list",
   REPEATER_TABS = "repeater_tabs",
   STRING_LIST = "string_list",
+  
+  // ✨ New input types
+  RATING = "rating",
+  PHONE = "phone",
+  URL = "url",
+  PASSWORD = "password",
+  AUTOCOMPLETE = "autocomplete",
 }
 
 export const inputFieldComp = [
@@ -67,4 +74,10 @@ export const inputFieldComp = [
   InputTypes.TEXTAREA,
   // InputTypes.SWITCH_LIST,
   InputTypes.HIDDEN,
+  // ✨ New input types
+  InputTypes.RATING,
+  InputTypes.PHONE,
+  InputTypes.URL,
+  InputTypes.PASSWORD,
+  InputTypes.AUTOCOMPLETE,
 ]
