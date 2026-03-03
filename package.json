@@ -45,13 +45,31 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./hooks": {
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.cjs"
+    },
+    "./utils": {
+      "import": "./dist/lib/utils.mjs",
+      "require": "./dist/lib/utils.cjs"
+    },
+    "./validation": {
+      "import": "./dist/lib/validation-utils.mjs",
+      "require": "./dist/lib/validation-utils.cjs"
+    },
+    "./theme": {
+      "import": "./dist/components/custom/form/theme/theme-config.mjs",
+      "require": "./dist/components/custom/form/theme/theme-config.cjs"
     }
   },
   "files": [
     "dist",
     "README.md",
-    "license.md"
+    "license.md",
+    "IMPROVEMENTS.md"
   ],
+  "sideEffects": false,
   "peerDependencies": {
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
