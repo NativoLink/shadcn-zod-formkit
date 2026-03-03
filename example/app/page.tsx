@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/tabs"
 import { JSX, ReactNode } from "react";
 import { AccordionGroupForm, BasicFormPage } from "./examples";
+import NewFeaturesForm from "./examples/advanced/NewFeaturesForm";
 import { Toaster } from "@/components/ui/sonner";
 
 
@@ -20,7 +21,8 @@ export default function Home() {
 
   const tabs: ITab[] = [
     { name: 'Basics', children: <BasicFormPage/>},
-    { name: 'Advanced', children: <AccordionGroupForm />}
+    { name: 'Advanced', children: <AccordionGroupForm />},
+    { name: '✨ New Features', children: <NewFeaturesForm />}
   ]
   return (
     <main className="flex w-full  flex-col gap-6">
