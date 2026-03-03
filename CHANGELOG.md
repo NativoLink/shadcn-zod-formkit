@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [1.34.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.34.0...v1.34.1) (2025-12-30)
+
+### Bug Fixes
+
+* **AccordionGroup:** add optionLabel in entitiesToInputOption for presentation label ([f7c37b7](https://github.com/NativoLink/shadcn-zod-formkit/commit/f7c37b7e868b6872e371a29ec261737213637814))
+
 ## [1.34.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v1.33.0...v1.34.0) (2025-12-28)
 
 ### Features
