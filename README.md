@@ -115,6 +115,8 @@ export default function BasicFormExample() {
 | Input Type                          | Constant                                  | Description                           |
 |-------------------------------------|-------------------------------------------|---------------------------------------|
 | **Text Input**                      | `InputTypes.TEXT_GROUP`                   | Text input with icon support          |
+| **Email Input** ✨                  | `InputTypes.EMAIL`                        | Email with validation & suggestions   |
+| **Search Input** ✨                 | `InputTypes.SEARCH`                       | Search with history & fuzzy matching  |
 | **Number Input**                    | `InputTypes.NUMBER`                       | Numeric input                         |
 | **Currency Input**                  | `InputTypes.CURRENCY`                     | Currency formatted input              |
 | **Color Picker**                    | `InputTypes.COLOR`                        | Color selection                       |
@@ -123,6 +125,7 @@ export default function BasicFormExample() {
 | **Date Picker**                     | `InputTypes.DATE`                         | Date selection                        |
 | **Date Time Picker**                | `InputTypes.DATE_TIME`                    | Date and time selection               |
 | **Time Picker**                     | `InputTypes.TIME`                         | Time selection                        |
+| **Location Picker** ✨              | `InputTypes.LOCATION_PICKER`              | Interactive map with GPS & geocoding  |
 | **Select**                          | `InputTypes.SELECT`                       | Dropdown select                       |
 | **Multi Select**                    | `InputTypes.MULTI_SELECT`                 | Multiple selection dropdown           |
 | **Combobox**                        | `InputTypes.COMBOBOX`                     | Searchable select                     |
@@ -838,6 +841,131 @@ const fields: FieldConfig<IUser> = [
 
 ---
 
+## ✨ New Input Types
+
+### Email Input with Suggestions
+
+The EMAIL input provides RFC 5322 validation, domain suggestions, and typo detection:
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "email",
+    label: "Email Address",
+    inputType: InputTypes.EMAIL,
+    placeHolder: "Enter your email",
+    description: "We'll suggest common domains as you type",
+    showSuggestions: true, // Enable domain suggestions
+    clearable: true, // Show clear button
+    showValidIcon: true, // Show checkmark when valid
+    zodType: z.string().email("Invalid email address"),
+  },
+];
+```
+
+**Features:**
+- ✅ RFC 5322 email validation
+- 🎯 Domain suggestions (@gmail.com, @outlook.com, etc.)
+- 🔍 Typo detection (gmial.com → gmail.com)
+- ⌨️ Keyboard navigation for suggestions
+- ✓ Visual validation icons
+- 🗑️ Clearable button
+
+### Search Input with History
+
+The SEARCH input provides fuzzy search, history tracking, and debounced input:
+
+```typescript
+const fields: FieldConfig<IUser> = [
+  {
+    name: "searchQuery",
+    label: "Search Products",
+    inputType: InputTypes.SEARCH,
+    placeHolder: "Search...",
+    description: "Search with fuzzy matching",
+    debounce: 300, // Debounce delay in ms
+    maxLength: 100,
+    showCharCount: true,
+    zodType: z.string().optional(),
+  },
+];
+```
+
+**Features:**
+- 🔍 Fuzzy search matching
+- 📝 Search history (localStorage)
+- ⏱️ Debounced input
+- ⌨️ Keyboard navigation
+- 🎯 Highlighted matches
+- 🗑️ Clear history option
+
+### Location Picker with Interactive Map
+
+The LOCATION_PICKER input provides an interactive map with OpenStreetMap and Leaflet:
+
+```typescript
+interface ILocationForm {
+  businessLocation: {
+    lat: number;
+    lng: number;
+    address?: string;
+    city?: string;
+    country?: string;
+    postalCode?: string;
+    formattedAddress?: string;
+  };
+}
+
+const fields: FieldConfig<ILocationForm> = [
+  {
+    name: "businessLocation",
+    label: "Business Location",
+    inputType: InputTypes.LOCATION_PICKER,
+    description: "Click on the map or search for an address",
+    required: true,
+    defaultZoom: 15, // Initial zoom level
+    showSearch: true, // Show address search bar
+    showCurrentLocation: true, // Show GPS button
+    showCoordinates: true, // Show lat/lng display
+    height: 400, // Map height in pixels
+    zodType: z.object({
+      lat: z.number(),
+      lng: z.number(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      country: z.string().optional(),
+      postalCode: z.string().optional(),
+      formattedAddress: z.string().optional(),
+    }),
+  },
+];
+```
+
+**Features:**
+- 🗺️ Interactive map with OpenStreetMap (free, no API key)
+- 📍 Click to mark location
+- 🔍 Address search (geocoding with Nominatim)
+- 🔄 Reverse geocoding (coordinates → address)
+- 📱 GPS location detection
+- 🎯 Draggable marker
+- 📋 Copy coordinates to clipboard
+- ⚙️ Configurable zoom, height, and features
+- ✅ Required/optional support (hides "Clear" button when required)
+
+**Installation for Location Picker:**
+
+```bash
+npm install leaflet react-leaflet @types/leaflet
+```
+
+Add Leaflet CSS to your global CSS:
+
+```css
+@import 'leaflet/dist/leaflet.css';
+```
+
+---
+
 ## 🔧 Helper Functions
 
 ### entitiesToInputOption
@@ -931,7 +1059,11 @@ const fields: FieldConfig<IUserForm> = [
 ## ✅ Features
 
 - ✨ Fully dynamic fields array support
-- 🎯 25+ input types (text, email, number, color, date, select, switch, file, OTP, and more)
+- 🎯 28+ input types including:
+  - 📧 **EMAIL** - Smart email input with domain suggestions and typo detection
+  - 🔍 **SEARCH** - Search with history, fuzzy matching, and debounce
+  - 📍 **LOCATION_PICKER** - Interactive map with GPS, geocoding, and OpenStreetMap
+  - Plus: text, number, color, date, select, switch, file, OTP, and more
 - 🔒 Zod validation integration for robust form validation
 - 📝 TypeScript support with full type safety
 - 🎨 Built on Shadcn UI components
@@ -968,6 +1100,18 @@ const fields: FieldConfig<IUserForm> = [
   "react": "^19.2.3",
   "react-dom": "^19.2.3",
   "zod": "^4.1.12"
+}
+```
+
+### Optional Dependencies
+
+For the LOCATION_PICKER input:
+
+```json
+{
+  "leaflet": "^1.9.4",
+  "react-leaflet": "^4.2.1",
+  "@types/leaflet": "^1.9.8"
 }
 ```
 
