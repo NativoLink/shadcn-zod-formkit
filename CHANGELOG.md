@@ -1,5 +1,16 @@
 # 📦 Changelog
 
+## [3.0.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v2.0.1...v3.0.0) (2026-03-04)
+
+### ⚠ BREAKING CHANGES
+
+* None - All changes are backward compatible
+
+### Features
+
+* add EMAIL, SEARCH, and LOCATION_PICKER input types ([c08ca14](https://github.com/NativoLink/shadcn-zod-formkit/commit/c08ca14f07744929061c3329295a36747ec568da))
+* add EMAIL, SEARCH, and LOCATION_PICKER input types ([f665538](https://github.com/NativoLink/shadcn-zod-formkit/commit/f665538114c37c89325fe689ed972cd248250356))
+
 ## [2.0.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v2.0.0...v2.0.1) (2026-03-03)
 
 ### Bug Fixes
