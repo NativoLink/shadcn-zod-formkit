@@ -127,6 +127,16 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   asyncValidation?: (value: any) => Promise<string | true>  // Async validation
   debounceValidation?: number    // Debounce for async validation (ms)
   
+  // Email input specific
+  showSuggestions?: boolean      // Show domain suggestions
+  
+  // Location Picker input specific
+  defaultZoom?: number           // Initial map zoom level
+  showSearch?: boolean           // Show address search bar
+  showCurrentLocation?: boolean  // Show GPS location button
+  showCoordinates?: boolean      // Show lat/lng coordinates
+  height?: number                // Map height in pixels
+  
   // Accessibility
   ariaLabel?: string
   ariaDescribedBy?: string

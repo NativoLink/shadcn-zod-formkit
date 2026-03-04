@@ -1,48 +1,23 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { JSX, ReactNode } from "react";
-import { AccordionGroupForm, BasicFormPage } from "./examples";
-import NewFeaturesForm from "./examples/advanced/NewFeaturesForm";
+export const dynamic = 'force-dynamic';
+
 import { Toaster } from "@/components/ui/sonner";
-
-
-interface ITab {
-  name: string,
-  value?: string,
-  children:ReactNode | JSX.Element
-}
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ExamplesTabs } from "./examples-tabs";
 
 export default function Home() {
-
-
-  const tabs: ITab[] = [
-    { name: 'Basics', children: <BasicFormPage/>},
-    { name: 'Advanced', children: <AccordionGroupForm />},
-    { name: '✨ New Features', children: <NewFeaturesForm />}
-  ]
   return (
     <main className="flex w-full  flex-col gap-6">
-      <Tabs defaultValue={tabs[0].name} >
-        <TabsList>
-        { 
-          tabs.map((tab, indx) => 
-            <TabsTrigger key={indx} value={tab.value ?? tab.name}>{tab.name}</TabsTrigger>
-          )}
-        </TabsList>
-        
-        { 
-        tabs.map((tab, indx) => 
-          <TabsContent key={indx} value={tab.value ?? tab.name}>
-            <div className="flex flex-row align-middle justify-around w-full gap-6 p-2">
-              {tab.children}
-            </div>
-          </TabsContent>
-        )}
-      </Tabs>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">shadcn-zod-formkit Examples</h1>
+        <Link href="/form-builder">
+          <Button variant="default" size="lg">
+            🎨 Open Form Builder
+          </Button>
+        </Link>
+      </div>
+      
+      <ExamplesTabs />
       <Toaster />
     </main>
   )

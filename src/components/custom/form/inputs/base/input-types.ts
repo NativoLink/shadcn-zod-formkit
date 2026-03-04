@@ -33,12 +33,17 @@ export enum InputTypes {
   REPEATER_TABS = "repeater_tabs",
   STRING_LIST = "string_list",
   
-  // ✨ New input types
+  // ✨ New input types (v1.35.0)
   RATING = "rating",
   PHONE = "phone",
   URL = "url",
   PASSWORD = "password",
   AUTOCOMPLETE = "autocomplete",
+  
+  // ✨ New input types (v1.36.0)
+  EMAIL = "email",
+  SEARCH = "search",
+  LOCATION_PICKER = "location_picker",
 }
 
 export const inputFieldComp = [
@@ -74,10 +79,14 @@ export const inputFieldComp = [
   InputTypes.TEXTAREA,
   // InputTypes.SWITCH_LIST,
   InputTypes.HIDDEN,
-  // ✨ New input types
+  // ✨ New input types (v1.35.0)
   InputTypes.RATING,
   InputTypes.PHONE,
   InputTypes.URL,
   InputTypes.PASSWORD,
   InputTypes.AUTOCOMPLETE,
+  // ✨ New input types (v1.36.0)
+  InputTypes.EMAIL,
+  InputTypes.SEARCH,
+  InputTypes.LOCATION_PICKER,
 ]

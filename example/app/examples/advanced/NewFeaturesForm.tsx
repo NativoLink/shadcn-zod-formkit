@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Card } from '@/components/ui/card';
 
 interface INewFeaturesForm {
+  email: string;
   rating: number;
   phone: string;
   website: string;
@@ -21,6 +22,7 @@ export default function NewFeaturesForm() {
   const [dataToSend, setDataToSend] = useState<any>({});
 
   const record: INewFeaturesForm = {
+    email: "",
     rating: 0,
     phone: "",
     website: "",
@@ -29,6 +31,17 @@ export default function NewFeaturesForm() {
   };
 
   const fields: FieldConfig<INewFeaturesForm> = [
+    {
+      name: "email",
+      label: "Email Address",
+      inputType: InputTypes.EMAIL,
+      placeHolder: "your@email.com",
+      description: "We'll send you a confirmation email",
+      showSuggestions: true,
+      showValidIcon: true,
+      clearable: true,
+      zodType: z.string().email("Please enter a valid email address"),
+    },
     {
       name: "username",
       label: "Username",

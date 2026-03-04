@@ -29,10 +29,14 @@ export * from './text-input-group';
 export * from './text-input';
 export * from './time-input';
 
-// ✨ New input types
+// ✨ New input types (v1.35.0)
 export * from './rating-input';
 export * from './phone-input';
 export * from './url-input';
 export * from './password-input';
 export * from './autocomplete-input';
 
+// ✨ New input types (v1.36.0)
+export * from './email-input';
+export * from './location-picker-input';
+// export * from './search-input'; // TODO
