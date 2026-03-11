@@ -652,14 +652,17 @@ export default function FormBasics() {
 
         </div>
 
-        <Card>
+        <Card className="p-4">
           {/* <GenericFilter /> */}
-          <div className="flex flex-row  text-lg  p-4">
-            DATA SENDED
+          <div className="flex flex-col gap-2">
+            <div className="text-lg font-semibold">Form Data</div>
+            <div className="text-sm text-muted-foreground">
+              DATA SENDED
+            </div>
+            <pre className="text-xs bg-gray-50 p-4 rounded-md overflow-auto max-h-[600px]">
+              <code>{JSON.stringify(dataToSend, null, 2)}</code>
+            </pre>
           </div>
-          <pre className="flex flex-row  text-xs  p-4">
-            <code>{JSON.stringify(dataToSend, null, 2)}</code>
-          </pre>
         </Card>
       </div>
     </div>

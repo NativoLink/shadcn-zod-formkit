@@ -118,7 +118,7 @@ export default function NewFeaturesForm() {
           <div className="text-sm text-muted-foreground">
             Live form data preview
           </div>
-          <pre className="text-xs bg-muted p-4 rounded-md overflow-auto max-h-[600px]">
+          <pre className="text-xs bg-gray-50 p-4 rounded-md overflow-auto max-h-[600px]">
             <code>{JSON.stringify(dataToSend, null, 2)}</code>
           </pre>
         </div>

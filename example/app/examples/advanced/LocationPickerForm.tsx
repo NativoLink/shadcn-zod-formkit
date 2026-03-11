@@ -49,8 +49,8 @@ export default function LocationPickerForm() {
       inputType: InputTypes.TEXT_GROUP,
       placeHolder: "Enter your business name",
       description: "The name of your business or location",
-      required: true,
-      zodType: z.string().min(3, "Business name must be at least 3 characters"),
+      // required: true,
+      // zodType: z.string().min(3, "Business name must be at least 3 characters"),
     },
     {
       name: "businessLocation",
@@ -73,24 +73,24 @@ export default function LocationPickerForm() {
         formattedAddress: z.string().optional(),
       }),
     },
-    {
-      name: "deliveryLocation",
-      label: "Delivery Location (Optional)",
-      inputType: InputTypes.LOCATION_PICKER,
-      description: "If different from business location, select delivery address",
-      required: false,
-      defaultZoom: 13,
-      showSearch: true,
-      showCurrentLocation: true,
-      showCoordinates: true,
-      height: 350,
-      zodType: z.object({
-        lat: z.number(),
-        lng: z.number(),
-        address: z.string().optional(),
-        formattedAddress: z.string().optional(),
-      }).optional(),
-    },
+    // {
+    //   name: "deliveryLocation",
+    //   label: "Delivery Location (Optional)",
+    //   inputType: InputTypes.LOCATION_PICKER,
+    //   description: "If different from business location, select delivery address",
+    //   required: false,
+    //   defaultZoom: 13,
+    //   showSearch: true,
+    //   showCurrentLocation: true,
+    //   showCoordinates: true,
+    //   height: 350,
+    //   zodType: z.object({
+    //     lat: z.number(),
+    //     lng: z.number(),
+    //     address: z.string().optional(),
+    //     formattedAddress: z.string().optional(),
+    //   }).optional(),
+    // },
     {
       name: "notes",
       label: "Additional Notes",
@@ -102,7 +102,7 @@ export default function LocationPickerForm() {
   ];
 
   return (
-    <div className='w-full gap-4 grid grid-cols-1'>
+    <div className='w-full gap-2 grid grid-cols-2'>
       <div className='w-full'>
         <DynamicForm<ILocationForm>
           formTitle="📍 Location Picker Demo"
