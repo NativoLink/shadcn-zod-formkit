@@ -12,15 +12,21 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-
 } from "@/src/components/ui";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { BaseInput, handleOnChage } from "../base";
+import { BaseInput } from "../base";
 import { FieldProps, InputOption } from "../base/definitions";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/src/lib/utils";
 import { useState } from "react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/src/components/ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from "@/src/components/ui/command";
 
 export class MultiSelectInput extends BaseInput {
   render() {
@@ -47,10 +53,13 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
 
   const optionValue = input?.listConfig?.optionValue ?? input.optionValue ?? "id";
 
-  const getValue = (item: InputOption) => {
+  const getValue = (item: InputOption): string | number => {
     if (optionValue === "name") return item[optionValue];
     return item.value ?? item.id;
   };
+
+  // 🔹 Normalizador SOLO para comparar
+  const normalize = (v: any) => v?.toString();
 
   const [open, setOpen] = useState(false);
 
@@ -60,21 +69,31 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
       control={form.control}
       name={input.name}
       render={({ field }) => {
-        const selectedValues: string[] = Array.isArray(field.value)
+        const selectedValues: (string | number)[] = Array.isArray(field.value)
           ? field.value
           : [];
 
-        const toggleOption = (value: string) => {
-          const newValues = selectedValues.includes(value)
-            ? selectedValues.filter((v) => v !== value)
-            : [...selectedValues, value];
+        // 🔥 Toggle con soporte string | number
+        const toggleOption = (rawValue: string | number) => {
+          const normalized = selectedValues.map((v) => normalize(v));
+          const value = normalize(rawValue);
+
+          const exists = normalized.includes(value);
+
+          const newValues = exists
+            ? selectedValues.filter((v) => normalize(v) !== value)
+            : [...selectedValues, rawValue]; // mantiene tipo original
+
           field.onChange(newValues);
         };
 
         return (
           <FormItem className="flex flex-col rounded-lg border p-3 shadow bg-blue-100/20">
             <FormLabel><b>{input.label}</b></FormLabel>
-            {input.description && <FormDescription>{input.description}</FormDescription>}
+
+            {input.description && (
+              <FormDescription>{input.description}</FormDescription>
+            )}
 
             <FormControl>
               <Popover open={open} onOpenChange={setOpen}>
@@ -92,10 +111,15 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                       <div className="flex flex-wrap gap-1">
                         {selectedValues.map((val) => {
                           const option = lista.find(
-                            (item) => getValue(item).toString() === val
+                            (item) =>
+                              normalize(getValue(item)) === normalize(val)
                           );
+
                           return (
-                            <Badge key={`${input.name}-${val}-ms`} variant="secondary">
+                            <Badge
+                              key={`${input.name}-${normalize(val)}-ms`}
+                              variant="secondary"
+                            >
                               {option?.name ?? val}
                             </Badge>
                           );
@@ -104,6 +128,7 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                     ) : (
                       <span>{input.placeHolder ?? "Selecciona..."}</span>
                     )}
+
                     <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -113,17 +138,20 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
                     <CommandInput placeholder="Buscar..." />
                     <CommandList>
                       <CommandEmpty>No hay resultados.</CommandEmpty>
+
                       <CommandGroup>
                         {lista.map((item) => {
-                          const value = getValue(item).toString();
-                          const selected = selectedValues.includes(value);
+                          const rawValue = getValue(item);
+                          const value = normalize(rawValue);
+
+                          const selected = selectedValues
+                            .map((v) => normalize(v))
+                            .includes(value);
+
                           return (
                             <CommandItem
                               key={`${value}-ms`}
-                              onSelect={() => {
-                                handleOnChage(value,input,field)
-                                toggleOption(value)}
-                              }
+                              onSelect={() => toggleOption(rawValue)}
                             >
                               <Check
                                 className={cn(
