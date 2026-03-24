@@ -44,7 +44,7 @@ export interface IUserRecord {
     tags: string[];
     ordenItems?: string[];
     cycles?: unknown[];
-    shoppingPreferences?: string[];
+    shoppingPreferences?: number[];
     contacts?: Record<string,any>[],
 }
 
@@ -70,6 +70,7 @@ export default function FormBasics() {
     bloodType: "",
     otpCode: "",
     ordenItems: [],
+    shoppingPreferences: [1,2,3],
     contacts:[
       {
         "name": "juan XX",
@@ -154,13 +155,14 @@ export default function FormBasics() {
       iconsLeft: [Mail],
     },
     listConfig: {
+      optionLabel:'name',
       list: [
-        { id: 1, name: "Tecnología", value: "technology" },
-        { id: 2, name: "Moda", value: "fashion" },
-        { id: 3, name: "Hogar", value: "home" },
-        { id: 4, name: "Deportes", value: "sports" },
-        { id: 5, name: "Belleza", value: "beauty" },
-        { id: 6, name: "Viajes", value: "travel" }
+        { id: 1, name: "Tecnología", value: 1 },
+        { id: 2, name: "Moda", value: 2 },
+        { id: 3, name: "Hogar", value: 3 },
+        { id: 4, name: "Deportes", value: 4 },
+        { id: 5, name: "Belleza", value: 5 },
+        { id: 6, name: "Viajes", value: 6 }
       ],
       onOptionChange: (item:any) => {},
     },
@@ -237,15 +239,15 @@ export default function FormBasics() {
     inputType: InputTypes.SELECT,
     listConfig: {
       list: [
-        { id: 1, name: "República Dominicana", value: "RD" },
-        { id: 2, name: "México", value: "MX" },
-        { id: 3, name: "Colombia", value: "CO" },
+        { id: 1, name: "República Dominicana", value: 1 },
+        { id: 2, name: "México", value: 2 },
+        { id: 3, name: "Colombia", value: 3 },
       ],
       onOptionChange: () => {},
     },
     // 👇 Aquí usas showWhen de verdad
     showWhen: (values) => values.continent == "2",
-    zodType: z.string("requerido").min(1),
+    // zodType: z.string("requerido").min(1),
   },
 
 
