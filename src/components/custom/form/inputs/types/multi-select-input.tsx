@@ -83,7 +83,6 @@ const FieldMultiSelect = ({ form, input, isSubmitting }: Props) => {
           const newValues = exists
             ? selectedValues.filter((v) => normalize(v) !== value)
             : [...selectedValues, rawValue]; // mantiene tipo original
-
           field.onChange(newValues);
         };
 
