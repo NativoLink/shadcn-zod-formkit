@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [3.0.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.0.0...v3.0.1) (2026-03-25)
+
+### Bug Fixes
+
+* **multi-select:** Ya permite el que el value pueda ser number o string, y cargar los valores por defecto correctamente ([3d92dba](https://github.com/NativoLink/shadcn-zod-formkit/commit/3d92dbab539411604181bd1aea5b0e0bbf178e68))
+* **multi-select:** Ya permite el que el value pueda ser number o string, y cargar los valores por defecto correctamente ([ef22d71](https://github.com/NativoLink/shadcn-zod-formkit/commit/ef22d712e9bab3dbbf904b8a9477f29d2df23d21))
+
 ## [3.0.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v2.0.1...v3.0.0) (2026-03-04)
 
 ### ⚠ BREAKING CHANGES
