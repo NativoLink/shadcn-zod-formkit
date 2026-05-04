@@ -112,6 +112,7 @@ export default function ExampleWizardForm() {
     country: '1',
     isActive: false,
     favoriteColor: '#000000',
+    salaryAverage: 0,
     salary: 0,
     age: 25,
     volume: 50,

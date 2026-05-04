@@ -104,6 +104,7 @@ export default function FormBasics() {
 
     name: "username",
     label: "Username",
+    classNameGroupInput:"h-16",
     inputType: InputTypes.TEXT_GROUP,
     infoTooltip:"Your unique username to login",
     inputGroupConfig:{

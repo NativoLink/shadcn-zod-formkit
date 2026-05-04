@@ -58,6 +58,8 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   placeHolder?: string
   description?: string
   className?: string
+  classNameInput?: string
+  classNameGroupInput?: string
   inputType?: InputTypes
   keyboardType?: TextInputType
   disabled?: boolean

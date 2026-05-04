@@ -123,7 +123,7 @@ export const CustomInputGroup = ({
   //   setIsValid(isValidField(input, form));
   // },[input])
   return (
-    <InputGroup>
+    <InputGroup className={input.classNameGroupInput ?? 'h-10'}>
       {/* Iconos izquierda */}
       {(iconsLeft.length > 0 || textLeft) && (
         <InputGroupAddon>
@@ -136,6 +136,7 @@ export const CustomInputGroup = ({
 
       {/* Input principal */}
       <InputGroupInput
+        className={input.classNameInput ?? 'h-full text-xl font-semibold'}
         placeholder={input.placeHolder}
         disabled={input.disabled || isSubmitting}
         onBlur={field?.onBlur}
