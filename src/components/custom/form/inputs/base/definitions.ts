@@ -103,6 +103,19 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
     accept: string // tipos de archivo permitidos
     multiple: boolean // múltiples archivos
     maxSize: number
+
+    // PROPS TODO: implementar estas funcionalidades
+    dragAndDrop?: boolean;  
+    progressBar?: boolean;  
+    uploadUrl?: string;  
+    onUploadProgress?: (progress: number) => void;  
+    onUploadComplete?: (response: any) => void;  
+    previewFormats?: {  
+      image?: boolean;  
+      video?: boolean;  
+      audio?: boolean;  
+      pdf?: boolean;  
+    };  
   }
 
   inputGroupConfig?: inputGroudConfig
@@ -141,6 +154,33 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   ariaLabel?: string
   ariaDescribedBy?: string
   ariaRequired?: boolean
+
+  // PROPS TODO: implementar estas funcionalidades
+  autoComplete?: string;  
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';  
+  spellCheck?: boolean;  
+  inputNumberConfig?: inputNumberConfig
+  inputDateConfig?: inputDateConfig
+}
+
+interface  inputDateConfig {  
+  minDate?: Date,  
+  maxDate?: Date,  
+  disabledDates?: Date[],  
+  format?: string,  
+  showWeekNumbers?: boolean,  
+  firstDayOfWeek?: number
+} 
+
+
+interface inputNumberConfig {  
+  decimalPlaces?: number,  
+  thousandsSeparator?: string,  
+  decimalSeparator?: string,  
+  prefix?: string,  
+  suffix?: string 
+  allowNegative?: boolean,  
+  allowDecimals?: boolean  
 }
 
 interface inputGroudConfig {
@@ -152,6 +192,12 @@ interface inputGroudConfig {
 
   textLeft?: string;
   textRight?: string;
+
+  // PROPS TODO: implementar estas funcionalidades
+  transform?: 'uppercase' | 'lowercase' | 'capitalize';  
+  debounceMs?: number; // para onChange con debounce  
+  copyButton?: boolean; // botón para copiar valor  
+  clearButton?: boolean;
 }
 
 

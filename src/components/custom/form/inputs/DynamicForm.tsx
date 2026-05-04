@@ -7,11 +7,12 @@ import { getDefaultValues, getDynamicSchema } from "./input-factory";
 import { FormErrorsAlert } from "./base/form-errors";
 import { Button, Card, CardContent, CardDescription, CardTitle, Form } from '@/src/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Pencil, Save } from "lucide-react";
+import { Loader2, LucideProps, Pencil, Save } from "lucide-react";
 import { ZodObject, z } from "zod";
 import { FormFieldsGrid } from "./FormFieldsGrid";
 import { ButtonGroup } from "@/src/components/ui/button-group";
 import { cn } from "@/src/lib/utils";
+import React from "react";
 
 type alertPositionType = 'up' | 'down';
 
@@ -45,6 +46,8 @@ interface Props<T extends Record<string, any>> {
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
   debug?:boolean
+
+  submitBtnIcon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
 
 
 
@@ -81,6 +84,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   isWrapInWizard = false,
   totalSteps = 0,
   currentStep = 1,
+  submitBtnIcon = Save
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
@@ -175,7 +179,7 @@ export const DynamicForm = <T extends Record<string, any>>({
             ) : (
               <>
                 {submitBtnLabel}
-                {(totalSteps == 0 || totalSteps == currentStep) && (<Save className="h-5 w-5 mr-2" />)}
+                {(totalSteps == 0 || totalSteps == currentStep) && submitBtnIcon && React.createElement(submitBtnIcon, { className: "h-5 w-5 mr-2" })}
               </>
             )}
           </Button>

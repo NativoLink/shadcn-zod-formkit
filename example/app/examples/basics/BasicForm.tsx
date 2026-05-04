@@ -1,6 +1,6 @@
 'use client'
 import { Card } from '@/components/ui/card';
-import { Earth, Hash, Lock, Mail, User } from 'lucide-react';
+import { Earth, Hash, Lock, Mail, Search, User } from 'lucide-react';
 import { useState } from 'react';
 import { 
   DynamicForm,
@@ -31,6 +31,7 @@ export interface IUserRecord {
     isActive: boolean;
     favoriteColor: string;
     salary: number;
+    salaryAverage: number;
     age: number;
     volume: number;
     passportPhoto: undefined;
@@ -61,6 +62,7 @@ export default function FormBasics() {
     isActive: false,
     favoriteColor: '#000000',
     salary: 0,
+    salaryAverage: 123987.75,
     age: 25,
     volume: 50,
     passportPhoto: undefined,
@@ -118,6 +120,21 @@ export default function FormBasics() {
       .string("Es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(20, "El nombre no puede tener más de 20 caracteres") ,
+  },
+
+  {  
+    label: "salaryAverage",
+    name: "salaryAverage",  
+    inputType: InputTypes.NUMBER,  
+    // numberFormat: {  
+    //   decimalPlaces: 2,  
+    //   thousandsSeparator: ',',  
+    //   decimalSeparator: '.',  
+    //   prefix: '$',  
+    //   suffix: 'USD'  
+    // },  
+    // allowNegative: false,  
+    // allowDecimals: true  
   },
   [
     {
@@ -613,6 +630,7 @@ export default function FormBasics() {
           
             {/* <ExampleWizardForm /> */}
             <DynamicForm<IUserRecord>
+              // submitBtnIcon={Search}
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
