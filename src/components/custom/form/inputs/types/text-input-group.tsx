@@ -16,7 +16,7 @@ import {
   InputGroupInput, 
   InputGroupText 
 } from "@/src/components/ui/input-group";
-import { FieldProps, TextInputType } from "../base/definitions";
+import { FieldProps, inputNumberConfig, TextInputType } from "../base/definitions";
 import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form";
 import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff, LucideProps } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
@@ -57,6 +57,7 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
                   field,
                   form,
                   isValid,
+                  autoCapitalize: input.autoCapitalize
                 })
               }
             </FormControl>
@@ -81,6 +82,7 @@ interface customInputGroup {
   form: UseFormReturn, 
   isSubmitting?: boolean,
   isValid?: boolean,
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters',
   setShowPassword?: Dispatch<SetStateAction<boolean>>, 
   autoValidate?: boolean, 
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined
@@ -93,8 +95,9 @@ export const CustomInputGroup = ({
   form,
   isSubmitting,
   onChange,
-  isValid
-  }: customInputGroup) => {
+  isValid,
+  autoCapitalize = 'none',
+}: customInputGroup) => {
   
   const groupConfig = input.inputGroupConfig;
   const infoTooltip = input?.infoTooltip;
@@ -118,6 +121,81 @@ export const CustomInputGroup = ({
   const isNumberField = input.keyboardType === TextInputType.NUMBER;
 
   const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField
+
+  const applyMask = (value: string, mask?: string | RegExp) => {  
+    if (!mask) return value;  
+      
+    if (typeof mask === 'string') {  
+      let result = '';  
+      let valueIndex = 0;  
+        
+      for (let i = 0; i < mask.length && valueIndex < value.length; i++) {  
+        if (mask[i] === '#') {  
+          result += value[valueIndex++];  
+        } else {  
+          result += mask[i];  
+        }  
+      }  
+      return result;  
+    } else if (mask instanceof RegExp) {  
+      const matches = value.match(mask);  
+      return matches ? matches.join('') : value;  
+    }  
+      
+    return value;  
+  }; 
+
+  const formatNumber = (value: string, config?: inputNumberConfig) => {  
+    if (!config || value === "") return value;  
+      
+    let numValue = parseFloat(value);  
+    if (isNaN(numValue)) return value;  
+      
+    // Aplicar restricciones  
+    if (config.min !== undefined && numValue < config.min) return config.min.toString();  
+    if (config.max !== undefined && numValue > config.max) return config.max.toString();  
+    if (!config.allowDecimals) numValue = Math.floor(numValue);  
+      
+    // Formatear con separadores  
+    const options: Intl.NumberFormatOptions = {  
+      minimumFractionDigits: config.allowDecimals ? config.decimalPlaces || 2 : 0,  
+      maximumFractionDigits: config.allowDecimals ? config.decimalPlaces || 2 : 0,  
+    };  
+      
+    let formatted = numValue.toLocaleString('en-US', options);  
+      
+    // Reemplazar separadores si es necesario  
+    if (config.thousandsSeparator) {  
+      formatted = formatted.replace(/,/g, config.thousandsSeparator);  
+    }  
+    if (config.decimalSeparator && config.decimalSeparator !== '.') {  
+      formatted = formatted.replace('.', config.decimalSeparator);  
+    }  
+      
+    // Agregar prefijo y sufijo  
+    return `${config.prefix || ''}${formatted}${config.suffix || ''}`;  
+  }; 
+
+  const applyTransform = (value: string, transform?: FieldProps['transform']) => {  
+    if (!transform) return value;  
+      
+    if (typeof transform === 'function') {  
+      return transform(value);  
+    }  
+      
+    switch (transform) {  
+      case 'uppercase':  
+        return value.toUpperCase();  
+      case 'lowercase':  
+        return value.toLowerCase();  
+      case 'capitalize':  
+        return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();  
+      case 'trim':  
+        return value.trim();  
+      default:  
+        return value;  
+    }  
+  }; 
   
   // useEffect(()=>{
   //   setIsValid(isValidField(input, form));
@@ -154,8 +232,23 @@ export const CustomInputGroup = ({
             }
             let value: any = e.target.value;
             if (isNumberField) {
-              value = e.target.value === "" ? "" : Number(e.target.value); // 👈 conversión si es number
-            }
+              const numConfig = input.inputNumberConfig;  
+    
+              // Limpiar valor para obtener solo números  
+              const cleanValue = value.replace(/[^\d.-]/g, '');  
+              const numValue = cleanValue === "" ? "" : Number(cleanValue);  
+                
+              // Formatear si está configurado  
+              if (numConfig?.formatOnInput) {  
+                value = formatNumber(cleanValue, numConfig);  
+              } else {  
+                value = numValue;  
+              }  
+            } else {  
+              let processedValue = e.target.value;  
+              processedValue = applyMask(processedValue, input.mask);  
+              value = applyTransform(processedValue, input.transform);  
+            }  
             field?.onChange(value);
             isValidField(input, form);
             handleOnChage(value, input, field);

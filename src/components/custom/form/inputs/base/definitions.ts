@@ -119,7 +119,8 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
       pdf?: boolean;  
     };  
   }
-
+  
+  transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'trim' | ((value: any) => any); 
   inputGroupConfig?: inputGroudConfig
 
   // ✨ New UX improvements
@@ -175,15 +176,19 @@ interface  inputDateConfig {
 } 
 
 
-interface inputNumberConfig {  
-  decimalPlaces?: number,  
-  thousandsSeparator?: string,  
-  decimalSeparator?: string,  
-  prefix?: string,  
-  suffix?: string 
-  allowNegative?: boolean,  
-  allowDecimals?: boolean  
-}
+export interface inputNumberConfig {  
+  allowDecimals?: boolean;  
+  decimalPlaces?: number;  
+  thousandsSeparator?: string;  
+  decimalSeparator?: string;  
+  prefix?: string;  
+  suffix?: string;  
+  allowNegative?: boolean;  
+  min?: number;  
+  max?: number;  
+  step?: number;  
+  formatOnInput?: boolean;  
+} 
 
 interface inputGroudConfig {
 

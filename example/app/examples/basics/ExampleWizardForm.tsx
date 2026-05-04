@@ -110,6 +110,8 @@ export default function ExampleWizardForm() {
     email: "johndoe@example.com",
     continent: '2',
     country: '1',
+    phone: "1234567890",
+    price: 19.99,
     isActive: false,
     favoriteColor: '#000000',
     salaryAverage: 0,

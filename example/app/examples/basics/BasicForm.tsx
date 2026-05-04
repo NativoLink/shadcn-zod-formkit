@@ -30,6 +30,7 @@ export interface IUserRecord {
     email: string;
     isActive: boolean;
     favoriteColor: string;
+    price: number;
     salary: number;
     salaryAverage: number;
     age: number;
@@ -39,6 +40,7 @@ export interface IUserRecord {
     gender: undefined;
     birthDate: undefined;
     bloodType: string;
+    phone: string;
     otpCode: string;
     secretKeys: any[];
     notifications: never[];
@@ -65,12 +67,14 @@ export default function FormBasics() {
     salaryAverage: 123987.75,
     age: 25,
     volume: 50,
+    price: 19.99,
     passportPhoto: undefined,
     alarmTime: undefined,
     gender: undefined,
     birthDate: undefined,
     bloodType: "",
     otpCode: "",
+    phone: "",
     ordenItems: [],
     shoppingPreferences: [1,2,3],
     contacts:[
@@ -136,6 +140,40 @@ export default function FormBasics() {
     // },  
     // allowNegative: false,  
     // allowDecimals: true  
+  },
+  {  
+    name: "phone",  
+    label: "Teléfono",  
+    inputType: InputTypes.TEXT_GROUP,
+    // keyboardType: TextInputType.NUMBER,   
+    // mask: "###-###-####",  
+    transform: "lowercase",
+    // transform: (value) => {  
+    //   // Formatear teléfono: (123) 456-7890  
+    //   const cleaned = value.replace(/\D/g, '');  
+    //   if (cleaned.length === 10) {  
+    //     return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;  
+    //   }  
+    //   return cleaned;  
+    // },  
+    // zodType: z.string().regex(/^\d{3}-\d{3}-\d{4}$/, "Formato inválido"),
+    // zodType: z.string().regex(/^\d{10}$/, "Debe tener 10 dígitos")
+  },
+  {  
+    name: "price",  
+    label: "Precio",  
+    inputType: InputTypes.NUMBER,  
+    mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/,
+    // keyboardType: TextInputType.NUMBER,
+    inputNumberConfig: {  
+      allowDecimals: true,  
+      decimalPlaces: 2,  
+      prefix: "$",  
+      formatOnInput: true,  
+      min: 0,  
+      max: 999999  
+    },  
+    zodType: z.coerce.number("Debe ser un número").min(0).max(999999)  
   },
   [
     {
@@ -422,23 +460,23 @@ export default function FormBasics() {
   //   zodType: z.string(validationMessages.required)
   //     .min(1, "Selecciona un tipo de sangre"),
   // },
-  // {
-  //   name: "salary",
-  //   label: "Salary",
-  //   inputType: InputTypes.CURRENCY,
-  //   zodType: z.number().min(100),
-  //   inputGroupConfig:{
-  //     autoValidIcons: true,
-  //     iconsLeft: [Hash]
-  //   },
-  //   currencyFormat: {
-  //     style: 'currency',
-  //     currency: 'DOP',
-  //     minimumFractionDigits: 2,
-  //     maximumFractionDigits: 2,
-  //   }
-  //   // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/, // e.g: 1,234.56
-  // },
+  {
+    name: "salary",
+    label: "Salary ...",
+    inputType: InputTypes.CURRENCY,
+    zodType: z.number().min(100),
+    inputGroupConfig:{
+      autoValidIcons: true,
+      iconsLeft: [Hash]
+    },
+    currencyFormat: {
+      style: 'currency',
+      currency: 'DOP',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    },
+    mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/, // e.g: 1,234.56
+  },
   // {
   //   name: "tags",
   //   label: "Tags",
