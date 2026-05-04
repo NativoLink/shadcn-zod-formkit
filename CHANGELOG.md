@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.1.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.0.2...v3.1.0) (2026-05-04)
+
+### Features
+
+* **DynamicForm:** implementando submitBtnIcon para poder tener un icono dinamico en el btn del formulario por defecto es el icon Save de 'lucide-react' ([009092a](https://github.com/NativoLink/shadcn-zod-formkit/commit/009092ad9b65c4839882e786ad10db195c874612))
+
 ## [3.0.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.0.1...v3.0.2) (2026-03-25)
 
 ### Bug Fixes
