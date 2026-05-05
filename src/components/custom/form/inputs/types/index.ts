@@ -38,5 +38,11 @@ export * from './autocomplete-input';
 
 // ✨ New input types (v1.36.0)
 export * from './email-input';
+// export * from './search-input';
 export * from './location-picker-input';
-// export * from './search-input'; // TODO
+export * from './date-range-input';
+export * from './country-select-input';
+export * from './range-input';
+
+// ✨ New input types (v1.37.0)
+export * from './file-upload-input';

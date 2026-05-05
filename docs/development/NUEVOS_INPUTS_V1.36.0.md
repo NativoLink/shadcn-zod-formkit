@@ -175,6 +175,149 @@ interface LocationPickerInputProps {
 />
 ```
 
+---
+
+### 4. 🗓️ DATE_RANGE Input
+
+**Características:**
+- ✅ Selección de rango con calendario dual
+- ✅ Selector de fechas intuitivo
+- ✅ Validación de rango `from <= to`
+- ✅ Formato visible del rango
+- ✅ Integración con React Hook Form
+
+**Datos retornados:**
+```typescript
+interface DateRangeValue {
+  from?: Date;
+  to?: Date;
+}
+```
+
+**Props:**
+```typescript
+interface DateRangeInputProps {
+  value?: DateRangeValue;
+  onChange: (value: DateRangeValue) => void;
+  label?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  required?: boolean;
+  error?: string;
+  className?: string;
+}
+```
+
+**Ejemplo de uso:**
+```typescript
+<DateRangeInput
+  value={dateRange}
+  onChange={setDateRange}
+  label="Rango de fechas"
+  placeholder="Selecciona un rango"
+  required
+/>
+```
+
+**Implementación:**
+- `src/components/custom/form/inputs/types/date-range-input.tsx`
+- `example/app/examples/advanced/DateRangeForm.tsx`
+- Tab en ejemplos: "🗓️ Date Range"
+
+---
+
+### 5. 🌍 COUNTRY_SELECT Input
+
+**Características:**
+- ✅ Dropdown searchable con código ISO y banderas
+- ✅ Búsqueda por nombre o código de país
+- ✅ Select compatible con teclado
+- ✅ Dropdown accesible y claro
+
+**Datos retornados:**
+```typescript
+string // Country code (ej: "US", "CA", "MX")
+```
+
+**Props:**
+```typescript
+interface CountrySelectInputProps {
+  value?: string;
+  onChange: (value: string) => void;
+  label?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  required?: boolean;
+  error?: string;
+  className?: string;
+}
+```
+
+**Ejemplo de uso:**
+```typescript
+<CountrySelectInput
+  value={country}
+  onChange={setCountry}
+  label="País"
+  placeholder="Selecciona un país"
+  required
+/>
+```
+
+**Implementación:**
+- `src/components/custom/form/inputs/types/country-select-input.tsx`
+- `example/app/examples/advanced/CountrySelectForm.tsx`
+- Tab en ejemplos: "🌍 Country Select"
+
+---
+
+### 6. 📊 RANGE Input
+
+**Características:**
+- ✅ Slider de doble valor (min/max)
+- ✅ Valores visibles y fáciles de ajustar
+- ✅ Validación de rango con Zod
+- ✅ Ideal para precios, edades y rangos cuantitativos
+
+**Datos retornados:**
+```typescript
+interface RangeValue {
+  min: number;
+  max: number;
+}
+```
+
+**Props:**
+```typescript
+interface RangeInputProps {
+  value?: [number, number];
+  onChange: (value: [number, number]) => void;
+  label?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  className?: string;
+}
+```
+
+**Ejemplo de uso:**
+```typescript
+<RangeInput
+  value={[priceMin, priceMax]}
+  onChange={setPriceRange}
+  label="Rango de precio"
+  min={0}
+  max={1000}
+  step={10}
+/>
+```
+
+**Implementación:**
+- `src/components/custom/form/inputs/types/range-input.tsx`
+- `example/app/examples/advanced/RangeForm.tsx`
+- Tab en ejemplos: "📊 Range"
+
 **APIs utilizadas:**
 - **OpenStreetMap**: Visualización del mapa (gratuito, sin API key)
 - **Nominatim**: Geocoding y reverse geocoding (gratuito, sin API key)

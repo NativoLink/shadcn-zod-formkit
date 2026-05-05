@@ -39,6 +39,11 @@ import {
   // ✨ New input types (v1.36.0)
   EmailInput,
   LocationPickerInput,
+  DateRangeInput,
+  CountrySelectInput,
+  RangeInput,
+  // ✨ New input types (v1.37.0)
+  FileUploadInput,
   // SwitchListInput, // ES LO MISMO QUE => GroupedSwitchInput
   // CheckListInput,
 } from "./types";
@@ -94,8 +99,14 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   
   // ✨ New input types (v1.36.0)
   [InputTypes.EMAIL]: EmailInput,
-  [InputTypes.SEARCH]: TextInput, // TODO: Implement SearchInput
+  [InputTypes.SEARCH]: TextInput, // SearchInput component is currently a function component
   [InputTypes.LOCATION_PICKER]: LocationPickerInput,
+  [InputTypes.DATE_RANGE]: DateRangeInput,
+  [InputTypes.COUNTRY_SELECT]: CountrySelectInput,
+  [InputTypes.RANGE]: RangeInput,
+  
+  // ✨ New input types (v1.37.0)
+  [InputTypes.FILE_UPLOAD]: FileUploadInput,
   
   //ToDos: ============================================================
   [InputTypes.SLIDER]: SliderInput, //ToDo: // PENDIENTE ... VISUALMENTE NO SE VE BIEN.!!!

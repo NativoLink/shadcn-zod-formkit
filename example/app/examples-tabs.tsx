@@ -22,6 +22,42 @@ const LocationPickerForm = dynamic(() => import("./examples/advanced/LocationPic
   ),
 });
 
+const DateRangeForm = dynamic(() => import("./examples/advanced/DateRangeForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+    </div>
+  ),
+});
+
+const CountrySelectForm = dynamic(() => import("./examples/advanced/CountrySelectForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+    </div>
+  ),
+});
+
+const RangeForm = dynamic(() => import("./examples/advanced/RangeForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+    </div>
+  ),
+});
+
+const FileUploadForm = dynamic(() => import("./examples/advanced/FileUploadForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+    </div>
+  ),
+});
+
 interface ITab {
   name: string,
   value?: string,
@@ -33,7 +69,11 @@ export function ExamplesTabs() {
     { name: 'Basics', children: <BasicForm/>},
     { name: 'Advanced', children: <AccordionGroupForm />},
     { name: '✨ New Features', children: <NewFeaturesForm />},
-    { name: '📍 Location Picker', children: <LocationPickerForm />}
+    { name: '📍 Location Picker', children: <LocationPickerForm />},
+    { name: '🗓️ Date Range', children: <DateRangeForm />},
+    { name: '🌍 Country Select', children: <CountrySelectForm />},
+    { name: '📊 Range', children: <RangeForm />},
+    { name: '📁 File Upload', children: <FileUploadForm />}
   ]
 
   return (

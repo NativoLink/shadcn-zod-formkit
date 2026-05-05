@@ -44,6 +44,12 @@ export enum InputTypes {
   EMAIL = "email",
   SEARCH = "search",
   LOCATION_PICKER = "location_picker",
+  DATE_RANGE = "date_range",
+  COUNTRY_SELECT = "country_select",
+  RANGE = "range",
+  
+  // ✨ New input types (v1.37.0)
+  FILE_UPLOAD = "file_upload",
 }
 
 export const inputFieldComp = [

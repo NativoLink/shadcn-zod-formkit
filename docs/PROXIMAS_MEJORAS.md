@@ -46,7 +46,7 @@
 
 ---
 
-### 3. 🗓️ DATE_RANGE Input (Prioridad: ALTA)
+### 3. 🗓️ DATE_RANGE Input (Prioridad: ALTA) ✅ COMPLETADO
 **¿Por qué es importante?**
 - Muy común en filtros y reportes
 - Mejor UX que dos campos separados
@@ -65,9 +65,22 @@
 - Análisis de datos
 - Historial de transacciones
 
+**Datos retornados:**
+```typescript
+{
+  from?: Date;
+  to?: Date;
+}
+```
+
+**Implementación:**
+- Archivo: `src/components/custom/form/inputs/types/date-range-input.tsx`
+- Ejemplo completo: `example/app/examples/advanced/DateRangeForm.tsx`
+- Tab en ejemplos: "🗓️ Date Range"
+
 ---
 
-### 4. 🌍 COUNTRY_SELECT Input (Prioridad: MEDIA)
+### 4. 🌍 COUNTRY_SELECT Input (Prioridad: MEDIA) ✅ COMPLETADO
 **¿Por qué es importante?**
 - Formularios internacionales
 - Mejor UX con banderas
@@ -85,9 +98,19 @@
 - Registro internacional
 - Configuración de idioma
 
+**Datos retornados:**
+```typescript
+string // Country code (e.g., "US", "CA", "MX")
+```
+
+**Implementación:**
+- Archivo: `src/components/custom/form/inputs/types/country-select-input.tsx`
+- Ejemplo completo: `example/app/examples/advanced/CountrySelectForm.tsx`
+- Tab en ejemplos: "🌍 Country Select"
+
 ---
 
-### 5. 📊 RANGE Input (Prioridad: MEDIA)
+### 5. 📊 RANGE Input (Prioridad: MEDIA) ✅ COMPLETADO
 **¿Por qué es importante?**
 - Filtros de precio muy comunes
 - Mejor UX que dos inputs numéricos
@@ -104,6 +127,19 @@
 - Filtro de precios
 - Rango de edad
 - Filtro de calificaciones
+
+**Datos retornados:**
+```typescript
+{
+  min: number;
+  max: number;
+}
+```
+
+**Implementación:**
+- Archivo: `src/components/custom/form/inputs/types/range-input.tsx`
+- Ejemplo completo: `example/app/examples/advanced/RangeForm.tsx`
+- Tab en ejemplos: "📊 Range"
 
 ---
 
@@ -154,6 +190,117 @@
 - Componente de mapa: `src/components/custom/form/inputs/types/map-component.tsx`
 - Ejemplo completo: `example/app/examples/advanced/LocationPickerForm.tsx`
 - Tab en ejemplos: "📍 Location Picker"
+
+---
+
+### 6. 📁 FILE_UPLOAD Input (Prioridad: ALTA)
+**¿Por qué es importante?**
+- Carga de archivos es fundamental en apps modernas
+- Mejora significativa en UX con drag & drop
+- Casos de uso muy comunes
+
+**Características:**
+```typescript
+- ✅ Drag & drop para archivos
+- ✅ Barra de progreso de carga
+- ✅ Validación de tipos de archivo
+- ✅ Validación de tamaño máximo
+- ✅ Vista previa (imágenes, videos, audio, PDF)
+- ✅ Múltiples archivos o un solo archivo
+- ✅ Callbacks de progreso y completación
+- ✅ Cancelación de carga
+- ✅ Manejo de errores de upload
+```
+
+**Casos de uso:**
+- Carga de avatar/perfil
+- Carga de documentos (facturas, contratos)
+- Carga de imágenes de productos
+- Carga de multimedia
+- Carga de certificados
+
+**Datos retornados:**
+```typescript
+interface FileData {
+  name: string;
+  size: number;
+  type: string;
+  lastModified: number;
+  file?: File;
+  preview?: string;  // Data URL para vista previa
+  uploadProgress?: number;
+  uploadedUrl?: string;  // URL después de upload
+}
+```
+
+**Props Configuration (FileConfig):**
+```typescript
+interface FileConfig {
+  dragAndDrop?: boolean;           // Habilitar drag & drop (default: true)
+  progressBar?: boolean;            // Mostrar barra de progreso (default: true)
+  uploadUrl?: string;               // URL del endpoint para subir
+  onUploadProgress?: (progress: number) => void;  // Callback de progreso
+  onUploadComplete?: (response: any) => void;    // Callback de completación
+  previewFormats?: {
+    image?: boolean;               // Preview para imágenes (default: true)
+    video?: boolean;               // Preview para videos (default: false)
+    audio?: boolean;               // Preview para audio (default: false)
+    pdf?: boolean;                 // Preview para PDFs (default: false)
+  };
+  maxSize?: number;                // Tamaño máximo en bytes (default: 10MB)
+  maxFiles?: number;               // Número máximo de archivos
+  acceptedFormats?: string[];      // Tipos MIME aceptados
+  multiple?: boolean;              // Permitir múltiples archivos
+}
+```
+
+**Ejemplo de uso:**
+```typescript
+<FileUploadInput
+  value={files}
+  onChange={setFiles}
+  label="Cargar Documentos"
+  placeholder="Arrastra archivos aquí"
+  required
+  dragAndDrop={true}
+  progressBar={true}
+  uploadUrl="/api/upload"
+  onUploadProgress={(progress) => console.log(`${progress}%`)}
+  onUploadComplete={(response) => console.log('Upload completado')}
+  previewFormats={{
+    image: true,
+    pdf: true,
+  }}
+  maxSize={50 * 1024 * 1024}  // 50MB
+  acceptedFormats={['image/*, application/pdf']}
+  multiple={true}
+/>
+```
+
+**Integración con DynamicForm:**
+```typescript
+{
+  name: 'documents',
+  label: 'Documentos Requeridos',
+  inputType: InputTypes.FILE_UPLOAD,
+  zodType: z.array(z.object({
+    name: z.string(),
+    size: z.number(),
+    type: z.string(),
+    uploadedUrl: z.string().url(),
+  })),
+  required: true,
+  dragAndDrop: true,
+  progressBar: true,
+  uploadUrl: '/api/upload',
+  previewFormats: {
+    image: true,
+    pdf: true,
+  },
+  maxFiles: 5,
+  maxSize: 50 * 1024 * 1024,
+}
+```
 
 ---
 
@@ -263,29 +410,30 @@ Campo "password":
 
 ### Mes 2: Inputs Avanzados
 **Semana 1-2:**
-- [ ] DATE_RANGE Input
+- [x] DATE_RANGE Input ✅
 - [ ] Documentación y ejemplos
 
 **Semana 3-4:**
-- [ ] COUNTRY_SELECT Input
-- [ ] RANGE Input
+- [x] COUNTRY_SELECT Input ✅
+- [x] RANGE Input ✅
+- [x] Documentación y ejemplos ✅
+
+### Mes 3: Inputs & Features Avanzados
+**Semana 1-2:**
+- [ ] FILE_UPLOAD Input
 - [ ] Documentación y ejemplos
 
-### Mes 3: Features Avanzados
-**Semana 1-2:**
+**Semana 3-4:**
 - [ ] Conditional Logic Visual Editor
 - [ ] Documentación y ejemplos
 
-**Semana 3-4:**
+### Mes 4: Validación y Features Avanzados
+**Semana 1-2:**
 - [ ] Validation Rules Builder
 - [ ] Documentación y ejemplos
 
-### Mes 4: Polish & Extras
-**Semana 1-2:**
-- [ ] Theme System
-- [ ] Documentación y ejemplos
-
 **Semana 3-4:**
+- [ ] Theme System
 - [ ] Multi-Step Forms
 - [ ] i18n Support
 - [ ] Documentación completa
@@ -320,6 +468,13 @@ Campo "password":
 - Agregar segundo calendario
 - Agregar presets
 - Agregar validación de rango
+
+### 5. FILE_UPLOAD Input (4-5 días)
+- Implementar drag & drop
+- Agregar barra de progreso
+- Agregar vista previa (imagen, video, audio, PDF)
+- Agregar validación de tamaño y tipo
+- Integración con endpoint de upload
 
 ---
 
@@ -366,6 +521,7 @@ Campo "password":
 3. ✅ Conditional Logic Editor (COMPLETADO)
 4. Validation Builder
 5. Theme System
+6. FILE_UPLOAD Input (Drag & Drop/Progress Bar)
 
 ### Alto Impacto, Alto Esfuerzo ⭐
 1. Multi-Step Forms
@@ -385,24 +541,32 @@ Campo "password":
 
 **Para la próxima versión (v1.36.0):**
 
-### Must Have:
+### Must Have: ✅ COMPLETADO
 1. ✅ EMAIL Input (COMPLETADO)
 2. ✅ SEARCH Input (COMPLETADO)
-3. 🚧 LOCATION_PICKER Input (EN PROGRESO)
+3. ✅ LOCATION_PICKER Input (COMPLETADO)
+4. ✅ DATE_RANGE Input (COMPLETADO)
+5. ✅ COUNTRY_SELECT Input (COMPLETADO)
+6. ✅ RANGE Input (COMPLETADO)
 
 ### Should Have:
-1. DATE_RANGE Input
-2. Loading States mejorados
-3. Error Messages mejorados
+1. FILE_UPLOAD Input
+2. Conditional Logic Visual Editor
+3. Validation Rules Builder
+4. Loading States mejorados
+5. Error Messages mejorados
 
 ### Nice to Have:
 1. Success States
 2. Tooltips mejorados
-3. COUNTRY_SELECT Input
+3. Theme System
+4. Multi-Step Forms
 
-**Tiempo estimado:** 2-3 semanas
+**Estado actual:** 6/6 inputs básicos completados ✅ | FILE_UPLOAD en desarrollo
 
-**Impacto:** Alto - Estos inputs y mejoras cubren el 85% de casos de uso comunes
+**Impacto:** Alto - Estos inputs cubren el 90% de casos de uso comunes
+
+**Próximo paso:** FILE_UPLOAD Input 📁 + Conditional Logic Visual Editor 🔄🧠
 
 ---
 
@@ -441,10 +605,19 @@ Opciones para votar:
 **v1.36.0 - En Progreso:**
 - ✅ EMAIL Input (COMPLETADO)
 - ✅ SEARCH Input (COMPLETADO)
-- 🚧 LOCATION_PICKER Input (SIGUIENTE)
-- ⏳ DATE_RANGE Input
+- ✅ LOCATION_PICKER Input (COMPLETADO)
+- ✅ DATE_RANGE Input (COMPLETADO)
+- ✅ COUNTRY_SELECT Input (COMPLETADO)
+- ✅ RANGE Input (COMPLETADO)
+- ⏳ Conditional Logic Visual Editor
 - ⏳ Loading States mejorados
+
+**v1.37.0 - Próximo:**
+- ⏳ FILE_UPLOAD Input
+- ⏳ Documentación y ejemplos
+- ⏳ Validation Rules Builder
+- ⏳ Theme System mejorado
 
 ---
 
-**¡Continuamos con LOCATION_PICKER Input!** 📍🗺️
+**¡Continuamos con FILE_UPLOAD Input!** 📁⬆️

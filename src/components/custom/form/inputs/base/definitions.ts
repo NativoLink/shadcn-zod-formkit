@@ -99,26 +99,8 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
 
   listConfig?: ListConfig
 
-  fileConfig?: {
-    previewSize?: number
-    showPreview?: boolean
-    accept: string // tipos de archivo permitidos
-    multiple: boolean // múltiples archivos
-    maxSize: number
+  fileConfig?: FileConfig
 
-    // PROPS TODO: implementar estas funcionalidades
-    dragAndDrop?: boolean;  
-    progressBar?: boolean;  
-    uploadUrl?: string;  
-    onUploadProgress?: (progress: number) => void;  
-    onUploadComplete?: (response: any) => void;  
-    previewFormats?: {  
-      image?: boolean;  
-      video?: boolean;  
-      audio?: boolean;  
-      pdf?: boolean;  
-    };  
-  }
   
   transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'trim' | ((value: any) => any); 
   inputGroupConfig?: inputGroudConfig
@@ -158,10 +140,10 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   ariaDescribedBy?: string
   ariaRequired?: boolean
 
-  // PROPS TODO: implementar estas funcionalidades
-  autoComplete?: string;  
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';  
-  spellCheck?: boolean;  
+  // Browser input and advanced field configuration
+  autoComplete?: string
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters'
+  spellCheck?: boolean
   inputNumberConfig?: inputNumberConfig
   inputDateConfig?: inputDateConfig
 }
@@ -197,16 +179,38 @@ interface inputGroudConfig {
   iconsLeft?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
   iconsRight?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>[];
 
-  textLeft?: string;
-  textRight?: string;
+  textLeft?: string
+  textRight?: string
 
-  // PROPS TODO: implementar estas funcionalidades
-  transform?: 'uppercase' | 'lowercase' | 'capitalize';  
-  debounceMs?: number; // para onChange con debounce  
-  copyButton?: boolean; // botón para copiar valor  
-  clearButton?: boolean;
+  // Input group enhancements
+  transform?: 'uppercase' | 'lowercase' | 'capitalize'
+  debounceMs?: number // para onChange con debounce
+  copyButton?: boolean // botón para copiar valor
+  clearButton?: boolean
 }
 
+export interface FileConfig {
+    previewSize?: number
+    showPreview?: boolean
+    accept: string // tipos de archivo permitidos
+    multiple: boolean // múltiples archivos
+    maxSize: number
+
+    // File upload enhancements
+    dragAndDrop?: boolean
+    progressBar?: boolean
+    uploadUrl?: string
+    onUploadProgress?: (progress: number) => void
+    onUploadComplete?: (response: any) => void
+    maxFiles?: number // máximo número de archivos
+    acceptedFormats?: string[] // formatos aceptados (ej: ['image/*', 'application/pdf'])
+    previewFormats?: {
+      image?: boolean
+      video?: boolean
+      audio?: boolean
+      pdf?: boolean
+    }
+  }
 
 interface ListConfig {
   children?: ReactNode | ((item: any, index: number) => ReactNode);

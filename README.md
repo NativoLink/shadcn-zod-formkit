@@ -112,6 +112,8 @@ export default function BasicFormExample() {
 
 ## 📚 Available Input Types
 
+> New in v1.36.0: `Date Range`, `Country Select`, `Range`, plus existing `Location Picker` and `Search` inputs.
+
 | Input Type                          | Constant                                  | Description                           |
 |-------------------------------------|-------------------------------------------|---------------------------------------|
 | **Text Input**                      | `InputTypes.TEXT_GROUP`                   | Text input with icon support          |
@@ -126,6 +128,9 @@ export default function BasicFormExample() {
 | **Date Time Picker**                | `InputTypes.DATE_TIME`                    | Date and time selection               |
 | **Time Picker**                     | `InputTypes.TIME`                         | Time selection                        |
 | **Location Picker** ✨              | `InputTypes.LOCATION_PICKER`              | Interactive map with GPS & geocoding  |
+| **Date Range Picker** ✨            | `InputTypes.DATE_RANGE`                   | Range selection with dual calendar    |
+| **Country Select** ✨               | `InputTypes.COUNTRY_SELECT`               | Searchable country dropdown with flags|
+| **Range Input** ✨                  | `InputTypes.RANGE`                        | Min/max slider range input            |
 | **Select**                          | `InputTypes.SELECT`                       | Dropdown select                       |
 | **Multi Select**                    | `InputTypes.MULTI_SELECT`                 | Multiple selection dropdown           |
 | **Combobox**                        | `InputTypes.COMBOBOX`                     | Searchable select                     |
