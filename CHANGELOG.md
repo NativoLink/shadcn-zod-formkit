@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.3.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.2.0...v3.3.0) (2026-05-05)
+
+### Features
+
+* **add 3 new inputs:** CountrySelectInput, DateRangeInput and RangeInput ([0a0985e](https://github.com/NativoLink/shadcn-zod-formkit/commit/0a0985e082ff59d246b913ab1c25ddf478ee0d23))
+
 ## [3.2.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.1.0...v3.2.0) (2026-05-04)
 
 ### Features
