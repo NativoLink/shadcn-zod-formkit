@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.2.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.1.0...v3.2.0) (2026-05-04)
+
+### Features
+
+* **transform:** implementando transform para text-input-group, permite (lowercase, uppercase, capitalize y una funcion anonima para hacerlo custom ([e5c3a0e](https://github.com/NativoLink/shadcn-zod-formkit/commit/e5c3a0e427dee27731ef420329ec411a20eda852))
+
 ## [3.1.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.0.2...v3.1.0) (2026-05-04)
 
 ### Features
