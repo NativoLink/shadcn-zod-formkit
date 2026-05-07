@@ -18,8 +18,10 @@ import {
 } from "@/src/components/ui/input-group";
 import { FieldProps, inputNumberConfig, TextInputType } from "../base/definitions";
 import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form";
-import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff, LucideProps } from "lucide-react";
+import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff, LucideProps, Keyboard } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
+import { Button } from "@/src/components/ui/button";
+import { useKeyboardStore } from "../../../keyboard";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
@@ -99,6 +101,7 @@ export const CustomInputGroup = ({
   autoCapitalize = 'none',
 }: customInputGroup) => {
   
+  const withKeyboard = input.withKeyboard;
   const groupConfig = input.inputGroupConfig;
   const infoTooltip = input?.infoTooltip;
   const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
@@ -121,6 +124,9 @@ export const CustomInputGroup = ({
   const isNumberField = input.keyboardType === TextInputType.NUMBER;
 
   const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField
+
+
+  const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
 
   const applyMask = (value: string, mask?: string | RegExp) => {  
     if (!mask) return value;  
@@ -285,6 +291,12 @@ export const CustomInputGroup = ({
               className="p-1"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          )}
+
+          {withKeyboard && (
+            <button type="button" className='text-2xl'  onClick={setIsOpen} >  
+              <Keyboard />
             </button>
           )}
 

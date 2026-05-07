@@ -110,7 +110,8 @@
     "react-resizable-panels": "^3.0.6",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
-    "world-countries": "^5.1.0"
+    "world-countries": "^5.1.0",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

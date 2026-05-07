@@ -13,6 +13,8 @@ import { FormFieldsGrid } from "./FormFieldsGrid";
 import { ButtonGroup } from "@/src/components/ui/button-group";
 import { cn } from "@/src/lib/utils";
 import React from "react";
+import { CustomSheet } from "../../CustomSheet";
+import { KeyboardQ } from "../../keyboard";
 
 type alertPositionType = 'up' | 'down';
 
@@ -191,6 +193,13 @@ export const DynamicForm = <T extends Record<string, any>>({
   /** 🧩 Render del contenido principal del formulario */
   const formContent = (
     <div>
+      <CustomSheet 
+        children={
+          <div className='h-92'>
+            <KeyboardQ/>
+          </div>
+        } 
+      />
       {showFormHeader && (
         <CardTitle className="flex flex-row items-center gap-2 p-2 border-b">
           <div className="flex flex-row items-center gap-2 w-full">

@@ -31,6 +31,7 @@ export type FieldConfig<T, RT = Record<string,any>> = FieldProps<T,RT> | FieldCo
 export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
+  withKeyboard?: boolean 
   
   showWhen?: (values: Record<string, any>) => boolean
   step?:number;

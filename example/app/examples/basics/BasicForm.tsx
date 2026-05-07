@@ -105,7 +105,7 @@ export default function FormBasics() {
     // hidden: true, // alternativa a InputTypes.HIDDEN
   },
   {
-
+    withKeyboard: true,
     name: "username",
     label: "Username",
     classNameGroupInput:"h-16",
