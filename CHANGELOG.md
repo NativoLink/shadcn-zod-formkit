@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [3.4.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.3.0...v3.4.0) (2026-05-15)
+
+### Features
+
+* **keyboard:** add optional virtual keyboard for text-input-group v1 ([90dd2bc](https://github.com/NativoLink/shadcn-zod-formkit/commit/90dd2bc2db7483588afbf5368cb30c329876c120))
+* **keyboard-qwerty:** se puede llamar el teclado virtual desde el componente text-input-group por el momento solo en ese componente ([6803c0e](https://github.com/NativoLink/shadcn-zod-formkit/commit/6803c0ec11f787d3d723a5b0259a59285592ba79))
+
 ## [3.3.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.2.0...v3.3.0) (2026-05-05)
 
 ### Features
