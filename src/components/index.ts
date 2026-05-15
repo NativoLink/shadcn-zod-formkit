@@ -40,6 +40,7 @@ export * from './custom/form/inputs/types/text-input-group';
 export * from './custom/form/inputs/types/text-input';
 export * from './custom/form/inputs/types/time-input';
 export * from './custom/input-list';
+export * from './custom/custom-sheet';
 export * from './custom/others/GenericFilter';
 export * from './ui/accordion';
 export * from './ui/alert';

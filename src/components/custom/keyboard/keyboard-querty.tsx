@@ -75,7 +75,7 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
     );
 
     return (
-      <Keyboard className='w-full h-92' keyFontSize={keyFontSize}
+      <Keyboard className='w-full h-[50%]' keyFontSize={keyFontSize}
         keys={[
           ...keys,
           [
@@ -105,7 +105,7 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
     .map((l) => letter(l, isUpper, handleKey));
 
   return (
-    <Keyboard className='w-full h-92' keyFontSize={keyFontSize}
+    <Keyboard className='w-full h-[50%]' keyFontSize={keyFontSize}
       keys={[
         [
           { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
@@ -121,13 +121,13 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
           ...fila3,
         ],
         [
-          // {
-          //   label: '',
-          //   icons: [shiftLabel],
-          //   onClick: handleShift,
-          //   className: 'flex-[1.5]',
-          //   isActive: shiftActive
-          // },
+          {
+            label: '',
+            icons: [shiftLabel],
+            onClick: handleShift,
+            className: 'flex-[1.5]',
+            isActive: shiftActive
+          },
           ...fila4,
           { label: '.', onClick: () => handleKey('.') },
           { label: '-', onClick: () => handleKey('-') },
