@@ -3,8 +3,9 @@
 import { ReactNode, useEffect, useMemo, useCallback } from "react";
 import { LucideProps } from "lucide-react";
 import { Key, keyFontSize, TeclaBorders } from "./key";
-import { cn } from "@/src/lib/utils";
-import { Card } from "@/src";
+import { Card } from '@/src/components/ui/card';
+import { cn } from '@/src/lib/utils';
+
 
 export interface IKey {
   label?: string;
@@ -30,7 +31,7 @@ interface Props {
   keyFontSize?: keyFontSize;
 }
 
-const Keyboard = ({
+export const KeyboardBuilder = ({
   keys,
   withCard = false,
   className,
@@ -154,5 +155,5 @@ const Keyboard = ({
   );
 };
 
-export { Keyboard };
+
 export type { Key };

@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 
 import { ArrowBigUp, ArrowBigUpDash, Delete } from "lucide-react";
 import { keyFontSize, letter } from './key';
-import { Keyboard } from './keyboard';
+import { KeyboardBuilder } from './keyboard-builder';
 // import { useKeyboardStore } from './providers/keyboard.store';
 
 type ShiftMode = "off" | "once" | "caps";
@@ -17,7 +17,7 @@ type Props = {
   keyFontSize?: keyFontSize;
 };
 
-export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete  }: Props) => {
+export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete  }: Props) => {
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
@@ -75,7 +75,7 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
     );
 
     return (
-      <Keyboard className='w-full h-[50%]' keyFontSize={keyFontSize}
+      <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
         keys={[
           ...keys,
           [
@@ -105,7 +105,7 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
     .map((l) => letter(l, isUpper, handleKey));
 
   return (
-    <Keyboard className='w-full h-[50%]' keyFontSize={keyFontSize}
+    <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
       keys={[
         [
           { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
@@ -125,7 +125,7 @@ export const KeyboardQ= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDele
             label: '',
             icons: [shiftLabel],
             onClick: handleShift,
-            className: 'flex-[1.5]',
+            className: 'flex-1',
             isActive: shiftActive
           },
           ...fila4,

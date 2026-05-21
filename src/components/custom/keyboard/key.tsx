@@ -1,9 +1,9 @@
 'use client'
 
-import { cn } from '@/src/lib/utils'
 import { LucideProps } from 'lucide-react'
 import { CSSProperties, MouseEventHandler, ReactNode } from 'react'
-import { IKey } from './keyboard'
+import { IKey } from './keyboard-builder'
+import { cn } from '@/src/lib/utils';
 
 export type keyFontSize =
   | 'text-xs'
@@ -194,4 +194,5 @@ export const applyCase = (label: string | undefined, upper: boolean): string | u
 export const letter = (l: string, isUpper: boolean, handleKey: (key: string)=> void): IKey => ({
   label: applyCase(l, isUpper),
   onClick: handleKey,
+  className: 'flex-1',
 });

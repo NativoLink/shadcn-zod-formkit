@@ -11,7 +11,9 @@ import {
   FieldProps, 
   Button,
   FieldConfig,
-  GenericFilter
+  GenericFilter,
+  KeyboardQwerty,
+  CustomSheet,
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
@@ -712,6 +714,13 @@ export default function FormBasics() {
         </div>
 
         <Card className="p-4">
+          <CustomSheet 
+            children={
+            <div className='h-72'>
+              <KeyboardQwerty/> 
+            </div>
+            } 
+          />
           {/* <GenericFilter /> */}
           <div className="flex flex-col gap-2">
             <div className="text-lg font-semibold">Form Data</div>

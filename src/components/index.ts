@@ -1,4 +1,5 @@
 export * from './custom/custom-alert';
+export * from './custom/keyboard';
 export * from './custom/form/input-errors';
 export * from './custom/form/inputs/DynamicForm';
 export * from './custom/form/inputs/WizardForm';
