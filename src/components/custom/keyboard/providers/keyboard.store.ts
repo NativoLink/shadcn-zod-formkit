@@ -40,10 +40,15 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   write: (char) =>
     set((state) => {
+      let currentInputField = state.currentInputField;
+      if (currentInputField && currentInputField.field) {
+        currentInputField.field.value += char;
+        set({ currentInputField: currentInputField });
+        console.log('Updated currentInputField value:', state.currentInputField?.field?.value);
+      }
       if (!state.activeInput) return state;
-
       const current = state.inputs[state.activeInput] || '';
-
+      
       return {
         inputs: {
           ...state.inputs,

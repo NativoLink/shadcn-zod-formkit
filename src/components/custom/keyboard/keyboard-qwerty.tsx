@@ -42,7 +42,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const lastShiftPress = useRef<number>(0);
 
 
-  const { currentInputField } = useKeyboardStore();
+  const { currentInputField, write } = useKeyboardStore();
 
 
   const isUpper = shiftMode !== 'off';
@@ -61,10 +61,11 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   };
 
   const handleKey = (key: string) => {
+    console.log('Key pressed:', key);
     const output = isUpper ? key.toUpperCase() : key;
 
     onKeyPress?.(output);
-    // write(output)
+    write(output);
 
     if (shiftMode === 'once') {
       setShiftMode('off');
