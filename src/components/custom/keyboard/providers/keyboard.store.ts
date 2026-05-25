@@ -1,10 +1,19 @@
 import { create } from 'zustand';
-import { KeyboardState } from './keyboard.state';
+import { InputField, KeyboardState } from './keyboard.state';
+import { KeyboardTypes } from '../keyboard-types';
 
 
 export const useKeyboardStore = create<KeyboardState>((set, get) => ({
   activeInput: null,
   inputs: {},
+  type: KeyboardTypes.QWERTY,
+  currentInputField: null,
+
+
+  setCurrentInputField(inputField: InputField | null) {
+    set({ currentInputField: inputField });
+    console.log('Current Input Field set to:', inputField);
+  },
 
   isOpen:false,
 

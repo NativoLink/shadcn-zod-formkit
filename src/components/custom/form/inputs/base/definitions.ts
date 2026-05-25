@@ -3,6 +3,7 @@ import { InputTypes } from "./input-types"
 import { LucideProps } from "lucide-react";
 import { ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { KeyboardTypes } from "../../../keyboard/keyboard-types";
 
 
 export const flattenFields = <T extends Record<string, any>>(
@@ -31,7 +32,9 @@ export type FieldConfig<T, RT = Record<string,any>> = FieldProps<T,RT> | FieldCo
 export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
-  withKeyboard?: boolean 
+  withKeyboard?: boolean
+
+  keyboard?: KeyboardTypes
   
   showWhen?: (values: Record<string, any>) => boolean
   step?:number;

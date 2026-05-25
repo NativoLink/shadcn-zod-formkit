@@ -13,6 +13,9 @@ import { FormFieldsGrid } from "./FormFieldsGrid";
 import { ButtonGroup } from "@/src/components/ui/button-group";
 import { cn } from "@/src/lib/utils";
 import React from "react";
+import { CustomSheet } from "../../custom-sheet";
+import { KeyboardFactory, KeyboardTypes, useKeyboardStore } from "../../keyboard";
+
 
 type alertPositionType = 'up' | 'down';
 
@@ -88,6 +91,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
+  const currentInputField = useKeyboardStore((state) => state.currentInputField);
 
   /** ✅ Schema dinámico basado en los campos */
   const schema = useMemo(() => {
@@ -130,9 +134,17 @@ export const DynamicForm = <T extends Record<string, any>>({
     const resp: FormResp<T> = { data, form };
     onClick(resp);
   };
+  
 
   const formBody = (
     <>
+      <CustomSheet 
+        children={
+        <div className='h-72'>
+          {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY)}
+        </div>
+        } 
+      />
       <div className="w-full grid grid-cols-1">
         <FormFieldsGrid
           fields={fields as unknown as FieldConfig<T>[]}

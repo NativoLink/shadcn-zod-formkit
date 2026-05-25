@@ -3,7 +3,7 @@
 import { LucideProps } from 'lucide-react'
 import { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 import { IKey } from './keyboard-builder'
-import { cn } from '@/src/lib/utils';
+import { cn } from '../../../lib/utils';
 
 export type keyFontSize =
   | 'text-xs'

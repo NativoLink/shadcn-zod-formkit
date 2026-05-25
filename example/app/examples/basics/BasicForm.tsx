@@ -14,10 +14,13 @@ import {
   GenericFilter,
   KeyboardQwerty,
   CustomSheet,
+  useKeyboardStore,
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
 import ExampleWizardForm from './ExampleWizardForm';
+import { KeyboardFactory } from '../../../../src/components/custom/keyboard/keyboard-factory';
+import { KeyboardTypes } from '../../../../src/components/custom/keyboard/keyboard-types';
 
 //ADD EXAMPLE WITH TYPING..
 
@@ -56,6 +59,7 @@ export interface IUserRecord {
 export default function FormBasics() {
 
   const [dataToSend, setDataToSend] = useState<any>({})
+  const type = useKeyboardStore((state) => state.type);
 
   const record: IUserRecord = {
     id: 1,
@@ -668,6 +672,13 @@ export default function FormBasics() {
        */}
       <div className='w-full gap-2 grid grid-cols-2'>
         <div className='w-full'>
+            {/* <CustomSheet 
+              children={
+              <div className='h-72'>
+                {KeyboardFactory.create(KeyboardTypes.QWERTY)}
+              </div>
+              } 
+              /> */}
           
             {/* <ExampleWizardForm /> */}
             <DynamicForm<IUserRecord>
@@ -714,13 +725,6 @@ export default function FormBasics() {
         </div>
 
         <Card className="p-4">
-          <CustomSheet 
-            children={
-            <div className='h-72'>
-              <KeyboardQwerty/> 
-            </div>
-            } 
-          />
           {/* <GenericFilter /> */}
           <div className="flex flex-col gap-2">
             <div className="text-lg font-semibold">Form Data</div>

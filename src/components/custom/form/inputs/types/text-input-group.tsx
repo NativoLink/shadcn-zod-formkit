@@ -127,6 +127,7 @@ export const CustomInputGroup = ({
 
 
   const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
+  const setCurrentInputField = useKeyboardStore((state) => state.setCurrentInputField);
 
   const applyMask = (value: string, mask?: string | RegExp) => {  
     if (!mask) return value;  
@@ -224,6 +225,9 @@ export const CustomInputGroup = ({
         placeholder={input.placeHolder}
         disabled={input.disabled || isSubmitting}
         onBlur={field?.onBlur}
+        onFocus={() => 
+          setCurrentInputField({ input, field })
+        }
         name={field?.name}
         ref={field?.ref}
         type={isPasswordField && !showPassword
@@ -295,7 +299,11 @@ export const CustomInputGroup = ({
           )}
 
           {withKeyboard && (
-            <button type="button" className='text-2xl'  onClick={setIsOpen} >  
+            <button type="button" className='text-2xl'  
+              onClick={() => {
+                setIsOpen();
+                setCurrentInputField({ input, field })
+              }} >  
               <Keyboard />
             </button>
           )}

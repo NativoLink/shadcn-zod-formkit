@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, JSX } from 'react';
 
 import { ArrowBigUp, ArrowBigUpDash, Delete } from "lucide-react";
 import { keyFontSize, letter } from './key';
 import { KeyboardBuilder } from './keyboard-builder';
-// import { useKeyboardStore } from './providers/keyboard.store';
+import { useKeyboardStore } from './providers/keyboard.store';
+import { BaseKeyboard } from './keyboard-base';
 
 type ShiftMode = "off" | "once" | "caps";
 type KeyboardMode = "letters" | "symbols";
@@ -17,13 +18,31 @@ type Props = {
   keyFontSize?: keyFontSize;
 };
 
+
+
+export class QwertyKeyboard extends BaseKeyboard {
+  render(): JSX.Element {
+    return (
+      <KeyboardQwerty />
+    );
+  }
+}
+
+
+// export const KeyboardQwerty = () => {
+//   return (
+//     <div>KeyboardQwerty</div>
+//   )
+// }
+
+
 export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete  }: Props) => {
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
 
 
-  // const { write, backspace, clear } = useKeyboardStore();
+  const { currentInputField } = useKeyboardStore();
 
 
   const isUpper = shiftMode !== 'off';
@@ -75,16 +94,18 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     );
 
     return (
-      <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
-        keys={[
-          ...keys,
-          [
-            { label: 'ABC', onClick: () => setMode('letters'), className: 'flex-[2]' },
-            { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
-            { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200 ' },
-          ],
-        ]}
-      />
+      <>
+        <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
+          keys={[
+            ...keys,
+            [
+              { label: 'ABC', onClick: () => setMode('letters'), className: 'flex-[2]' },
+              { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
+              { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200 ' },
+            ],
+          ]}
+        />
+      </>
     );
   }
 
@@ -105,40 +126,49 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     .map((l) => letter(l, isUpper, handleKey));
 
   return (
-    <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
-      keys={[
-        [
-          { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
-          ...fila1,
-        ],
-        [
-          { label: 'tab', onClick: () => {} },
-          ...fila2,
-          // { icons:[Delete], onClick: backspace, className: 'text-xs' },
-        ],
-        [
-          { label: 'caps', onClick: handleCaps },
-          ...fila3,
-        ],
-        [
-          {
-            label: '',
-            icons: [shiftLabel],
-            onClick: handleShift,
-            className: 'flex-1',
-            isActive: shiftActive
-          },
-          ...fila4,
-          { label: '.', onClick: () => handleKey('.') },
-          { label: '-', onClick: () => handleKey('-') },
-          { label: '_', onClick: () => handleKey('_') },
-        ],
-        [
-          { label: '?123', onClick: () => setMode('symbols'), className: 'flex-[2]' },
-          { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
-          { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200' },
-        ],
-      ]}
-    />
+    <>
+      {
+        currentInputField && (
+          <div className="mb-2 text-xl text-center text-muted-foreground border">
+            {`Field: ${currentInputField.field?.value}`}
+          </div>
+        )
+      }
+      <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
+        keys={[
+          [
+            { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
+            ...fila1,
+          ],
+          [
+            { label: 'tab', onClick: () => {} },
+            ...fila2,
+            // { icons:[Delete], onClick: backspace, className: 'text-xs' },
+          ],
+          [
+            { label: 'caps', onClick: handleCaps },
+            ...fila3,
+          ],
+          [
+            {
+              label: '',
+              icons: [shiftLabel],
+              onClick: handleShift,
+              className: 'flex-1',
+              isActive: shiftActive
+            },
+            ...fila4,
+            { label: '.', onClick: () => handleKey('.') },
+            { label: '-', onClick: () => handleKey('-') },
+            { label: '_', onClick: () => handleKey('_') },
+          ],
+          [
+            { label: '?123', onClick: () => setMode('symbols'), className: 'flex-[2]' },
+            { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
+            { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200' },
+          ],
+        ]}
+      />
+    </>
   );
 };

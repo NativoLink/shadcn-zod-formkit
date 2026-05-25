@@ -3,8 +3,7 @@
 import { ReactNode, useEffect, useMemo, useCallback } from "react";
 import { LucideProps } from "lucide-react";
 import { Key, keyFontSize, TeclaBorders } from "./key";
-import { Card } from '@/src/components/ui/card';
-import { cn } from '@/src/lib/utils';
+import { cn } from '../../../lib/utils';
 
 
 export interface IKey {
@@ -104,7 +103,7 @@ export const KeyboardBuilder = ({
       )}
     >
       {keys?.map((row, ri) => (
-        <div key={ri} className="flex flex-row gap-2 p-1">
+        <div key={ri} className="flex flex-row gap-2 p-1" style={{ height: '6vh' }}>
           {row.map((key, indx) => {
 
             const handleClick = () => {
@@ -149,9 +148,9 @@ export const KeyboardBuilder = ({
   if (!withCard) return content;
 
   return (
-    <Card className={cn("w-full h-full m-0.5 p-1", className)}>
+    <div className={cn("w-full h-full m-0.5 p-1", className)}>
       {content}
-    </Card>
+    </div>
   );
 };
 
