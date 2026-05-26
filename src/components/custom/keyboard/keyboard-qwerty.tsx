@@ -127,15 +127,15 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     .map((l) => letter(l, isUpper, handleKey));
 
   return (
-    <>
+    <div className='w-full h-full flex flex-col'>
       {
         currentInputField && (
-          <div className="mb-2 text-xl text-center text-muted-foreground border">
-            {`Field: ${currentInputField.field?.value}`}
+          <div className="p-3 h-full flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
+            <span> {currentInputField.field?.value} </span>
           </div>
         )
       }
-      <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
+      <KeyboardBuilder className='w-full h-full flex-3' keyFontSize={keyFontSize}
         keys={[
           [
             { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
@@ -170,6 +170,6 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
           ],
         ]}
       />
-    </>
+    </div>
   );
 };

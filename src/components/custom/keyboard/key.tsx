@@ -4,6 +4,7 @@ import { LucideProps } from 'lucide-react'
 import { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 import { IKey } from './keyboard-builder'
 import { cn } from '../../../lib/utils';
+import { Button } from '../../ui/button';
 
 export type keyFontSize =
   | 'text-xs'
@@ -125,7 +126,7 @@ export const Key = ({
   const hasBorders = borders && borderShadow !== 'none'
 
   return (
-    <button
+    <Button
       disabled={disabled}
       onDoubleClick={onDoubleClick}
       onClick={(e) => onClick?.(label ?? e.currentTarget.textContent ?? '')}
@@ -147,18 +148,18 @@ export const Key = ({
         'bg-(--color-secondary-soft) text-(--color-foreground)',
 
         // Hover
-        'hover:bg-[var(--color-accent-soft)]',
+        'hover:bg-(--color-accent-soft)',
 
         // Active click (presionado)
-        'active:bg-[var(--color-primary)] active:text-[var(--color-primary-foreground)]',
+        'active:bg-(--color-primary) active:text-(--color-primary-foreground)',
 
         // Estado activo (seleccionado)
         isActive &&
-          'bg-[var(--color-primary)] text-[var(--color-primary-foreground)] border-[var(--color-primary)]',
+          'bg-(--color-primary) text-(--color-primary-foreground) border-(--color-primary)',
 
         // Backspace especial
         // label === '⌫' &&
-        //   'bg-[var(--color-destructive)] text-white hover:opacity-90',
+        //   'bg-(--color-destructive) text-white hover:opacity-90',
 
         // Overflow hidden para que los bordes respeten el border-radius
         'overflow-hidden',
@@ -181,7 +182,7 @@ export const Key = ({
 
         {content}
       </div>
-    </button>
+    </Button>
   )
 }
 

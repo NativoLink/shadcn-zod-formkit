@@ -40,9 +40,9 @@ export class KeyboardFactory {
     // if (!input.wrapInCard) return instance.render();
 
     return (
-      <div className="p-4 space-y-3">
+      <>
         {instance.render()}
-      </div>
+      </>
     );
   }
 }

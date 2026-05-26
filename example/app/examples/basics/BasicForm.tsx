@@ -19,8 +19,6 @@ import {
 import { toast } from 'sonner';
 import { z } from "zod";
 import ExampleWizardForm from './ExampleWizardForm';
-import { KeyboardFactory } from '../../../../src/components/custom/keyboard/keyboard-factory';
-import { KeyboardTypes } from '../../../../src/components/custom/keyboard/keyboard-types';
 
 //ADD EXAMPLE WITH TYPING..
 
@@ -470,7 +468,7 @@ export default function FormBasics() {
     name: "salary",
     label: "Salary ...",
     inputType: InputTypes.CURRENCY,
-    zodType: z.number().min(100),
+    // zodType: z.number().min(100),
     inputGroupConfig:{
       autoValidIcons: true,
       iconsLeft: [Hash]
@@ -557,11 +555,11 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
-      zodType: z.coerce
-        .date(validationMessages.required)
-        .refine((d) => d < new Date(), {
-          message: "La fecha no puede ser futura",
-        }),
+      // zodType: z.coerce
+      //   .date(validationMessages.required)
+      //   .refine((d) => d < new Date(), {
+      //     message: "La fecha no puede ser futura",
+      //   }),
     },
   //   {
   //     name: "appointment",
@@ -686,6 +684,7 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
+              withConfirmDialog={true}
               // withSubmitBtn={false}
               // onAnyFieldChange={setDataToSend}
             // listBtnConfig={[

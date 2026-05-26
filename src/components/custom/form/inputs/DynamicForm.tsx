@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useMemo, useTransition } from "react";
+import { JSX, ReactNode, useEffect, useMemo, useTransition } from "react";
 import { useForm, UseFormReturn, DefaultValues, Resolver } from "react-hook-form";
 import { BtnConfig, FieldConfig, FieldProps, flattenFields } from "./base";
 import { getDefaultValues, getDynamicSchema } from "./input-factory";
@@ -15,6 +15,7 @@ import { cn } from "@/src/lib/utils";
 import React from "react";
 import { CustomSheet } from "../../custom-sheet";
 import { KeyboardFactory, KeyboardTypes, useKeyboardStore } from "../../keyboard";
+import { DynamicDialog } from "../../dynamic-dialog";
 
 
 type alertPositionType = 'up' | 'down';
@@ -49,6 +50,11 @@ interface Props<T extends Record<string, any>> {
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
   debug?:boolean
+
+
+  dialogTitle?:string
+  dialogDescription?:string
+  withConfirmDialog?:boolean
 
   submitBtnIcon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
 
@@ -87,7 +93,11 @@ export const DynamicForm = <T extends Record<string, any>>({
   isWrapInWizard = false,
   totalSteps = 0,
   currentStep = 1,
-  submitBtnIcon = Save
+  submitBtnIcon = Save,
+
+  dialogTitle = "¿Estás seguro?",
+  dialogDescription = "Esta acción no se puede deshacer. ¿Deseas continuar?",
+  withConfirmDialog = false,
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
@@ -134,15 +144,41 @@ export const DynamicForm = <T extends Record<string, any>>({
     const resp: FormResp<T> = { data, form };
     onClick(resp);
   };
+
+  const withConfirm = (
+      <DynamicDialog
+        trigger={
+          <Button  
+            variant="secondary" 
+            size="lg"
+            // className={cn(submitBtnClass)}
+            type="button"
+            disabled={isPending}
+            className="flex items-center gap-3 w-full h-16 px-4 py-3 text-sm  hover:bg-zinc-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {submitBtnLabel}
+              {(totalSteps == 0 || totalSteps == currentStep) && submitBtnIcon && React.createElement(submitBtnIcon, { className: "h-5 w-5 mr-2" })}
+          </Button>
+        }
+        title={dialogTitle}
+        description={dialogDescription}
+        cancelText="Cancelar"
+        actionText={submitBtnLabel ?? 'Procesar'}
+        variant='warning'
+        onAction={onClick ? handleClick : undefined}
+      >
+      </DynamicDialog>
+    )
+  
   
 
   const formBody = (
     <>
       <CustomSheet 
         children={
-        <div className='h-72'>
+        <>
           {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY)}
-        </div>
+        </>
         } 
       />
       <div className="w-full grid grid-cols-1">
@@ -176,29 +212,35 @@ export const DynamicForm = <T extends Record<string, any>>({
           </Button>
         ))}
         {!readOnly && withSubmitBtn &&  (
-          <Button
-            type={onClick ? 'button' : 'submit'}
-            size="lg"
-            className={cn(submitBtnClass)}
-            disabled={isPending}
-            onClick={onClick ? handleClick : undefined}
-          >
-            {isPending ? (
-              <>
-                {submitBtnLabelSubmiting}
-                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-              </>
-            ) : (
-              <>
-                {submitBtnLabel}
-                {(totalSteps == 0 || totalSteps == currentStep) && submitBtnIcon && React.createElement(submitBtnIcon, { className: "h-5 w-5 mr-2" })}
-              </>
-            )}
-          </Button>
+          withConfirmDialog ? withConfirm :
+            <Button
+              type={onClick ? 'button' : 'submit'}
+              size="lg"
+              className={cn(submitBtnClass)}
+              disabled={isPending}
+              onClick={onClick ? handleClick : undefined}
+            >
+              {isPending ? (
+                <>
+                  {submitBtnLabelSubmiting}
+                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                </>
+              ) : (
+                <>
+                  {submitBtnLabel}
+                  {(totalSteps == 0 || totalSteps == currentStep) && submitBtnIcon && React.createElement(submitBtnIcon, { className: "h-5 w-5 mr-2" })}
+                </>
+              )}
+            </Button>
+            
+            // , withConfirmDialog, onClick ? handleClick : undefined)
         )}
       </ButtonGroup>
     </>
   )
+
+
+
 
   /** 🧩 Render del contenido principal del formulario */
   const formContent = (

@@ -4,3 +4,4 @@ export * from './others'
 export * from './keyboard'
 export * from './custom-sheet'
 export * from './input-list';
+export * from './dynamic-dialog';

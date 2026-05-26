@@ -103,7 +103,7 @@ export const KeyboardBuilder = ({
       )}
     >
       {keys?.map((row, ri) => (
-        <div key={ri} className="flex flex-row gap-2 p-1" style={{ height: '6vh' }}>
+        <div key={ri} className="flex flex-row gap-2 p-1 h-full">
           {row.map((key, indx) => {
 
             const handleClick = () => {
@@ -127,7 +127,7 @@ export const KeyboardBuilder = ({
                 shortcut={key.shortcut}
                 icons={key.icons}
                 className={`${key.className} ${
-                  key.disabled ? "bg-muted-foreground" : ""
+                  key.disabled ? "bg-muted-foreground h-full" : "h-full"
                 }`}
                 iconClassName={key.iconClassName}
                 iconSize={key.iconSize}
