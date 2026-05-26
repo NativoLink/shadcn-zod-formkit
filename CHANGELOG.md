@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.5.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.0...v3.5.1) (2026-05-26)
+
+### Bug Fixes
+
+* **npm-version:** Pruebar para ver sin se desplisega la ultima version que en los actions no hizo nada luego de actualizar en NPM_TOKEN pero tampoco dio Error ([3bd8e3a](https://github.com/NativoLink/shadcn-zod-formkit/commit/3bd8e3a2211290186485d5ac1e996819e5acfd9d))
+
 ## [3.5.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.4.0...v3.5.0) (2026-05-26)
 
 ### Features
