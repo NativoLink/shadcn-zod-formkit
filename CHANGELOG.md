@@ -1,5 +1,17 @@
 # 📦 Changelog
 
+## [3.5.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.4.0...v3.5.0) (2026-05-26)
+
+### Features
+
+* **dynamic-dialog:** Primera version de DynamicDialog para el DtnamicForm ([c1dac1d](https://github.com/NativoLink/shadcn-zod-formkit/commit/c1dac1d26898c2939de4b0ea7a06603bf290aa2d))
+
+### Bug Fixes
+
+* **keyboard-input-references:** mediante el storeKeyboard se conoce el currentInput con su input y field actual, solo falta  que cada tecla pueda hace un chance de valor del input actual ([fa51489](https://github.com/NativoLink/shadcn-zod-formkit/commit/fa51489ded33bd1da5d2e55fc45c69655e614ce3))
+* **keyboard-qwerty:** sheet position and buttons style ([20dbc83](https://github.com/NativoLink/shadcn-zod-formkit/commit/20dbc835a5713f292f240ec315d7c4c4749262db))
+* **keyboard-write-input:** Ya se puede escribir en el input desde el teclado virtual ([ec88400](https://github.com/NativoLink/shadcn-zod-formkit/commit/ec88400d4e6069eeddad9d2ffa401c7434b3baa5))
+
 ## [3.4.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.3.0...v3.4.0) (2026-05-15)
 
 ### Features
