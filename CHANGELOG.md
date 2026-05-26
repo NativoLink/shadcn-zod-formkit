@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.5.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.1...v3.5.2) (2026-05-26)
+
+### Bug Fixes
+
+* **release.yml:** update repo ([9fea74c](https://github.com/NativoLink/shadcn-zod-formkit/commit/9fea74c528adab6ec669dca2bc12ca4983145b01))
+
 ## [3.5.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.0...v3.5.1) (2026-05-26)
 
 ### Bug Fixes
