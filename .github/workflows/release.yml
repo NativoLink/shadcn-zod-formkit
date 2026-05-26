@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+# 🔥 evita ejecuciones duplicadas (MUY IMPORTANTE)
+concurrency:
+  group: release-main
+  cancel-in-progress: true
+
 permissions:
   contents: write
   issues: write
@@ -16,39 +21,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout del repo con todo el historial (necesario para analizar commits)
+      # 1️⃣ Checkout completo
       - name: 🧭 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
-      # 2️⃣ Configurar Node.js y el registry de npm
+      # 🔥 FIX CLAVE: asegurar último estado del repo
+      - name: 🔄 Sync with remote
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
+      # 2️⃣ Setup Node
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
 
-      # 3️⃣ Instalar dependencias y compilar
+      # 3️⃣ Install + build
       - name: 📦 Install dependencies
         run: |
           npm ci
           npm run build
 
-      # 4️⃣ Configurar token de npm manualmente (evita el intento OIDC)
-      - name: 🔐 Setup npm auth
-        run: |
-          echo "🧩 Creando archivo .npmrc..."
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "📄 Contenido de ~/.npmrc:"
-          cat ~/.npmrc
-          echo "🔢 Longitud del token:"
-          echo "${{ secrets.NPM_TOKEN }}" | wc -c
+      # 🧪 (opcional pero PRO) validar auth npm
+      - name: 🔍 Verify npm auth
+        run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # 5️⃣ Ejecutar Semantic Release
+      # 4️⃣ Release
       - name: 🚀 Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_USERCONFIG: ~/.npmrc
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # 🔥 usar este (no .npmrc)
         run: npx semantic-release
