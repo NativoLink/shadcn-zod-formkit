@@ -21,6 +21,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
+
+      # 🔥 AQUÍ VA EL FIX (JUSTO DESPUÉS DEL CHECKOUT)
+      - name: 🔄 Ensure up-to-date branch
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+          git fetch --prune --unshallow || true
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          git pull origin main --ff-only
 
       # 2️⃣ Configurar Node.js y el registry de npm
       - name: 🧰 Setup Node.js
