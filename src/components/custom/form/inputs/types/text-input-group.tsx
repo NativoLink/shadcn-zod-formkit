@@ -49,9 +49,9 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
         setIsValid(isValidField(input, form));
 
         return (
-          <FormItem className={input.className}>
-            <FormLabel><b>{input.label}</b></FormLabel>
-            <FormControl className="shadow-lg">
+          <FormItem className={`${input.withLateralLabel ? 'flex items-center gap-2 flex-row' : ''} ${input.className}`}>
+            <FormLabel className={`${input.withLateralLabel ? 'text-right' : ''}`}><b>{input.label}</b></FormLabel>
+            <FormControl className={`shadow-lg ${input.withLateralLabel ? ' text-right' : ''}`} >
               {
                 CustomInputGroup({
                   input,
@@ -123,7 +123,7 @@ export const CustomInputGroup = ({
   const isPasswordField = input.keyboardType === TextInputType.PASSWORD;
   const isNumberField = input.keyboardType === TextInputType.NUMBER;
 
-  const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField
+  const showInputGroupAddons = iconsRight.length > 0 || textRight || autoValidate || infoTooltip || isPasswordField || withKeyboard
 
 
   const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
@@ -241,6 +241,7 @@ export const CustomInputGroup = ({
               onChange(e)
             }
             let value: any = e.target.value;
+            console.log("Valor raw del input:", value);
             if (isNumberField) {
               const numConfig = input.inputNumberConfig;  
     

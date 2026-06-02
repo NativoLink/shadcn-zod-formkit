@@ -28,10 +28,10 @@ function FieldTextArea({ form, input, isSubmitting }: Props): JSX.Element {
     control={form.control}
     name={input.name}
     render={({ field }) => (
-      <FormItem className="shadow-lg">
-        <FormLabel><b>{input.label}</b></FormLabel>
+      <FormItem className={`shadow-lg ${input.withLateralLabel ? 'flex items-center gap-2' : ''} ${input.className}`}>
+        <FormLabel className={`${input.withLateralLabel ? 'w-32 text-right' : ''}`}><b>{input.label}</b></FormLabel>
         <FormControl>
-          <Textarea className="min-w-[260px] bg-white" 
+          <Textarea className="min-w-[260px]" 
           placeholder={input.placeHolder} 
           {...field} 
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {

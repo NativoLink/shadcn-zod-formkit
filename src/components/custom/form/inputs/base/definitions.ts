@@ -33,6 +33,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   name: keyof T // Campo debe coincidir con la definición en el esquema
   label: string
   withKeyboard?: boolean
+  withLateralLabel?: boolean
 
   keyboard?: KeyboardTypes
   

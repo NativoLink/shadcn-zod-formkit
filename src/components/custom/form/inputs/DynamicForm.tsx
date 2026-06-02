@@ -50,6 +50,7 @@ interface Props<T extends Record<string, any>> {
   childrenHeader?: ReactNode;
   listBtnConfig?: BtnConfig[];
   debug?:boolean
+  withLateralLabel?: boolean
 
 
   dialogTitle?:string
@@ -186,6 +187,7 @@ export const DynamicForm = <T extends Record<string, any>>({
           fields={fields as unknown as FieldConfig<T>[]}
           form={form}
           readOnly={readOnly}
+          gap="gap-1"
         />
         {children && (
           <div className="flex flex-row items-center gap-2 w-full h-full">
@@ -255,7 +257,7 @@ export const DynamicForm = <T extends Record<string, any>>({
             </div>
           </div>
           {childrenHeader && (
-            <div className="flex flex-row items-center gap-2 w-full h-full">
+            <div className="flex flex-row items-center gap-1 w-full h-full">
               {childrenHeader}
             </div>
           )}
@@ -313,7 +315,7 @@ const FormWrapper = ({form, handleSubmit, children, readOnly, debug, isWrapInWiz
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className={`flex flex-col gap-2 ${readOnly ? 'opacity-70 pointer-events-none select-none' : ''}`}
+        className={`flex flex-col gap-1 ${readOnly ? 'opacity-70 pointer-events-none select-none' : ''}`}
       >
         {children}
         {debug && (
