@@ -1,6 +1,6 @@
 'use client'
 
-import { JSX, useState, useMemo } from "react";
+import { JSX, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { 
   FormField, 
@@ -17,7 +17,8 @@ import {
 } from "@/src/components/ui/input-group";
 import { FieldProps } from "../base/definitions";
 import { BaseInput, handleOnChage } from "../base/base-input";
-import { CircleCheck, CircleX, Loader2 } from "lucide-react";
+import { CircleCheck, CircleX, Keyboard, Loader2 } from "lucide-react";
+import { useKeyboardStore } from "../../../keyboard/providers/keyboard.store";
 
 export class CurrencyInput extends BaseInput {
   render(): JSX.Element {
@@ -26,10 +27,6 @@ export class CurrencyInput extends BaseInput {
   }
 }
 
-/**
- * Campo numérico con formato monetario.
- * Acepta solo números y el punto mientras se edita.
- */
 interface Props {
   form: UseFormReturn;
   input: FieldProps;
@@ -37,87 +34,34 @@ interface Props {
 }
 
 export const FieldCurrency = ({ form, input, isSubmitting }: Props): JSX.Element => {
-  const groupConfig = input.inputGroupConfig;
-  const infoTooltip = input?.infoTooltip;
-  const autoValidate = groupConfig?.autoValidIcons;
+
+  const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
+  const setCurrentInputField = useKeyboardStore((state) => state.setCurrentInputField);
+
+  const withKeyboard = input.withKeyboard;
+  const autoValidate = input.inputGroupConfig?.autoValidIcons;
 
   const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
   const iconInvalidState = <CircleX style={{ color: "#ff8080" }} />;
   const iconLoadingState = <Loader2 className="animate-spin" style={{ color: "#1e90ff" }} />;
 
-  // Estado local para manejar validez desde el primer render
-  const [isValid, setIsValid] = useState<boolean>(() => {
-    const value = form.getValues(input.name);
-    const fieldState = form.getFieldState(input.name);
-    return !fieldState.error && value !== undefined && value !== "";
-  });
-
-  const defaultCurrencyFormat: Intl.NumberFormatOptions = {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  };
-
-  const mask = input?.mask;
-  const currencyFormat = input?.currencyFormat ?? defaultCurrencyFormat;
-
-  const [rawValue, setRawValue] = useState<string>(form.getValues(input.name) ?? "");
-
-  // Formateador monetario (por defecto: español - República Dominicana)
   const formatter = useMemo(() => {
-    return new Intl.NumberFormat('es-DO', currencyFormat);
-  }, [currencyFormat]);
+    return new Intl.NumberFormat('es-DO', {
+      style: 'currency',
+      currency: input?.currencyFormat?.currency ?? 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }, [input?.currencyFormat]);
 
-  // 🔢 Limpia y convierte el texto a número
-  const parseValue = (formatted: string): number | null => {
-    const numeric = parseFloat(formatted.replace(/[^0-9.-]/g, ""));
+  const parseValue = (val: string): number | null => {
+    const numeric = parseFloat(val.replace(/[^0-9.-]/g, ""));
     return isNaN(numeric) ? null : numeric;
   };
 
-  // 🎨 Aplica formato visual
-  const formatValue = (value: string): string => {
-    if (!value) return "";
-    const numeric = parseFloat(value.replace(/[^0-9.-]/g, ""));
-    if (isNaN(numeric)) return "";
-
-    if (typeof mask === "string") {
-      return mask.replace(/0+(?:[.,]0+)?/, formatter.format(numeric).replace(/[^\d.,]/g, ""));
-    }
-
-    if (mask instanceof RegExp) {
-      const valid = mask.test(value);
-      return valid ? value : rawValue;
-    }
-
-    return formatter.format(numeric);
-  };
-
-  // 🚫 Permite solo números y punto
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const allowedKeys = [
-      "Backspace",
-      "Delete",
-      "Tab",
-      "ArrowLeft",
-      "ArrowRight",
-      "Home",
-      "End",
-    ];
-
-    // Permitir navegación y borrado
-    if (allowedKeys.includes(e.key)) return;
-
-    // Permitir solo dígitos y un único punto decimal
-    if (!/^[0-9.]$/.test(e.key)) {
-      e.preventDefault();
-      return;
-    }
-
-    // Impedir más de un punto
-    if (e.key === "." && rawValue.includes(".")) {
-      e.preventDefault();
-    }
+  const formatValue = (val: number | null): string => {
+    if (val === null || val === undefined) return "";
+    return formatter.format(val);
   };
 
   return (
@@ -125,68 +69,98 @@ export const FieldCurrency = ({ form, input, isSubmitting }: Props): JSX.Element
       control={form.control}
       name={input.name}
       render={({ field, fieldState }) => {
-        const validNow = !fieldState.error && field.value !== undefined && field.value !== "";
-        if (validNow !== isValid) setIsValid(validNow);
+
+        const [displayValue, setDisplayValue] = useState<string>(() => {
+          return field.value ? formatValue(field.value) : "";
+        });
+
+        const isValid = !fieldState.error && field.value !== undefined && field.value !== "";
+
         return (
-        <FormItem className={input.className}>
-          <FormLabel><b>{input.label}</b></FormLabel>
-          <FormControl>
-            <InputGroup>
-              {/* Prefijo */}
-              <InputGroupAddon>
-                <InputGroupText>$</InputGroupText>
-                {input.inputGroupConfig?.textLeft && (
-                  <InputGroupText>{input.inputGroupConfig.textLeft}</InputGroupText>
-                )}
-              </InputGroupAddon>
+          <FormItem className={`${input.withLateralLabel ? 'flex items-center gap-2' : ''} ${input.className}`}>
+            
+            <FormLabel className={`${input.withLateralLabel ? 'w-32 text-right' : ''}`}>
+              <b>{input.label}</b>
+            </FormLabel>
 
-              {/* Input principal */}
-              <InputGroupInput
-                {...field}
-                disabled={input.disabled || isSubmitting}
-                placeholder={input.placeHolder ?? "0.00"}
-                inputMode="decimal"
-                value={rawValue}
-                onKeyDown={handleKeyDown}
-                onChange={(e) => {
-                  const newVal = e.target.value;
-                  setRawValue(newVal);
-                  const parsed = parseValue(newVal);
-                  if (parsed !== null) field.onChange(parsed);
-                  handleOnChage(parsed, input, field)
-                }}
-                onBlur={(e) => {
-                  const formatted = formatValue(e.target.value);
-                  setRawValue(formatted);
-                }}
-                onFocus={(e) => {
-                  const numeric = e.target.value.replace(/[^0-9.-]/g, "");
-                  setRawValue(numeric);
-                }}
-              />
+            <FormControl>
+              <InputGroup>
 
-              {/* Sufijo */}
-              <InputGroupAddon align="inline-end">
-                <InputGroupText>{currencyFormat.currency}</InputGroupText>
-                {input.inputGroupConfig?.textRight && (
-                  <InputGroupText>{input.inputGroupConfig.textRight}</InputGroupText>
-                )}
-                {/* Icono de validación / loading */}
-                {autoValidate && (
-                  <div>
-                    {isSubmitting
-                      ? iconLoadingState
-                      : isValid
-                        ? iconValidState
-                        : iconInvalidState}
-                  </div>
-                )}
-              </InputGroupAddon>
-            </InputGroup>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}}
+                <InputGroupAddon>
+                  <InputGroupText>$</InputGroupText>
+                </InputGroupAddon>
+
+                <InputGroupInput
+                  ref={field.ref}
+                  name={field.name}
+                  disabled={input.disabled || isSubmitting}
+                  placeholder="0.00"
+                  inputMode="decimal"
+
+                  value={displayValue}
+
+                  onFocus={(e) => {
+                    // 👉 quitar formato para edición natural
+                    const raw = field.value ? String(field.value) : "";
+                    setDisplayValue(raw);
+
+                    setCurrentInputField({ input, field });
+                  }}
+
+                  onChange={(e) => {
+                    const val = e.target.value;
+
+                    // 👉 permitir escribir libremente (teclado físico OK)
+                    setDisplayValue(val);
+
+                    const parsed = parseValue(val);
+                    field.onChange(parsed);
+                    handleOnChage(parsed, input, field);
+                  }}
+
+                  onBlur={() => {
+                    // 👉 aplicar formato bonito al salir
+                    const formatted = formatValue(field.value);
+                    setDisplayValue(formatted);
+                  }}
+                />
+
+                <InputGroupAddon align="inline-end">
+                  <InputGroupText>
+                    {input?.currencyFormat?.currency ?? 'USD'}
+                  </InputGroupText>
+
+                  {withKeyboard && (
+                    <button
+                      type="button"
+                      className="text-2xl"
+                      onClick={() => {
+                        setIsOpen();
+                        setCurrentInputField({ input, field });
+                      }}
+                    >
+                      <Keyboard />
+                    </button>
+                  )}
+
+                  {autoValidate && (
+                    <div>
+                      {isSubmitting
+                        ? iconLoadingState
+                        : isValid
+                          ? iconValidState
+                          : iconInvalidState}
+                    </div>
+                  )}
+                </InputGroupAddon>
+
+              </InputGroup>
+            </FormControl>
+
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

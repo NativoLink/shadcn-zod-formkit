@@ -113,6 +113,7 @@ export default function FormBasics() {
     name: "username",
     label: "Username",
     classNameGroupInput:"h-16",
+    withLateralLabel: true,
     inputType: InputTypes.TEXT_GROUP,
     infoTooltip:"Your unique username to login",
     inputGroupConfig:{
@@ -134,6 +135,7 @@ export default function FormBasics() {
   {  
     label: "salaryAverage",
     name: "salaryAverage",  
+    withLateralLabel: true,
     inputType: InputTypes.NUMBER,  
     // numberFormat: {  
     //   decimalPlaces: 2,  
@@ -148,6 +150,12 @@ export default function FormBasics() {
   {  
     name: "phone",  
     label: "Teléfono",  
+    withLateralLabel: true,
+    // inputGroupConfig:{
+    //   autoValidIcons: true,
+    //   iconsLeft: [User]
+    // },
+    withKeyboard: true,
     inputType: InputTypes.TEXT_GROUP,
     // keyboardType: TextInputType.NUMBER,   
     // mask: "###-###-####",  
@@ -166,6 +174,7 @@ export default function FormBasics() {
   {  
     name: "price",  
     label: "Precio",  
+    withLateralLabel: true,
     inputType: InputTypes.NUMBER,  
     mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/,
     // keyboardType: TextInputType.NUMBER,
@@ -184,6 +193,7 @@ export default function FormBasics() {
       direction: 'col',
       name: "email",
       label: "Email",
+      withLateralLabel: true,
       inputType: InputTypes.TEXT_GROUP,
       inputGroupConfig:{
         // autoValidIcons: true,
@@ -194,6 +204,7 @@ export default function FormBasics() {
         .email("Correo inválido")
     },
     {
+      withLateralLabel: true,
       name: "email",
       label: "Email",
       inputType: InputTypes.TEXT_GROUP,
@@ -389,10 +400,11 @@ export default function FormBasics() {
     wrapInCard:true,
     name: "contacts",
     label: "Contactos",
+    
     inputType: InputTypes.REPEATER,
     repeaterFields: [
-      { name: "name", label: "Nombre", placeHolder: "Ej: Juan" },
-      { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com" },
+      { name: "name", label: "Nombre", placeHolder: "Ej: Juan", withKeyboard: true, },
+      { name: "email", label: "Email", placeHolder: "Ej: juan@mail.com", withKeyboard: true },
     ],
     minItems: 1,
     maxItems: 5,
@@ -466,9 +478,11 @@ export default function FormBasics() {
   // },
   {
     name: "salary",
-    label: "Salary ...",
+    label: "Salary",
     inputType: InputTypes.CURRENCY,
+    withKeyboard: true,
     // zodType: z.number().min(100),
+    withLateralLabel: true,
     inputGroupConfig:{
       autoValidIcons: true,
       iconsLeft: [Hash]
@@ -492,6 +506,7 @@ export default function FormBasics() {
   {
     name: "tags",
     label: "Tags",
+    withKeyboard: true,
     wrapInCard: true,
     withDuplicatTag: true,
     inputType: InputTypes.STRING_LIST,
@@ -502,6 +517,7 @@ export default function FormBasics() {
     name: "secretKeys",
     label: "SECRET KEYS",
     inputType: InputTypes.KEY_VALUE,
+    withKeyboard: true,
     wrapInCard: true,
     // isRemovebleOption: true,
     zodType: z.array( 
@@ -538,6 +554,7 @@ export default function FormBasics() {
     {
       name: "age",
       label: "Edad",
+      withLateralLabel: true,
       inputType: InputTypes.NUMBER,
       keyboardType: TextInputType.NUMBER,
       inputGroupConfig:{
@@ -555,6 +572,7 @@ export default function FormBasics() {
       name: "birthDate",
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
+      withLateralLabel: true,
       // zodType: z.coerce
       //   .date(validationMessages.required)
       //   .refine((d) => d < new Date(), {
@@ -684,7 +702,7 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
-              withConfirmDialog={true}
+              // withConfirmDialog={true}
               // withSubmitBtn={false}
               // onAnyFieldChange={setDataToSend}
             // listBtnConfig={[

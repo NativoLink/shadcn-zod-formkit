@@ -12,6 +12,7 @@ interface Props<T extends Record<string, any> = Record<string, any>> {
   isPending?: boolean;
   className?: string;
   gap?: string;
+  py?: string;
 }
 
 const isRenderableChild = (c?: ReactNode | ((item: any, index: number) => ReactNode)) =>
@@ -35,6 +36,7 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
   readOnly,
   className = "",
   gap = "gap-2",
+  py="py-1",
 }: Props<T>): JSX.Element => {
   const values = form.watch(); // 🚀 valores actuales
   
@@ -56,7 +58,7 @@ export const FormFieldsGrid = <T extends Record<string, any> = Record<string, an
           return (
             <div
               key={`field-group-${idx}`}
-              className="w-full flex flex-row items-start gap-4 py-3"
+              className={`w-full flex flex-row items-start gap-4 ${py}`}
             >
               {visibleFields.map((field, subIdx) => {
                 const fieldCopy = {
