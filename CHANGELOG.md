@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.6.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.4...v3.6.0) (2026-06-02)
+
+### Features
+
+* **input-currency-with-keyboard:** agregando keyboard al input-currency y tambien ahora se puede poner el label del input al lado de manera lateral (withLateralLabel?:boolean) ([da12b6a](https://github.com/NativoLink/shadcn-zod-formkit/commit/da12b6af2be381a9e3e9a491bf55b403ab911d27))
+
 ## [3.5.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.3...v3.5.4) (2026-05-27)
 
 ### Bug Fixes
