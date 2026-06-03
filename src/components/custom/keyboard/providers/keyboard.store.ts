@@ -12,13 +12,12 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   setCurrentInputField(inputField: InputField | null) {
     set({ currentInputField: inputField });
-    console.log('Current Input Field set to:', inputField);
   },
 
   isOpen:false,
 
-  setIsOpen() { 
-    set({isOpen: !get().isOpen}) 
+  setIsOpen(open?:boolean) { 
+    set({isOpen: open ?? !get().isOpen}) 
   },
 
   registerInput: (id, initialValue = '') =>
@@ -44,7 +43,6 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
       if (currentInputField && currentInputField.field) {
         currentInputField.field.value += char;
         set({ currentInputField: currentInputField });
-        console.log('Updated currentInputField value:', state.currentInputField?.field?.value);
       }
       if (!state.activeInput) return state;
       const current = state.inputs[state.activeInput] || '';
@@ -59,10 +57,16 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   backspace: () =>
     set((state) => {
+      let currentInputField = state.currentInputField;
+      if (currentInputField && currentInputField.field) {
+        currentInputField.field.value = currentInputField.field.value.slice(0, -1);
+        set({ currentInputField: currentInputField });
+      }
+      
       if (!state.activeInput) return state;
-
+      
       const current = state.inputs[state.activeInput] || '';
-
+      console.log('RUN BACKSPACE - current value:', current);
       return {
         inputs: {
           ...state.inputs,

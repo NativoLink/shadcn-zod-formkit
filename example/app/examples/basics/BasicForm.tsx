@@ -704,7 +704,7 @@ export default function FormBasics() {
               withCard
               // withConfirmDialog={true}
               // withSubmitBtn={false}
-              // onAnyFieldChange={setDataToSend}
+              onAnyFieldChange={setDataToSend}
             // listBtnConfig={[
               //   {
                 //     variant:'outline',
