@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.8.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.7.0...v3.8.0) (2026-06-03)
+
+### Features
+
+* **fake-input-v1:** funciona con text-input-group y acepta password ([ef0029c](https://github.com/NativoLink/shadcn-zod-formkit/commit/ef0029cfa90de2b08388def2efd098d1eac570e7))
+
 ## [3.7.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.6.0...v3.7.0) (2026-06-03)
 
 ### Features
