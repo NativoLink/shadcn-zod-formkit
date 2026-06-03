@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.7.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.6.0...v3.7.0) (2026-06-03)
+
+### Features
+
+* **keyboard-keydown-events:** se reconoce las teclas pulsadas fisicamente desde el teclado qwerty por el momento ([22cb985](https://github.com/NativoLink/shadcn-zod-formkit/commit/22cb98552f02133e5905c3ca22d89d4f0be9824f))
+
 ## [3.6.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.5.4...v3.6.0) (2026-06-02)
 
 ### Features
