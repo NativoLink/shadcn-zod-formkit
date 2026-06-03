@@ -34,6 +34,7 @@ export interface FieldProps<T = Record<string,any>, RT = Record<string,any>> {
   label: string
   withKeyboard?: boolean
   withLateralLabel?: boolean
+  isFakeInput?: boolean
 
   keyboard?: KeyboardTypes
   

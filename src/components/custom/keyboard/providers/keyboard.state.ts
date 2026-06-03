@@ -7,7 +7,10 @@ type InputId = string;
 
 export type InputField = {
   input:FieldProps;
-  field?: ControllerRenderProps<FieldValues, string> | undefined
+  field?: ControllerRenderProps<FieldValues, string> | undefined;
+  name?: string;
+  onChange?: (value: any) => void;
+  getValue?: () => any;
 }
 
 export interface KeyboardState {

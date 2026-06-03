@@ -37,13 +37,36 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   focusInput: (id) => set({ activeInput: id }),
 
+  // write: (char) =>
+  //   set((state) => {
+  //     const current = state.currentInputField;
+  //     if (!current?.field) return state;
+
+  //     const newValue = (current.field.value ?? "") + char;
+
+  //     current.field.onChange(newValue); // 🔥 RHF update
+
+  //     return {
+  //       currentInputField: {
+  //         ...current,
+  //         field: {
+  //           ...current.field,
+  //           value: newValue
+  //         }
+  //       }
+  //     };
+  // }),
+
   write: (char) =>
     set((state) => {
       let currentInputField = state.currentInputField;
       if (currentInputField && currentInputField.field) {
         currentInputField.field.value += char;
+        const newValue = currentInputField.field.value
         set({ currentInputField: currentInputField });
+        currentInputField.field.onChange(newValue);
       }
+      
       if (!state.activeInput) return state;
       const current = state.inputs[state.activeInput] || '';
       
@@ -59,8 +82,10 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
     set((state) => {
       let currentInputField = state.currentInputField;
       if (currentInputField && currentInputField.field) {
-        currentInputField.field.value = currentInputField.field.value.slice(0, -1);
+        const newValue = currentInputField.field.value.slice(0, -1);
+        currentInputField.field.value = newValue;
         set({ currentInputField: currentInputField });
+        currentInputField.field.onChange(newValue);
       }
       
       if (!state.activeInput) return state;

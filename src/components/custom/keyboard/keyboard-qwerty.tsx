@@ -44,6 +44,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const isUpper = shiftMode !== 'off';
 
   useEffect(() => {
+    // if (currentInputField) currentInputField.field?.onChange()
     const handleKeyDown = (e: KeyboardEvent) => {
       // 🚫 evitar interferencias si no hay input activo
       if (!currentInputField) return;
@@ -58,7 +59,6 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       }
 
       // 🔥 BACKSPACE
-      console.log("🚀 ~ handleKeyDown ~ key:", key)
       if (key === 'Backspace') {
         backspace(); // o maneja delete en tu store
         e.preventDefault();
@@ -123,7 +123,6 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   };
 
   const handleKey = (key: string) => {
-    console.log('Key pressed:', key);
     const output = isUpper ? key.toUpperCase() : key;
 
     onKeyPress?.(output);

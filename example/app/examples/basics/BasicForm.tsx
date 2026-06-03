@@ -112,8 +112,10 @@ export default function FormBasics() {
     withKeyboard: true,
     name: "username",
     label: "Username",
+    isFakeInput: true,
     classNameGroupInput:"h-16",
     withLateralLabel: true,
+    keyboardType: TextInputType.PASSWORD,
     inputType: InputTypes.TEXT_GROUP,
     infoTooltip:"Your unique username to login",
     inputGroupConfig:{
