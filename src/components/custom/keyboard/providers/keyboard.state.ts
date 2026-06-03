@@ -34,5 +34,5 @@ export interface KeyboardState {
   
   setValue: (id: InputId, value: string) => void;
   
-  setIsOpen:()=> void
+  setIsOpen:(open?: boolean)=> void
 }

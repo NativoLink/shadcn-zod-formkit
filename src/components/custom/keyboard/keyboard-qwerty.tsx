@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, JSX } from 'react';
+import { useState, useRef, JSX, useEffect } from 'react';
 
 import { ArrowBigUp, ArrowBigUpDash, Delete } from "lucide-react";
 import { keyFontSize, letter } from './key';
@@ -40,12 +40,74 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
-
-
-  const { currentInputField, write } = useKeyboardStore();
-
-
+  const { currentInputField, write, setIsOpen, backspace } = useKeyboardStore();
   const isUpper = shiftMode !== 'off';
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 🚫 evitar interferencias si no hay input activo
+      if (!currentInputField) return;
+
+      const key = e.key;
+
+      // 🔥 ENTER
+      if (key === 'Enter') {
+        e.preventDefault();
+        onEnter?.();
+        return;
+      }
+
+      // 🔥 BACKSPACE
+      console.log("🚀 ~ handleKeyDown ~ key:", key)
+      if (key === 'Backspace') {
+        backspace(); // o maneja delete en tu store
+        e.preventDefault();
+        onDelete?.();
+        return;
+      }
+
+      // 🔥 SPACE
+      if (key === ' ') {
+        e.preventDefault();
+        handleKey(' ');
+        return;
+      }
+
+      // 🔥 SHIFT (solo cambia modo visual, no escribe)
+      if (key === 'Shift') {
+        handleShift();
+        return;
+      }
+      
+      if (key === 'CapsLock') {
+        handleCaps();
+        return;
+      }
+
+      // 🔥 TAB (opcional)
+      if (key === 'Tab') {
+        e.preventDefault();
+        return;
+      }
+
+      // 🔥 ESC (cerrar teclado)
+      if (key === 'Escape') {
+        setIsOpen(false);
+        return;
+      }
+
+      // 🔥 letras, números y símbolos válidos
+      if (key.length === 1) {
+        handleKey(key);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentInputField, shiftMode]);
 
   // 🔥 SHIFT
   const handleShift = () => {
@@ -67,9 +129,8 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     onKeyPress?.(output);
     write(output);
 
-    if (shiftMode === 'once') {
-      setShiftMode('off');
-    }
+    if (shiftMode === 'once') setShiftMode('off');
+  
   };
 
   const handleCaps = () => {
@@ -78,6 +139,16 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
 
   const shiftLabel = shiftMode === 'caps' ? ArrowBigUpDash : ArrowBigUp;
   const shiftActive = shiftMode !== 'off';
+
+  const textField = <>
+    {
+      currentInputField && (
+        <div className="p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
+          <span> {currentInputField.field?.value} </span>
+        </div>
+      )
+    }
+  </>
 
   // 🔥 =========================
   // 🔥 MODO SÍMBOLOS
@@ -94,8 +165,12 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       }))
     );
 
+
+
+
     return (
-      <>
+      <div className='w-full h-full flex flex-col'>
+        {textField}
         <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
           keys={[
             ...keys,
@@ -106,7 +181,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
             ],
           ]}
         />
-      </>
+      </div>
     );
   }
 
@@ -126,19 +201,15 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const fila4 = ['z','x','c','v','b','n','m']
     .map((l) => letter(l, isUpper, handleKey));
 
+
+
   return (
     <div className='w-full h-full flex flex-col'>
-      {
-        currentInputField && (
-          <div className="p-3 h-full flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
-            <span> {currentInputField.field?.value} </span>
-          </div>
-        )
-      }
+      {textField}
       <KeyboardBuilder className='w-full h-full flex-3' keyFontSize={keyFontSize}
         keys={[
           [
-            { label: 'esc', onClick: () => {}, className: 'bg-red-200' },
+            { label: 'esc', onClick: () => {setIsOpen(false)}, className: 'bg-red-200' },
             ...fila1,
           ],
           [
