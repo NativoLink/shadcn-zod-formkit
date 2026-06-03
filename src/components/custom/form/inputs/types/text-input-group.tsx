@@ -22,6 +22,7 @@ import { CircleCheck, CircleX, Info, Loader2, Eye, EyeOff, LucideProps, Keyboard
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/tooltip";
 import { Button } from "@/src/components/ui/button";
 import { useKeyboardStore } from "../../../keyboard";
+import { FakeInput } from "./fake-input";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
@@ -203,6 +204,18 @@ export const CustomInputGroup = ({
         return value;  
     }  
   }; 
+
+
+  if (input.isFakeInput){
+    // if (field && !field?.onChange) field.onChange = () => { console.log('CAMBIANDO....') }
+    return (
+      <FakeInput
+        input={input}
+        field={field}
+        form={form}
+      />
+    )
+  }
   
   // useEffect(()=>{
   //   setIsValid(isValidField(input, form));
@@ -310,7 +323,7 @@ export const CustomInputGroup = ({
           )}
 
           {/* Icono de validación / loading */}
-          {autoValidate && (
+          {/* {autoValidate && (
             <div>
               {isSubmitting
                 ? iconLoadingState
@@ -318,7 +331,7 @@ export const CustomInputGroup = ({
                   ? iconValidState
                   : iconInvalidState}
             </div>
-          )}
+          )} */}
         </InputGroupAddon>
       )}
     </InputGroup>
