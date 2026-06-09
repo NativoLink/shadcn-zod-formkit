@@ -116,6 +116,7 @@ export default function FormBasics() {
     classNameGroupInput:"h-16",
     withLateralLabel: true,
     keyboardType: TextInputType.PASSWORD,
+    // keyFilter: (k: string) => /^[0-9.]$/.test(k),
     inputType: InputTypes.TEXT_GROUP,
     infoTooltip:"Your unique username to login",
     inputGroupConfig:{
@@ -138,6 +139,7 @@ export default function FormBasics() {
     label: "salaryAverage",
     name: "salaryAverage",  
     withLateralLabel: true,
+    keyFilter: (k: string) => /^[0-9.]$/.test(k),
     inputType: InputTypes.NUMBER,  
     // numberFormat: {  
     //   decimalPlaces: 2,  
@@ -160,16 +162,16 @@ export default function FormBasics() {
     withKeyboard: true,
     inputType: InputTypes.TEXT_GROUP,
     // keyboardType: TextInputType.NUMBER,   
-    // mask: "###-###-####",  
-    transform: "lowercase",
-    // transform: (value) => {  
-    //   // Formatear teléfono: (123) 456-7890  
-    //   const cleaned = value.replace(/\D/g, '');  
-    //   if (cleaned.length === 10) {  
-    //     return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;  
-    //   }  
-    //   return cleaned;  
-    // },  
+    mask: "###-###-####",  
+    // transform: "lowercase",
+    transform: (value) => {  
+      // Formatear teléfono: (123) 456-7890  
+      const cleaned = value.replace(/\D/g, '');  
+      if (cleaned.length === 10) {  
+        return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;  
+      }  
+      return cleaned;  
+    },  
     // zodType: z.string().regex(/^\d{3}-\d{3}-\d{4}$/, "Formato inválido"),
     // zodType: z.string().regex(/^\d{10}$/, "Debe tener 10 dígitos")
   },
@@ -178,8 +180,8 @@ export default function FormBasics() {
     label: "Precio",  
     withLateralLabel: true,
     inputType: InputTypes.NUMBER,  
-    mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/,
-    // keyboardType: TextInputType.NUMBER,
+    // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/,
+    keyboardType: TextInputType.NUMBER,
     inputNumberConfig: {  
       allowDecimals: true,  
       decimalPlaces: 2,  

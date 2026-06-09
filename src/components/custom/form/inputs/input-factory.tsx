@@ -38,6 +38,7 @@ import {
   AutocompleteInput,
   // ✨ New input types (v1.36.0)
   EmailInput,
+  SearchInputClass,
   LocationPickerInput,
   DateRangeInput,
   CountrySelectInput,
@@ -60,7 +61,7 @@ type InputClassConstructor = new (
 ) => BaseInput;
 
 
-const inputMap: Record<InputTypes, InputClassConstructor> = {
+export const inputMap: Record<InputTypes, InputClassConstructor> = {
   [InputTypes.TEXT_GROUP]: TextInputGroup,
   [InputTypes.TEXT]: TextInput,
   [InputTypes.SWITCH]: SwitchInput,
@@ -99,7 +100,7 @@ const inputMap: Record<InputTypes, InputClassConstructor> = {
   
   // ✨ New input types (v1.36.0)
   [InputTypes.EMAIL]: EmailInput,
-  [InputTypes.SEARCH]: TextInput, // SearchInput component is currently a function component
+  [InputTypes.SEARCH]: SearchInputClass,
   [InputTypes.LOCATION_PICKER]: LocationPickerInput,
   [InputTypes.DATE_RANGE]: DateRangeInput,
   [InputTypes.COUNTRY_SELECT]: CountrySelectInput,

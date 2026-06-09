@@ -1,623 +1,344 @@
-# 🎯 Próximas Mejoras - Prioridades
+# Próximas Mejoras — shadcn-zod-formkit
 
-## 🚀 Top 5 Inputs Que Faltan
-
-### 1. 📧 EMAIL Input (Prioridad: ALTA)
-**¿Por qué es importante?**
-- Uno de los inputs más usados en formularios
-- Validación específica de email
-- Sugerencias de dominios comunes
-
-**Características:**
-```typescript
-- Autocompletado de dominios (@gmail.com, @outlook.com)
-- Detección de typos (gmial.com → gmail.com)
-- Validación RFC 5322
-- Sugerencias mientras escribes
-```
-
-**Casos de uso:**
-- Registro de usuarios (90% de formularios)
-- Login
-- Newsletter
-- Contacto
+> Análisis técnico del código fuente actual (v3.5.4) con propuestas de mejora orientadas a hacer la librería más dinámica, extensible y mantenible.  
+> Cada mejora tiene su propio spec en `.kiro/specs/`.
 
 ---
 
-### 2. 🔍 SEARCH Input (Prioridad: ALTA)
-**¿Por qué es importante?**
-- Búsqueda es fundamental en apps modernas
-- Mejora la UX significativamente
+## Estado actual del codebase
 
-**Características:**
-```typescript
-- Sugerencias en tiempo real
-- Historial de búsquedas
-- Búsqueda fuzzy
-- Resaltado de coincidencias
-- Debounce integrado
-```
-
-**Casos de uso:**
-- Búsqueda de productos
-- Filtros de tabla
-- Búsqueda de usuarios
-- Autocompletado
+La librería cuenta con ~45 tipos de input, un sistema de `FieldProps` bien definido, integración con `react-hook-form` + Zod, un teclado virtual (`KeyboardQwerty`) y soporte básico para lógica condicional vía `showWhen`. El análisis a continuación parte de leer el código real.
 
 ---
 
-### 3. 🗓️ DATE_RANGE Input (Prioridad: ALTA) ✅ COMPLETADO
-**¿Por qué es importante?**
-- Muy común en filtros y reportes
-- Mejor UX que dos campos separados
+## Resumen de specs planificados
 
-**Características:**
-```typescript
-- Calendario dual
-- Presets (Hoy, Última semana, Último mes)
-- Validación de rango
-- Formato personalizable
+| # | Nombre | Spec | Prioridad | Estado |
+|---|--------|------|-----------|--------|
+| 1 | FakeInput — navegación Tab/Shift+Tab | `fake-input-tab-navigation` | 🔴 Alta | 📋 Requirements |
+| 2 | autoValidIcons — reactivar con useWatch | `auto-valid-icons` | 🔴 Alta | 📋 Requirements |
+| 3 | Keyboard store — inmutabilidad Zustand | `keyboard-store-immutability` | 🔴 Alta | 📋 Requirements |
+| 4 | flattenFields — propagar onAnyFieldChange | `flatten-fields-propagation` | 🟡 Media | 📋 Requirements |
+| 5 | showWhen — reactivo con useWatch | `show-when-reactive` | 🔴 Alta | 📋 Requirements |
+| 6 | InputTypes — completar registro | `input-types-registry` | 🔴 Alta | 📋 Requirements |
+| 7 | TextInput — props UX (clearable, copyable…) | `text-input-ux-props` | 🟡 Media | 📋 Requirements |
+| 8 | ListConfig.optionValue — tipo correcto | `list-config-option-value-type` | 🟢 Baja | 📋 Requirements |
+| 9 | Accesibilidad aria-* en todos los inputs | `accessibility-aria-attributes` | 🟡 Media | 📋 Requirements |
+
+---
+
+## 1. FakeInput — Navegación Tab/Shift+Tab
+
+**Spec:** `.kiro/specs/fake-input-tab-navigation/`
+
+**Problema:** `FakeInput` es un `<div tabIndex={0}>` que intercepta todos los eventos de teclado desde `window` llamando `e.preventDefault()` de forma incondicional. Esto bloquea la tecla Tab — el usuario queda atrapado en el campo y no puede avanzar al siguiente.
+
+**Archivo:** `fake-input.tsx`
+
+```ts
+// ❌ Bloquea Tab también
+const handleKeyDown = (e: KeyboardEvent) => {
+  e.preventDefault();  // ← bloquea Tab
+  if (e.key === "Backspace") { backspace(); return; }
+  ...
+};
 ```
 
-**Casos de uso:**
-- Filtros de reportes
-- Reservaciones de hotel
-- Análisis de datos
-- Historial de transacciones
+**Solución:** Detectar `e.key === "Tab"` antes del `preventDefault`, calcular el siguiente/anterior elemento enfocable en el DOM, mover el foco manualmente con `.focus()` y cerrar el teclado virtual si está abierto.
 
-**Datos retornados:**
-```typescript
-{
-  from?: Date;
-  to?: Date;
+```ts
+if (e.key === "Tab") {
+  e.preventDefault();
+  const focusables = getFocusableElements();
+  const next = e.shiftKey ? getPrev(focusables, ref.current) : getNext(focusables, ref.current);
+  if (next) {
+    setIsOpen(false);
+    setCurrentInputField(null);
+    next.focus();
+  }
+  return;
 }
 ```
 
-**Implementación:**
-- Archivo: `src/components/custom/form/inputs/types/date-range-input.tsx`
-- Ejemplo completo: `example/app/examples/advanced/DateRangeForm.tsx`
-- Tab en ejemplos: "🗓️ Date Range"
+**Impacto:** Alto. Bloqueaba toda la navegación por teclado en formularios con campos FakeInput.
 
 ---
 
-### 4. 🌍 COUNTRY_SELECT Input (Prioridad: MEDIA) ✅ COMPLETADO
-**¿Por qué es importante?**
-- Formularios internacionales
-- Mejor UX con banderas
+## 2. autoValidIcons — Reactivar con `useWatch`
 
-**Características:**
-```typescript
-- Lista completa de países (ISO 3166)
-- Banderas SVG
-- Búsqueda por nombre o código
-- Países preferidos al inicio
+**Spec:** `.kiro/specs/auto-valid-icons/`
+
+**Problema:** El bloque de renderizado de los iconos de validación está comentado en `text-input-group.tsx`. Configurar `autoValidIcons: true` no produce efecto visual alguno.
+
+**Archivo:** `text-input-group.tsx`
+
+```tsx
+// ❌ Comentado — no renderiza nada
+// {autoValidate && (
+//   <div>
+//     {isSubmitting ? iconLoadingState : isValid ? iconValidState : iconInvalidState}
+//   </div>
+// )}
 ```
 
-**Casos de uso:**
-- Formularios de dirección
-- Registro internacional
-- Configuración de idioma
+Además, `isValid` se calcula con `useState` inicializado una sola vez, no reactivo.
 
-**Datos retornados:**
-```typescript
-string // Country code (e.g., "US", "CA", "MX")
+**Solución:**
+
+```tsx
+const watchedValue = useWatch({ control: form.control, name: input.name });
+const isValid = useMemo(() => isValidField(input, form), [watchedValue]);
+// Y descomentar el bloque de renderizado
 ```
 
-**Implementación:**
-- Archivo: `src/components/custom/form/inputs/types/country-select-input.tsx`
-- Ejemplo completo: `example/app/examples/advanced/CountrySelectForm.tsx`
-- Tab en ejemplos: "🌍 Country Select"
+También hay un bug en el cálculo de `autoValidate`:
+```ts
+// ❌ Precedencia incorrecta — evalúa como: (groupConfig?.autoValidIcons ?? input.zodType) ? true : false
+const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
+// ✅ Correcto
+const autoValidate = groupConfig?.autoValidIcons !== undefined 
+  ? groupConfig.autoValidIcons 
+  : input.zodType !== undefined;
+```
+
+**Impacto:** Alto. Feature documentada y anunciada que no funcionaba.
 
 ---
 
-### 5. 📊 RANGE Input (Prioridad: MEDIA) ✅ COMPLETADO
-**¿Por qué es importante?**
-- Filtros de precio muy comunes
-- Mejor UX que dos inputs numéricos
+## 3. Keyboard Store — Inmutabilidad (bug Zustand)
 
-**Características:**
-```typescript
-- Doble slider (min/max)
-- Valores visibles
-- Histograma opcional
-- Marcas personalizadas
+**Spec:** `.kiro/specs/keyboard-store-immutability/`
+
+**Problema:** Los métodos `write` y `backspace` mutan el objeto `currentInputField` directamente en lugar de crear nuevas referencias. Esto rompe la reactividad de Zustand porque la referencia del objeto no cambia.
+
+**Archivo:** `keyboard.store.ts`
+
+```ts
+// ❌ Mutación directa
+write: (char) => set((state) => {
+  let currentInputField = state.currentInputField;
+  currentInputField.field.value += char;            // ← muta objeto existente
+  set({ currentInputField: currentInputField });    // ← set() anidado (anti-patrón)
+  currentInputField.field.onChange(newValue);
+})
 ```
 
-**Casos de uso:**
-- Filtro de precios
-- Rango de edad
-- Filtro de calificaciones
+Además, `clear()` no actualiza `currentInputField`, solo limpia el mapa `inputs`.
 
-**Datos retornados:**
-```typescript
-{
-  min: number;
-  max: number;
-}
-```
+**Solución:**
 
-**Implementación:**
-- Archivo: `src/components/custom/form/inputs/types/range-input.tsx`
-- Ejemplo completo: `example/app/examples/advanced/RangeForm.tsx`
-- Tab en ejemplos: "📊 Range"
-
----
-
-### 3. 📍 LOCATION_PICKER Input (Prioridad: ALTA) ✅ COMPLETADO
-**¿Por qué es importante?**
-- Ubicaciones son críticas en apps modernas
-- Mejor UX que escribir direcciones manualmente
-- OpenStreetMap es gratuito y open source
-
-**Características:**
-```typescript
-- ✅ Mapa interactivo con OpenStreetMap (Leaflet)
-- ✅ Búsqueda de direcciones (geocoding con Nominatim)
-- ✅ Marcador arrastrable
-- ✅ Detección de ubicación actual (GPS)
-- ✅ Zoom y navegación del mapa
-- ✅ Coordenadas lat/lng con 6 decimales
-- ✅ Dirección formateada
-- ✅ Reverse geocoding (coordenadas → dirección)
-- ✅ Soporte para required/optional (oculta botón "Clear" si es required)
-- ✅ Integración completa con React Hook Form
-- ✅ Props configurables (defaultZoom, showSearch, showCurrentLocation, showCoordinates, height)
-```
-
-**Casos de uso:**
-- Formularios de dirección
-- Registro de negocios
-- Apps de delivery
-- Check-in de ubicación
-- Reportes con geolocalización
-- Búsqueda de lugares cercanos
-
-**Datos retornados:**
-```typescript
-{
-  lat: number;
-  lng: number;
-  address?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-  formattedAddress?: string;
-}
-```
-
-**Implementación:**
-- Archivo: `src/components/custom/form/inputs/types/location-picker-input.tsx`
-- Componente de mapa: `src/components/custom/form/inputs/types/map-component.tsx`
-- Ejemplo completo: `example/app/examples/advanced/LocationPickerForm.tsx`
-- Tab en ejemplos: "📍 Location Picker"
-
----
-
-### 6. 📁 FILE_UPLOAD Input (Prioridad: ALTA)
-**¿Por qué es importante?**
-- Carga de archivos es fundamental en apps modernas
-- Mejora significativa en UX con drag & drop
-- Casos de uso muy comunes
-
-**Características:**
-```typescript
-- ✅ Drag & drop para archivos
-- ✅ Barra de progreso de carga
-- ✅ Validación de tipos de archivo
-- ✅ Validación de tamaño máximo
-- ✅ Vista previa (imágenes, videos, audio, PDF)
-- ✅ Múltiples archivos o un solo archivo
-- ✅ Callbacks de progreso y completación
-- ✅ Cancelación de carga
-- ✅ Manejo de errores de upload
-```
-
-**Casos de uso:**
-- Carga de avatar/perfil
-- Carga de documentos (facturas, contratos)
-- Carga de imágenes de productos
-- Carga de multimedia
-- Carga de certificados
-
-**Datos retornados:**
-```typescript
-interface FileData {
-  name: string;
-  size: number;
-  type: string;
-  lastModified: number;
-  file?: File;
-  preview?: string;  // Data URL para vista previa
-  uploadProgress?: number;
-  uploadedUrl?: string;  // URL después de upload
-}
-```
-
-**Props Configuration (FileConfig):**
-```typescript
-interface FileConfig {
-  dragAndDrop?: boolean;           // Habilitar drag & drop (default: true)
-  progressBar?: boolean;            // Mostrar barra de progreso (default: true)
-  uploadUrl?: string;               // URL del endpoint para subir
-  onUploadProgress?: (progress: number) => void;  // Callback de progreso
-  onUploadComplete?: (response: any) => void;    // Callback de completación
-  previewFormats?: {
-    image?: boolean;               // Preview para imágenes (default: true)
-    video?: boolean;               // Preview para videos (default: false)
-    audio?: boolean;               // Preview para audio (default: false)
-    pdf?: boolean;                 // Preview para PDFs (default: false)
+```ts
+// ✅ Inmutable — nueva referencia
+write: (char) => set((state) => {
+  const current = state.currentInputField;
+  if (!current?.field) return state;
+  const newValue = (current.field.value ?? "") + char;
+  current.field.onChange(newValue);
+  return {
+    currentInputField: {
+      ...current,
+      field: { ...current.field, value: newValue }
+    }
   };
-  maxSize?: number;                // Tamaño máximo en bytes (default: 10MB)
-  maxFiles?: number;               // Número máximo de archivos
-  acceptedFormats?: string[];      // Tipos MIME aceptados
-  multiple?: boolean;              // Permitir múltiples archivos
+})
+```
+
+**Impacto:** Alto. Afecta la confiabilidad del teclado virtual en todos los inputs.
+
+---
+
+## 4. `flattenFields` — Propagar `onAnyFieldChange` recursivamente
+
+**Spec:** `.kiro/specs/flatten-fields-propagation/`
+
+**Problema:** Las llamadas recursivas de `flattenFields` no pasan el callback `onAnyFieldChange`, por lo que los campos anidados en layouts de filas/columnas nunca lo reciben.
+
+**Archivo:** `definitions.ts`
+
+```ts
+// ❌ onAnyFieldChange se pierde en la recursión
+for (const field of fields) {
+  if (Array.isArray(field)) {
+    result.push(...flattenFields(field)); // ← no pasa onAnyFieldChange
+  }
 }
 ```
 
-**Ejemplo de uso:**
-```typescript
-<FileUploadInput
-  value={files}
-  onChange={setFiles}
-  label="Cargar Documentos"
-  placeholder="Arrastra archivos aquí"
-  required
-  dragAndDrop={true}
-  progressBar={true}
-  uploadUrl="/api/upload"
-  onUploadProgress={(progress) => console.log(`${progress}%`)}
-  onUploadComplete={(response) => console.log('Upload completado')}
-  previewFormats={{
-    image: true,
-    pdf: true,
-  }}
-  maxSize={50 * 1024 * 1024}  // 50MB
-  acceptedFormats={['image/*, application/pdf']}
-  multiple={true}
-/>
+**Solución:** Una línea:
+
+```ts
+result.push(...flattenFields(field, onAnyFieldChange)); // ✅
 ```
 
-**Integración con DynamicForm:**
-```typescript
-{
-  name: 'documents',
-  label: 'Documentos Requeridos',
-  inputType: InputTypes.FILE_UPLOAD,
-  zodType: z.array(z.object({
-    name: z.string(),
-    size: z.number(),
-    type: z.string(),
-    uploadedUrl: z.string().url(),
-  })),
-  required: true,
-  dragAndDrop: true,
-  progressBar: true,
-  uploadUrl: '/api/upload',
-  previewFormats: {
-    image: true,
-    pdf: true,
-  },
-  maxFiles: 5,
-  maxSize: 50 * 1024 * 1024,
+**Impacto:** Medio. `onAnyFieldChange` no dispara en formularios con layout en filas.
+
+---
+
+## 5. `showWhen` — Evaluación Reactiva
+
+**Spec:** `.kiro/specs/show-when-reactive/`
+
+**Problema:** `FormFieldsGrid` usa `form.watch()` para obtener valores, lo que puede producir evaluaciones obsoletas de `showWhen` si React agrupa o difiere renders. Además, la prop `hidden: true` no se respeta en `shouldShowField`.
+
+**Archivo:** `FormFieldsGrid.tsx`
+
+**Solución:**
+- Reemplazar `form.watch()` por `useWatch({ control: form.control })`
+- Añadir evaluación de `hidden` antes de `showWhen` (cortocircuito)
+
+```tsx
+const allValues = useWatch({ control: form.control });
+const shouldShowField = (field, values) => {
+  if (field.hidden) return false;  // ← nuevo: hidden tiene precedencia
+  if (typeof field.showWhen === 'function') {
+    try { return !!field.showWhen(values); }
+    catch { return true; }
+  }
+  return true;
+};
+```
+
+**Impacto:** Alto. Afecta todos los formularios con lógica condicional.
+
+---
+
+## 6. Completar Registro de `InputTypes`
+
+**Spec:** `.kiro/specs/input-types-registry/`
+
+**Problema:** Los tipos `DATE_RANGE`, `COUNTRY_SELECT`, `RANGE` y `FILE_UPLOAD` existen en el enum y en `inputMap` (el factory los resuelve bien), pero **faltan en el array `inputFieldComp`** que los consumidores usan para descubrir los tipos disponibles.
+
+Además, `InputTypes.SEARCH` está mapeado a `TextInput` en lugar de su propio componente porque `SearchInput` es una función React, no una clase que extienda `BaseInput`.
+
+**Archivo:** `input-types.ts`, `input-factory.tsx`
+
+**Solución:** Añadir los 4 tipos al array + crear clase `SearchInput` que envuelva el componente funcional existente.
+
+**Impacto:** Alto. Inputs declarados como disponibles que los consumidores no pueden descubrir.
+
+---
+
+## 7. TextInputGroup — Implementar Props UX
+
+**Spec:** `.kiro/specs/text-input-ux-props/`
+
+**Problema:** Estas props están declaradas en `FieldProps` pero **no tienen implementación** en ningún componente:
+
+| Prop | Tipo | Comportamiento esperado |
+|------|------|------------------------|
+| `clearable` | `boolean` | Botón X en addon derecho que limpia el campo |
+| `copyable` | `boolean` | Botón copiar en addon derecho → clipboard |
+| `showCharCount` | `boolean` | Contador `actual/máximo` (requiere `maxLength`) |
+| `debounce` | `number` | Retrasa `onChange`/`onAnyFieldChange` N ms |
+| `helpText` | `string` | Panel expandible con ayuda contextual |
+
+**Archivo:** `text-input-group.tsx`
+
+**Impacto:** Alto. Un consumidor que configure estas props no verá efecto alguno.
+
+---
+
+## 8. `ListConfig.optionValue` — Corrección de Tipo
+
+**Spec:** `.kiro/specs/list-config-option-value-type/`
+
+**Problema:** El tipo actual es `InputOption | string | number | object`, siendo `string` el único valor semánticamente correcto (es el nombre de la propiedad a usar como valor).
+
+**Archivo:** `definitions.ts`
+
+```ts
+// ❌ Tipo inconsistente
+interface ListConfig {
+  optionValue?: InputOption | string | number | object
+}
+
+// ✅ Correcto
+interface ListConfig {
+  optionValue?: string  // nombre de la propiedad del objeto que se usa como valor
 }
 ```
 
+Es un **breaking change** que requiere entrada en CHANGELOG y guía de migración.
+
+**Impacto:** Bajo en funcionalidad, alto en DX. Todos los componentes internos ya tratan `optionValue` como `string` con castings explícitos.
+
 ---
 
-## 🎨 Top 5 Features Que Faltan
+## 9. Accesibilidad — Atributos `aria-*`
 
-### 1. 🔄 Conditional Logic Visual Editor (Prioridad: ALTA)
-**¿Por qué es importante?**
-- Formularios dinámicos son muy comunes
-- Actualmente requiere código
+**Spec:** `.kiro/specs/accessibility-aria-attributes/`
 
-**Características:**
-```typescript
-- Editor visual de reglas
-- Múltiples condiciones (AND/OR)
-- Preview en tiempo real
-- Exportar como código
+**Problema:** Las props `ariaLabel`, `ariaDescribedBy`, `ariaRequired` están definidas en `FieldProps` pero nunca se aplican al elemento `<input>`. Tampoco se expone `aria-invalid` basado en el estado de error de react-hook-form.
+
+**Archivo:** `definitions.ts`, `text-input-group.tsx` y todos los tipos de input.
+
+**Solución:** Crear una función `AriaResolver` centralizada en `base/`:
+
+```ts
+export const resolveAriaAttributes = (input: FieldProps, fieldState: FieldState) => ({
+  'aria-label': input.ariaLabel ?? input.label,
+  ...(input.ariaDescribedBy || input.description
+    ? { 'aria-describedby': input.ariaDescribedBy ?? `${String(input.name)}-description` }
+    : {}),
+  ...(input.ariaRequired ?? input.required
+    ? { 'aria-required': true }
+    : {}),
+  ...(fieldState.isTouched && fieldState.error
+    ? { 'aria-invalid': true }
+    : {}),
+});
 ```
 
-**Ejemplo:**
-```
-SI campo "userType" = "student"
-ENTONCES mostrar campo "studentId"
-```
+Aplicar el resolver en `InputGroupInput` y propagar al resto de tipos de input.
+
+**Impacto:** Medio. Requerido para cumplir WCAG 2.1 AA criterios 4.1.2, 1.3.1 y 1.3.5.
 
 ---
 
-### 2. ✅ Validation Rules Builder (Prioridad: ALTA)
-**¿Por qué es importante?**
-- Validaciones complejas son difíciles
-- Zod puede ser intimidante para principiantes
+## Mejoras futuras (sin spec aún)
 
-**Características:**
-```typescript
-- Constructor visual de reglas
-- Reglas predefinidas
-- Mensajes personalizados
-- Preview de errores
-```
+### `FormContext` — Eliminar prop drilling
 
-**Ejemplo:**
-```
-Campo "password":
-- Mínimo 8 caracteres
-- Al menos 1 mayúscula
-- Al menos 1 número
-- Al menos 1 símbolo
-```
+`UseFormReturn` se pasa como prop en cascada por toda la jerarquía. Para `REPEATER` y `REPEATER_TABS` esto genera forms anidados difíciles de manejar.
+
+**Propuesta:** `React.createContext` que exponga `form`, `isSubmitting` y callbacks. Los inputs consumen del contexto en lugar de recibir props.
+
+**Impacto:** Alto (refactor estructural). No planificado aún por ser disruptivo.
 
 ---
 
-### 3. 🎨 Theme System (Prioridad: MEDIA)
-**¿Por qué es importante?**
-- Personalización de marca
-- Dark mode es estándar ahora
+### `formatNumber` — Extraer como utilidad compartida
 
-**Características:**
-```typescript
-- Temas predefinidos
-- Dark/Light mode
-- Personalización completa
-- CSS variables
-```
+`formatNumber` está definida localmente en `text-input-group.tsx` pero `NumberInput` tiene su propia implementación separada. Debería vivir en `base-input.ts`.
 
 ---
 
-### 4. 📱 Multi-Step Forms (Prioridad: MEDIA)
-**¿Por qué es importante?**
-- Formularios largos necesitan pasos
-- Mejor conversión
+### Nuevos tipos de input
 
-**Características:**
-```typescript
-- Wizard con pasos
-- Barra de progreso
-- Validación por paso
-- Guardar progreso
-```
+| Input | Notas |
+|---|---|
+| `RICH_TEXT` | Dependencia: `tiptap` o `quill` |
+| `SIGNATURE` | Canvas + touch events |
+| `CHIPS` | Tipo `STRING_LIST` con opciones predefinidas |
+| `TEXTAREA` | El archivo existe, verificar que esté en el factory |
 
 ---
 
-### 5. 🌐 i18n Support (Prioridad: MEDIA)
-**¿Por qué es importante?**
-- Apps internacionales
-- Mensajes de error en múltiples idiomas
+### Suite de tests
 
-**Características:**
-```typescript
-- Múltiples idiomas
-- Mensajes traducidos
-- Formato de fecha/número por región
-- RTL support
-```
+Con 45+ inputs y lógica de validación compleja, la cobertura actual es mínima. Prioridad con Vitest + Testing Library:
+
+1. `flattenFields` — aplanamiento con todos los niveles de anidamiento
+2. `handleOnChage` — callbacks y eventos DOM
+3. `isValidField` — validación Zod y fieldState
+4. `showWhen` + `hidden` — lógica condicional
+5. Render básico por cada tipo de input
 
 ---
 
-## 🎯 Implementación Sugerida
+## Notas de implementación
 
-### Mes 1: Inputs Básicos
-**Semana 1-2:**
-- [x] EMAIL Input ✅
-- [x] SEARCH Input ✅
-- [ ] Documentación y ejemplos
-
-**Semana 3-4:**
-- [ ] LOCATION_PICKER Input
-- [ ] Documentación y ejemplos
-
-### Mes 2: Inputs Avanzados
-**Semana 1-2:**
-- [x] DATE_RANGE Input ✅
-- [ ] Documentación y ejemplos
-
-**Semana 3-4:**
-- [x] COUNTRY_SELECT Input ✅
-- [x] RANGE Input ✅
-- [x] Documentación y ejemplos ✅
-
-### Mes 3: Inputs & Features Avanzados
-**Semana 1-2:**
-- [ ] FILE_UPLOAD Input
-- [ ] Documentación y ejemplos
-
-**Semana 3-4:**
-- [ ] Conditional Logic Visual Editor
-- [ ] Documentación y ejemplos
-
-### Mes 4: Validación y Features Avanzados
-**Semana 1-2:**
-- [ ] Validation Rules Builder
-- [ ] Documentación y ejemplos
-
-**Semana 3-4:**
-- [ ] Theme System
-- [ ] Multi-Step Forms
-- [ ] i18n Support
-- [ ] Documentación completa
-
----
-
-## 💡 Quick Wins (Implementación Rápida)
-
-### 1. EMAIL Input (2-3 días) ✅ COMPLETADO
-- ✅ Usar input TEXT como base
-- ✅ Agregar validación de email
-- ✅ Agregar sugerencias de dominios
-- ✅ Agregar detección de typos
-
-### 2. SEARCH Input (2-3 días) ✅ COMPLETADO
-- ✅ Usar input TEXT como base
-- ✅ Agregar icono de búsqueda
-- ✅ Agregar debounce
-- ✅ Agregar historial (localStorage)
-
-### 3. LOCATION_PICKER Input (4-5 días) ✅ COMPLETADO
-- ✅ Integrar OpenStreetMap (Leaflet)
-- ✅ Agregar geocoding (Nominatim API)
-- ✅ Agregar marcador arrastrable
-- ✅ Agregar búsqueda de direcciones
-- ✅ Agregar detección de ubicación actual
-- ✅ Agregar zoom y controles
-- ✅ Soporte para required/optional
-
-### 4. DATE_RANGE Input (3-4 días)
-- Usar DATE input como base
-- Agregar segundo calendario
-- Agregar presets
-- Agregar validación de rango
-
-### 5. FILE_UPLOAD Input (4-5 días)
-- Implementar drag & drop
-- Agregar barra de progreso
-- Agregar vista previa (imagen, video, audio, PDF)
-- Agregar validación de tamaño y tipo
-- Integración con endpoint de upload
-
----
-
-## 🎨 Mejoras de UX Rápidas
-
-### 1. Loading States (1 día)
-- Skeleton loaders
-- Spinners
-- Disabled states
-
-### 2. Error Messages Mejorados (1 día)
-- Iconos de error
-- Animaciones
-- Colores más visibles
-
-### 3. Success States (1 día)
-- Checkmarks animados
-- Mensajes de éxito
-- Confetti opcional 🎉
-
-### 4. Tooltips Mejorados (1 día)
-- Posicionamiento inteligente
-- Animaciones suaves
-- Más información
-
-### 5. Keyboard Navigation (2 días)
-- Tab navigation mejorada
-- Shortcuts
-- Focus visible
-
----
-
-## 📊 Impacto vs Esfuerzo
-
-### Alto Impacto, Bajo Esfuerzo ⭐⭐⭐
-1. ✅ EMAIL Input (COMPLETADO)
-2. ✅ SEARCH Input (COMPLETADO)
-3. Loading States
-4. Error Messages Mejorados
-
-### Alto Impacto, Medio Esfuerzo ⭐⭐
-1. LOCATION_PICKER Input (GPS/OpenStreetMap)
-2. DATE_RANGE Input
-3. ✅ Conditional Logic Editor (COMPLETADO)
-4. Validation Builder
-5. Theme System
-6. FILE_UPLOAD Input (Drag & Drop/Progress Bar)
-
-### Alto Impacto, Alto Esfuerzo ⭐
-1. Multi-Step Forms
-2. i18n Support
-3. Rich Text Editor
-4. Image Picker
-
-### Medio Impacto, Bajo Esfuerzo
-1. COUNTRY_SELECT Input
-2. RANGE Input
-3. Success States
-4. Tooltips Mejorados
-
----
-
-## 🚀 Recomendación Final
-
-**Para la próxima versión (v1.36.0):**
-
-### Must Have: ✅ COMPLETADO
-1. ✅ EMAIL Input (COMPLETADO)
-2. ✅ SEARCH Input (COMPLETADO)
-3. ✅ LOCATION_PICKER Input (COMPLETADO)
-4. ✅ DATE_RANGE Input (COMPLETADO)
-5. ✅ COUNTRY_SELECT Input (COMPLETADO)
-6. ✅ RANGE Input (COMPLETADO)
-
-### Should Have:
-1. FILE_UPLOAD Input
-2. Conditional Logic Visual Editor
-3. Validation Rules Builder
-4. Loading States mejorados
-5. Error Messages mejorados
-
-### Nice to Have:
-1. Success States
-2. Tooltips mejorados
-3. Theme System
-4. Multi-Step Forms
-
-**Estado actual:** 6/6 inputs básicos completados ✅ | FILE_UPLOAD en desarrollo
-
-**Impacto:** Alto - Estos inputs cubren el 90% de casos de uso comunes
-
-**Próximo paso:** FILE_UPLOAD Input 📁 + Conditional Logic Visual Editor 🔄🧠
-
----
-
-## 💬 Feedback de la Comunidad
-
-**¿Qué inputs/features te gustaría ver primero?**
-
-Opciones para votar:
-1. ✅ 📧 EMAIL Input (COMPLETADO)
-2. ✅ 🔍 SEARCH Input (COMPLETADO)
-3. 🚧 📍 LOCATION_PICKER Input (EN PROGRESO)
-4. 🗓️ DATE_RANGE Input
-5. ✅ 🔄 Conditional Logic Editor (COMPLETADO)
-6. ✅ Validation Builder
-7. 🎨 Theme System
-8. 📱 Multi-Step Forms
-9. 🌐 i18n Support
-
-**Vota en:** [GitHub Discussions / Issues]
-
----
-
-## ✅ Progreso Actual
-
-**v1.35.0 - Completado:**
-- ✅ RATING Input
-- ✅ PHONE Input
-- ✅ URL Input
-- ✅ PASSWORD Input
-- ✅ AUTOCOMPLETE Input
-- ✅ Conditional Logic Editor
-- ✅ 50+ FieldProps properties
-- ✅ Validation utilities
-- ✅ Theme configuration
-
-**v1.36.0 - En Progreso:**
-- ✅ EMAIL Input (COMPLETADO)
-- ✅ SEARCH Input (COMPLETADO)
-- ✅ LOCATION_PICKER Input (COMPLETADO)
-- ✅ DATE_RANGE Input (COMPLETADO)
-- ✅ COUNTRY_SELECT Input (COMPLETADO)
-- ✅ RANGE Input (COMPLETADO)
-- ⏳ Conditional Logic Visual Editor
-- ⏳ Loading States mejorados
-
-**v1.37.0 - Próximo:**
-- ⏳ FILE_UPLOAD Input
-- ⏳ Documentación y ejemplos
-- ⏳ Validation Rules Builder
-- ⏳ Theme System mejorado
-
----
-
-**¡Continuamos con FILE_UPLOAD Input!** 📁⬆️
+- Los specs de bugs críticos (1-3) se deben ejecutar primero — corrigen comportamientos rotos
+- Los specs 4-6 son el segundo bloque — mejoran la consistencia del sistema
+- Los specs 7-9 son mejoras de calidad y pueden ir en paralelo
+- El spec `FormContext` es un refactor de largo alcance y requiere análisis de impacto antes de planificarse

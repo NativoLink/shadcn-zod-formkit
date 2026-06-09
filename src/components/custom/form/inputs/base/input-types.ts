@@ -52,7 +52,7 @@ export enum InputTypes {
   FILE_UPLOAD = "file_upload",
 }
 
-export const inputFieldComp = [
+export const inputFieldComp: InputTypes[] = [
   InputTypes.STRING_LIST,
   InputTypes.REPEATER_TABS,
   InputTypes.SORTABLE_LIST,
@@ -95,4 +95,9 @@ export const inputFieldComp = [
   InputTypes.EMAIL,
   InputTypes.SEARCH,
   InputTypes.LOCATION_PICKER,
+  InputTypes.DATE_RANGE,
+  InputTypes.COUNTRY_SELECT,
+  InputTypes.RANGE,
+  // ✨ New input types (v1.37.0)
+  InputTypes.FILE_UPLOAD,
 ]

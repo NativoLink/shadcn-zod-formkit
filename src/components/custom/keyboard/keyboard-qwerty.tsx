@@ -2,11 +2,13 @@
 
 import { useState, useRef, JSX, useEffect } from 'react';
 
-import { ArrowBigUp, ArrowBigUpDash, Delete } from "lucide-react";
+import { ArrowBigUp, ArrowBigUpDash, Delete, DeleteIcon } from "lucide-react";
 import { keyFontSize, letter } from './key';
 import { KeyboardBuilder } from './keyboard-builder';
 import { useKeyboardStore } from './providers/keyboard.store';
 import { BaseKeyboard } from './keyboard-base';
+import { fontSizeClasses } from '../form/theme/theme-config';
+import { FieldProps, TextInputType } from '../form/inputs/base/definitions';
 
 type ShiftMode = "off" | "once" | "caps";
 type KeyboardMode = "letters" | "symbols";
@@ -16,12 +18,13 @@ type Props = {
   onDelete?: () => void;
   onEnter?: () => void;
   keyFontSize?: keyFontSize;
+  input?: FieldProps
 };
 
 
 
 export class QwertyKeyboard extends BaseKeyboard {
-  render(): JSX.Element {
+  render(input?: FieldProps): JSX.Element {
     return (
       <KeyboardQwerty />
     );
@@ -36,7 +39,7 @@ export class QwertyKeyboard extends BaseKeyboard {
 // }
 
 
-export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete  }: Props) => {
+export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete, input  }: Props) => {
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
@@ -99,6 +102,14 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       // 🔥 letras, números y símbolos válidos
       if (key.length === 1) {
         handleKey(key);
+        const isAllowed = true;
+        // const isAllowed =
+        // currentInputField.input.keyFilter?.(key) ?? true;
+
+        if (!isAllowed) {
+          e.preventDefault();
+          return;
+        }
       }
     };
 
@@ -108,6 +119,17 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [currentInputField, shiftMode]);
+
+
+  // useEffect(() => {
+  //   const field = currentInputField?.field
+  //   const input = currentInputField?.input
+  //   console.log('(data)=>onAnyFieldChange(data)', input?.onAnyFieldChange )
+  //   // currentInputField?.input?.onAnyFieldChange?.({
+  //   //   name: field?.name,
+  //   //   value: currentInputField?.field?.value,
+  //   // });
+  // },[currentInputField?.field?.value])
 
   // 🔥 SHIFT
   const handleShift = () => {
@@ -138,12 +160,18 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
 
   const shiftLabel = shiftMode === 'caps' ? ArrowBigUpDash : ArrowBigUp;
   const shiftActive = shiftMode !== 'off';
-
+  
   const textField = <>
     {
       currentInputField && (
         <div className="p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
-          <span> {currentInputField.field?.value} </span>
+          <span> 
+            {
+              (currentInputField.input && currentInputField.input.keyboardType == TextInputType.PASSWORD )
+              ? '•'.repeat(currentInputField.field?.value.toString().length)
+              : currentInputField.field?.value || ""
+            }
+          </span>
         </div>
       )
     }
@@ -210,6 +238,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
           [
             { label: 'esc', onClick: () => {setIsOpen(false)}, className: 'bg-red-200' },
             ...fila1,
+            { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs' },
           ],
           [
             { label: 'tab', onClick: () => {} },

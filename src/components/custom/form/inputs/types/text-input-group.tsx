@@ -23,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/components/ui/too
 import { Button } from "@/src/components/ui/button";
 import { useKeyboardStore } from "../../../keyboard";
 import { FakeInput } from "./fake-input";
+import { cn } from "@/src/lib";
 
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
@@ -90,6 +91,19 @@ interface customInputGroup {
   autoValidate?: boolean, 
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined
 }
+
+
+export const applyInputFilter = (
+  value: any,
+  filter?: (key: any) => boolean
+) => {
+  if (!filter) return value;
+
+  return value
+    .split('')
+    .filter(filter)
+    .join('');
+};
 
 export const CustomInputGroup = ({
   value,
@@ -206,22 +220,38 @@ export const CustomInputGroup = ({
   }; 
 
 
-  if (input.isFakeInput){
-    // if (field && !field?.onChange) field.onChange = () => { console.log('CAMBIANDO....') }
-    return (
-      <FakeInput
-        input={input}
-        field={field}
-        form={form}
-      />
-    )
-  }
+  // if (input.isFakeInput){
+  //   // if (field && !field?.onChange) field.onChange = () => { console.log('CAMBIANDO....') }
+  //   return (
+  //     <FakeInput
+  //       input={input}
+  //       field={field}
+  //       form={form}
+  //     />
+  //   )
+  // }
   
   // useEffect(()=>{
   //   setIsValid(isValidField(input, form));
   // },[input])
+
+  let fieldType = (isPasswordField && !showPassword) ? "password" : isNumberField ? "number" : "text" 
+  if (input.isFakeInput) fieldType = 'hidden'
+  const inputGroupClass = input.isFakeInput ? fieldType : ''
+
+
+  useEffect(() => {
+    if (!input.isFakeInput) return 
+    console.log('(data)=>onAnyFieldChange(data)', input?.onAnyFieldChange )
+    // field?.onChange(value);
+    // isValidField(input, form);
+    handleOnChage(field?.value, input, field);
+  },[field?.value])
+
   return (
-    <InputGroup className={input.classNameGroupInput ?? 'h-10'}>
+    <>
+    { input.isFakeInput && (<FakeInput input={input} field={field} form={form} setShowPassword={setShowPassword} isPasswordField={isPasswordField} showPassword={showPassword}   />) }
+    <InputGroup className={cn(input.classNameGroupInput ?? 'h-10', inputGroupClass)}>
       {/* Iconos izquierda */}
       {(iconsLeft.length > 0 || textLeft) && (
         <InputGroupAddon>
@@ -231,6 +261,7 @@ export const CustomInputGroup = ({
           ))}
         </InputGroupAddon>
       )}
+
 
       {/* Input principal */}
       <InputGroupInput
@@ -243,17 +274,16 @@ export const CustomInputGroup = ({
         }
         name={field?.name}
         ref={field?.ref}
-        type={isPasswordField && !showPassword
-          ? "password"
-          : isNumberField
-            ? "number"
-            : "text"}
+        type={fieldType}
         value={field?.value ?? value ?? ""}
         onChange={(e) => {
-            if (onChange) {
-              onChange(e)
-            }
+          
+            // const filtered = applyInputFilter(e.target.value, input.keyFilter);
+            // if (onChange) {
+            //   onChange(e)
+            // }
             let value: any = e.target.value;
+            console.log("🚀 ~ CustomInputGroup ~ value:", value)
             console.log("Valor raw del input:", value);
             if (isNumberField) {
               const numConfig = input.inputNumberConfig;  
@@ -269,8 +299,8 @@ export const CustomInputGroup = ({
                 value = numValue;  
               }  
             } else {  
-              let processedValue = e.target.value;  
-              processedValue = applyMask(processedValue, input.mask);  
+              let processedValue = value;  
+              // processedValue = applyMask(processedValue, input.mask);  
               value = applyTransform(processedValue, input.transform);  
             }  
             field?.onChange(value);
@@ -335,6 +365,7 @@ export const CustomInputGroup = ({
         </InputGroupAddon>
       )}
     </InputGroup>
+    </>
   );
 }
 
