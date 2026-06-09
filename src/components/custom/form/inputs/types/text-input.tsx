@@ -59,7 +59,7 @@ const FieldText = ({input, form, isSubmitting }: Props ): JSX.Element => {
       return input.transform(value);  
     }  
       
-    switch (input.transform) {  
+    switch (transform) {  
       case 'uppercase':  
         return value.toUpperCase();  
       case 'lowercase':  

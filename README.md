@@ -1,8 +1,8 @@
-⚡️ # React Dynamic Form Maker
+# React Dynamic Form Maker
 
-⚡️ **Next.js & Client Components**
+> **v3.5.4** · Next.js & React Client Components
 
-📦 A React library for creating **dynamic forms** with **Zod validations**, supporting multiple input types: text, number, email, switch, color, date, select, file, OTP and many more.
+📦 A React library for creating **dynamic forms** with **Zod validations**, supporting 40+ input types: text, number, email, switch, color, date, select, file, OTP, location, repeater, keyboard integration, and many more.
 
 ---
 
@@ -1133,6 +1133,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
+
+## 📚 Documentation
+
+- [Quick Start](docs/QUICK_START.md) — Run the example app and test features
+- [Testing Guide](docs/TESTING_GUIDE.md) — Testing conventions and setup
+- [Roadmap & Upcoming Improvements](docs/PROXIMAS_MEJORAS.md) — Planned features and known issues
 
 ## 🔗 Links
 

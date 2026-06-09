@@ -1,4 +1,5 @@
 import { JSX, ReactNode } from 'react';
+import { FieldProps } from '../form/inputs/base/definitions';
 // onKeyPress?: (key: string) => void;
 // onDelete?: () => void;
 // onEnter?: () => void;
@@ -11,5 +12,5 @@ export abstract class BaseKeyboard {
     // protected readonly keyFontSize?: keyFontSize,
   ) {}
 
-  abstract render(): ReactNode | JSX.Element;
+  abstract render(input?: FieldProps): ReactNode | JSX.Element;
 }

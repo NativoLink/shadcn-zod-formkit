@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useKeyboardStore } from "../../../keyboard";
 import { CircleCheck, CircleX, Eye, EyeOff, Keyboard, Loader2 } from 'lucide-react';
 import { ControllerRenderProps, FieldValues, UseFormReturn } from "react-hook-form";
@@ -11,11 +11,13 @@ interface Props {
   field: ControllerRenderProps<FieldValues, string> | undefined
   isValid?: boolean
   isSubmitting?: boolean,
-  // handlerChange?: ()=> void
+  isPasswordField?: boolean,
+  showPassword?: boolean,
+  setShowPassword?: Dispatch<SetStateAction<boolean>>
 }
 
 
-export const FakeInput = ({ input, field, form, isValid, isSubmitting }: Props) => {
+export const FakeInput = ({ input, field, form, isValid, isSubmitting, isPasswordField, showPassword = false, setShowPassword }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const { 
@@ -27,9 +29,8 @@ export const FakeInput = ({ input, field, form, isValid, isSubmitting }: Props) 
   } = useKeyboardStore();
 
   const [isFocused, setIsFocused] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
-  const isPasswordField = input.keyboardType === TextInputType.PASSWORD || input.inputType == InputTypes.PASSWORD;
+  // const isPasswordField = input.keyboardType === TextInputType.PASSWORD || input.inputType == InputTypes.PASSWORD;
   const autoValidate = input.zodType ? true : false;
 
   const value = input?.value ?? field?.value ?? "";
@@ -89,6 +90,7 @@ export const FakeInput = ({ input, field, form, isValid, isSubmitting }: Props) 
   }, [currentInputField]);
 
 
+
   const iconValidState = <CircleCheck style={{ color: "#00bf3e" }} />;
   const iconInvalidState = <CircleX style={{ color: "#ff8080" }} />;
   const iconLoadingState = <Loader2 className="animate-spin" style={{ color: "#1e90ff" }} />;
@@ -123,7 +125,7 @@ export const FakeInput = ({ input, field, form, isValid, isSubmitting }: Props) 
             <Button
               variant="ghost"
               type="button"
-              onClick={() => setShowPassword(!showPassword) }
+              onClick={() => setShowPassword ? setShowPassword(!showPassword) : {} }
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </Button>
