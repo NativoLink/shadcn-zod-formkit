@@ -242,9 +242,9 @@ export const CustomInputGroup = ({
 
   useEffect(() => {
     if (!input.isFakeInput) return 
-    console.log('(data)=>onAnyFieldChange(data)', input?.onAnyFieldChange )
     // field?.onChange(value);
     // isValidField(input, form);
+    
     handleOnChage(field?.value, input, field);
   },[field?.value])
 
