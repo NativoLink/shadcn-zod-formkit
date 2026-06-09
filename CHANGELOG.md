@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [3.8.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.8.0...v3.8.1) (2026-06-09)
+
+### Bug Fixes
+
+* **handleOnChage:** onAnyChange y onChange estan funcionando para FakeInput ([6c6d842](https://github.com/NativoLink/shadcn-zod-formkit/commit/6c6d842c62a273933450e072f82973ccfc255fb3))
+* **fake-input-log:** remove console.log ([49408bb](https://github.com/NativoLink/shadcn-zod-formkit/commit/49408bb0933eb6ebaecca9b0524184e124273f5b))
+
 ## [3.8.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.7.0...v3.8.0) (2026-06-03)
 
 ### Features
