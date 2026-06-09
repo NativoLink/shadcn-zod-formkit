@@ -168,9 +168,6 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.22
         version: 0.4.24(eslint@9.39.1(jiti@2.6.1))
-      fast-check:
-        specifier: 3.23.1
-        version: 3.23.1
       jsdom:
         specifier: ^27.0.1
         version: 27.2.0
@@ -2563,10 +2560,6 @@ packages:
   expect-type@1.2.2:
     resolution: {integrity: sha512-JhFGDVJ7tmDJItKhYgJCGLOWjuK9vPxiXoUFLwLDc99NlmklilbiQJwoctZtt13+xMw91MCk/REan6MWHqDjyA==}
     engines: {node: '>=12.0.0'}
-
-  fast-check@3.23.1:
-    resolution: {integrity: sha512-u/MudsoQEgBUZgR5N1v87vEgybeVYus9VnDVaIkxkkGP2jt54naghQ3PCQHJiogS8U/GavZCUPFfx3Xkp+NaHw==}
-    engines: {node: '>=8.0.0'}
 
   fast-content-type-parse@3.0.0:
     resolution: {integrity: sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg==}
@@ -6529,10 +6522,6 @@ snapshots:
       yoctocolors: 2.1.2
 
   expect-type@1.2.2: {}
-
-  fast-check@3.23.1:
-    dependencies:
-      pure-rand: 6.1.0
 
   fast-content-type-parse@3.0.0: {}
 
