@@ -1,6 +1,7 @@
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { FieldProps } from "../../form/inputs/base/definitions";
 import { KeyboardTypes } from "../keyboard-types";
+import { JSX, ReactNode } from "react";
 
 type InputId = string;
 
@@ -17,12 +18,19 @@ export interface KeyboardState {
   activeInput: InputId | null;
   inputs: Record<InputId, string>;
   isOpen:boolean
+  isOpenDynamic:boolean
   type: KeyboardTypes
-
-
+  value: any
+  children?: ReactNode | JSX.Element | null
+  
+  
+  isInputRequired?:boolean
   currentInputField?: InputField | null 
-
+  
+  onEnter?: () => any
+  setOnEnter: (onEnter?:() => any) => void
   setCurrentInputField: (inputField: InputField | null) => void;
+  setChildren: (children?: ReactNode | JSX.Element | null) => void;
   
   
   // actions
@@ -38,4 +46,5 @@ export interface KeyboardState {
   setValue: (id: InputId, value: string) => void;
   
   setIsOpen:(open?: boolean)=> void
+  setIsOpenDynamic:(open?: boolean)=> void
 }

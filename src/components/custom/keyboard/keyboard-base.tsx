@@ -5,12 +5,15 @@ import { FieldProps } from '../form/inputs/base/definitions';
 // onEnter?: () => void;
 // keyFontSize?: keyFontSize;
 
+
 export abstract class BaseKeyboard {
   constructor(
-    // protected readonly input: FieldProps,
+    protected readonly input?: FieldProps,
+    protected readonly children?: ReactNode | JSX.Element,
     // protected readonly form: UseFormReturn,
     // protected readonly keyFontSize?: keyFontSize,
   ) {}
 
-  abstract render(input?: FieldProps): ReactNode | JSX.Element;
+  // abstract render(input?: FieldProps): ReactNode | JSX.Element;
+  abstract render(): ReactNode | JSX.Element;
 }

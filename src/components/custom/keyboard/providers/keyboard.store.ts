@@ -1,23 +1,58 @@
 import { create } from 'zustand';
 import { InputField, KeyboardState } from './keyboard.state';
 import { KeyboardTypes } from '../keyboard-types';
+import { JSX, ReactNode } from 'react';
 
 
 export const useKeyboardStore = create<KeyboardState>((set, get) => ({
+  isInputRequired: false,
   activeInput: null,
   inputs: {},
   type: KeyboardTypes.QWERTY,
   currentInputField: null,
+  children: undefined,
+  isOpen:false,
+  isOpenDynamic:false,
+  value: '',
+  onEnter: undefined,
+
+  setChildren(children?: ReactNode | JSX.Element | null) {
+    set({ children: children });
+  },
+  setOnEnter(onEnter?: () => any) {
+    set({ onEnter: onEnter });
+  },
 
 
   setCurrentInputField(inputField: InputField | null) {
-    set({ currentInputField: inputField });
+    set({ currentInputField: inputField, isInputRequired: true });
   },
 
-  isOpen:false,
 
   setIsOpen(open?:boolean) { 
-    set({isOpen: open ?? !get().isOpen}) 
+    if (!open) set({ value: ''})
+    set({isOpen: open ?? !get().isOpen, children: undefined}) 
+    if (!get().isOpen) {
+      set({
+        children: undefined, 
+        value: '',
+        currentInputField: null,
+        isInputRequired: false,
+        onEnter: undefined
+      })
+    }
+  },
+  setIsOpenDynamic(open?:boolean) { 
+    if (!open) set({ value: ''})
+    set({isOpenDynamic: open ?? !get().isOpenDynamic}) 
+    if (!get().isOpenDynamic) {
+      set({
+        children: undefined, 
+        value: '',
+        currentInputField: null,
+        isInputRequired: false
+      })
+    }
   },
 
   registerInput: (id, initialValue = '') =>
@@ -59,6 +94,15 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   write: (char) =>
     set((state) => {
+
+      if (!state.isInputRequired){
+        const newValue = get().value + char
+        set({ value: newValue });
+        state.value = newValue
+
+        return state
+      }
+
       let currentInputField = state.currentInputField;
       if (currentInputField && currentInputField.field) {
         currentInputField.field.value += char;
@@ -80,6 +124,11 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   backspace: () =>
     set((state) => {
+      if (!state.isInputRequired){
+        set({ value: state.value.slice(0, -1) });
+        state.value = state.value.slice(0, -1)
+      }
+
       let currentInputField = state.currentInputField;
       if (currentInputField && currentInputField.field) {
         const newValue = currentInputField.field.value.slice(0, -1);
@@ -102,6 +151,10 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
   clear: () =>
     set((state) => {
+      if (!state.isInputRequired){
+        set({ value: '' });
+        state.value = ''
+      }
       if (!state.activeInput) return state;
 
       return {

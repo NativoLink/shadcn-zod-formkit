@@ -1,7 +1,7 @@
 'use client'
 import { Card } from '@/components/ui/card';
 import { Earth, Hash, Lock, Mail, Search, User } from 'lucide-react';
-import { useState } from 'react';
+import { JSX, ReactNode, useEffect, useState } from 'react';
 import { 
   DynamicForm,
   InputTypes,
@@ -15,6 +15,7 @@ import {
   KeyboardQwerty,
   CustomSheet,
   useKeyboardStore,
+  DynamicSheetKeyboard,
 } from 'shadcn-zod-formkit';
 import { toast } from 'sonner';
 import { z } from "zod";
@@ -57,7 +58,8 @@ export interface IUserRecord {
 export default function FormBasics() {
 
   const [dataToSend, setDataToSend] = useState<any>({})
-  const type = useKeyboardStore((state) => state.type);
+  const [child, setChild] = useState<ReactNode| JSX.Element| undefined>()
+  const { setChildren, children, setIsOpen, value, setOnEnter } = useKeyboardStore();
 
   const record: IUserRecord = {
     id: 1,
@@ -647,6 +649,15 @@ export default function FormBasics() {
 //   ],
 //   { name: "username", label: "Username", inputType: InputTypes.TEXT_GROUP, zodType: z.string() },
 // ];
+
+  useEffect(()=> {
+    setChild(value)
+    setChildren(
+      <div className="w-full p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
+        <span> {'•'.repeat(value.toString().length)} </span>
+      </div>
+    )
+  }, [value])
   return (
     <div className='w-full gap-2 grid grid-cols-1'>
 
@@ -700,6 +711,17 @@ export default function FormBasics() {
               } 
               /> */}
           
+              <Button onClick={()=> {
+                  setIsOpen(true)
+                  setOnEnter(()=> {console.log('setOnEnter')})
+                  setChildren(
+                    <div className="w-full p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
+                      <span> {'•'.repeat(value.toString().length)} </span>
+                    </div>)
+                  }}>
+                  Dynamic Sheet Keyboard
+              </Button>
+              {/* <DynamicSheetKeyboard children={children}/> */}
             {/* <ExampleWizardForm /> */}
             <DynamicForm<IUserRecord>
               // submitBtnIcon={Search}
@@ -732,6 +754,11 @@ export default function FormBasics() {
                 // ]}
               onSubmit={async (resp: FormResp<IUserRecord>) => {
                 setDataToSend(resp.data)
+
+                setChildren(<div>esto es un input</div>)
+                setIsOpen(true)
+
+
               }}
               // onClick={({data}) => {
               //         setDataToSend(data)

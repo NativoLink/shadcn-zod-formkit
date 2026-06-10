@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, JSX, useEffect } from 'react';
+import { useState, useRef, JSX, useEffect, ReactNode } from 'react';
 
 import { ArrowBigUp, ArrowBigUpDash, Delete, DeleteIcon } from "lucide-react";
 import { keyFontSize, letter } from './key';
@@ -19,14 +19,22 @@ type Props = {
   onEnter?: () => void;
   keyFontSize?: keyFontSize;
   input?: FieldProps
+  children?: ReactNode | JSX.Element
 };
 
-
+// export class DateRangeInput extends BaseInput {
+//   render(): JSX.Element {
+//     const { input, form, isSubmitting } = this;
+//     return <FieldDateRangeInput input={input} form={form} isSubmitting={isSubmitting} />;
+//   }
+// }
 
 export class QwertyKeyboard extends BaseKeyboard {
-  render(input?: FieldProps): JSX.Element {
+  render(): JSX.Element {
+    const { input, children } = this;
+    // console.log("🚀 ~ QwertyKeyboard ~ render ~ children:", children)
     return (
-      <KeyboardQwerty />
+      <KeyboardQwerty children={children} input={input} />
     );
   }
 }
@@ -39,18 +47,18 @@ export class QwertyKeyboard extends BaseKeyboard {
 // }
 
 
-export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete, input  }: Props) => {
+export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete, input, children  }: Props) => {
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
-  const { currentInputField, write, setIsOpen, backspace } = useKeyboardStore();
+  const { currentInputField, write, setIsOpen, backspace, isInputRequired } = useKeyboardStore();
+  const storeonEnter = useKeyboardStore((state) => state.onEnter);
   const isUpper = shiftMode !== 'off';
-
+  
   useEffect(() => {
-    // if (currentInputField) currentInputField.field?.onChange()
     const handleKeyDown = (e: KeyboardEvent) => {
       // 🚫 evitar interferencias si no hay input activo
-      if (!currentInputField) return;
+      if (isInputRequired && !currentInputField) return;
 
       const key = e.key;
 
@@ -58,6 +66,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       if (key === 'Enter') {
         e.preventDefault();
         onEnter?.();
+        storeonEnter?.()
         return;
       }
 
@@ -119,17 +128,10 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [currentInputField, shiftMode]);
-
-
   // useEffect(() => {
-  //   const field = currentInputField?.field
-  //   const input = currentInputField?.input
-  //   console.log('(data)=>onAnyFieldChange(data)', input?.onAnyFieldChange )
-  //   // currentInputField?.input?.onAnyFieldChange?.({
-  //   //   name: field?.name,
-  //   //   value: currentInputField?.field?.value,
-  //   // });
-  // },[currentInputField?.field?.value])
+  //   keyDownEvents()
+  // }, []);
+
 
   // 🔥 SHIFT
   const handleShift = () => {
@@ -162,8 +164,9 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const shiftActive = shiftMode !== 'off';
   
   const textField = <>
+    {children && (children)}
     {
-      currentInputField && (
+      !children && currentInputField && (
         <div className="p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
           <span> 
             {
@@ -177,19 +180,22 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     }
   </>
 
+  const btnDelete = { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs' }
+
   // 🔥 =========================
   // 🔥 MODO SÍMBOLOS
   // 🔥 =========================
   if (mode === 'symbols') {
     const keys = [
-      ['!','@','#','$','%','^','&','*','(',')'],
+      ['!','@','#','$','%','^','&','*','(',')',],
       ['~','`','|','\\','/','{','}','[',']'],
       ['+','=','<','>','?',"'",'"',':',';'],
-    ].map((row) =>
-      row.map((k) => ({
-        label: k,
-        onClick: () => handleKey(k),
-      }))
+    ].map((row,index) =>
+      row.map((k,idx) => {
+          if(index == 0 && idx == row.length-1) return btnDelete
+          return ({ label: k, onClick: () => handleKey(k), })
+        }
+      )
     );
 
 

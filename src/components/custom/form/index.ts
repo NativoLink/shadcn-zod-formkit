@@ -1,5 +1,6 @@
 export * from './input-errors';
 export * from './inputs/DynamicForm';
+export * from './inputs/DynamicSheetKeyboard';
 export * from './inputs/WizardForm';
 export * from './inputs/DynamicFormExample';
 export * from './inputs/base/base-input';
