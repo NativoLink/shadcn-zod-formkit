@@ -8,20 +8,21 @@ interface Props {
   children?: React.ReactNode;
   childrenHeader?: React.ReactNode;
   isOpen?: boolean;
+  isDynamic?: boolean;
   side?: 'left' | 'right' | 'top' | 'bottom';
   className?: string
   // toggleSheet: () => void;
 }
 
-export const CustomSheet = ({ title = '', children, childrenHeader, isOpen, className, side = 'bottom' }: Props) => {
+export const CustomSheet = ({ title = '', children, childrenHeader, isOpen, className, side = 'bottom'}: Props) => {
   // Permite control externo o por store
   const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
   const storeIsOpen = useKeyboardStore((state) => state.isOpen);
-  const controlledIsOpen = typeof isOpen === 'boolean' ? isOpen : storeIsOpen;
+  const controlledIsOpen = typeof isOpen === 'boolean' ? isOpen :  storeIsOpen;
 
   return (
     <Sheet open={controlledIsOpen} onOpenChange={setIsOpen} >
-      <SheetContent side={side}>
+      <SheetContent side={side} className={className}>
         <SheetHeader>
           <SheetTitle>
             {title}

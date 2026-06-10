@@ -16,6 +16,7 @@ import React from "react";
 import { CustomSheet } from "../../custom-sheet";
 import { KeyboardFactory, KeyboardTypes, useKeyboardStore } from "../../keyboard";
 import { DynamicDialog } from "../../dynamic-dialog";
+import { DynamicSheetKeyboard } from "./DynamicSheetKeyboard";
 
 
 type alertPositionType = 'up' | 'down';
@@ -175,13 +176,8 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const formBody = (
     <>
-      <CustomSheet 
-        children={
-        <>
-          {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY)}
-        </>
-        } 
-      />
+      <DynamicSheetKeyboard currentInputField={currentInputField}/>
+
       <div className="w-full grid grid-cols-1">
         <FormFieldsGrid
           fields={fields as unknown as FieldConfig<T>[]}

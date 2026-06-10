@@ -244,7 +244,7 @@ export const CustomInputGroup = ({
     if (!input.isFakeInput) return 
     // field?.onChange(value);
     // isValidField(input, form);
-    
+
     handleOnChage(field?.value, input, field);
   },[field?.value])
 
@@ -283,8 +283,6 @@ export const CustomInputGroup = ({
             //   onChange(e)
             // }
             let value: any = e.target.value;
-            console.log("🚀 ~ CustomInputGroup ~ value:", value)
-            console.log("Valor raw del input:", value);
             if (isNumberField) {
               const numConfig = input.inputNumberConfig;  
     
