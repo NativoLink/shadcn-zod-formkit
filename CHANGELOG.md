@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.8.1...v3.9.0) (2026-06-10)
+
+### Features
+
+* **dynamic-sheet-keyboard:** DynamicSheetKeyboard is a individual keyboard for re-use component, children allowed ([b5313fc](https://github.com/NativoLink/shadcn-zod-formkit/commit/b5313fca3466313f35a2e166c76ce9bd09f8a6ab))
+
 ## [3.8.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.8.0...v3.8.1) (2026-06-09)
 
 ### Bug Fixes
