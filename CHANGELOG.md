@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.1...v3.9.2) (2026-06-15)
+
+### Bug Fixes
+
+* **double-keyboard:** implement openDynamic ([63d3304](https://github.com/NativoLink/shadcn-zod-formkit/commit/63d330418ba29576cdf93be4c30d9a1bb4241dcd))
+
 ## [3.9.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.0...v3.9.1) (2026-06-15)
 
 ### Bug Fixes
