@@ -17,6 +17,7 @@ export const DynamicSheetKeyboard = ({currentInputField, children, input, classN
   
   const content = <> {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY, input, children)} </>
   const { setCurrentInputField} = useKeyboardStore();
+  const currentInput = useKeyboardStore().currentInputField;
   
   const [container,setContainer] = useState< ReactNode| JSX.Element>(content)
 
@@ -28,6 +29,6 @@ export const DynamicSheetKeyboard = ({currentInputField, children, input, classN
 
 
   
-  return <CustomSheet children={ container } className={className} isDynamic={true}/>
+  return <CustomSheet children={ container } className={className} isDynamic={currentInput ? true :  false}/>
   
 }
