@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.0...v3.9.1) (2026-06-15)
+
+### Bug Fixes
+
+* **keyboard-querty:** se hizo mas ajustable el size de los botones tienes colores por defecto algunos btns como (esc, delete, enter) ([bef48db](https://github.com/NativoLink/shadcn-zod-formkit/commit/bef48db8147067f5a164bb4ccca76b3ffa4fd519))
+
 ## [3.9.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.8.1...v3.9.0) (2026-06-10)
 
 ### Features
