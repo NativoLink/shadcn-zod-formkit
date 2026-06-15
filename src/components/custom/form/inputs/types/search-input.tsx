@@ -25,7 +25,7 @@ interface Props {
 }
 
 const FieldSearch = ({ input, form, isSubmitting }: Props): JSX.Element => {
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<number | undefined>(undefined);
 
   return (
     <FormField
@@ -36,7 +36,6 @@ const FieldSearch = ({ input, form, isSubmitting }: Props): JSX.Element => {
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           const value = e.target.value;
           field.onChange(value);
-
           if (input.debounce) {
             clearTimeout(debounceRef.current);
             debounceRef.current = setTimeout(() => {

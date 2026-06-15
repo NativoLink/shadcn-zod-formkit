@@ -19,7 +19,7 @@ module.exports = {
 
     // soft bg
     "bg-blue-500/10", "bg-yellow-500/10", "bg-red-500/10", "bg-green-500/10", "bg-purple-500/10",
-    "bg-amber-50", "bg-red-600"
+    "bg-amber-50", "bg-red-600",
   ],
   theme: {
     extend: {},
