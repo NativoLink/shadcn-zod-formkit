@@ -14,14 +14,19 @@ interface Props {
   // toggleSheet: () => void;
 }
 
-export const CustomSheet = ({ title = '', children, childrenHeader, isOpen, className, side = 'bottom'}: Props) => {
+export const CustomSheet = ({ title = '', children, childrenHeader, isOpen, className, side = 'bottom', isDynamic}: Props) => {
   // Permite control externo o por store
   const setIsOpen = useKeyboardStore((state) => state.setIsOpen);
+  const setIsOpenDynamic = useKeyboardStore((state) => state.setIsOpenDynamic);
   const storeIsOpen = useKeyboardStore((state) => state.isOpen);
+  const storeIsOpenDynamic = useKeyboardStore((state) => state.isOpenDynamic);
   const controlledIsOpen = typeof isOpen === 'boolean' ? isOpen :  storeIsOpen;
 
+
+  const open = isDynamic ? storeIsOpenDynamic : controlledIsOpen
+
   return (
-    <Sheet open={controlledIsOpen} onOpenChange={setIsOpen} >
+    <Sheet open={open} onOpenChange={isDynamic ? setIsOpenDynamic : setIsOpen} >
       <SheetContent side={side} className={className}>
         <SheetHeader>
           <SheetTitle>

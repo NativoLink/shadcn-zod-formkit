@@ -25,7 +25,7 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
 
 
   setCurrentInputField(inputField: InputField | null) {
-    set({ currentInputField: inputField, isInputRequired: true });
+    set({ currentInputField: inputField, isInputRequired: inputField ? true : false });
   },
 
 
