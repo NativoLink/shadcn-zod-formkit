@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.2...v3.9.3) (2026-06-15)
+
+### Bug Fixes
+
+* **dynamic-sheet-keyboard:** el teclado dynamico es independiente para visualizar ([36af5b9](https://github.com/NativoLink/shadcn-zod-formkit/commit/36af5b954ea54678f688e879de6e04784da07aec))
+
 ## [3.9.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.1...v3.9.2) (2026-06-15)
 
 ### Bug Fixes
