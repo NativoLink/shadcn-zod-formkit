@@ -3,12 +3,13 @@
 import { useState, useRef, JSX, useEffect, ReactNode } from 'react';
 
 import { ArrowBigUp, ArrowBigUpDash, Delete, DeleteIcon } from "lucide-react";
-import { keyFontSize, letter } from './key';
-import { KeyboardBuilder } from './keyboard-builder';
+import { KeyFontSize, letter } from './key';
+import { IKey, KeyboardBuilder } from './keyboard-builder';
 import { useKeyboardStore } from './providers/keyboard.store';
 import { BaseKeyboard } from './keyboard-base';
 import { fontSizeClasses } from '../form/theme/theme-config';
 import { FieldProps, TextInputType } from '../form/inputs/base/definitions';
+import { cn } from '@/src/lib/utils';
 
 type ShiftMode = "off" | "once" | "caps";
 type KeyboardMode = "letters" | "symbols";
@@ -17,9 +18,10 @@ type Props = {
   onKeyPress?: (key: string) => void;
   onDelete?: () => void;
   onEnter?: () => void;
-  keyFontSize?: keyFontSize;
+  keyFontSize?: KeyFontSize;
   input?: FieldProps
   children?: ReactNode | JSX.Element
+  className?:string
 };
 
 // export class DateRangeInput extends BaseInput {
@@ -31,10 +33,10 @@ type Props = {
 
 export class QwertyKeyboard extends BaseKeyboard {
   render(): JSX.Element {
-    const { input, children } = this;
+    const { input, children, className, keyFontSize } = this;
     // console.log("🚀 ~ QwertyKeyboard ~ render ~ children:", children)
     return (
-      <KeyboardQwerty children={children} input={input} />
+      <KeyboardQwerty children={children} input={input} className={className} keyFontSize={keyFontSize} />
     );
   }
 }
@@ -47,7 +49,7 @@ export class QwertyKeyboard extends BaseKeyboard {
 // }
 
 
-export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete, input, children  }: Props) => {
+export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', onDelete, input, children, className  }: Props) => {
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
@@ -180,20 +182,28 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     }
   </>
 
-  const btnDelete = { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs' }
+  const btnDelete = { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs', style: {backgroundColor:'#faba005e'} }
+  const btnEsc = { label: 'esc', onClick: () => {setIsOpen(false)}, className: '', style: {backgroundColor: '#ffc0c0'} }
+  const btnEnter = { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200', style: {backgroundColor: '#008f003d'} }
 
   // 🔥 =========================
   // 🔥 MODO SÍMBOLOS
   // 🔥 =========================
   if (mode === 'symbols') {
-    const keys = [
-      ['!','@','#','$','%','^','&','*','(',')',],
+    const keys: IKey[][] = [
+      ['esc','!','@','#','$','%','^','&','*','(',')',],
       ['~','`','|','\\','/','{','}','[',']'],
       ['+','=','<','>','?',"'",'"',':',';'],
     ].map((row,index) =>
-      row.map((k,idx) => {
+      row.map((k,idx): IKey => {
+          const isEsc = k == 'esc'
           if(index == 0 && idx == row.length-1) return btnDelete
-          return ({ label: k, onClick: () => handleKey(k), })
+          if (isEsc)return btnEsc
+          return ({ 
+            label: k,
+            onClick: () => isEsc ? setIsOpen(false) : handleKey(k), 
+            className: isEsc ? 'bg-red-600':'',
+          } as IKey)
         }
       )
     );
@@ -202,7 +212,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
 
 
     return (
-      <div className='w-full h-full flex flex-col'>
+      <div className={cn('w-full h-full flex flex-col', className)}>
         {textField}
         <KeyboardBuilder className='w-full h-full' keyFontSize={keyFontSize}
           keys={[
@@ -210,7 +220,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
             [
               { label: 'ABC', onClick: () => setMode('letters'), className: 'flex-[2]' },
               { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
-              { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200 ' },
+              btnEnter,
             ],
           ]}
         />
@@ -242,9 +252,9 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
       <KeyboardBuilder className='w-full h-full flex-3' keyFontSize={keyFontSize}
         keys={[
           [
-            { label: 'esc', onClick: () => {setIsOpen(false)}, className: 'bg-red-200' },
+            btnEsc,
             ...fila1,
-            { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs' },
+            btnDelete
           ],
           [
             { label: 'tab', onClick: () => {} },
@@ -271,7 +281,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
           [
             { label: '?123', onClick: () => setMode('symbols'), className: 'flex-[2]' },
             { label: ' ', onClick: () => handleKey(' '), className: 'flex-[4]' },
-            { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200' },
+            btnEnter,
           ],
         ]}
       />

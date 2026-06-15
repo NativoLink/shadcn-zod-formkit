@@ -4,6 +4,7 @@ import { BaseKeyboard } from "./keyboard-base";
 import { QwertyKeyboard } from "./keyboard-qwerty";
 import { KeyboardTypes } from "./keyboard-types";
 import { FieldProps, TextInputType } from '../form/inputs/base/definitions';
+import { KeyFontSize } from "./key";
 
 
 
@@ -24,6 +25,8 @@ export class KeyboardFactory {
     typeKeyboard : KeyboardTypes,
     input?: FieldProps<T>,
     children?: ReactNode| JSX.Element| null,
+    className?: string,
+    keyFontSize?: KeyFontSize
   ): ReactNode | JSX.Element {
     const inputKbType = input?.keyboardType
     let keyboardType = (typeKeyboard as KeyboardTypes) ?? KeyboardTypes.QWERTY;
@@ -35,9 +38,11 @@ export class KeyboardFactory {
       QwertyKeyboard) as new (
        input?: FieldProps<T>,
        children?:  ReactNode| JSX.Element| null,
+       className?: string,
+       keyFontSize?: KeyFontSize
       ) => { render: () => JSX.Element };
 
-    const instance = new keyboardClass(input, children);
+    const instance = new keyboardClass(input, children, className, keyFontSize);
 
     // if (!input.wrapInCard) return instance.render();
 

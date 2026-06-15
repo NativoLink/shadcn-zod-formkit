@@ -1,8 +1,8 @@
 'use client';
 
-import { ReactNode, useEffect, useMemo, useCallback } from "react";
+import { ReactNode, useEffect, useMemo, useCallback, CSSProperties } from "react";
 import { LucideProps } from "lucide-react";
-import { Key, keyFontSize, TeclaBorders } from "./key";
+import { Key, KeyFontSize, TeclaBorders } from "./key";
 import { cn } from '../../../lib/utils';
 
 
@@ -16,10 +16,11 @@ export interface IKey {
   iconSize?: number;
   isActive?: boolean;
   disabled?: boolean;
+  style?: CSSProperties;
   icons?: React.ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
   >[];
-  keyFontSize?: keyFontSize;
+  keyFontSize?: KeyFontSize;
   borders?: TeclaBorders;
 }
 
@@ -27,7 +28,7 @@ interface Props {
   keys?: Array<IKey[]>;
   withCard?: boolean;
   className?: string;
-  keyFontSize?: keyFontSize;
+  keyFontSize?: KeyFontSize;
 }
 
 export const KeyboardBuilder = ({
@@ -98,12 +99,12 @@ export const KeyboardBuilder = ({
   const content = (
     <div
       className={cn(
-        `flex-1 grid grid-rows-${keys?.length} h-full`,
+        `flex-1 grid grid-rows-${keys?.length} py-0.5 h-full`,
         className
       )}
     >
       {keys?.map((row, ri) => (
-        <div key={ri} className="flex flex-row gap-2 p-1 h-full">
+        <div key={ri} className="flex flex-row py-0.5 gap-1 h-full">
           {row.map((key, indx) => {
 
             const handleClick = () => {
@@ -134,6 +135,7 @@ export const KeyboardBuilder = ({
                 fontSize={keyFontSize}
                 isActive={key.isActive}
                 disabled={key.disabled}
+                style={key.style}
               >
                 {key.children}
               </Key>}

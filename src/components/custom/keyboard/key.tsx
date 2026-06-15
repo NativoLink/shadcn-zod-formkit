@@ -6,7 +6,7 @@ import { IKey } from './keyboard-builder'
 import { cn } from '../../../lib/utils';
 import { Button } from '../../ui/button';
 
-export type keyFontSize =
+export type KeyFontSize =
   | 'text-xs'
   | 'text-sm'
   | 'text-base'
@@ -17,6 +17,7 @@ export type keyFontSize =
   | 'text-4xl'
   | 'text-5xl'
   | 'text-6xl'
+  | string
 
 export interface BorderConfig {
   width?: number // grosor en píxeles
@@ -44,7 +45,7 @@ interface Props {
   children?: ReactNode
   withLabel?: boolean
   isActive?: boolean
-  fontSize?: keyFontSize
+  fontSize?: KeyFontSize
   icons?: React.ForwardRefExoticComponent<
     Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
   >[]
