@@ -32,8 +32,8 @@ export const CustomSheet = ({ title = '', children, childrenHeader, isOpen, clas
             {children}
           </SheetDescription>
         </SheetHeader>
-        <SheetFooter>
-        </SheetFooter>
+        {/* <SheetFooter>
+        </SheetFooter> */}
       </SheetContent>
     </Sheet>
   )

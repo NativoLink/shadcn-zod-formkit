@@ -2,12 +2,13 @@ import { cn } from "@/src/lib/utils";
 import {
   CircleCheck,
   CircleQuestionMark,
+  Loader2Icon,
   MessageCircleWarning,
   OctagonX,
   Trash2Icon,
   TriangleAlert,
 } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,43 +25,89 @@ import { Button } from "../ui/button";
 import { BtnConfig } from "./form/inputs/base/definitions";
 import { ButtonGroup } from "../ui/button-group";
 
+export type DialogVariant =
+  | "info"
+  | "warning"
+  | "error"
+  | "success"
+  | "delete"
+  | "confirm"
+  | "loading";
+
 interface Props {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+
   trigger?: ReactNode;
-  title?: string;
-  description?: string;
+
+  title?: string | ReactNode;
+  description?: string | ReactNode;
+
   cancelText?: string;
-  className?: string;
   actionText?: string;
+
+  className?: string;
+
   iconSize?: string;
   submitBtnClass?: string;
   btnHeightClass?: string;
-  onAction?: () => void;
+
+  onAction?: () => void | Promise<void>;
+
   children?: ReactNode;
-  variant?: "info" | "warning" | "error" | "success" | "delete" | "confirm";
+
+  variant?: DialogVariant;
+
+  loading?: boolean;
+  autoCloseOnFinish?: boolean;
+
   listBtnConfig?: BtnConfig[];
   btnGroupDirection?: "flex-start" | "flex-end" | "flex-center";
+
   showActionBtn?: boolean;
+  centerContent?: boolean;
 }
 
 export const DynamicDialog = ({
+  open,
+  onOpenChange,
+
   trigger,
+
   title = "Are you absolutely sure?",
   description = "This action cannot be undone.",
-  cancelText = "Cancel",
-  actionText = "Confirmar",
+
+  cancelText = "Cerrar",
+  actionText = "Procesar",
+
   className = "bg-red-600 text-white font-bold",
+
   variant = "info",
+  loading = false,
+  autoCloseOnFinish = true,
+
   onAction,
   children,
+
   listBtnConfig = [],
   btnGroupDirection = "flex-end",
+
   submitBtnClass = "h-16",
   iconSize = "w-16 h-16",
-  btnHeightClass = "h-16",
+  btnHeightClass = "h-16 text-xl",
+
   showActionBtn = true,
+  centerContent = false,
 }: Props) => {
-  
-  // 🔥 AQUÍ ESTÁ LA CLAVE: CLASES INLINE (NO OBJETOS DINÁMICOS)
+
+  const isLoading = variant === "loading" || loading;
+
+  // 🔥 Auto cerrar cuando termina loading
+  useEffect(() => {
+    if (!isLoading && open && autoCloseOnFinish) {
+      onOpenChange?.(false);
+    }
+  }, [isLoading]);
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -93,11 +140,9 @@ export const DynamicDialog = ({
           action: "text-red-200 bg-red-500 dark:bg-red-300",
           icon: "text-red-500 dark:text-red-300",
           iconNode:
-            variant === "delete" ? (
-              <Trash2Icon className={iconSize} />
-            ) : (
-              <OctagonX className={iconSize} />
-            ),
+            variant === "delete"
+              ? <Trash2Icon className={iconSize} />
+              : <OctagonX className={iconSize} />,
         };
 
       case "success":
@@ -119,33 +164,54 @@ export const DynamicDialog = ({
           icon: "text-purple-500 dark:text-purple-300",
           iconNode: <CircleQuestionMark className={iconSize} />,
         };
+
+      case "loading":
+        return {
+          container: "!bg-gray-100 !text-gray-800 dark:!bg-gray-900 dark:!text-gray-200",
+          border: "!border-gray-500/30 dark:!border-gray-300/30",
+          media: "bg-gray-500/10 dark:bg-gray-300/10",
+          action: "text-gray-200 bg-gray-500 dark:bg-gray-300",
+          icon: "text-gray-500 dark:text-gray-300",
+          iconNode: <Loader2Icon className={cn(iconSize, "animate-spin")} />,
+        };
     }
   };
 
   const styles = getVariantStyles();
 
-  console.log('onAction',onAction)
+  const handleActionClick = async () => {
+    if (!onAction) return;
+
+    const result = onAction();
+
+    if (result instanceof Promise) {
+      // opcional: podrías manejar loading interno aquí
+      await result;
+    }
+  };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        {trigger || <Button variant="outline">Show Dialog</Button>}
-      </AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      {trigger && (
+        <AlertDialogTrigger asChild>
+          {trigger}
+        </AlertDialogTrigger>
+      )}
 
       <AlertDialogContent
         className={cn(
-          "w-50 h-fit font-mono border-x-8",
+          "w-full h-fit font-mono border-x-8",
           styles.container,
           styles.border
         )}
       >
-        <AlertDialogHeader className="justify-center w-full text-center">
+        <AlertDialogHeader className="flex flex-col justify-center w-full text-center">
           <div className="flex justify-center w-full">
             <AlertDialogMedia
               className={cn(
                 styles.media,
                 "rounded-full flex items-center justify-center",
-                iconSize // 🔥 ahora controla también el contenedor
+                iconSize
               )}
             >
               <div className={styles.icon}>
@@ -154,68 +220,61 @@ export const DynamicDialog = ({
             </AlertDialogMedia>
           </div>
 
-          <div className="flex justify-center w-full">
-            <AlertDialogTitle className="text-2xl">
-              {title}
-            </AlertDialogTitle>
-          </div>
+          <AlertDialogTitle className="text-2xl text-center w-full">
+            {title}
+          </AlertDialogTitle>
 
-          <AlertDialogDescription className="text-xl text-center">
-            {description}
+          <AlertDialogDescription className={cn("text-xl w-full flex-row", centerContent ? "text-center" : "text-left")}>
+            { description }
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         {children}
 
-        <AlertDialogFooter>
-          <ButtonGroup
-            className="flex w-full"
-            style={{
-              justifyContent: btnGroupDirection,
-              alignItems: "center",
-            }}
-          >
-            <AlertDialogCancel className={cn("flex-1", btnHeightClass)}>
-              {cancelText}
-            </AlertDialogCancel>
+        {!isLoading && (
+          <AlertDialogFooter>
+            <ButtonGroup
+              className="flex w-full"
+              style={{
+                justifyContent: btnGroupDirection,
+                alignItems: "center",
+              }}
+            >
+              <AlertDialogCancel className={cn("flex-1", btnHeightClass)}>
+                {cancelText}
+              </AlertDialogCancel>
 
-            {listBtnConfig.map((btn, key) => (
-              <Button
-                key={key}
-                type={btn.btnType}
-                size="lg"
-                className={cn(btnHeightClass, submitBtnClass)}
-                variant={btn.variant}
-                onClick={btn.onClick}
-                disabled={btn.disabled}
-              >
-                {btn.label}
-              </Button>
-            ))}
+              {listBtnConfig.map((btn, key) => (
+                <Button
+                  key={key}
+                  type={btn.btnType}
+                  size="lg"
+                  className={cn(btnHeightClass, submitBtnClass)}
+                  variant={btn.variant}
+                  onClick={btn.onClick}
+                  disabled={btn.disabled}
+                >
+                  {btn.label}
+                </Button>
+              ))}
 
-            {onAction && showActionBtn && (
-              <AlertDialogAction
-                onClick={(e) => {
-                  e.preventDefault(); // 🔥 CLAVE: evita comportamiento raro
-
-                  if (onAction) {
-                    onAction();
-                  }
-                }}
-                className={cn(
-                  "flex-1",
-                  btnHeightClass,
-                  className,
-                  styles.action
-                )}
-              >
-                {actionText}
-              </AlertDialogAction>
-            )}
-          </ButtonGroup>
-        </AlertDialogFooter>
+              {onAction && showActionBtn && (
+                <AlertDialogAction
+                  onClick={handleActionClick}
+                  className={cn(
+                    "flex-1",
+                    btnHeightClass,
+                    className,
+                    styles.action
+                  )}
+                >
+                  {actionText}
+                </AlertDialogAction>
+              )}
+            </ButtonGroup>
+          </AlertDialogFooter>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-

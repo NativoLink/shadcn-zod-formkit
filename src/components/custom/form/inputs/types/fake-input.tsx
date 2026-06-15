@@ -104,21 +104,23 @@ export const FakeInput = ({ input, field, form, isValid, isSubmitting, isPasswor
       // onChange={handlerChange}
       onClick={() => ref.current?.focus()}
       className={`
-        p-3 min-h-16 w-full flex justify-items-center justify-between flex-row
+        p-1 min-h-8 w-full flex justify-items-center justify-between flex-row
         text-2xl font-bold rounded-xl border-2
         outline-none transition-all
         ${isFocused 
-          ? "border-blue-500 bg-blue-50" 
-          : "border-amber-400 bg-amber-50"}
+          ? "border-amber-400 bg-amber-50"
+          : "border-blue-200 bg-blue-50" 
+        }
       `}
     >
-      <span className="flex-1 text-left self-center">
+      {value.toString().length == 0 && (<span className="flex-1 text-left self-center text-gray-400"> { input.placeHolder ??  input.label } </span>)}
+      {value.toString().length > 0 && (<span className="flex-1 text-left self-center ">
         {
           (input && (isPasswordField && !showPassword))
           ? '•'.repeat(value.toString().length)
           : value || ""
         }
-      </span>
+      </span>)}
 
         <div className="flex flex-row gap-2 self-center">          
           {isPasswordField && (

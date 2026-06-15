@@ -176,7 +176,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const formBody = (
     <>
-      <DynamicSheetKeyboard currentInputField={currentInputField}/>
+      <DynamicSheetKeyboard currentInputField={currentInputField} />
 
       <div className="w-full grid grid-cols-1">
         <FormFieldsGrid
