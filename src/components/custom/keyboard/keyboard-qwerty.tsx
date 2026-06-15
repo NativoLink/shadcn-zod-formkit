@@ -183,7 +183,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   </>
 
   const btnDelete = { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs', style: {backgroundColor:'#faba005e'} }
-  const btnEsc = { label: 'esc', onClick: () => {setIsOpen(false)}, className: '', style: {backgroundColor: '#ffc0c0'} }
+  const btnEsc = { label: 'esc', onClick: () => {setIsOpen(false)}, className: '', style: {backgroundColor: '#ffc0c05e'} }
   const btnEnter = { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200', style: {backgroundColor: '#008f003d'} }
 
   // 🔥 =========================

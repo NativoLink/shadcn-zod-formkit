@@ -11,12 +11,13 @@ interface Props {
   className?: string;
   childClassName?: string;
   keyFontSize?: KeyFontSize;
+  isDynamic?: boolean
 }
 
-export const DynamicSheetKeyboard = ({currentInputField, children, input, className, childClassName, keyFontSize = 'text-base'}: Props) => {
+export const DynamicSheetKeyboard = ({currentInputField, children, input, className, childClassName, keyFontSize = 'text-base', isDynamic = false}: Props) => {
   
   const content = <> {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY, input, children)} </>
-  const { setCurrentInputField} = useKeyboardStore();
+  const { setCurrentInputField, isOpenDynamic} = useKeyboardStore();
   
   const [container,setContainer] = useState< ReactNode| JSX.Element>(content)
 
@@ -28,6 +29,6 @@ export const DynamicSheetKeyboard = ({currentInputField, children, input, classN
 
 
   
-  return <CustomSheet children={ container } className={className} isDynamic={true}/>
+  return <CustomSheet children={ container } className={className} isDynamic={isDynamic}/>
   
 }
