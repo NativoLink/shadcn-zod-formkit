@@ -10,6 +10,7 @@ import { BaseKeyboard } from './keyboard-base';
 import { fontSizeClasses } from '../form/theme/theme-config';
 import { FieldProps, TextInputType } from '../form/inputs/base/definitions';
 import { cn } from '@/src/lib/utils';
+import { TextField } from '../form/inputs/types/TextField';
 
 type ShiftMode = "off" | "once" | "caps";
 type KeyboardMode = "letters" | "symbols";
@@ -53,7 +54,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
-  const { currentInputField, write, setIsOpen, backspace, isInputRequired } = useKeyboardStore();
+  const { currentInputField, write, setIsOpen, backspace, isInputRequired, value } = useKeyboardStore();
   const storeonEnter = useKeyboardStore((state) => state.onEnter);
   const isUpper = shiftMode !== 'off';
   
@@ -169,15 +170,30 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     {children && (children)}
     {
       !children && currentInputField && (
-        <div className="p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">
-          <span> 
-            {
-              (currentInputField.input && currentInputField.input.keyboardType == TextInputType.PASSWORD )
-              ? '•'.repeat(currentInputField.field?.value.toString().length)
-              : currentInputField.field?.value || ""
-            }
-          </span>
-        </div>
+        <TextField
+          name={currentInputField.input.label}
+          placeholder={currentInputField.input.placeHolder ?? currentInputField.input.label }
+          value={currentInputField.field?.value}
+          inputType={currentInputField.input.keyboardType}
+          // onFocus={() => setCampo('usuarioId')}
+          isActive={true}
+          // infoTooltip={currentInputField.input.infoTooltip}
+          iconsLeft={currentInputField.input.inputGroupConfig?.iconsLeft}
+          className="justify-center"
+        />
+      )
+    }
+    {
+      !currentInputField && (
+        <TextField
+          name={''}
+          value={value}
+          // onFocus={() => setCampo('usuarioId')}
+          isActive={true}
+          // infoTooltip={currentInputField.input.infoTooltip}
+          // iconsLeft={currentInputField.input.inputGroupConfig?.iconsLeft}
+          className="justify-center"
+        />
       )
     }
   </>
