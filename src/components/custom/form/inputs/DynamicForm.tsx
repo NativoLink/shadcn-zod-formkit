@@ -52,19 +52,20 @@ interface Props<T extends Record<string, any>> {
   listBtnConfig?: BtnConfig[];
   debug?:boolean
   withLateralLabel?: boolean
-
-
+  
+  
   dialogTitle?:string
   dialogDescription?:string
   withConfirmDialog?:boolean
-
+  
   submitBtnIcon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
-
-
-
+  
+  
+  
   isWrapInWizard?: boolean
   currentStep?: number
   totalSteps?: number
+  withSheetKeyboard?: boolean
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -100,6 +101,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   dialogTitle = "¿Estás seguro?",
   dialogDescription = "Esta acción no se puede deshacer. ¿Deseas continuar?",
   withConfirmDialog = false,
+  withSheetKeyboard = false, 
 }: Props<T>) => {
 
   const [isPending, startTransition] = useTransition();
@@ -110,6 +112,7 @@ export const DynamicForm = <T extends Record<string, any>>({
     const allFields = flattenFields(fields, onAnyFieldChange);
     return getDynamicSchema<T>(allFields, extraValidations);
   }, [fields, extraValidations]);
+  
 
   type FormData = z.infer<typeof schema>;
   const resolver = zodResolver(schema) as unknown as Resolver<FormData>;
@@ -176,7 +179,7 @@ export const DynamicForm = <T extends Record<string, any>>({
 
   const formBody = (
     <>
-      <DynamicSheetKeyboard currentInputField={currentInputField} />
+      {withSheetKeyboard && (<DynamicSheetKeyboard currentInputField={currentInputField} />)}
       {/* <DynamicSheetKeyboard isDynamic={true}/> */}
 
       <div className="w-full grid grid-cols-1">
