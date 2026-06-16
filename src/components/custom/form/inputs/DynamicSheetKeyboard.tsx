@@ -2,6 +2,7 @@
 'use client'
 import { CustomSheet, FieldProps, InputField, KeyboardFactory, KeyboardTypes, KeyFontSize, useKeyboardStore } from "@/src/components"
 import { JSX, ReactNode, useEffect, useState } from "react"
+import { TextField } from "./types/TextField"
 
 
 interface Props {
@@ -17,15 +18,16 @@ interface Props {
 export const DynamicSheetKeyboard = ({currentInputField, children, input, className, childClassName, keyFontSize = 'text-base', isDynamic = false}: Props) => {
   
   const content = <> {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY, input, children)} </>
-  const { setCurrentInputField, isOpenDynamic} = useKeyboardStore();
-  
+  const { setCurrentInputField} = useKeyboardStore();
+
   const [container,setContainer] = useState< ReactNode| JSX.Element>(content)
 
-  
+
   useEffect(()=>{
     if (!currentInputField) setCurrentInputField(null)
     setContainer(<> {KeyboardFactory.create( currentInputField?.input.keyboard ?? KeyboardTypes.QWERTY, input, children, childClassName, keyFontSize)} </>)
   },[children])
+  
 
 
   
