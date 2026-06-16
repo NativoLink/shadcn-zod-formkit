@@ -1,5 +1,12 @@
 # 📦 Changelog
 
+## [3.9.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.3...v3.9.4) (2026-06-16)
+
+### Bug Fixes
+
+* **DynamicForm:** es opcional el DynamicSheetKeyboard en DynamicForm ([68a5879](https://github.com/NativoLink/shadcn-zod-formkit/commit/68a587931a536e260308f5c4f33202da34680c09))
+* **keyboard-dynamic:** se ajusto el isDynamic y se implemento un TextField por defecto para el teclado dinamico ([b57bc0f](https://github.com/NativoLink/shadcn-zod-formkit/commit/b57bc0f8fbba131194b457df53461d786d332bcb))
+
 ## [3.9.3](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.2...v3.9.3) (2026-06-15)
 
 ### Bug Fixes
