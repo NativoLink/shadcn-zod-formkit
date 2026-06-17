@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.5](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.4...v3.9.5) (2026-06-17)
+
+### Bug Fixes
+
+* **string-value-input:** fix keydown for LIST_INPUT ([629381f](https://github.com/NativoLink/shadcn-zod-formkit/commit/629381fa06dfcf95b153027d8481eb0e4147dd3a))
+
 ## [3.9.4](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.3...v3.9.4) (2026-06-16)
 
 ### Bug Fixes
