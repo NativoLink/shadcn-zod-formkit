@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.9.6](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.5...v3.9.6) (2026-06-17)
+
+### Bug Fixes
+
+* **w-full:** Removiendo div que quitaba el w-full ([3d1416e](https://github.com/NativoLink/shadcn-zod-formkit/commit/3d1416ed0abc4d776ae7a18c1e9b67574c368f00))
+
 ## [3.9.5](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.4...v3.9.5) (2026-06-17)
 
 ### Bug Fixes
