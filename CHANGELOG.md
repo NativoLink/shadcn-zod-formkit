@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.10.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.6...v3.10.0) (2026-06-17)
+
+### Features
+
+* **withKeyboardFocus:** permitir focus de teclado virtual sin el teclado visualmente ([d187953](https://github.com/NativoLink/shadcn-zod-formkit/commit/d1879530e600678dbc42607e4e0f12099f060d6e))
+
 ## [3.9.6](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.5...v3.9.6) (2026-06-17)
 
 ### Bug Fixes
