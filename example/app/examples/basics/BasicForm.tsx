@@ -111,11 +111,12 @@ export default function FormBasics() {
     // hidden: true, // alternativa a InputTypes.HIDDEN
   },
   {
-    // withKeyboard: true,
+    withKeyboard: true,
     name: "username",
     label: "Username",
-    // isFakeInput: true,
-    classNameGroupInput:"h-16",
+    isFakeInput: true,
+    disableCalendarPop: true,
+    // classNameGroupInput:"h-[4vh]",
     withLateralLabel: true,
     keyboardType: TextInputType.PASSWORD,
     // keyFilter: (k: string) => /^[0-9.]$/.test(k),
@@ -582,6 +583,7 @@ export default function FormBasics() {
       label: "Fecha de nacimiento",
       inputType: InputTypes.DATE,
       withLateralLabel: true,
+      disableCalendarPop: true,
       // zodType: z.coerce
       //   .date(validationMessages.required)
       //   .refine((d) => d < new Date(), {
@@ -731,7 +733,7 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
-              // withSheetKeyboard
+              withSheetKeyboard
               // withConfirmDialog={true}
               // withSubmitBtn={false}
               onAnyFieldChange={setDataToSend}

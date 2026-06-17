@@ -119,6 +119,7 @@ export const CustomInputGroup = ({
 }: customInputGroup) => {
   
   const withKeyboard = input.withKeyboard;
+  const withKeyboardFocus = input.withKeyboardFocus;
   const groupConfig = input.inputGroupConfig;
   const infoTooltip = input?.infoTooltip;
   const autoValidate = groupConfig?.autoValidIcons ?? input.zodType ? true : false;
@@ -272,7 +273,7 @@ export const CustomInputGroup = ({
         disabled={input.disabled || isSubmitting}
         onBlur={field?.onBlur}
         onFocus={() => {
-          if (withKeyboard) setCurrentInputField({ input, field });
+          if (withKeyboard || withKeyboardFocus) setCurrentInputField({ input, field });
         }}
         name={field?.name}
         ref={field?.ref}
