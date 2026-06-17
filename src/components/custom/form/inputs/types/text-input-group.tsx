@@ -251,7 +251,7 @@ export const CustomInputGroup = ({
   },[field?.value])
 
   return (
-    <div>
+    <>
     { input.isFakeInput && (<FakeInput input={input} field={field} form={form} setShowPassword={setShowPassword} isPasswordField={isPasswordField} showPassword={showPassword}   />) }
     <InputGroup className={cn(input.classNameGroupInput ?? 'h-10', inputGroupClass)}>
       {/* Iconos izquierda */}
@@ -366,7 +366,7 @@ export const CustomInputGroup = ({
         </InputGroupAddon>
       )}
     </InputGroup>
-    </div>
+    </>
   );
 }
 
