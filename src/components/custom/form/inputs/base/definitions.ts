@@ -233,6 +233,7 @@ interface ListConfig {
 }
 export interface BtnConfig {
   label: string;
+  className?: string;
   btnType: 'submit' | 'button';
   onClick: () => void
   variant?:  "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;

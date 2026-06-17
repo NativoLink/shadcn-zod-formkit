@@ -25,6 +25,7 @@ import { useKeyboardStore } from "../../../keyboard";
 import { FakeInput } from "./fake-input";
 import { cn } from "@/src/lib";
 
+
 export class TextInputGroup extends BaseInput {
   render(): JSX.Element {
     const { input, form, isSubmitting } = this;
@@ -39,8 +40,11 @@ interface Props {
 }
 
 export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
-  // Estado local para manejar validez desde el primer render
   const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
+
+  useEffect(() => {
+    setIsValid(isValidField(input, form));
+  }, [form.formState]);
 
   const formField = (
     <FormField
@@ -48,8 +52,6 @@ export const FieldTextGroup = ({ form, input, isSubmitting }: Props) => {
       control={form.control}
       name={input.name}
       render={({ field }) => {
-        setIsValid(isValidField(input, form));
-
         return (
           <FormItem className={`${input.withLateralLabel ? 'flex items-center gap-2 flex-row' : ''} ${input.className}`}>
             <FormLabel className={`${input.withLateralLabel ? 'text-right' : ''}`}><b>{input.label}</b></FormLabel>
@@ -242,14 +244,14 @@ export const CustomInputGroup = ({
 
   useEffect(() => {
     if (!input.isFakeInput) return 
-    // field?.onChange(value);
-    // isValidField(input, form);
+    field?.onChange(value);
+    isValidField(input, form);
 
     handleOnChage(field?.value, input, field);
   },[field?.value])
 
   return (
-    <>
+    <div>
     { input.isFakeInput && (<FakeInput input={input} field={field} form={form} setShowPassword={setShowPassword} isPasswordField={isPasswordField} showPassword={showPassword}   />) }
     <InputGroup className={cn(input.classNameGroupInput ?? 'h-10', inputGroupClass)}>
       {/* Iconos izquierda */}
@@ -269,9 +271,9 @@ export const CustomInputGroup = ({
         placeholder={input.placeHolder}
         disabled={input.disabled || isSubmitting}
         onBlur={field?.onBlur}
-        onFocus={() => 
-          setCurrentInputField({ input, field })
-        }
+        onFocus={() => {
+          if (withKeyboard) setCurrentInputField({ input, field });
+        }}
         name={field?.name}
         ref={field?.ref}
         type={fieldType}
@@ -302,6 +304,7 @@ export const CustomInputGroup = ({
               value = applyTransform(processedValue, input.transform);  
             }  
             field?.onChange(value);
+            onChange?.({ target: { value } } as React.ChangeEvent<HTMLInputElement>);
             isValidField(input, form);
             handleOnChage(value, input, field);
           }
@@ -363,7 +366,7 @@ export const CustomInputGroup = ({
         </InputGroupAddon>
       )}
     </InputGroup>
-    </>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX, useEffect, useState } from "react";
+import { JSX, useCallback, useEffect, useState } from "react";
 import { BaseInput, isValidField } from "../base/base-input";
 import {
   FormControl,
@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormMessage
 } from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { FieldProps } from "../base/definitions";
@@ -41,14 +40,13 @@ interface Props {
  */
 export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
   const fieldName = input.name;
-  const withAddBtn = input.withAddBtn ?? false
+  const withAddBtn = input.withAddBtn ?? false;
   const [isValid, setIsValid] = useState<boolean>(isValidField(input, form));
 
-  // Inicializamos como array vacío si no existe
   useEffect(() => {
     setIsValid(isValidField(input, form));
-  },[input])
-  
+  }, [form.formState]);
+
   useEffect(() => {
     const current = form.getValues(fieldName);
     if (!Array.isArray(current)) {
@@ -56,24 +54,20 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
     }
   }, [form, fieldName]);
 
-  const handleAddItem = () => {
+  const handleAddItem = useCallback(() => {
     const current = form.getValues(fieldName) || [];
-    form.setValue(fieldName, [...current, ""]);
-  };
+    form.setValue(fieldName, [...current, ""], { shouldDirty: true });
+  }, [form, fieldName]);
 
-  const handleRemoveItem = (index: number) => {
+  const handleRemoveItem = useCallback((index: number) => {
     const current = form.getValues(fieldName) || [];
-    const updated = current.filter((_: string, i: number) => i !== index);
-    form.setValue(fieldName, updated);
-  };
+    form.setValue(fieldName, current.filter((_: string, i: number) => i !== index), { shouldDirty: true });
+  }, [form, fieldName]);
 
-  const handleChange = (index: number, newValue: string) => {
+  const handleChange = useCallback((index: number, newValue: string) => {
     const current = form.getValues(fieldName) || [];
-    const updated = current.map((item: string, i: number) =>
-      i === index ? newValue : item
-    );
-    form.setValue(fieldName, updated);
-  };
+    form.setValue(fieldName, current.map((item: string, i: number) => i === index ? newValue : item), { shouldDirty: true });
+  }, [form, fieldName]);
 
   return (
     <FormField
@@ -96,24 +90,16 @@ export const FieldStringValueList = ({ form, input, isSubmitting }: Props) => {
 
                 {items.map((value: string, index: number) => (
                   <div
-                    key={index}
+                    key={`${fieldName}_${index}`}
                     className="flex items-center gap-4 py-2"
                   >
-                    <CustomInputGroup 
-                      autoValidate={true}
+                    <CustomInputGroup
                       value={value}
                       input={input}
                       isValid={isValid}
                       onChange={(e) => handleChange(index, e.target.value)}
-                      // field={field}
                       form={form}
                     />
-                    {/* <Input
-                      placeholder={`Item ${index + 1}`}
-                      value={value}
-                      disabled={isSubmitting}
-                      onChange={(e) => handleChange(index, e.target.value)}
-                    /> */}
                     {input.isRemovebleOption && (<Button
                       type="button"
                       variant="destructive"
