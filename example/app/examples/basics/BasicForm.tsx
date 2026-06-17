@@ -111,10 +111,10 @@ export default function FormBasics() {
     // hidden: true, // alternativa a InputTypes.HIDDEN
   },
   {
-    withKeyboard: true,
+    // withKeyboard: true,
     name: "username",
     label: "Username",
-    isFakeInput: true,
+    // isFakeInput: true,
     classNameGroupInput:"h-16",
     withLateralLabel: true,
     keyboardType: TextInputType.PASSWORD,
@@ -523,7 +523,7 @@ export default function FormBasics() {
     name: "secretKeys",
     label: "SECRET KEYS",
     inputType: InputTypes.KEY_VALUE,
-    withKeyboard: true,
+    // withKeyboard: true,
     wrapInCard: true,
     // isRemovebleOption: true,
     zodType: z.array( 
@@ -728,6 +728,7 @@ export default function FormBasics() {
               formSubTitle="This is a subtitle"
               formTitle="Basic Form Example"
               withCard
+              // withSheetKeyboard
               // withConfirmDialog={true}
               // withSubmitBtn={false}
               onAnyFieldChange={setDataToSend}

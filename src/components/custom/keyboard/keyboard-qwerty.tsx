@@ -60,6 +60,15 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const active = document.activeElement;
+      if (
+        active instanceof HTMLInputElement ||
+        active instanceof HTMLTextAreaElement ||
+        (active instanceof HTMLElement && active.getAttribute('contenteditable') === 'true')
+      ) {
+        return;
+      }
+
       // 🚫 evitar interferencias si no hay input activo
       if (isInputRequired && !currentInputField) return;
 
