@@ -181,6 +181,8 @@ export default function FormBasics() {
     name: "price",  
     label: "Precio",  
     withLateralLabel: true,
+    // className: 'w-full',
+    // classNameGroupInput: 'w-full',
     inputType: InputTypes.NUMBER,  
     // mask: /^\d{1,3}(,\d{3})*(\.\d{0,2})?$/,
     keyboardType: TextInputType.NUMBER,
@@ -522,6 +524,7 @@ export default function FormBasics() {
   {
     name: "secretKeys",
     label: "SECRET KEYS",
+    className: 'w-full',
     inputType: InputTypes.KEY_VALUE,
     // withKeyboard: true,
     wrapInCard: true,
