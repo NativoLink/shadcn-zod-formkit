@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.10.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.1...v3.10.2) (2026-06-18)
+
+### Bug Fixes
+
+* **Fixed-OnEnter:** ahora si encaso contrario puse un log ([050e082](https://github.com/NativoLink/shadcn-zod-formkit/commit/050e0823e6c0186d62194aa7798e6b64972a8a5b))
+
 ## [3.10.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.0...v3.10.1) (2026-06-18)
 
 ### Bug Fixes
