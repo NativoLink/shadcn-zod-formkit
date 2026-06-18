@@ -59,7 +59,7 @@ export default function FormBasics() {
 
   const [dataToSend, setDataToSend] = useState<any>({})
   const [child, setChild] = useState<ReactNode| JSX.Element| undefined>()
-  const { setChildren, children, setIsOpen, value, setOnEnter } = useKeyboardStore();
+  const { setChildren, children, setIsOpen, value, setOnEnter, setIsOpenDynamic } = useKeyboardStore();
 
   const record: IUserRecord = {
     id: 1,
@@ -717,7 +717,7 @@ export default function FormBasics() {
               /> */}
           
               <Button onClick={()=> {
-                  setIsOpen(true)
+                  setIsOpenDynamic(true)
                   setOnEnter(()=> {console.log('setOnEnter')})
                   // setChildren(
                   //   <div className="w-full p-3 h-full min-h-16 flex-1 flex flex-row text-2xl font-bold justify-center text-center items-center gap-2 rounded-xl border-2 transition-all  outline-none border-amber-400 bg-amber-50 ">

@@ -55,7 +55,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
   const { currentInputField, write, setIsOpen, backspace, isInputRequired, value } = useKeyboardStore();
-  const storeonEnter = useKeyboardStore((state) => state.onEnter);
+  const storeOnEnter = useKeyboardStore((state) => state.onEnter);
   const isUpper = shiftMode !== 'off';
   
   useEffect(() => {
@@ -76,9 +76,9 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
 
       // 🔥 ENTER
       if (key === 'Enter') {
-        e.preventDefault();
+        storeOnEnter?.()
         onEnter?.();
-        storeonEnter?.()
+        e.preventDefault();
         return;
       }
 
