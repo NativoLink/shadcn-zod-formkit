@@ -1,6 +1,6 @@
 {
   "name": "shadcn-zod-formkit",
-  "version": "3.10.0",
+  "version": "3.10.1",
   "description": "Create dynamic forms easily using React, Zod, React Hook Form, and Shadcn UI.",
   "license": "MIT",
   "author": "Luis A. Rosario <ingluisrosario15@gmail.com>",

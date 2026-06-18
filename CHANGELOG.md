@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.10.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.0...v3.10.1) (2026-06-18)
+
+### Bug Fixes
+
+* **fix-virutal-ESC-and-virtual-ENTER:** se arreglo el esc y el enter para cuando es dynamic ([1980d1c](https://github.com/NativoLink/shadcn-zod-formkit/commit/1980d1cd933e4d28ff7459e58255a9de2d6f801d))
+
 ## [3.10.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.9.6...v3.10.0) (2026-06-17)
 
 ### Features
