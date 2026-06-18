@@ -34,7 +34,9 @@ export const TextField = ({
   className,
 
   activeColor = ActiveColorType.amber,
-  inputType = TextInputType.DEFAULT
+  inputType = TextInputType.DEFAULT,
+
+  isPassword = false
 }: TextFieldProps) => {
 
   // 🔥 KEYBOARD (DESACOPLADO)
@@ -83,8 +85,9 @@ export const TextField = ({
     <div
       tabIndex={0}
       onClick={handleClick}
+      style={{ gridTemplateColumns: '15fr 70fr 15fr' }}
       className={cn(
-        'flex flex-row items-center gap-3 rounded-xl border-2 transition-all min-h-16 outline-none',
+        'grid items-center gap-3 rounded-xl border-2 transition-all min-h-16 outline-none w-full',
         sizeClasses[size],
         isActive
           ? activeColorClasses[activeColor]
@@ -95,65 +98,75 @@ export const TextField = ({
         className
       )}
     >
-      {prefix && (
-        <span className="text-zinc-400 text-xs font-mono font-bold">
-          {prefix}
+      {/*========  LEFT SIDE  ======== */}
+      <div className='flex h-full items-start'>
+        {prefix && (
+          <span className="text-zinc-400 text-xs font-mono font-bold">
+            {prefix}
+          </span>
+        )}
+
+        {(iconsLeft.length > 0 || textLeft) && (
+          <InputGroupAddon>
+            {textLeft && <InputGroupText>{typeof textLeft === 'string' ? textLeft : ''}</InputGroupText>}
+            {iconsLeft.map((IconComponent, index) => (
+              <IconComponent key={index} size={20} className="text-zinc-400" />
+            ))}
+          </InputGroupAddon>
+        )}
+      </div>
+
+      {/*========  CENTER SIDE  ======== */}
+      <div className={cn('flex h-full ', className)}>
+        {placeholder && displayValue.toString().length == 0 && (
+          <span className="font-mono font-bold text-zinc-500/20" style={{color:'#8080807d'}}>
+            {placeholder}
+          </span>
+        )}
+
+        <span className={cn(
+          'font-mono font-bold tracking-widest',
+          !displayValue && 'text-zinc-500'
+        )}>
+          {(inputType == TextInputType.PASSWORD || isPassword)
+            ? '•'.repeat(displayValue.toString().length)
+            : displayValue }
         </span>
-      )}
+      </div>
+            
 
-      {(iconsLeft.length > 0 || textLeft) && (
-        <InputGroupAddon>
-          {textLeft && <InputGroupText>{typeof textLeft === 'string' ? textLeft : ''}</InputGroupText>}
-          {iconsLeft.map((IconComponent, index) => (
-            <IconComponent key={index} size={20} className="text-zinc-400" />
-          ))}
-        </InputGroupAddon>
-      )}
+      {/*========  RIGHT SIDE  ======== */}
+      <div className='flex w-full h-full items-center justify-end'>
+        {(suffix || name) && (
+          <span className="text-zinc-400 text-sm w-full text-right">
+            {suffix ?? name}
+          </span>
+        )}
 
-      {placeholder && displayValue.toString().length == 0 && (
-        <span className="font-mono font-bold text-zinc-500/20" style={{color:'#8080807d'}}>
-          {placeholder}
-        </span>
-      )}
+        {(iconsRight.length > 0 || textRight) && (
+          <InputGroupAddon className="ml-auto">
+            {textRight && <InputGroupText>{textRight}</InputGroupText>}
+            {iconsRight.map((IconComponent, index) => (
+              <IconComponent key={index} size={20} className="text-zinc-400" />
+            ))}
+          </InputGroupAddon>
+        )}
 
-      <span className={cn(
-        'font-mono font-bold tracking-widest',
-        !displayValue && 'text-zinc-500'
-      )}>
-        {inputType !== TextInputType.PASSWORD
-          ? displayValue
-          : '•'.repeat(displayValue.toString().length)}
-      </span>
-
-      {suffix && (
-        <span className="text-zinc-400 text-sm">
-          {suffix}
-        </span>
-      )}
-
-      {(iconsRight.length > 0 || textRight) && (
-        <InputGroupAddon className="ml-auto">
-          {textRight && <InputGroupText>{textRight}</InputGroupText>}
-          {iconsRight.map((IconComponent, index) => (
-            <IconComponent key={index} size={20} className="text-zinc-400" />
-          ))}
-        </InputGroupAddon>
-      )}
-
-      {infoTooltip && (
-        <span className="mr-auto text-[10px] uppercase tracking-widest">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info size={20} className="text-zinc-400 hover:text-zinc-200" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{infoTooltip}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </span>
-      )}
+        {infoTooltip && (
+          <span className="mr-auto text-[10px] uppercase tracking-widest">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info size={20} className="text-zinc-400 hover:text-zinc-200" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{infoTooltip}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </span>
+        )}
+      </div>
     </div>
   );
 };

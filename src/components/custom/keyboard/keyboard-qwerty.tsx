@@ -2,7 +2,7 @@
 
 import { useState, useRef, JSX, useEffect, ReactNode } from 'react';
 
-import { ArrowBigUp, ArrowBigUpDash, Delete, DeleteIcon } from "lucide-react";
+import { ArrowBigUp, ArrowBigUpDash, DeleteIcon, LockIcon, Pencil } from "lucide-react";
 import { KeyFontSize, letter } from './key';
 import { IKey, KeyboardBuilder } from './keyboard-builder';
 import { useKeyboardStore } from './providers/keyboard.store';
@@ -54,9 +54,25 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
-  const { currentInputField, write, setIsOpen, setIsOpenDynamic, backspace, isInputRequired, value } = useKeyboardStore();
   const storeOnEnter = useKeyboardStore((state) => state.onEnter);
   const isUpper = shiftMode !== 'off';
+  
+  const { 
+    currentInputField,
+    write,
+    setIsOpen,
+    setIsOpenDynamic,
+    backspace,
+    isInputRequired,
+    value,
+    inputPlaceholder,
+    isPassword,
+    infoTooltip,
+    iconsLeft,
+    iconsRight,
+    inputLabel,
+    classNameTextField
+  } = useKeyboardStore();
   
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -195,13 +211,16 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
     {
       !currentInputField && (
         <TextField
-          name={''}
+          name={inputLabel ?? ''}
           value={value}
+          isPassword={isPassword}
+          placeholder={!inputPlaceholder || inputPlaceholder?.length == 0 ? '' :  inputPlaceholder}
           // onFocus={() => setCampo('usuarioId')}
           isActive={true}
-          // infoTooltip={currentInputField.input.infoTooltip}
-          // iconsLeft={currentInputField.input.inputGroupConfig?.iconsLeft}
-          className="justify-center"
+          infoTooltip={infoTooltip}
+          iconsLeft={(iconsLeft && iconsLeft.length == 0) ? isPassword ?  [LockIcon] : [Pencil] : iconsLeft}
+          iconsRight={(iconsRight && iconsRight.length == 0) ? [] : iconsRight}
+          className={classNameTextField ?? isPassword ? "justify-center" : ''}
         />
       )
     }

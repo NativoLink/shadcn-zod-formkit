@@ -145,7 +145,7 @@ export const Key = ({
         fontSize,
 
         // Estados base (soft UI)
-        'border border-(--color-border)',
+        'border-2 border-(--color-border)',
         'bg-(--color-secondary-soft) text-(--color-foreground)',
 
         // Hover
