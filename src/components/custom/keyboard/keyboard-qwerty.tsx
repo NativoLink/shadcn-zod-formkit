@@ -54,7 +54,7 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   const [shiftMode, setShiftMode] = useState<ShiftMode>('off');
   const [mode, setMode] = useState<KeyboardMode>('letters');
   const lastShiftPress = useRef<number>(0);
-  const { currentInputField, write, setIsOpen, backspace, isInputRequired, value } = useKeyboardStore();
+  const { currentInputField, write, setIsOpen, setIsOpenDynamic, backspace, isInputRequired, value } = useKeyboardStore();
   const storeOnEnter = useKeyboardStore((state) => state.onEnter);
   const isUpper = shiftMode !== 'off';
   
@@ -208,8 +208,8 @@ export const KeyboardQwerty= ({ onKeyPress, onEnter, keyFontSize = 'text-2xl', o
   </>
 
   const btnDelete = { label: 'delete', icons: [DeleteIcon],  onClick: () => {backspace()}, className: 'bg-red-200 text-xs', style: {backgroundColor:'#faba005e'} }
-  const btnEsc = { label: 'esc', onClick: () => {setIsOpen(false)}, className: '', style: {backgroundColor: '#ffc0c05e'} }
-  const btnEnter = { label: 'Enter', onClick: onEnter, className: 'flex-[2] bg-green-200', style: {backgroundColor: '#008f003d'} }
+  const btnEsc = { label: 'esc', onClick: () => {setIsOpen(false); setIsOpenDynamic(false)}, className: '', style: {backgroundColor: '#ffc0c05e'} }
+  const btnEnter = { label: 'Enter', onClick:  () => { onEnter?.() ?? storeOnEnter?.(); console.log('btnEnter')}  , className: 'flex-[2] bg-green-200', style: {backgroundColor: '#008f003d'} }
 
   // 🔥 =========================
   // 🔥 MODO SÍMBOLOS
