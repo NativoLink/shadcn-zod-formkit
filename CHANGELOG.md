@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.11.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.2...v3.11.0) (2026-06-18)
+
+### Features
+
+* **TextField:** add more props ([ea202f6](https://github.com/NativoLink/shadcn-zod-formkit/commit/ea202f626ee321631e7c1d0aa9ad1e5b4c7a9272))
+
 ## [3.10.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.1...v3.10.2) (2026-06-18)
 
 ### Bug Fixes
