@@ -35,6 +35,8 @@ export interface TextFieldProps {
 
   activeColor?: ActiveColorType
   inputType?: TextInputType;
+
+  isPassword?:boolean
 }
 
 export const enum ActiveColorType {

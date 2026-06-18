@@ -15,6 +15,14 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
   isOpenDynamic:false,
   value: '',
   onEnter: undefined,
+  isPassword: false,
+  inputPlaceholder: undefined,
+  infoTooltip: undefined,
+  inputLabel: undefined,
+  classNameTextField: 'items-center justify-center',
+
+  iconsLeft: [],
+  iconsRight:  [],
 
   setChildren(children?: ReactNode | JSX.Element | null) {
     set({ children: children });
@@ -173,4 +181,26 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
         [id]: value,
       },
     })),
+
+  setPlaceholder:(placeholder) => {
+    set({ inputPlaceholder: placeholder });
+  },
+  setIsPassword:(isPass) => {
+    set({ isPassword: isPass });
+  },
+  setInfoToolTip:(tooltip) => {
+    set({ infoTooltip: tooltip });
+  },
+  setIconsLeft:(icons) => {
+    set({ iconsLeft: icons });
+  },
+  setIconsRight:(icons) => {
+    set({ iconsRight: icons });
+  },
+  setInputLabel:(label) => {
+    set({ inputLabel: label });
+  },
+  setClassNameTextField:(className) => {
+    set({ classNameTextField: className });
+  },
 }));
