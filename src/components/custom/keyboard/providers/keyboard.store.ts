@@ -50,7 +50,8 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
         children: undefined, 
         value: '',
         currentInputField: null,
-        isInputRequired: false
+        isInputRequired: false,
+        onEnter: undefined
       })
     }
   },
