@@ -3,12 +3,13 @@ import {
   CircleCheck,
   CircleQuestionMark,
   Loader2Icon,
+  LucideIcon,
   MessageCircleWarning,
   OctagonX,
   Trash2Icon,
   TriangleAlert,
 } from "lucide-react";
-import { ReactNode, useEffect } from "react";
+import { JSX, ReactNode, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,14 +35,14 @@ export type DialogVariant =
   | "confirm"
   | "loading";
 
-interface Props {
+export interface DialogWrapperProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 
   trigger?: ReactNode;
 
-  title?: string | ReactNode;
-  description?: string | ReactNode;
+  title?: string | ReactNode | JSX.Element;
+  description?: string | ReactNode | JSX.Element;
 
   cancelText?: string;
   actionText?: string;
@@ -54,7 +55,7 @@ interface Props {
 
   onAction?: () => void | Promise<void>;
 
-  children?: ReactNode;
+  children?: ReactNode | JSX.Element;
 
   variant?: DialogVariant;
 
@@ -66,6 +67,10 @@ interface Props {
 
   showActionBtn?: boolean;
   centerContent?: boolean;
+  // 
+
+  iconNode?: LucideIcon;
+
 }
 
 export const DynamicDialog = ({
@@ -98,7 +103,7 @@ export const DynamicDialog = ({
 
   showActionBtn = true,
   centerContent = false,
-}: Props) => {
+}: DialogWrapperProps) => {
 
   const isLoading = variant === "loading" || loading;
 

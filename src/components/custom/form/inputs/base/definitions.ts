@@ -1,9 +1,10 @@
 import { z, ZodTypeAny } from "zod";
 import { InputTypes } from "./input-types"
-import { LucideProps } from "lucide-react";
+import { LucideIcon, LucideProps } from "lucide-react";
 import { ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { KeyboardTypes } from "../../../keyboard/keyboard-types";
+import { DialogVariant, DialogWrapperProps } from "@/src/components";
 
 
 export const flattenFields = <T extends Record<string, any>>(
@@ -239,7 +240,24 @@ export interface BtnConfig {
   btnType: 'submit' | 'button';
   onClick: () => void
   variant?:  "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
+  bgVariant?: DialogVariant
   disabled?: boolean;
+
+  id?: string | number
+  hidden?:boolean;
+  description?: string;
+  href?: string;
+  iconLeft?: LucideIcon;
+  iconRight?: LucideIcon;
+  isActive?: boolean;
+  bgColor?: string;
+  iconContainerHeight?: string;
+  iconLeftColor?: string;
+  iconRightColor?: string;
+  iconLeftBg?: string;
+  iconLeftSize?: string;
+  iconRightSize?: string;
+  dialogWrapper?: DialogWrapperProps;
 }
 
 export interface InputOption {
