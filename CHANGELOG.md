@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.12.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.11.2...v3.12.0) (2026-06-19)
+
+### Features
+
+* **btn-config:** add props for more dynamic ([7761635](https://github.com/NativoLink/shadcn-zod-formkit/commit/776163596854557bba22b2873e25d620e68ab4ce))
+
 ## [3.11.2](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.11.1...v3.11.2) (2026-06-19)
 
 ### Bug Fixes
