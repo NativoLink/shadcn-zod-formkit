@@ -4,25 +4,33 @@ import { KeyboardTypes } from '../keyboard-types';
 import { JSX, ReactNode } from 'react';
 
 
-export const useKeyboardStore = create<KeyboardState>((set, get) => ({
+const DEFAULT_STATE = {
   isInputRequired: false,
-  activeInput: null,
-  inputs: {},
+  activeInput: null as string | null,
+  inputs: {} as Record<string, string>,
   type: KeyboardTypes.QWERTY,
-  currentInputField: null,
-  children: undefined,
-  isOpen:false,
-  isOpenDynamic:false,
+  currentInputField: null as InputField | null,
+  children: undefined as ReactNode | JSX.Element | null | undefined,
+  isOpen: false,
+  isOpenDynamic: false,
+  isCloseOnEnter: true,
   value: '',
-  onEnter: undefined,
+  onEnter: undefined as (() => any) | undefined,
   isPassword: false,
-  inputPlaceholder: undefined,
-  infoTooltip: undefined,
-  inputLabel: undefined,
-  classNameTextField: 'items-center justify-center',
+  inputPlaceholder: undefined as string | undefined,
+  infoTooltip: undefined as string | undefined,
+  inputLabel: undefined as string | undefined,
+  classNameTextField: 'items-center justify-center' as string | undefined,
+  iconsLeft: [] as any[],
+  iconsRight: [] as any[],
+};
 
-  iconsLeft: [],
-  iconsRight:  [],
+export const useKeyboardStore = create<KeyboardState>((set, get) => ({
+  ...DEFAULT_STATE,
+
+  reset() {
+    set(DEFAULT_STATE);
+  },
 
   setChildren(children?: ReactNode | JSX.Element | null) {
     set({ children: children });
@@ -37,30 +45,20 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
   },
 
 
-  setIsOpen(open?:boolean) { 
-    if (!open) set({ value: ''})
-    set({isOpen: open ?? !get().isOpen, children: undefined}) 
-    if (!get().isOpen) {
-      set({
-        children: undefined, 
-        value: '',
-        currentInputField: null,
-        isInputRequired: false,
-        onEnter: undefined
-      })
+  setIsOpen(open?: boolean) {
+    const next = open ?? !get().isOpen;
+    if (!next) {
+      get().reset();
+    } else {
+      set({ isOpen: true, children: undefined });
     }
   },
-  setIsOpenDynamic(open?:boolean) { 
-    if (!open) set({ value: ''})
-    set({isOpenDynamic: open ?? !get().isOpenDynamic}) 
-    if (!get().isOpenDynamic) {
-      set({
-        children: undefined, 
-        value: '',
-        currentInputField: null,
-        isInputRequired: false,
-        onEnter: undefined
-      })
+  setIsOpenDynamic(open?: boolean) {
+    const next = open ?? !get().isOpenDynamic;
+    if (!next) {
+      get().reset();
+    } else {
+      set({ isOpenDynamic: true });
     }
   },
 
@@ -202,5 +200,8 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
   },
   setClassNameTextField:(className) => {
     set({ classNameTextField: className });
+  },
+  setIsCloseOnEnter:(isClose) => {
+    set({ isCloseOnEnter: isClose });
   },
 }));
