@@ -1,5 +1,11 @@
 # 📦 Changelog
 
+## [3.11.1](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.11.0...v3.11.1) (2026-06-19)
+
+### Bug Fixes
+
+* **auto-close:** AutoClose and Reset when closet ([4263434](https://github.com/NativoLink/shadcn-zod-formkit/commit/42634347d054968603eafbc5ea5406dfa6054895))
+
 ## [3.11.0](https://github.com/NativoLink/shadcn-zod-formkit/compare/v3.10.2...v3.11.0) (2026-06-18)
 
 ### Features
