@@ -36,7 +36,12 @@ export const useKeyboardStore = create<KeyboardState>((set, get) => ({
     set({ children: children });
   },
   setOnEnter(onEnter?: () => any) {
-    set({ onEnter: onEnter });
+    set({ onEnter: 
+      () => {
+        onEnter?.(); 
+        if (get().isCloseOnEnter) get().reset();
+      }
+    });
   },
 
 
