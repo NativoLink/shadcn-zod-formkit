@@ -21,6 +21,7 @@ export interface KeyboardState {
   isPassword:boolean
   isOpen:boolean
   isOpenDynamic:boolean
+  isCloseOnEnter:boolean
   type: KeyboardTypes
   value: any
   children?: ReactNode | JSX.Element | null
@@ -54,6 +55,7 @@ export interface KeyboardState {
   
   setValue: (id: InputId, value: string) => void;
   
+  reset: () => void
   setIsOpen:(open?: boolean)=> void
   setIsOpenDynamic:(open?: boolean)=> void
   setIsPassword:(isPass?: boolean)=> void
@@ -66,4 +68,5 @@ export interface KeyboardState {
   setIconsRight:(icons?: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>[])=> void
   
   setClassNameTextField:(classname?: string)=> void
+  setIsCloseOnEnter:(isPass?: boolean)=> void
 }
